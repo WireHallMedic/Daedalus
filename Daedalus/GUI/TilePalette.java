@@ -7,7 +7,7 @@ Free for private or public use. No warranty is implied or expressed.
 
 **********************************************************************************/
 
-package WidlerSuite;
+package Daedalus.GUI;
 
 import java.awt.*;
 import java.awt.image.*;
@@ -36,9 +36,6 @@ public class TilePalette
    public int getColumns(){return columns;}
    public int getTileWidth(){return tileWidth;}
    public int getTileHeight(){return tileHeight;}
-   
-   public void setScaleMethodFast(){scaleMethod = Image.SCALE_FAST;}
-   public void setScaleMethodSmooth(){scaleMethod = Image.SCALE_SMOOTH;}
    
    
    // constructor from file
@@ -162,61 +159,4 @@ public class TilePalette
    }
    public BufferedImage getTile(int x, int y, int fg, int bg){return getTile(flatten(x, y), fg, bg);}
    
-   // magnify image by specified magnitude
-   public BufferedImage magnify(BufferedImage img, double multiplier)
-   {
-      int width = (int)(tileWidth * multiplier);
-      int height = (int)(tileHeight * multiplier);
-      Image newImage = img.getScaledInstance(width, height, scaleMethod);
-      BufferedImage newBuffered = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-      newBuffered.getGraphics().drawImage(newImage, 0, 0 , null);
-      return newBuffered;
-   }
-   
-   // get an UnboundTile based on passed values
-   public UnboundTile getUnboundTile(int tileIndex, int fgColor, int bgColor, double sm, boolean bgType)
-   {
-      UnboundTile tile = new UnboundTile(this);
-      tile.setBGColor(bgColor);
-   	tile.setFGColor(fgColor);
-   	tile.setIconIndex(tileIndex);
-      tile.setSizeMultiplier(sm);
-      tile.setBGType(bgType);
-      setUnboundTile(tile);
-      return tile;
-   }
-   
-   // Unbound tiles without background specifications have a transparent background
-   public UnboundTile getUnboundTile(int tileIndex, int fgColor, double sm)
-   {
-      return getUnboundTile(tileIndex, fgColor, TRANSPARENT, sm, UnboundTile.BOX_BACKGROUND);
-   }
-   
-   // once the fields are set, apply them
-   private void setUnboundTile(UnboundTile tile)
-   {
-      BufferedImage img = getTile(tile.getIconIndex(), tile.getFGColor(), tile.getBGColor());
-      img = magnify(img, tile.getSizeMultiplier());
-      // if circle background, remove extra
-      if(tile.getBGType() == UnboundTile.CIRCLE_BACKGROUND)
-      {
-         BufferedImage stencil = getTile(2, FG_COLOR, BG_COLOR);
-         double m = tile.getSizeMultiplier();
-         stencil = magnify(stencil, m);
-         for(int x = 0; x < (int)(tileWidth * m); x++)
-         for(int y = 0; y < (int)(tileHeight * m); y++)
-         {
-            if(stencil.getRGB(x, y) == BG_COLOR)
-               img.setRGB(x, y, TRANSPARENT);
-         }
-      }
-      tile.setImage(img);
-   }
-   
-   // test function
-   public static void main(String[] args)
-   {
-      TilePalette tp = new TilePalette("WidlerSuite/WSFont_16x16.png", 16, 16);
-      BufferedImage bi = tp.getTile(1, 1, Color.BLUE.getRGB(), Color.BLACK.getRGB());
-   }
 }
