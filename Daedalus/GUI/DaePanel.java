@@ -46,10 +46,113 @@ public class DaePanel extends JPanel implements ActionListener
       }
    }
    
+   public boolean isInBounds(Coord loc){return isInBounds(loc.x, loc.y);}
+   public boolean isInBounds(int x, int y)
+   {
+      if(x >= 0 && y >= 0 && x < tilesWide && y < tilesTall)
+         return true;
+      return false;
+   } 
+
+   
+   // getters
+   //////////////////////////////////////////////////////////////////
+   
+   // get foreground color
+   public int getFGColor(Coord c){return getFGColor(c.x, c.y);}
+   public int getFGColor(int x, int y)
+   {
+      if(!isInBounds(x, y))
+         return -1;
+      return fgColorArr[x][y];
+   }
+   
+   // get background color
+   public int getBGColor(Coord c){return getBGColor(c.x, c.y);}
+   public int getBGColor(int x, int y)
+   {
+      if(!isInBounds(x, y))
+         return -1;
+      return bgColorArr[x][y];
+   }
+   
+   // get icon index
+   public int getIcon(Coord c){return getIcon(c.x, c.y);}
+   public int getIcon(int x, int y)
+   {
+      if(!isInBounds(x, y))
+         return -1;
+      return tileIndexArr[x][y];
+   }
+   
+      
+   // setters
+   //////////////////////////////////////////////////////////////////
+   
+   // set all values of a tile location, using RGB values
+   public void setTile(Coord c, int tileIndex, int fg, int bg){setTile(c.x, c.y, tileIndex, fg, bg);}
+   public void setTile(int x, int y, int tileIndex, int fg, int bg)
+   {
+      if(!isInBounds(x, y))
+         return;
+      fgColorArr[x][y] = fg;
+      bgColorArr[x][y] = bg;
+      tileIndexArr[x][y] = tileIndex;
+      dirtyArr[x][y] = true;
+   }
+   
+   // set all values of a tile location, using colors
+   public void setTile(Coord c, int tileIndex, Color fg, Color bg){setTile(c.x, c.y, tileIndex, fg, bg);}
+   public void setTile(int x, int y, int tileIndex, Color fg, Color bg)
+   {
+      setTile(x, y, tileIndex, fg.getRGB(), bg.getRGB());
+      dirtyArr[x][y] = true;
+   }
+   
+   // set foreground color of a tile
+   public void setFGColor(Coord c, int fg){setFGColor(c.x, c.y, fg);}
+   public void setFGColor(int x, int y, int fg)
+   {
+      if(!isInBounds(x, y))
+         return;
+      fgColorArr[x][y] = fg;
+      dirtyArr[x][y] = true;
+   }
+   
+   // set background color of a tile
+   public void setBGColor(Coord c, int bg){setBGColor(c.x, c.y, bg);}
+   public void setBGColor(int x, int y, int bg)
+   {
+      if(!isInBounds(x, y))
+         return;
+      bgColorArr[x][y] = bg;
+      dirtyArr[x][y] = true;
+   }
+   
+   // set icon of a tile
+   public void setIcon(Coord c, int tileIndex){setIcon(c.x, c.y, tileIndex);}
+   public void setIcon(int x, int y, int tileIndex)
+   {
+      if(!isInBounds(x, y))
+         return;
+      tileIndexArr[x][y] = tileIndex;
+      dirtyArr[x][y] = true;
+   }
+
+
+   
    private void updateImage(int x, int y)
    {
       imageArr[x][y] = palette.getTile(tileIndexArr[x][y], fgColorArr[x][y], bgColorArr[x][y]);
       dirtyArr[x][y] = false;
+   }
+   
+   private double getScaling()
+   {
+      double scale = (double)this.getWidth() / (imageArr[0][0].getWidth() * tilesWide);
+      if((int)(imageArr[0][0].getHeight() * tilesTall * scale) > this.getHeight())
+         scale = (double)this.getHeight() / (imageArr[0][0].getHeight() * tilesTall);
+      return scale;
    }
    
    public void paint(Graphics g)
@@ -75,24 +178,7 @@ public class DaePanel extends JPanel implements ActionListener
       System.out.println(scaling + ", " + scaledImage.getWidth(null) + ", " + scaledImage.getHeight(null));
       g2d.drawImage(scaledImage, xInset, yInset, null);
    }
-   
-   private double getScaling()
-   {
-      double scale = (double)this.getWidth() / (imageArr[0][0].getWidth() * tilesWide);
-      if((int)(imageArr[0][0].getHeight() * tilesTall * scale) > this.getHeight())
-         scale = (double)this.getHeight() / (imageArr[0][0].getHeight() * tilesTall);
-      return scale;
-   }
-   
-   public boolean isInBounds(Coord loc){return isInBounds(loc.x, loc.y);}
-   public boolean isInBounds(int x, int y)
-   {
-      if(x >= 0 && y >= 0 && x < tilesWide && y < tilesTall)
-         return true;
-      return false;
-   } 
 
-   
    public void actionPerformed(ActionEvent ae)
    {
 //       char newChar = (char)('A' + (int)(Math.random() * 26));

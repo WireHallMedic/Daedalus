@@ -50,6 +50,54 @@ public class TilePalette
       this.loadFromBufferedImage(image, w, t);
    }
    
+   // get tile at passed index
+   public BufferedImage getTile(int i)
+   {
+      return getTile(i, FG_COLOR, BG_COLOR);
+   }
+   public BufferedImage getTile(int x, int y){return getTile(flatten(x, y));}
+   
+   // get tile in specified colors
+   public BufferedImage getTile(int i, Color fg, Color bg)
+   {
+      return getTile(i, fg.getRGB(), bg.getRGB());
+   }
+   public BufferedImage getTile(int x, int y, Color fg, Color bg){return getTile(flatten(x, y), fg, bg);}
+   
+   // get tile in specified colors as RGB values
+   public BufferedImage getTile(int i, int fg, int bg)
+   {
+      BufferedImage img = imageStrip[i];
+      BufferedImage newImg = new BufferedImage(tileWidth, tileHeight, BufferedImage.TYPE_INT_ARGB);
+      for(int x = 0; x < tileWidth; x++)
+      for(int y = 0; y < tileHeight; y++)
+      {
+         if(img.getRGB(x, y) == BG_COLOR)
+            newImg.setRGB(x, y, bg);
+         else
+            newImg.setRGB(x, y, fg);
+      }
+      return newImg;
+   }
+   public BufferedImage getTile(int x, int y, int fg, int bg){return getTile(flatten(x, y), fg, bg);}
+   
+   // layer the foreground of a tile over an existing image (presumably another tile)
+   public BufferedImage layer(BufferedImage original, int i, int fg)
+   {
+      BufferedImage stamp = imageStrip[i];
+      BufferedImage newImg = new BufferedImage(tileWidth, tileHeight, BufferedImage.TYPE_INT_ARGB);
+      for(int x = 0; x < tileWidth; x++)
+      for(int y = 0; y < tileHeight; y++)
+      {
+         if(stamp.getRGB(x, y) != BG_COLOR)
+            newImg.setRGB(x, y, original.getRGB(x, y));
+         else
+            newImg.setRGB(x, y, fg);
+      }
+      return newImg;
+   }
+   public void layer(BufferedImage original, int x, int y, int fg){layer(original, flatten(x, y), fg);}
+   
    // load image from file
    public void loadFromFile(String fileName, int w, int t)
    {
@@ -127,36 +175,5 @@ public class TilePalette
          imageStrip[flatten(xImage, yImage)] = newBI;
       }
    }
-   
-   // get tile at passed index
-   public BufferedImage getTile(int i)
-   {
-      return getTile(i, FG_COLOR, BG_COLOR);
-   }
-   public BufferedImage getTile(int x, int y){return getTile(flatten(x, y));}
-   
-   // get tile in specified colors
-   public BufferedImage getTile(int i, Color fg, Color bg)
-   {
-      return getTile(i, fg.getRGB(), bg.getRGB());
-   }
-   public BufferedImage getTile(int x, int y, Color fg, Color bg){return getTile(flatten(x, y), fg, bg);}
-   
-   // get tile in specified colors as RGB values
-   public BufferedImage getTile(int i, int fg, int bg)
-   {
-      BufferedImage img = imageStrip[i];
-      BufferedImage newImg = new BufferedImage(tileWidth, tileHeight, BufferedImage.TYPE_INT_ARGB);
-      for(int x = 0; x < tileWidth; x++)
-      for(int y = 0; y < tileHeight; y++)
-      {
-         if(img.getRGB(x, y) == BG_COLOR)
-            newImg.setRGB(x, y, bg);
-         else
-            newImg.setRGB(x, y, fg);
-      }
-      return newImg;
-   }
-   public BufferedImage getTile(int x, int y, int fg, int bg){return getTile(flatten(x, y), fg, bg);}
    
 }
