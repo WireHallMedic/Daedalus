@@ -56,13 +56,20 @@ public class DaePanel extends JPanel implements ActionListener
    {
       super.paint(g);
       Graphics2D g2d = (Graphics2D)g;
+      
       int xStep = imageArr[0][0].getWidth();
       int yStep = imageArr[0][0].getHeight();
+      BufferedImage unscaledImage = new BufferedImage(xStep * tilesWide, yStep * tilesTall, BufferedImage.TYPE_INT_ARGB);
+      Graphics2D g2dUnscaled = (Graphics2D)(unscaledImage.getGraphics());
       for(int x = 0; x < tilesWide; x++)
       for(int y = 0; y < tilesTall; y++)
       {
-         g2d.drawImage(imageArr[x][y], xStep * x, yStep * y, this);
+         g2dUnscaled.drawImage(imageArr[x][y], xStep * x, yStep * y, null);
       }
+      
+      int xInset = (this.getWidth() - unscaledImage.getWidth()) / 2;
+      int yInset = (this.getHeight() - unscaledImage.getHeight()) / 2;
+      g2d.drawImage(unscaledImage, xInset, yInset, null);
    }
    
    public boolean isInBounds(Coord loc){return isInBounds(loc.x, loc.y);}
@@ -86,7 +93,7 @@ public class DaePanel extends JPanel implements ActionListener
    public static void main(String[] args)
    {
       JFrame frame = new JFrame();
-      frame.setSize(1200, 600);
+      frame.setSize(1200, 800);
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       frame.setTitle("DaePanel");
       TilePalette palette = new TilePalette("Daedalus/res/img/WSFont_8x16.png", 16, 16);
