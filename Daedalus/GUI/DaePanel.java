@@ -67,9 +67,21 @@ public class DaePanel extends JPanel implements ActionListener
          g2dUnscaled.drawImage(imageArr[x][y], xStep * x, yStep * y, null);
       }
       
-      int xInset = (this.getWidth() - unscaledImage.getWidth()) / 2;
-      int yInset = (this.getHeight() - unscaledImage.getHeight()) / 2;
-      g2d.drawImage(unscaledImage, xInset, yInset, null);
+      double scaling = getScaling();
+      Image scaledImage = unscaledImage.getScaledInstance((int)(unscaledImage.getWidth() * scaling),
+                                 (int)(unscaledImage.getHeight() * scaling), Image.SCALE_SMOOTH);
+      int xInset = (this.getWidth() - scaledImage.getWidth(null)) / 2;
+      int yInset = (this.getHeight() - scaledImage.getHeight(null)) / 2;
+      System.out.println(scaling + ", " + scaledImage.getWidth(null) + ", " + scaledImage.getHeight(null));
+      g2d.drawImage(scaledImage, xInset, yInset, null);
+   }
+   
+   private double getScaling()
+   {
+      double scale = (double)this.getWidth() / (imageArr[0][0].getWidth() * tilesWide);
+      if((int)(imageArr[0][0].getHeight() * tilesTall * scale) > this.getHeight())
+         scale = (double)this.getHeight() / (imageArr[0][0].getHeight() * tilesTall);
+      return scale;
    }
    
    public boolean isInBounds(Coord loc){return isInBounds(loc.x, loc.y);}
