@@ -114,7 +114,7 @@ public class DaePanel extends JPanel implements ActionListener
       imageTileArr[x][y].setBGColor(bg);
    }
    
-   // set icon of a tile
+   // set tile index of a tile
    public void setTileIndex(Coord c, int tileIndex){setTileIndex(c.x, c.y, tileIndex);}
    public void setTileIndex(int x, int y, int tileIndex)
    {
@@ -123,6 +123,7 @@ public class DaePanel extends JPanel implements ActionListener
       imageTileArr[x][y].setTileIndex(tileIndex);
    }
    
+   // return the multiplier to get image to full frame (while maintaining width/height ratio)
    private double getScaling()
    {
       double scale = (double)this.getWidth() / (palette.getTileWidth() * tilesWide);
@@ -156,15 +157,12 @@ public class DaePanel extends JPanel implements ActionListener
       g2d.drawImage(scaledImage, xInset, yInset, null);
    }
 
+   // kicked by timer
    public void actionPerformed(ActionEvent ae)
    {
-//       char newChar = (char)('A' + (int)(Math.random() * 26));
-//       int x = (int)(Math.random() * columns());
-//       int y = (int)(Math.random() * rows());
-//       setIcon(x, y, newChar);
-//       super.actionPerformed(ae);
+      this.repaint();
    }
-//    
+    
    public static void main(String[] args)
    {
       JFrame frame = new JFrame();
