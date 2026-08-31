@@ -10,6 +10,7 @@ public class ImageTile
 	protected int fgColor;
 	protected int bgColor;
 	protected int tileIndex;
+   protected int lowerTileIndex;
 	protected boolean dirty;
 	protected TilePalette palette;
 
@@ -17,14 +18,15 @@ public class ImageTile
 	public int getFGColor(){return fgColor;}
 	public int getBGColor(){return bgColor;}
 	public int getTileIndex(){return tileIndex;}
+   public int getLowerTileIndex(){return lowerTileIndex;}
 	public boolean isDirty(){return dirty;}
 	public TilePalette getPalette(){return palette;}
 
 
-	public void setImage(BufferedImage i){image = i;}
-	public void setFGColor(int f){fgColor = f;}
-	public void setBGColor(int b){bgColor = b;}
-	public void setTileIndex(int t){tileIndex = t;}
+	public void setFGColor(int f){fgColor = f; dirty = true;}
+	public void setBGColor(int b){bgColor = b; dirty = true;}
+	public void setTileIndex(int t){tileIndex = t; dirty = true;}
+   public void setLowerTileIndex(int t){lowerTileIndex = t; dirty = true;}   // setting this makes a stacked tile
 	public void setDirty(boolean d){dirty = d;}
 	public void setPalette(TilePalette p){palette = p;}
 
@@ -37,10 +39,17 @@ public class ImageTile
    {
       palette = p;
       tileIndex = index;
+      lowerTileIndex = -1;
       fgColor = fg;
       bgColor = bg;
       dirty = true;
    }
+   
+   public boolean isStackedTile()
+   {
+      return lowerTileIndex != -1;
+   }
+   
    
 	public BufferedImage getImage()
    {
@@ -51,7 +60,13 @@ public class ImageTile
    
    public void createImage()
    {
-      image = palette.getTile(tileIndex, fgColor, bgColor);
+      if(isStackedTile())
+      {
+         BufferedImage lowerTile = palette.getTile(lowerTileIndex, bgColor, palette.TRANSPARENT);
+         image = palette.layer(lowerTile, tileIndex, fgColor);
+      }
+      else
+         image = palette.getTile(tileIndex, fgColor, bgColor);
       dirty = false;
    }
 }

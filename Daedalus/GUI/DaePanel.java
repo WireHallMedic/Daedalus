@@ -16,6 +16,11 @@ public class DaePanel extends JPanel implements ActionListener
 	private int tilesWide;
 	private int tilesTall;
    private Vector<UnboundTile> unboundTileList;
+   private static int scaleStyle = Image.SCALE_SMOOTH;
+   
+   public static int getScaleStyle(){return scaleStyle;}
+   
+   public static void setScaleStyle(int ss){scaleStyle = ss;}
    
    public Vector<UnboundTile> getUnboundTileList(){return unboundTileList;}
    
@@ -189,7 +194,7 @@ public class DaePanel extends JPanel implements ActionListener
       // scale up, center, and draw
       double scaling = getScaling();
       Image scaledImage = unscaledImage.getScaledInstance((int)(unscaledImage.getWidth() * scaling),
-                                 (int)(unscaledImage.getHeight() * scaling), Image.SCALE_SMOOTH);
+                                 (int)(unscaledImage.getHeight() * scaling), scaleStyle);
       int xInset = (this.getWidth() - scaledImage.getWidth(null)) / 2;
       int yInset = (this.getHeight() - scaledImage.getHeight(null)) / 2;
       g2d.drawImage(scaledImage, xInset, yInset, null);
@@ -281,11 +286,10 @@ public class DaePanel extends JPanel implements ActionListener
       frame.setVisible(true);
       
       UnboundTile ut = new UnboundTile(palette, 'X', Color.BLACK.getRGB(), Color.WHITE.getRGB());
+      ut.setLowerTileIndex(2);
       ut.setScale(2.0);
       ut.setTileLoc(1, 1);
       panel.addUnboundTile(ut);
-      ut.setExpired(true);
-      panel.cleanUnboundTileList();
       
       panel.repaint();
    }

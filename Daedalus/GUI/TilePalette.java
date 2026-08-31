@@ -27,7 +27,7 @@ public class TilePalette
    private int tileHeight;
    private int BG_COLOR = Color.BLACK.getRGB();
    private int FG_COLOR = Color.WHITE.getRGB();
-   private static final int TRANSPARENT = new Color(0.0f, 0.0f, 0.0f, 0.0f).getRGB();
+   public static final int TRANSPARENT = new Color(0.0f, 0.0f, 0.0f, 0.0f).getRGB();
    private int scaleMethod = Image.SCALE_SMOOTH;
    
    public int getImageWidth(){return imageWidth;}
