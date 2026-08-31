@@ -81,7 +81,7 @@ public class TilePalette
    }
    public BufferedImage getTile(int x, int y, int fg, int bg){return getTile(flatten(x, y), fg, bg);}
    
-   // layer the foreground of a tile over an existing image (presumably another tile)
+   // layer the foreground of a tile over an existing image (both images should be the same size)
    public BufferedImage layer(BufferedImage original, int i, int fg)
    {
       BufferedImage stamp = imageStrip[i];
@@ -89,10 +89,10 @@ public class TilePalette
       for(int x = 0; x < tileWidth; x++)
       for(int y = 0; y < tileHeight; y++)
       {
-         if(stamp.getRGB(x, y) != BG_COLOR)
-            newImg.setRGB(x, y, original.getRGB(x, y));
-         else
+         if(stamp.getRGB(x, y) == FG_COLOR)
             newImg.setRGB(x, y, fg);
+         else
+            newImg.setRGB(x, y, original.getRGB(x, y));
       }
       return newImg;
    }

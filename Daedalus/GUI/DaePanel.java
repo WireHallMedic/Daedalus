@@ -160,6 +160,7 @@ public class DaePanel extends JPanel implements ActionListener
       super.paint(g);
       Graphics2D g2d = (Graphics2D)g;
       
+      // set the unscaled image
       int xStep = imageArr[0][0].getWidth();
       int yStep = imageArr[0][0].getHeight();
       BufferedImage unscaledImage = new BufferedImage(xStep * tilesWide, yStep * tilesTall, BufferedImage.TYPE_INT_ARGB);
@@ -167,15 +168,17 @@ public class DaePanel extends JPanel implements ActionListener
       for(int x = 0; x < tilesWide; x++)
       for(int y = 0; y < tilesTall; y++)
       {
+         if(dirtyArr[x][y])
+            updateImage(x, y);
          g2dUnscaled.drawImage(imageArr[x][y], xStep * x, yStep * y, null);
       }
       
+      // scale up, center, and draw
       double scaling = getScaling();
       Image scaledImage = unscaledImage.getScaledInstance((int)(unscaledImage.getWidth() * scaling),
                                  (int)(unscaledImage.getHeight() * scaling), Image.SCALE_SMOOTH);
       int xInset = (this.getWidth() - scaledImage.getWidth(null)) / 2;
       int yInset = (this.getHeight() - scaledImage.getHeight(null)) / 2;
-      System.out.println(scaling + ", " + scaledImage.getWidth(null) + ", " + scaledImage.getHeight(null));
       g2d.drawImage(scaledImage, xInset, yInset, null);
    }
 
