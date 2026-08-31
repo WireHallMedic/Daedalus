@@ -201,6 +201,71 @@ public class DaePanel extends JPanel implements ActionListener
       cleanUnboundTileList();
       this.repaint();
    }
+   
+   // write the string in a box, with the passed foreground and background colors
+   public void write(Coord loc, String s, int fgColor, int bgColor, Coord box){write(loc.x, loc.y, s, fgColor, bgColor, box.x, box.y);}
+   public void write(int x, int y, String s, int fgColor, int bgColor, int w, int h)
+   {
+      int xLoc = 0; 
+      int yLoc = 0;
+      char[][] charArr = new char[w][h];
+      String[] stringArr = s.split(" ");
+      Vector<String> stringVect = new Vector<String>();
+      // initialize array just in case tile 0x00 isn't blank
+      for(int xx = 0; xx < w; xx++)
+      for(int yy = 0; yy < h; yy++)
+         charArr[xx][yy] = ' ';
+      // copy over to vector, breaking up words that are too long
+      for(String str : stringArr)
+      {
+         if(str.length() <= w)
+            stringVect.add(str);
+         else
+         {
+            while(str.length() > 0)
+            {
+               int cutPoint = Math.min(str.length(), w);
+               stringVect.add(str.substring(0, cutPoint));
+               str = str.substring(cutPoint);
+            }
+         }
+      }
+      // copy the characters to the character array
+      for(String str : stringVect)
+      {
+         // carriage return if needed
+         if(w - xLoc < str.length())
+         {
+            xLoc = 0;
+            yLoc++;
+            if(yLoc >= h)
+               break;
+         }
+         // set the characters
+         for(int j = 0; j < str.length(); j++)
+         {
+            if(str.charAt(j) == '\n')
+            {
+               xLoc = 0;
+               yLoc++;
+            }
+            else
+            {
+               charArr[xLoc][yLoc] = str.charAt(j);
+               xLoc++;
+            }
+         }
+         // space
+         xLoc++;
+      }
+      // actually set the tiles
+      for(int xx = 0; xx < w; xx++)
+      for(int yy = 0; yy < h; yy++)
+      {
+         setTile(x + xx, y + yy, charArr[xx][yy], fgColor, bgColor);
+      }
+   }
+
     
    public static void main(String[] args)
    {
