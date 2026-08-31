@@ -45,6 +45,23 @@ public class ImageTile
       dirty = true;
    }
    
+   public ImageTile copy()
+   {
+      ImageTile copy = new ImageTile(palette, tileIndex, fgColor, bgColor);
+      copy.lowerTileIndex = this.lowerTileIndex;
+      return copy;
+   }
+   
+   public void set(ImageTile that)
+   {
+      this.palette = that.palette;
+      this.tileIndex = that.tileIndex;
+      this.lowerTileIndex = that.lowerTileIndex;
+      this.fgColor = that.fgColor;
+      this.bgColor = that.bgColor;
+      this.dirty = true;
+   }
+   
    public boolean isStackedTile()
    {
       return lowerTileIndex != -1;

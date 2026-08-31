@@ -291,6 +291,9 @@ public class DaePanel extends JPanel implements ActionListener
       ut.setTileLoc(1, 1);
       panel.addUnboundTile(ut);
       
+      String str = "Sphinx of black quartz, judge my vow!"; 
+      panel.write(5, 5, str, Color.CYAN.getRGB(), new Color(64, 64, 64).getRGB(), 10, 10);
+      
       panel.repaint();
    }
 }

@@ -44,6 +44,28 @@ public class UnboundTile extends ImageTile
       expired = false;
    }
    
+   public UnboundTile copy()
+   {
+      UnboundTile copy = new UnboundTile(palette, tileIndex, fgColor, bgColor);
+      copy.tileLoc = this.tileLoc.copy();
+      copy.xOffset = this.xOffset;
+      copy.yOffset = this.yOffset;
+      copy.scale = this.scale;
+      copy.expired = this.expired;
+      return copy;
+   }
+   
+   public void set(UnboundTile that)
+   {
+      super.set(that);
+      this.tileLoc = that.tileLoc.copy();
+      this.xOffset = that.xOffset;
+      this.yOffset = that.yOffset;
+      this.scale = that.scale;
+      this.expired = that.expired;
+      this.dirty = true;
+   }
+   
    @Override
    public void createImage()
    {
