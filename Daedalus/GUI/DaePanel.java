@@ -12,11 +12,7 @@ public class DaePanel extends JPanel implements ActionListener
 {
    
 	private Daedalus.GUI.TilePalette palette;
-	private BufferedImage[][] imageArr;
-   private int[][] fgColorArr;
-   private int[][] bgColorArr;
-   private int[][] tileIndexArr;
-   private boolean[][] dirtyArr;
+	private ImageTile[][] imageTileArr;
 	private int tilesWide;
 	private int tilesTall;
    
@@ -26,11 +22,7 @@ public class DaePanel extends JPanel implements ActionListener
       tilesWide = columns;
       tilesTall = rows;
       palette = tilePalette;
-      imageArr = new BufferedImage[tilesWide][tilesTall];
-      fgColorArr = new int[tilesWide][tilesTall];
-      bgColorArr = new int[tilesWide][tilesTall];
-      tileIndexArr = new int[tilesWide][tilesTall];
-      dirtyArr = new boolean[tilesWide][tilesTall];
+      imageTileArr = new ImageTile[tilesWide][tilesTall];
       setAll('.', Color.WHITE.getRGB(), Color.BLACK.getRGB());
    }
    
@@ -39,10 +31,7 @@ public class DaePanel extends JPanel implements ActionListener
       for(int x = 0; x < tilesWide; x++)
       for(int y = 0; y < tilesTall; y++)
       {
-         tileIndexArr[x][y] = tileIndex;
-         fgColorArr[x][y] = fgColor;
-         bgColorArr[x][y] = bgColor;
-         updateImage(x, y);
+         imageTileArr[x][y] = new ImageTile(palette, tileIndex, fgColor, bgColor);
       }
    }
    
@@ -64,7 +53,7 @@ public class DaePanel extends JPanel implements ActionListener
    {
       if(!isInBounds(x, y))
          return -1;
-      return fgColorArr[x][y];
+      return imageTileArr[x][y].getFGColor();
    }
    
    // get background color
@@ -73,16 +62,16 @@ public class DaePanel extends JPanel implements ActionListener
    {
       if(!isInBounds(x, y))
          return -1;
-      return bgColorArr[x][y];
+      return imageTileArr[x][y].getBGColor();
    }
    
    // get icon index
-   public int getIcon(Coord c){return getIcon(c.x, c.y);}
-   public int getIcon(int x, int y)
+   public int getTileIndex(Coord c){return getTileIndex(c.x, c.y);}
+   public int getTileIndex(int x, int y)
    {
       if(!isInBounds(x, y))
          return -1;
-      return tileIndexArr[x][y];
+      return imageTileArr[x][y].getTileIndex();
    }
    
       
@@ -95,10 +84,9 @@ public class DaePanel extends JPanel implements ActionListener
    {
       if(!isInBounds(x, y))
          return;
-      fgColorArr[x][y] = fg;
-      bgColorArr[x][y] = bg;
-      tileIndexArr[x][y] = tileIndex;
-      dirtyArr[x][y] = true;
+      imageTileArr[x][y].setFGColor(fg);
+      imageTileArr[x][y].setBGColor(bg);
+      imageTileArr[x][y].setTileIndex(tileIndex);
    }
    
    // set all values of a tile location, using colors
@@ -106,7 +94,6 @@ public class DaePanel extends JPanel implements ActionListener
    public void setTile(int x, int y, int tileIndex, Color fg, Color bg)
    {
       setTile(x, y, tileIndex, fg.getRGB(), bg.getRGB());
-      dirtyArr[x][y] = true;
    }
    
    // set foreground color of a tile
@@ -115,8 +102,7 @@ public class DaePanel extends JPanel implements ActionListener
    {
       if(!isInBounds(x, y))
          return;
-      fgColorArr[x][y] = fg;
-      dirtyArr[x][y] = true;
+      imageTileArr[x][y].setFGColor(fg);
    }
    
    // set background color of a tile
@@ -125,33 +111,23 @@ public class DaePanel extends JPanel implements ActionListener
    {
       if(!isInBounds(x, y))
          return;
-      bgColorArr[x][y] = bg;
-      dirtyArr[x][y] = true;
+      imageTileArr[x][y].setBGColor(bg);
    }
    
    // set icon of a tile
-   public void setIcon(Coord c, int tileIndex){setIcon(c.x, c.y, tileIndex);}
-   public void setIcon(int x, int y, int tileIndex)
+   public void setTileIndex(Coord c, int tileIndex){setTileIndex(c.x, c.y, tileIndex);}
+   public void setTileIndex(int x, int y, int tileIndex)
    {
       if(!isInBounds(x, y))
          return;
-      tileIndexArr[x][y] = tileIndex;
-      dirtyArr[x][y] = true;
-   }
-
-
-   
-   private void updateImage(int x, int y)
-   {
-      imageArr[x][y] = palette.getTile(tileIndexArr[x][y], fgColorArr[x][y], bgColorArr[x][y]);
-      dirtyArr[x][y] = false;
+      imageTileArr[x][y].setTileIndex(tileIndex);
    }
    
    private double getScaling()
    {
-      double scale = (double)this.getWidth() / (imageArr[0][0].getWidth() * tilesWide);
-      if((int)(imageArr[0][0].getHeight() * tilesTall * scale) > this.getHeight())
-         scale = (double)this.getHeight() / (imageArr[0][0].getHeight() * tilesTall);
+      double scale = (double)this.getWidth() / (palette.getTileWidth() * tilesWide);
+      if((int)(palette.getTileHeight() * tilesTall * scale) > this.getHeight())
+         scale = (double)this.getHeight() / (palette.getTileHeight() * tilesTall);
       return scale;
    }
    
@@ -161,16 +137,14 @@ public class DaePanel extends JPanel implements ActionListener
       Graphics2D g2d = (Graphics2D)g;
       
       // set the unscaled image
-      int xStep = imageArr[0][0].getWidth();
-      int yStep = imageArr[0][0].getHeight();
+      int xStep = palette.getTileWidth();
+      int yStep = palette.getTileHeight();
       BufferedImage unscaledImage = new BufferedImage(xStep * tilesWide, yStep * tilesTall, BufferedImage.TYPE_INT_ARGB);
       Graphics2D g2dUnscaled = (Graphics2D)(unscaledImage.getGraphics());
       for(int x = 0; x < tilesWide; x++)
       for(int y = 0; y < tilesTall; y++)
       {
-         if(dirtyArr[x][y])
-            updateImage(x, y);
-         g2dUnscaled.drawImage(imageArr[x][y], xStep * x, yStep * y, null);
+         g2dUnscaled.drawImage(imageTileArr[x][y].getImage(), xStep * x, yStep * y, null);
       }
       
       // scale up, center, and draw
