@@ -15,6 +15,9 @@ public class DaePanel extends JPanel implements ActionListener
 	private ImageTile[][] imageTileArr;
 	private int tilesWide;
 	private int tilesTall;
+   private Vector<UnboundTile> unboundTileList;
+   
+   public Vector<UnboundTile> getUnboundTileList(){return unboundTileList;}
    
    public DaePanel(int columns, int rows, Daedalus.GUI.TilePalette tilePalette)
    {  
@@ -23,6 +26,7 @@ public class DaePanel extends JPanel implements ActionListener
       tilesTall = rows;
       palette = tilePalette;
       imageTileArr = new ImageTile[tilesWide][tilesTall];
+      unboundTileList = new Vector<UnboundTile>();
       setAll('.', Color.WHITE.getRGB(), Color.BLACK.getRGB());
    }
    
@@ -35,10 +39,28 @@ public class DaePanel extends JPanel implements ActionListener
       }
    }
    
+   public void clearUnboundTileList()
+   {
+      unboundTileList = new Vector<UnboundTile>();
+   }
+   
+   public void addUnboundTile(UnboundTile ut)
+   {
+      unboundTileList.add(ut);
+   }
+   
    public boolean isInBounds(Coord loc){return isInBounds(loc.x, loc.y);}
    public boolean isInBounds(int x, int y)
    {
       if(x >= 0 && y >= 0 && x < tilesWide && y < tilesTall)
+         return true;
+      return false;
+   } 
+   
+   public boolean isMostlyInBounds(Coord loc){return isMostlyInBounds(loc.x, loc.y);}
+   public boolean isMostlyInBounds(int x, int y)
+   {
+      if(x >= -1 && y >= -1 && x <= tilesWide && y <= tilesTall)
          return true;
       return false;
    } 
@@ -132,6 +154,18 @@ public class DaePanel extends JPanel implements ActionListener
       return scale;
    }
    
+   private void cleanUnboundTileList()
+   {
+      for(int i = 0; i < unboundTileList.size(); i++)
+      {
+         if(unboundTileList.elementAt(i).isExpired())
+         {
+            unboundTileList.removeElementAt(i);
+            i--;
+         }
+      }
+   }
+   
    public void paint(Graphics g)
    {
       super.paint(g);
@@ -148,6 +182,10 @@ public class DaePanel extends JPanel implements ActionListener
          g2dUnscaled.drawImage(imageTileArr[x][y].getImage(), xStep * x, yStep * y, null);
       }
       
+      // draw unbound tiles to unscaled image
+      for(UnboundTile ut: unboundTileList)
+         ut.drawToImage(g2dUnscaled, this);
+      
       // scale up, center, and draw
       double scaling = getScaling();
       Image scaledImage = unscaledImage.getScaledInstance((int)(unscaledImage.getWidth() * scaling),
@@ -160,6 +198,7 @@ public class DaePanel extends JPanel implements ActionListener
    // kicked by timer
    public void actionPerformed(ActionEvent ae)
    {
+      cleanUnboundTileList();
       this.repaint();
    }
     
@@ -175,6 +214,13 @@ public class DaePanel extends JPanel implements ActionListener
       frame.add(panel);
       
       frame.setVisible(true);
+      
+      UnboundTile ut = new UnboundTile(palette, 'X', Color.BLACK.getRGB(), Color.WHITE.getRGB());
+      ut.setScale(2.0);
+      ut.setTileLoc(1, 1);
+      panel.addUnboundTile(ut);
+      ut.setExpired(true);
+      panel.cleanUnboundTileList();
       
       panel.repaint();
    }

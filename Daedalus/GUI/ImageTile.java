@@ -6,12 +6,12 @@ import java.awt.image.*;
 
 public class ImageTile
 {
-	private BufferedImage image;
-	private int fgColor;
-	private int bgColor;
-	private int tileIndex;
-	private boolean dirty;
-	private TilePalette palette;
+	protected BufferedImage image;
+	protected int fgColor;
+	protected int bgColor;
+	protected int tileIndex;
+	protected boolean dirty;
+	protected TilePalette palette;
 
 
 	public int getFGColor(){return fgColor;}
