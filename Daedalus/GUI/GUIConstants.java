@@ -24,4 +24,8 @@ public interface GUIConstants
    public static final int YELLOW = new Color(255, 238, 51).getRGB();
    public static final int ORANGE = new Color(255, 146, 51).getRGB();
    public static final int PINK = new Color(255, 205, 243).getRGB();
+   public static final int[] COLOR_ARRAY = {BLACK, GREY, LIGHT_GREY, WHITE,
+                                            BLUE, GREEN, BROWN, PURPLE, 
+                                            LIGHT_BLUE, LIGHT_GREEN, BEIGE, RED, 
+                                            CYAN, YELLOW, ORANGE, PINK};
 }

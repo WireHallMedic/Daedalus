@@ -8,7 +8,7 @@ import java.awt.event.*;
 import java.util.*;
 
 
-public class DaePanel extends JPanel implements ActionListener
+public class DaePanel extends JPanel implements ActionListener, GUIConstants
 {
    
 	private Daedalus.GUI.TilePalette palette;
@@ -32,7 +32,8 @@ public class DaePanel extends JPanel implements ActionListener
       palette = tilePalette;
       imageTileArr = new ImageTile[tilesWide][tilesTall];
       unboundTileList = new Vector<UnboundTile>();
-      setAll('.', Color.WHITE.getRGB(), Color.BLACK.getRGB());
+      setAll('.', WHITE, BLACK);
+      setBackground(BLACK);
    }
    
    public void setAll(int tileIndex, int fgColor, int bgColor)
@@ -69,6 +70,12 @@ public class DaePanel extends JPanel implements ActionListener
          return true;
       return false;
    } 
+   
+   // set panel background (only seen outside of tile array)
+   public void setBackground(int panelBGColor)
+   {
+      super.setBackground(new Color(panelBGColor));
+   }
 
    
    // getters

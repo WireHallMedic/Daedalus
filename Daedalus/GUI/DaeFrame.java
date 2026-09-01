@@ -19,7 +19,7 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
    public DaeFrame()
    {
       super();
-      setSize(1200, 800);
+      setSize(1180, 820);
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       setTitle("Daedalus");
       setLayout(new GridLayout(1, 1));
@@ -28,21 +28,28 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
       squarePalette = new TilePalette("Daedalus/res/img/WSFont_16x16.png", 16, 16);
       javax.swing.Timer timer = new javax.swing.Timer(1000 / FRAMES_PER_SECOND, this);
       
+      addComponentListener(this);
+      
       // panels
       panelList = new Vector<DaePanel>();
-//       innerPanel = new JPanel();
-//       innerPanel.setLayout(null);
-//       innerPanel.setVisible(true);
-//       this.add(innerPanel);
+      innerPanel = new JPanel();
+      innerPanel.setLayout(null);
+      innerPanel.setBackground(new Color(BLACK));
+      innerPanel.setVisible(true);
+      this.add(innerPanel);
       
       testPanel = new DaePanel(PANEL_WIDTH_TILES, PANEL_HEIGHT_TILES, rectPalette);
-      testPanel.setVisible(true);
-      this.add(testPanel);
+      innerPanel.add(testPanel);
       panelList.add(testPanel);
       testPanel.write(0, 0, "Test Panel", ORANGE, BLUE, 10, 10);
+      for(int i = 0; i < COLOR_ARRAY.length; i++)
+      {
+         testPanel.setBGColor((i / 4) + 12, i % 4, COLOR_ARRAY[i]);
+      }
       
       arrangePanels();
       curPanel = testPanel;
+      curPanel.setVisible(true);
       setVisible(true);
       timer.start();
    }
@@ -51,9 +58,8 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
    {
       for(DaePanel p: panelList)
       {
-//          p.setSize(innerPanel.getSize());
-//          p.setSize(innerPanel.getSize());
-//         p.setLocation(0, 0);
+         p.setSize(innerPanel.getSize());
+         p.setLocation(0, 0);
       }
    }
    
@@ -70,10 +76,4 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
       arrangePanels();
    }
    
-   
-//    public void main(String[] args)
-//    {
-//       //DaeFrame frame = new DaeFrame();
-//       System.out.println("In main.");
-//    }
 }
