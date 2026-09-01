@@ -3,6 +3,7 @@ package Daedalus.GUI;
 import WidlerSuite.WSFontConstants;
 import java.awt.*;
 import java.awt.image.*;
+import Daedalus.Zone.ZoneTile;
 
 public class ImageTile
 {
@@ -59,6 +60,14 @@ public class ImageTile
       this.lowerTileIndex = that.lowerTileIndex;
       this.fgColor = that.fgColor;
       this.bgColor = that.bgColor;
+      this.dirty = true;
+   }
+   
+   public void set(ZoneTile zoneTile)
+   {
+      this.tileIndex = zoneTile.getTileIndex();
+      this.fgColor = zoneTile.getFGColor();
+      this.bgColor = zoneTile.getBGColor();
       this.dirty = true;
    }
    
