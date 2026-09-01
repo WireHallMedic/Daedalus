@@ -5,26 +5,34 @@ import Daedalus.GUI.*;
 
 public class ZoneTile implements ZoneConstants, GUIConstants
 {
-	private ImageTile imageTile;
+	protected int fgColor;
+	protected int bgColor;
+	protected int tileIndex;
 	private boolean lowPassable;
 	private boolean highPassable;
 	private boolean transparent;
 
 
-	public ImageTile getImageTile(){return imageTile;}
+	public int getFGColor(){return fgColor;}
+	public int getBGColor(){return bgColor;}
+	public int getTileIndex(){return tileIndex;}
 	public boolean isLowPassable(){return lowPassable;}
 	public boolean isHighPassable(){return highPassable;}
 	public boolean isTransparent(){return transparent;}
 
 
-	public void setImageTile(ImageTile i){imageTile = i;}
+	public void setFGColor(int f){fgColor = f;}
+	public void setBGColor(int b){bgColor = b;}
+	public void setTileIndex(int t){tileIndex = t;}
 	public void setLowPassable(boolean l){lowPassable = l;}
 	public void setHighPassable(boolean h){highPassable = h;}
 	public void setTransparent(boolean t){transparent = t;}
 
-   public ZoneTile(TileBase base, TilePalette palette)
+   public ZoneTile(TileBase base)
    {
-      imageTile = new ImageTile(palette, base.tileIndex, WHITE, BLACK);
+      fgColor = WHITE;
+      bgColor = BLACK;
+      tileIndex = base.tileIndex;
       lowPassable = base.lowPassable;
       highPassable = base.highPassable;
       transparent = base.transparent;
@@ -32,7 +40,9 @@ public class ZoneTile implements ZoneConstants, GUIConstants
    
    public ZoneTile(ZoneTile that)
    {
-      this.imageTile = that.imageTile.copy();
+      this.fgColor = that.fgColor;
+      this.bgColor = that.bgColor;
+      this.tileIndex = that.tileIndex;
       this.lowPassable = that.lowPassable;
       this.highPassable = that.highPassable;
       this.transparent = that.transparent;
