@@ -7,11 +7,13 @@ import java.awt.event.*;
 import java.util.*;
 
 
-public class DaeFrame extends JFrame implements ActionListener, ComponentListener
+public class DaeFrame extends JFrame implements ActionListener, ComponentListener, GUIConstants
 {
    private Vector<DaePanel> panelList;
+   private DaePanel curPanel;
    private TilePalette rectPalette;
    private TilePalette squarePalette;
+   private JPanel innerPanel;
    private DaePanel testPanel;
    
    public DaeFrame()
@@ -20,26 +22,48 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
       setSize(1200, 800);
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       setTitle("Daedalus");
-      setLayout(null);
+      setLayout(new GridLayout(1, 1));
       
       rectPalette = new TilePalette("Daedalus/res/img/WSFont_8x16.png", 16, 16);
       squarePalette = new TilePalette("Daedalus/res/img/WSFont_16x16.png", 16, 16);
+      javax.swing.Timer timer = new javax.swing.Timer(1000 / FRAMES_PER_SECOND, this);
       
+      // panels
+      panelList = new Vector<DaePanel>();
+//       innerPanel = new JPanel();
+//       innerPanel.setLayout(null);
+//       innerPanel.setVisible(true);
+//       this.add(innerPanel);
+      
+      testPanel = new DaePanel(PANEL_WIDTH_TILES, PANEL_HEIGHT_TILES, rectPalette);
+      testPanel.setVisible(true);
+      this.add(testPanel);
+      panelList.add(testPanel);
+      testPanel.write(0, 0, "Test Panel", ORANGE, BLUE, 10, 10);
+      
+      arrangePanels();
+      curPanel = testPanel;
       setVisible(true);
+      timer.start();
    }
 
    public void arrangePanels()
    {
-   
+      for(DaePanel p: panelList)
+      {
+//          p.setSize(innerPanel.getSize());
+//          p.setSize(innerPanel.getSize());
+//         p.setLocation(0, 0);
+      }
    }
    
    public void actionPerformed(ActionEvent ae)
    {
-   
+      curPanel.actionPerformed(ae);
    }
    
    public void componentHidden(ComponentEvent ce){}
-   public void componentShown(ComponentEvent ce){}
+   public void componentShown(ComponentEvent ce){arrangePanels();}
    public void componentMoved(ComponentEvent ce){}
    public void componentResized(ComponentEvent ce)
    {
@@ -47,8 +71,9 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
    }
    
    
-   public void main(String[] args)
-   {
-      DaeFrame frame = new DaeFrame();
-   }
+//    public void main(String[] args)
+//    {
+//       //DaeFrame frame = new DaeFrame();
+//       System.out.println("In main.");
+//    }
 }
