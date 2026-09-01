@@ -14,7 +14,7 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
    private TilePalette rectPalette;
    private TilePalette squarePalette;
    private JPanel innerPanel;
-   private DaePanel testPanel;
+   private MainGamePanel mainGamePanel;
    
    public DaeFrame()
    {
@@ -38,17 +38,12 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
       innerPanel.setVisible(true);
       this.add(innerPanel);
       
-      testPanel = new DaePanel(PANEL_WIDTH_TILES, PANEL_HEIGHT_TILES, rectPalette);
-      innerPanel.add(testPanel);
-      panelList.add(testPanel);
-      testPanel.write(0, 0, "Test Panel", ORANGE, BLUE, 10, 10);
-      for(int i = 0; i < COLOR_ARRAY.length; i++)
-      {
-         testPanel.setBGColor((i / 4) + 12, i % 4, COLOR_ARRAY[i]);
-      }
+      mainGamePanel = new MainGamePanel(rectPalette, squarePalette);
+      innerPanel.add(mainGamePanel);
+      panelList.add(mainGamePanel);
       
       arrangePanels();
-      curPanel = testPanel;
+      curPanel = mainGamePanel;
       curPanel.setVisible(true);
       setVisible(true);
       timer.start();

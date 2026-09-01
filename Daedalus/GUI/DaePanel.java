@@ -11,12 +11,12 @@ import java.util.*;
 public class DaePanel extends JPanel implements ActionListener, GUIConstants
 {
    
-	private Daedalus.GUI.TilePalette palette;
-	private ImageTile[][] imageTileArr;
-	private int tilesWide;
-	private int tilesTall;
-   private Vector<UnboundTile> unboundTileList;
-   private static int scaleStyle = Image.SCALE_SMOOTH;
+	protected Daedalus.GUI.TilePalette palette;
+	protected ImageTile[][] imageTileArr;
+	protected int tilesWide;
+	protected int tilesTall;
+   protected Vector<UnboundTile> unboundTileList;
+   protected static int scaleStyle = Image.SCALE_SMOOTH;
    
    public static int getScaleStyle(){return scaleStyle;}
    
@@ -178,11 +178,8 @@ public class DaePanel extends JPanel implements ActionListener, GUIConstants
       }
    }
    
-   public void paint(Graphics g)
+   public BufferedImage getUnscaledImage()
    {
-      super.paint(g);
-      Graphics2D g2d = (Graphics2D)g;
-      
       // set the unscaled image
       int xStep = palette.getTileWidth();
       int yStep = palette.getTileHeight();
@@ -197,6 +194,15 @@ public class DaePanel extends JPanel implements ActionListener, GUIConstants
       // draw unbound tiles to unscaled image
       for(UnboundTile ut: unboundTileList)
          ut.drawToImage(g2dUnscaled, this);
+      
+      return unscaledImage;
+   }
+   
+   public void paint(Graphics g)
+   {
+      super.paint(g);
+      Graphics2D g2d = (Graphics2D)g;
+      BufferedImage unscaledImage = getUnscaledImage();
       
       // scale up, center, and draw
       double scaling = getScaling();
