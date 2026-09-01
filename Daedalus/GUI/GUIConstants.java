@@ -7,6 +7,7 @@ public interface GUIConstants
    public static final int FRAMES_PER_SECOND = 60;
    public static final int PANEL_WIDTH_TILES = 120;
    public static final int PANEL_HEIGHT_TILES = 40;
+   public static final int BOARD_SIZE_TILES = 27;
    
    public static final int BLACK = Color.BLACK.getRGB();
    public static final int GREY = new Color(87, 87, 87).getRGB();
