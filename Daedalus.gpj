@@ -13,7 +13,7 @@ s#i0
 s#k0
 s#j0
 s#l0
-!521;g
+!556;g
 %\011Daedalus%sGUI%sAnimationManager.java
 %\011Daedalus%sGUI%sAnimationScript.java
 %\011Daedalus%sGUI%sBoardPanel.java
@@ -28,7 +28,8 @@ s#l0
 %\011Daedalus%sres%simg%sWSFont_16x16.png
 %\011Daedalus%sres%simg%sWSFont_8x16.png
 %\011Daedalus%sZone%sZoneConstants.java
-!521;f
+%\011Daedalus%sZone%sZoneTile.java
+!556;f
 %\011Daedalus%sGUI%sAnimationManager.java
 %\011Daedalus%sGUI%sAnimationScript.java
 %\011Daedalus%sGUI%sBoardPanel.java
@@ -43,5 +44,6 @@ s#l0
 %\011Daedalus%sres%simg%sWSFont_16x16.png
 %\011Daedalus%sres%simg%sWSFont_8x16.png
 %\011Daedalus%sZone%sZoneConstants.java
+%\011Daedalus%sZone%sZoneTile.java
 !24;m
 RunSelect	Daedalus.Main
