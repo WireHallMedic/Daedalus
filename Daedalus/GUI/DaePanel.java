@@ -40,6 +40,7 @@ public class DaePanel extends JPanel implements ActionListener, GUIConstants, Ke
       setAll('.', WHITE, BLACK);
       setBackground(BLACK);
       setFocusable(false);
+      setBorder();
    }
    
    public void setAll(int tileIndex, int fgColor, int bgColor)
@@ -184,6 +185,34 @@ public class DaePanel extends JPanel implements ActionListener, GUIConstants, Ke
       }
    }
    
+   protected int[][] getBorderArray()
+   {
+      int[][] borderArr = new int[tilesWide][tilesTall];
+      for(int x = 0; x < tilesWide; x++)
+      {
+         borderArr[x][0] = 1;
+         borderArr[x][tilesTall - 1] = 1;
+      }
+      for(int y = 0; y < tilesTall; y++)
+      {
+         borderArr[0][y] = 1;
+         borderArr[tilesWide - 1][y] = 1;
+      }
+      return borderArr;
+   }
+   
+   protected void setBorder()
+   {
+      int[][] borderArray = getBorderArray();
+      borderArray = BorderBuilder.getBorderTiles(borderArray);      
+      for(int x = 0; x < tilesWide; x++)
+      for(int y = 0; y < tilesTall; y++)
+      {
+         if(borderArray[x][y] != 0)
+            setTileIndex(x, y, borderArray[x][y]);
+      }
+   }
+   
    // overridden in child classes
    public void update()
    {
@@ -204,7 +233,7 @@ public class DaePanel extends JPanel implements ActionListener, GUIConstants, Ke
       // show FPS if enabled; this is here rather than in update() to ensure it is not clobbered in child class
       if(showFPS)
       {
-         write(tilesWide - 6, 0, String.format("%6.2f", framesPerSecond), WHITE, BLACK, 6, 1);
+         write(tilesWide - 6, 0, String.format("%5.2f", framesPerSecond), WHITE, BLACK, 5, 1);
       }
       
       // set the unscaled image

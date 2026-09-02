@@ -40,6 +40,21 @@ public class MainGamePanel extends DaePanel implements GUIConstants
    {
       super.update();
    }
+   
+   @Override
+   protected int[][] getBorderArray()
+   {
+      int[][] borderArr = super.getBorderArray();
+      for(int x = 0; x < tilesWide; x++)
+      {
+         borderArr[x][BOARD_SIZE_TILES + 1] = 1;
+      }
+      for(int y = 0; y < BOARD_SIZE_TILES + 2; y++)
+      {
+         borderArr[(BOARD_SIZE_TILES * 2) + 1][y] = 1;
+      }
+      return borderArr;
+   }
       
    public void keyPressed(KeyEvent ke)
    {
