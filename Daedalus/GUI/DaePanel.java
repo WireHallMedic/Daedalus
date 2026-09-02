@@ -17,6 +17,10 @@ public class DaePanel extends JPanel implements ActionListener, GUIConstants, Ke
 	protected int tilesTall;
    protected Vector<UnboundTile> unboundTileList;
    protected static int scaleStyle = Image.SCALE_SMOOTH;
+   protected int frameCount;     // used for FPS calc
+   protected long lastTimeMark;  // used for FPS calc
+   protected double framesPerSecond;  // used for FPS calc
+   protected boolean showFPS;
    
    public static int getScaleStyle(){return scaleStyle;}
    
@@ -30,6 +34,7 @@ public class DaePanel extends JPanel implements ActionListener, GUIConstants, Ke
       tilesWide = columns;
       tilesTall = rows;
       palette = tilePalette;
+      showFPS = false;
       imageTileArr = new ImageTile[tilesWide][tilesTall];
       unboundTileList = new Vector<UnboundTile>();
       setAll('.', WHITE, BLACK);
@@ -182,26 +187,48 @@ public class DaePanel extends JPanel implements ActionListener, GUIConstants, Ke
    // overridden in child classes
    public void update()
    {
-   
+      frameCount++;
+      if(frameCount == FRAMES_PER_SECOND)
+      {
+         frameCount = 0;
+         long curTimeMark = System.currentTimeMillis();
+         long millisPerCycle = curTimeMark - lastTimeMark;
+         framesPerSecond = FRAMES_PER_SECOND * (1000.0 / (double)millisPerCycle);
+         lastTimeMark = curTimeMark;
+      }
    }
    
    public BufferedImage getUnscaledImage()
    {
+      
+      // show FPS if enabled; this is here rather than in update() to ensure it is not clobbered in child class
+      if(showFPS)
+      {
+         write(tilesWide - 6, 0, String.format("%6.2f", framesPerSecond), WHITE, BLACK, 6, 1);
+      }
+      
       // set the unscaled image
       int xStep = palette.getTileWidth();
       int yStep = palette.getTileHeight();
       BufferedImage unscaledImage = new BufferedImage(xStep * tilesWide, yStep * tilesTall, BufferedImage.TYPE_INT_ARGB);
       Graphics2D g2dUnscaled = (Graphics2D)(unscaledImage.getGraphics());
-      for(int x = 0; x < tilesWide; x++)
-      for(int y = 0; y < tilesTall; y++)
-      {
-         g2dUnscaled.drawImage(imageTileArr[x][y].getImage(), xStep * x, yStep * y, null);
-      }
+      
+      // draw tiles to unscaled image
+      drawImageTiles(g2dUnscaled, xStep, yStep);
       
       // draw unbound tiles to unscaled image
       drawUnboundTiles(g2dUnscaled);
       
       return unscaledImage;
+   }
+   
+   protected void drawImageTiles(Graphics2D g2dUnscaled, int xStep, int yStep)
+   {
+      for(int x = 0; x < tilesWide; x++)
+      for(int y = 0; y < tilesTall; y++)
+      {
+         g2dUnscaled.drawImage(imageTileArr[x][y].getImage(), xStep * x, yStep * y, null);
+      }
    }
    
    // separate function to override in BoardPanel for scrolling

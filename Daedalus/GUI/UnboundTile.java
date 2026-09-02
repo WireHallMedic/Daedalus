@@ -66,6 +66,13 @@ public class UnboundTile extends ImageTile
       this.dirty = true;
    }
    
+   public void adjustTileLoc(int x, int y)
+   {
+      tileLoc.x += x;
+      tileLoc.y += y;
+   }
+   public void adjustTileLoc(Coord c){adjustTileLoc(c.x, c.y);}
+   
    @Override
    public void createImage()
    {

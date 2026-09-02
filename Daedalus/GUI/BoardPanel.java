@@ -17,6 +17,7 @@ public class BoardPanel extends DaePanel implements GUIConstants
    @Override
    public void update()
    {
+      super.update();
       if(Game.getPlayer() != null)
       {
          cornerLoc.x = Game.getPlayer().getTileLoc().x - (BOARD_SIZE_TILES / 2);

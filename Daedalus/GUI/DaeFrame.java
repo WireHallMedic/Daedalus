@@ -7,7 +7,7 @@ import java.awt.event.*;
 import java.util.*;
 
 
-public class DaeFrame extends JFrame implements ActionListener, ComponentListener, GUIConstants, KeyListener
+public class DaeFrame extends JFrame implements ActionListener, ComponentListener, GUIConstants, KeyListener, Runnable
 {
    private Vector<DaePanel> panelList;
    private DaePanel curPanel;
@@ -15,6 +15,7 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
    private TilePalette squarePalette;
    private JPanel innerPanel;
    private MainGamePanel mainGamePanel;
+   
    
    public DaeFrame()
    {
@@ -26,7 +27,6 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
       
       rectPalette = new TilePalette("Daedalus/res/img/WSFont_8x16.png", 16, 16);
       squarePalette = new TilePalette("Daedalus/res/img/WSFont_16x16.png", 16, 16);
-      javax.swing.Timer timer = new javax.swing.Timer(1000 / FRAMES_PER_SECOND, this);
       
       addComponentListener(this);
       
@@ -50,7 +50,7 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
       setVisible(true);
       innerPanel.grabFocus();
       
-      timer.start();
+      new Thread(this).start();
    }
 
    public void arrangePanels()
@@ -78,5 +78,22 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
    public void keyPressed(KeyEvent ke){curPanel.keyPressed(ke);}
    public void keyReleased(KeyEvent ke){curPanel.keyReleased(ke);}
    public void keyTyped(KeyEvent ke){curPanel.keyTyped(ke);}
+   
+   // animation loop
+   public void run()
+   {
+      int millisPerLoop = (1000 / FRAMES_PER_SECOND) - 1;
+      long lastLoop = System.currentTimeMillis();
+      while(true)
+      {
+         if(System.currentTimeMillis() - lastLoop >= millisPerLoop)
+         {
+            lastLoop = System.currentTimeMillis();
+            this.actionPerformed(new ActionEvent(this, 1, "Timer kick"));
+         }
+         Thread.yield();
+      }
+   
+   }
    
 }
