@@ -5,10 +5,12 @@ import java.awt.*;
 import java.awt.image.*;
 import java.awt.event.*;
 import java.util.*;
+import Daedalus.AI.*;
 import Daedalus.Engine.*;
+import WidlerSuite.Coord;
 
 
-public class MainGamePanel extends DaePanel implements GUIConstants
+public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
 {
    private BoardPanel boardPanel;
    
@@ -61,28 +63,40 @@ public class MainGamePanel extends DaePanel implements GUIConstants
       switch(ke.getKeyCode())
       {
          case KeyEvent.VK_NUMPAD1:
-            Game.getPlayer().adjustTileLoc(-1, 1);
+            Game.getPlayer().getAI().setPendingTarget(new Coord(-1, 1));
+            Game.getPlayer().getAI().setPendingAction(ActorAction.STEP);
             break;
          case KeyEvent.VK_NUMPAD2:
-            Game.getPlayer().adjustTileLoc(0, 1);
+            Game.getPlayer().getAI().setPendingTarget(new Coord(0, 1));
+            Game.getPlayer().getAI().setPendingAction(ActorAction.STEP);
             break;
          case KeyEvent.VK_NUMPAD3:
-            Game.getPlayer().adjustTileLoc(1, 1);
+            Game.getPlayer().getAI().setPendingTarget(new Coord(1, 1));
+            Game.getPlayer().getAI().setPendingAction(ActorAction.STEP);
             break;
          case KeyEvent.VK_NUMPAD4:
-            Game.getPlayer().adjustTileLoc(-1, 0);
+            Game.getPlayer().getAI().setPendingTarget(new Coord(-1, 0));
+            Game.getPlayer().getAI().setPendingAction(ActorAction.STEP);
+            break;
+         case KeyEvent.VK_NUMPAD5:
+            Game.getPlayer().getAI().setPendingTarget(new Coord());
+            Game.getPlayer().getAI().setPendingAction(ActorAction.DELAY);
             break;
          case KeyEvent.VK_NUMPAD6:
-            Game.getPlayer().adjustTileLoc(1, 0);
+            Game.getPlayer().getAI().setPendingTarget(new Coord(1, 0));
+            Game.getPlayer().getAI().setPendingAction(ActorAction.STEP);
             break;
          case KeyEvent.VK_NUMPAD7:
-            Game.getPlayer().adjustTileLoc(-1, -1);
+            Game.getPlayer().getAI().setPendingTarget(new Coord(-1, -1));
+            Game.getPlayer().getAI().setPendingAction(ActorAction.STEP);
             break;
          case KeyEvent.VK_NUMPAD8:
-            Game.getPlayer().adjustTileLoc(0, -1);
+            Game.getPlayer().getAI().setPendingTarget(new Coord(0, -1));
+            Game.getPlayer().getAI().setPendingAction(ActorAction.STEP);
             break;
          case KeyEvent.VK_NUMPAD9:
-            Game.getPlayer().adjustTileLoc(1, -1);
+            Game.getPlayer().getAI().setPendingTarget(new Coord(1,- 1));
+            Game.getPlayer().getAI().setPendingAction(ActorAction.STEP);
             break;
       }
    }

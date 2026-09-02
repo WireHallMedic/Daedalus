@@ -37,6 +37,7 @@ public class AI implements AIConstants
    {
       if(self == Game.getPlayer())
          return;
+      System.out.println(self.getName() + " plans");
       pendingTarget = new Coord();
       pendingAction = ActorAction.DELAY;
    }
@@ -63,11 +64,13 @@ public class AI implements AIConstants
    
    private void doDelay()
    {
-      System.out.println("Delaying");
+      System.out.println(self.getName() + " delays");
+      self.discharge(1);
    }
    
    private void doStep()
    {
       self.adjustTileLoc(pendingTarget);
+      self.discharge(1);
    }
 }

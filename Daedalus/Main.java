@@ -10,9 +10,19 @@ public class Main
    public static void main(String[] args)
    {
       DaeFrame frame = new DaeFrame();
-      Game.setCurZone(new ZoneMap(10, 10));
+      Game game = new Game();
+      game.setCurZone(new ZoneMap(10, 10));
       Actor a = new Actor(new TilePalette("Daedalus/res/img/WSFont_16x16.png", 16, 16));
       a.setTileLoc(2, 2);
-      Game.setPlayer(a);
+      game.setPlayer(a);
+      game.addActor(a);
+      
+      Actor b = new Actor(new TilePalette("Daedalus/res/img/WSFont_16x16.png", 16, 16));
+      b.setName("NPC");
+      b.setTileIndex('x');
+      b.setTileLoc(0, 0);
+      game.addActor(b);
+      
+      game.play();
    }
 }

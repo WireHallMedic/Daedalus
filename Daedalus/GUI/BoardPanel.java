@@ -2,7 +2,9 @@ package Daedalus.GUI;
 
 import WidlerSuite.Coord;
 import Daedalus.Engine.Game;
+import Daedalus.Actor.*;
 import java.awt.*;
+import java.util.*;
 
 public class BoardPanel extends DaePanel implements GUIConstants
 {
@@ -36,9 +38,11 @@ public class BoardPanel extends DaePanel implements GUIConstants
    @Override
    protected void drawUnboundTiles(Graphics2D g2dUnscaled)
    {
-      if(Game.getPlayer() != null)
+      Vector<Actor> actorList = Game.getActorList();
+      if(actorList != null)
       {
-         Game.getPlayer().drawToImage(g2dUnscaled, cornerLoc);
+         for(Actor a : actorList)
+            a.drawToImage(g2dUnscaled, cornerLoc);
       }
       for(UnboundTile ut: unboundTileList)
          ut.drawToImage(g2dUnscaled, cornerLoc);
