@@ -8,9 +8,9 @@ public class ZoneTile implements ZoneConstants, GUIConstants
 	protected int fgColor;
 	protected int bgColor;
 	protected int tileIndex;
-	private boolean lowPassable;
-	private boolean highPassable;
-	private boolean transparent;
+	protected boolean lowPassable;
+	protected boolean highPassable;
+	protected boolean transparent;
 
 
 	public int getFGColor(){return fgColor;}
@@ -30,12 +30,7 @@ public class ZoneTile implements ZoneConstants, GUIConstants
 
    public ZoneTile(TileBase base)
    {
-      fgColor = WHITE;
-      bgColor = BLACK;
-      tileIndex = base.tileIndex;
-      lowPassable = base.lowPassable;
-      highPassable = base.highPassable;
-      transparent = base.transparent;
+      set(base, WHITE, BLACK);
    }
    
    public ZoneTile(ZoneTile that)
@@ -48,8 +43,23 @@ public class ZoneTile implements ZoneConstants, GUIConstants
       this.transparent = that.transparent;
    }
    
-   public ZoneTile copy(ZoneTile that)
+   public ZoneTile copy()
    {
-      return new ZoneTile(that);
+      return new ZoneTile(this);
+   }
+   
+   public void set(TileBase base, int fg, int bg)
+   {
+      fgColor = fg;
+      bgColor = bg;
+      set(base);
+   }
+   
+   public void set(TileBase base)
+   {
+      tileIndex = base.tileIndex;
+      lowPassable = base.lowPassable;
+      highPassable = base.highPassable;
+      transparent = base.transparent;
    }
 }

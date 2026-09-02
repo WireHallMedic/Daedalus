@@ -15,35 +15,17 @@ public class MainGamePanel extends DaePanel implements GUIConstants
    {
       super(PANEL_WIDTH_TILES, PANEL_HEIGHT_TILES, rectPalette);
       boardPanel = new BoardPanel(squarePalette);
-      
-      boolean toggle = false;
-      for(int x = 0; x < PANEL_WIDTH_TILES; x++)
-      {
-         toggle = !toggle;
-         for(int y = 0; y < PANEL_HEIGHT_TILES; y++)
-         {
-            toggle = !toggle;
-            if(toggle)
-               setBGColor(x, y, CYAN);
-            else
-               setBGColor(x, y, ORANGE);
-         }
-      }      
-      
-      for(int x = 0; x < BOARD_SIZE_TILES; x++)
-      {
-         for(int y = 0; y < BOARD_SIZE_TILES; y++)
-         {
-            toggle = !toggle;
-            if(toggle)
-               boardPanel.setBGColor(x, y, RED);
-            else
-               boardPanel.setBGColor(x, y, BEIGE);
-         }
-      }
          
    }
    
+   @Override
+   public void actionPerformed(ActionEvent ae)
+   {
+      boardPanel.actionPerformed(ae);
+      super.actionPerformed(ae);
+   }
+   
+   @Override
    public BufferedImage getUnscaledImage()
    {
       BufferedImage unscaledImage = super.getUnscaledImage();

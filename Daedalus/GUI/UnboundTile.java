@@ -77,16 +77,15 @@ public class UnboundTile extends ImageTile
       image = scaledImage;
    }
    
-   public void drawToImage(Graphics2D g2d, DaePanel panel)
+   public void drawToImage(Graphics2D g2d, int offsetTilesX, int offsetTilesY)
    {
-      if(panel.isMostlyInBounds(tileLoc))
-      {
-         int xInset = tileLoc.x * palette.getTileWidth();
-         int yInset = tileLoc.y * palette.getTileHeight();
-         xInset += (int)(xOffset * palette.getTileWidth());
-         yInset += (int)(yOffset * palette.getTileHeight());
-         g2d.drawImage(getImage(), xInset, yInset, null);
-      }
+      int xInset = (tileLoc.x - offsetTilesX) * palette.getTileWidth();
+      int yInset = (tileLoc.y - offsetTilesY) * palette.getTileHeight();
+      xInset += (int)(xOffset * palette.getTileWidth());
+      yInset += (int)(yOffset * palette.getTileHeight());
+      g2d.drawImage(getImage(), xInset, yInset, null);
    }
+   public void drawToImage(Graphics2D g2d){drawToImage(g2d, 0, 0);}
+   public void drawToImage(Graphics2D g2d, Coord tileOffset){drawToImage(g2d, tileOffset.x, tileOffset.y);}
 }
 

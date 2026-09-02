@@ -178,6 +178,12 @@ public class DaePanel extends JPanel implements ActionListener, GUIConstants
       }
    }
    
+   // overridden in child classes
+   public void update()
+   {
+   
+   }
+   
    public BufferedImage getUnscaledImage()
    {
       // set the unscaled image
@@ -192,10 +198,16 @@ public class DaePanel extends JPanel implements ActionListener, GUIConstants
       }
       
       // draw unbound tiles to unscaled image
-      for(UnboundTile ut: unboundTileList)
-         ut.drawToImage(g2dUnscaled, this);
+      drawUnboundTiles(g2dUnscaled);
       
       return unscaledImage;
+   }
+   
+   // separate function to override in BoardPanel for scrolling
+   protected void drawUnboundTiles(Graphics2D g2dUnscaled)
+   {
+      for(UnboundTile ut: unboundTileList)
+         ut.drawToImage(g2dUnscaled);
    }
    
    public void paint(Graphics g)
@@ -216,6 +228,7 @@ public class DaePanel extends JPanel implements ActionListener, GUIConstants
    // kicked by timer
    public void actionPerformed(ActionEvent ae)
    {
+      update();
       cleanUnboundTileList();
       this.repaint();
    }
