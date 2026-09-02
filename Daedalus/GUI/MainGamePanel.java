@@ -33,4 +33,8 @@ public class MainGamePanel extends DaePanel implements GUIConstants
       g2dUnscaled.drawImage(boardPanel.getUnscaledImage(), palette.getTileWidth(), palette.getTileHeight(), null);
       return unscaledImage;
    }
+      
+   public void keyPressed(KeyEvent ke){System.out.println("Key pressed " + ke.getKeyCode());}
+   public void keyReleased(KeyEvent ke){System.out.println("Key released " + ke.getKeyCode());}
+   public void keyTyped(KeyEvent ke){System.out.println("Key typed " + ke.getKeyCode());}
 }

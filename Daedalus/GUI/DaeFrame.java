@@ -7,7 +7,7 @@ import java.awt.event.*;
 import java.util.*;
 
 
-public class DaeFrame extends JFrame implements ActionListener, ComponentListener, GUIConstants
+public class DaeFrame extends JFrame implements ActionListener, ComponentListener, GUIConstants, KeyListener
 {
    private Vector<DaePanel> panelList;
    private DaePanel curPanel;
@@ -35,6 +35,8 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
       innerPanel = new JPanel();
       innerPanel.setLayout(null);
       innerPanel.setBackground(new Color(BLACK));
+      innerPanel.setFocusable(true);
+      innerPanel.addKeyListener(this);
       innerPanel.setVisible(true);
       this.add(innerPanel);
       
@@ -46,6 +48,8 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
       curPanel = mainGamePanel;
       curPanel.setVisible(true);
       setVisible(true);
+      innerPanel.grabFocus();
+      
       timer.start();
    }
 
@@ -70,5 +74,9 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
    {
       arrangePanels();
    }
+   
+   public void keyPressed(KeyEvent ke){curPanel.keyPressed(ke);}
+   public void keyReleased(KeyEvent ke){curPanel.keyReleased(ke);}
+   public void keyTyped(KeyEvent ke){curPanel.keyTyped(ke);}
    
 }

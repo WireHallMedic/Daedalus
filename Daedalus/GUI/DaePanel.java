@@ -8,7 +8,7 @@ import java.awt.event.*;
 import java.util.*;
 
 
-public class DaePanel extends JPanel implements ActionListener, GUIConstants
+public class DaePanel extends JPanel implements ActionListener, GUIConstants, KeyListener
 {
    
 	protected Daedalus.GUI.TilePalette palette;
@@ -34,6 +34,7 @@ public class DaePanel extends JPanel implements ActionListener, GUIConstants
       unboundTileList = new Vector<UnboundTile>();
       setAll('.', WHITE, BLACK);
       setBackground(BLACK);
+      setFocusable(false);
    }
    
    public void setAll(int tileIndex, int fgColor, int bgColor)
@@ -296,6 +297,11 @@ public class DaePanel extends JPanel implements ActionListener, GUIConstants
          setTile(x + xx, y + yy, charArr[xx][yy], fgColor, bgColor);
       }
    }
+   
+   // while these are not focusable, they receive key events from DaeFrame.innerpanel while the active panel
+   public void keyPressed(KeyEvent ke){}
+   public void keyReleased(KeyEvent ke){}
+   public void keyTyped(KeyEvent ke){}
 
     
    public static void main(String[] args)
