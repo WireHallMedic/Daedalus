@@ -90,6 +90,7 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
          if(System.currentTimeMillis() - lastLoop >= millisPerLoop)
          {
             lastLoop = System.currentTimeMillis();
+            AnimationManager.update();
             this.actionPerformed(new ActionEvent(this, 1, "Timer kick"));
          }
          Thread.yield();

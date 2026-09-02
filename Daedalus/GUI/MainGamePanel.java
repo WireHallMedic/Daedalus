@@ -6,11 +6,12 @@ import java.awt.image.*;
 import java.awt.event.*;
 import java.util.*;
 import Daedalus.AI.*;
+import Daedalus.Zone.*;
 import Daedalus.Engine.*;
 import WidlerSuite.Coord;
 
 
-public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
+public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants, ZoneConstants
 {
    private BoardPanel boardPanel;
    
@@ -63,39 +64,39 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
       switch(ke.getKeyCode())
       {
          case KeyEvent.VK_NUMPAD1:
-            Game.getPlayer().getAI().setPendingTarget(new Coord(-1, 1));
+            Game.getPlayer().getAI().setPendingTarget(Direction.SOUTH_WEST);
             Game.getPlayer().getAI().setPendingAction(ActorAction.STEP);
             break;
          case KeyEvent.VK_NUMPAD2:
-            Game.getPlayer().getAI().setPendingTarget(new Coord(0, 1));
+            Game.getPlayer().getAI().setPendingTarget(Direction.SOUTH);
             Game.getPlayer().getAI().setPendingAction(ActorAction.STEP);
             break;
          case KeyEvent.VK_NUMPAD3:
-            Game.getPlayer().getAI().setPendingTarget(new Coord(1, 1));
+            Game.getPlayer().getAI().setPendingTarget(Direction.SOUTH_EAST);
             Game.getPlayer().getAI().setPendingAction(ActorAction.STEP);
             break;
          case KeyEvent.VK_NUMPAD4:
-            Game.getPlayer().getAI().setPendingTarget(new Coord(-1, 0));
+            Game.getPlayer().getAI().setPendingTarget(Direction.WEST);
             Game.getPlayer().getAI().setPendingAction(ActorAction.STEP);
             break;
          case KeyEvent.VK_NUMPAD5:
-            Game.getPlayer().getAI().setPendingTarget(new Coord());
+            Game.getPlayer().getAI().setPendingTarget(Direction.ORIGIN);
             Game.getPlayer().getAI().setPendingAction(ActorAction.DELAY);
             break;
          case KeyEvent.VK_NUMPAD6:
-            Game.getPlayer().getAI().setPendingTarget(new Coord(1, 0));
+            Game.getPlayer().getAI().setPendingTarget(Direction.EAST);
             Game.getPlayer().getAI().setPendingAction(ActorAction.STEP);
             break;
          case KeyEvent.VK_NUMPAD7:
-            Game.getPlayer().getAI().setPendingTarget(new Coord(-1, -1));
+            Game.getPlayer().getAI().setPendingTarget(Direction.NORTH_WEST);
             Game.getPlayer().getAI().setPendingAction(ActorAction.STEP);
             break;
          case KeyEvent.VK_NUMPAD8:
-            Game.getPlayer().getAI().setPendingTarget(new Coord(0, -1));
+            Game.getPlayer().getAI().setPendingTarget(Direction.NORTH);
             Game.getPlayer().getAI().setPendingAction(ActorAction.STEP);
             break;
          case KeyEvent.VK_NUMPAD9:
-            Game.getPlayer().getAI().setPendingTarget(new Coord(1,- 1));
+            Game.getPlayer().getAI().setPendingTarget(Direction.NORTH_EAST);
             Game.getPlayer().getAI().setPendingAction(ActorAction.STEP);
             break;
       }

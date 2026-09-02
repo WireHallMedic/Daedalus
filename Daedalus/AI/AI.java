@@ -1,10 +1,11 @@
 package Daedalus.AI;
 
+import Daedalus.Zone.*;
 import Daedalus.Actor.*;
 import Daedalus.Engine.*;
 import WidlerSuite.Coord;
 
-public class AI implements AIConstants
+public class AI implements AIConstants, ZoneConstants
 {
 	private Actor self;
 	private Coord pendingTarget;
@@ -26,6 +27,13 @@ public class AI implements AIConstants
       self = a;
       pendingTarget = null;
       pendingAction = null;
+   }
+   
+	public void setPendingTarget(Direction dir)
+   {
+      Coord loc = dir.getAsCoord();
+      loc.add(self.getTileLoc());
+      pendingTarget = loc;
    }
    
    public boolean hasPlan()
@@ -68,7 +76,7 @@ public class AI implements AIConstants
    
    private void doStep()
    {
-      self.adjustTileLoc(pendingTarget);
+      self.setTileLoc(pendingTarget);
       self.discharge(1);
    }
 }

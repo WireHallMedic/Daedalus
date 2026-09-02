@@ -1,6 +1,7 @@
 package Daedalus.Zone;
 
 import WidlerSuite.WSFontConstants;
+import WidlerSuite.Coord;
 
 public interface ZoneConstants
 {
@@ -36,6 +37,49 @@ public interface ZoneConstants
          highPassable = hp;
          transparent = t;
          tileIndex = ti;
+      }
+   }
+   
+   public enum Direction
+   {
+      ORIGIN      (0, 0),
+      NORTH       (0, -1),
+      NORTH_EAST  (1, -1),
+      EAST        (1, 0),
+      SOUTH_EAST  (1, 1),
+      SOUTH       (0, 1),
+      SOUTH_WEST  (-1, 1),
+      WEST        (-1, 0),
+      NORTH_WEST  (-1, -1);
+      
+      public int x;
+      public int y;
+      
+      private Direction(int _x, int _y)
+      {
+         x = _x;
+         y = _y;
+      }
+      
+      public Coord getAsCoord()
+      {
+         return new Coord(x, y);
+      }
+      
+      public Direction nextClockwise()
+      {
+         int index = this.ordinal() + 1;
+         if(index == Direction.values().length)
+            index = 1;
+         return Direction.values()[index];
+      }
+      
+      public Direction prevClockwise()
+      {
+         int index = this.ordinal() - 1;
+         if(index == 0)
+            index = Direction.values().length - 1;
+         return Direction.values()[index];
       }
    }
 }
