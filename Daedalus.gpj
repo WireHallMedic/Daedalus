@@ -13,8 +13,10 @@ s#i0
 s#k0
 s#j0
 s#l0
-!656;g
+!719;g
 %\011Daedalus%sActor%sActor.java
+%\011Daedalus%sAI%sAI.java
+%\011Daedalus%sAI%sAIConstants.java
 %\011Daedalus%sEngine%sGame.java
 %\011Daedalus%sGUI%sAnimationManager.java
 %\011Daedalus%sGUI%sAnimationScript.java
@@ -32,8 +34,10 @@ s#l0
 %\011Daedalus%sZone%sZoneConstants.java
 %\011Daedalus%sZone%sZoneMap.java
 %\011Daedalus%sZone%sZoneTile.java
-!656;f
+!719;f
 %\011Daedalus%sActor%sActor.java
+%\011Daedalus%sAI%sAI.java
+%\011Daedalus%sAI%sAIConstants.java
 %\011Daedalus%sEngine%sGame.java
 %\011Daedalus%sGUI%sAnimationManager.java
 %\011Daedalus%sGUI%sAnimationScript.java
