@@ -19,7 +19,7 @@ public class Main
       
       Actor b = new Actor(new TilePalette("Daedalus/res/img/WSFont_16x16.png", 16, 16));
       b.setName("NPC");
-      b.setTileIndex('x');
+      b.setTileIndex('X');
       b.setTileLoc(0, 0);
       game.addActor(b);
       

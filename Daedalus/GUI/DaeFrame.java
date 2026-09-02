@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.image.*;
 import java.awt.event.*;
 import java.util.*;
+import Daedalus.Engine.*;
 
 
 public class DaeFrame extends JFrame implements ActionListener, ComponentListener, GUIConstants, KeyListener, Runnable

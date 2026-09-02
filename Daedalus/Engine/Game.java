@@ -48,7 +48,6 @@ public class Game implements Runnable
                // charge if needed
                if(!curActor.isCharged())
                {
-                  System.out.println(curActor.getName() + " Charging");
                   curActor.charge();
                }
                // cur actor is charged, try to plan and act
@@ -60,7 +59,6 @@ public class Game implements Runnable
                   // try to act
                   if(curActor.hasPlan())
                   {
-                     System.out.println(curActor.getName() + " Acting");
                      curActor.act();
                      incrementInitiativeIndex();
                   }
@@ -78,7 +76,6 @@ public class Game implements Runnable
    
    private void incrementInitiativeIndex()
    {
-      System.out.println("Looping");
       initiativeIndex++;
       if(initiativeIndex == actorList.size())
          initiativeIndex = 0;
