@@ -13,7 +13,9 @@ public class Main
       DaeFrame frame = new DaeFrame();
       Game game = new Game();
       game.setCurZone(new ZoneMap(10, 10));
+      
       Actor a = new Actor();
+      a.setAI(new PlayerAI(a));
       a.setTileLoc(2, 2);
       game.setPlayer(a);
       game.addActor(a);

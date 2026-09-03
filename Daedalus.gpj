@@ -13,10 +13,11 @@ s#i0
 s#k0
 s#j0
 s#l0
-!832;g
+!865;g
 %\011Daedalus%sActor%sActor.java
 %\011Daedalus%sAI%sAI.java
 %\011Daedalus%sAI%sAIConstants.java
+%\011Daedalus%sAI%sPlayerAI.java
 %\011Daedalus%sAI%sWanderAI.java
 %\011Daedalus%sEngine%sGame.java
 %\011Daedalus%sEngine%sRNG.java
@@ -37,10 +38,11 @@ s#l0
 %\011Daedalus%sZone%sZoneConstants.java
 %\011Daedalus%sZone%sZoneMap.java
 %\011Daedalus%sZone%sZoneTile.java
-!832;f
+!865;f
 %\011Daedalus%sActor%sActor.java
 %\011Daedalus%sAI%sAI.java
 %\011Daedalus%sAI%sAIConstants.java
+%\011Daedalus%sAI%sPlayerAI.java
 %\011Daedalus%sAI%sWanderAI.java
 %\011Daedalus%sEngine%sGame.java
 %\011Daedalus%sEngine%sRNG.java

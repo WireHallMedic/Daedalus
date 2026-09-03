@@ -59,19 +59,19 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
       {
          case KeyEvent.VK_NUMPAD1:
             Game.getPlayer().getAI().setPendingTarget(Direction.SOUTH_WEST);
-            Game.getPlayer().getAI().setPendingAction(ActorAction.STEP);
+            Game.getPlayer().getAI().setPendingAction(ActorAction.CONTEXTUAL);
             break;
          case KeyEvent.VK_NUMPAD2:
             Game.getPlayer().getAI().setPendingTarget(Direction.SOUTH);
-            Game.getPlayer().getAI().setPendingAction(ActorAction.STEP);
+            Game.getPlayer().getAI().setPendingAction(ActorAction.CONTEXTUAL);
             break;
          case KeyEvent.VK_NUMPAD3:
             Game.getPlayer().getAI().setPendingTarget(Direction.SOUTH_EAST);
-            Game.getPlayer().getAI().setPendingAction(ActorAction.STEP);
+            Game.getPlayer().getAI().setPendingAction(ActorAction.CONTEXTUAL);
             break;
          case KeyEvent.VK_NUMPAD4:
             Game.getPlayer().getAI().setPendingTarget(Direction.WEST);
-            Game.getPlayer().getAI().setPendingAction(ActorAction.STEP);
+            Game.getPlayer().getAI().setPendingAction(ActorAction.CONTEXTUAL);
             break;
          case KeyEvent.VK_NUMPAD5:
             Game.getPlayer().getAI().setPendingTarget(Direction.ORIGIN);
@@ -79,19 +79,19 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
             break;
          case KeyEvent.VK_NUMPAD6:
             Game.getPlayer().getAI().setPendingTarget(Direction.EAST);
-            Game.getPlayer().getAI().setPendingAction(ActorAction.STEP);
+            Game.getPlayer().getAI().setPendingAction(ActorAction.CONTEXTUAL);
             break;
          case KeyEvent.VK_NUMPAD7:
             Game.getPlayer().getAI().setPendingTarget(Direction.NORTH_WEST);
-            Game.getPlayer().getAI().setPendingAction(ActorAction.STEP);
+            Game.getPlayer().getAI().setPendingAction(ActorAction.CONTEXTUAL);
             break;
          case KeyEvent.VK_NUMPAD8:
             Game.getPlayer().getAI().setPendingTarget(Direction.NORTH);
-            Game.getPlayer().getAI().setPendingAction(ActorAction.STEP);
+            Game.getPlayer().getAI().setPendingAction(ActorAction.CONTEXTUAL);
             break;
          case KeyEvent.VK_NUMPAD9:
             Game.getPlayer().getAI().setPendingTarget(Direction.NORTH_EAST);
-            Game.getPlayer().getAI().setPendingAction(ActorAction.STEP);
+            Game.getPlayer().getAI().setPendingAction(ActorAction.CONTEXTUAL);
             break;
          case KeyEvent.VK_SPACE:
             AnimationManager.addNonLocking(AnimationScriptFactory.getStep(Game.getActorList().elementAt(0), Direction.NORTH_EAST));

@@ -39,13 +39,11 @@ public class AI implements AIConstants, ZoneConstants
    
    public boolean hasPlan()
    {
-      return pendingTarget != null && pendingAction != null;
+      return pendingTarget != null && pendingAction != null && pendingAction != ActorAction.CONTEXTUAL;
    }
    
    public void plan()
    {
-      if(self == Game.getPlayer())
-         return;
       pendingTarget = new Coord();
       pendingAction = ActorAction.DELAY;
    }
