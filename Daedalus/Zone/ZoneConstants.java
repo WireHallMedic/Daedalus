@@ -2,6 +2,7 @@ package Daedalus.Zone;
 
 import WidlerSuite.WSFontConstants;
 import WidlerSuite.Coord;
+import Daedalus.Engine.*;
 
 public interface ZoneConstants
 {
@@ -76,6 +77,12 @@ public interface ZoneConstants
                return dir;
          }
          return null;
+      }
+      
+      // returns a random, non-origin direction
+      public static Direction random()
+      {
+         return Direction.values()[RNG.nextInt(8) + 1];
       }
       
       public Direction nextClockwise()

@@ -1,5 +1,6 @@
 package Daedalus;
 
+import Daedalus.AI.*;
 import Daedalus.GUI.*;
 import Daedalus.Engine.*;
 import Daedalus.Actor.*;
@@ -21,6 +22,18 @@ public class Main
       b.setName("NPC");
       b.setTileIndex('X');
       b.setTileLoc(0, 0);
+      WanderAI bAI = new WanderAI(b);
+      bAI.setStepChance(1.0);
+      b.setAI(bAI);
+      game.addActor(b);
+      
+      b = new Actor();
+      b.setName("NPC");
+      b.setTileIndex('X');
+      b.setTileLoc(4, 0);
+      bAI = new WanderAI(b);
+      bAI.setStepChance(1.0);
+      b.setAI(bAI);
       game.addActor(b);
       
       game.play();
