@@ -1,6 +1,8 @@
 package Daedalus.GUI;
 
 import java.util.*;
+import Daedalus.Actor.*;
+import Daedalus.Engine.*;
 
 public class AnimationManager
 {
@@ -19,7 +21,7 @@ public class AnimationManager
    
    public static boolean isSemiLocked()
    {
-      return lockingList.size() > 0 || semiLockingList.size() > 0;
+      return isLocked() || semiLockingList.size() > 0;
    }
    
    public static void update()
@@ -47,6 +49,14 @@ public class AnimationManager
       lockingList = new Vector<AnimationScript>();
       nonLockingList = new Vector<AnimationScript>();
       semiLockingList = new Vector<AnimationScript>();
+   }
+   
+   // returns false is animation prevents actor from starting turn, else true
+   public static boolean isClearToAct(Actor a)
+   {
+      if(a == Game.getPlayer())
+         return !isSemiLocked();
+      return !isLocked();
    }
    
    public static void removeTargetingScripts(UnboundTile target)

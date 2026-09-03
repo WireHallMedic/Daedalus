@@ -1,5 +1,6 @@
 package Daedalus.Engine;
 
+import Daedalus.GUI.*;
 import Daedalus.Zone.*;
 import Daedalus.Actor.*;
 import java.util.*;
@@ -57,7 +58,7 @@ public class Game implements Runnable
                   if(!curActor.hasPlan())
                      curActor.plan();
                   // try to act
-                  if(curActor.hasPlan())
+                  if(curActor.hasPlan() && AnimationManager.isClearToAct(curActor))
                   {
                      curActor.act();
                      incrementInitiativeIndex();
