@@ -366,7 +366,7 @@ public class DaePanel extends JPanel implements ActionListener, GUIConstants, Ke
       frame.setSize(1200, 800);
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       frame.setTitle("DaePanel");
-      TilePalette palette = new TilePalette("Daedalus/res/img/WSFont_8x16.png", 16, 16);
+      TilePalette palette = RECT_PALETTE;
       
       DaePanel panel = new DaePanel(120, 40, palette);
       frame.add(panel);
