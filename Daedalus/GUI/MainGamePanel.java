@@ -39,12 +39,6 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
    }
    
    @Override
-   public void updateVisuals()
-   {
-      super.updateVisuals();
-   }
-   
-   @Override
    protected int[][] getBorderArray()
    {
       int[][] borderArr = super.getBorderArray();
