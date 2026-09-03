@@ -44,6 +44,12 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    public boolean isInBounds(Coord c){return isInBounds(c.x, c.y);}
    public boolean isInBounds(Actor a){return isInBounds(a.getTileLoc());}
    
+   public void setTile(int x, int y, ZoneTile zt)
+   {
+      if(isInBounds(x, y))
+         tileMap[x][y] = zt;
+   }
+   
    public void setTile(int x, int y, TileBase base)
    {
       if(isInBounds(x, y))
@@ -56,10 +62,20 @@ public class ZoneMap implements ZoneConstants, GUIConstants
          return tileMap[x][y];
       return oobTile.copy();
    }
+   public ZoneTile getTile(Coord c){return getTile(c.x, c.y);}
    
    public boolean canStep(Actor a, int x, int y)
    {
       return isInBounds(x, y) && tileMap[x][y].isLowPassable();
    }
    public boolean canStep(Actor a, Coord c){return canStep(a, c.x, c.y);}
+   
+   public static ZoneMap getTestMap()
+   {
+      ZoneMap z = new ZoneMap(10, 10);
+      z.setTile(6, 3, new ToggleTile(TileBase.DOOR, TileBase.OPEN_DOOR));
+      z.setTile(6, 5, new ToggleTile(TileBase.SWITCH, TileBase.FLIPPED_SWITCH));
+      z.getTile(6, 5).setFGColor(CYAN);
+      return z;
+   }
 }

@@ -12,7 +12,7 @@ public class Main
    {
       DaeFrame frame = new DaeFrame();
       Game game = new Game();
-      game.setCurZone(new ZoneMap(10, 10));
+      game.setCurZone(ZoneMap.getTestMap());
       
       Actor a = new Actor();
       a.setAI(new PlayerAI(a));

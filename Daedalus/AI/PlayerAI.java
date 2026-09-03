@@ -19,9 +19,15 @@ public class PlayerAI extends AI implements AIConstants, ZoneConstants
    {
       if(pendingAction == ActorAction.CONTEXTUAL && pendingTarget != null)
       {
+         // empty tile
          if(Game.canStep(self, pendingTarget))
          {
             pendingAction = ActorAction.STEP;
+         }
+         // toggle tile
+         else if(Game.getCurZone().getTile(pendingTarget) instanceof ToggleTile)
+         {
+            pendingAction = ActorAction.INTERACT;
          }
          else
             pendingAction = null;

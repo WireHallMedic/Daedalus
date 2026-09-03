@@ -30,6 +30,8 @@ public class AI implements AIConstants, ZoneConstants
       pendingAction = null;
    }
    
+   // planning
+   //////////////////////////////////////////////////
 	public void setPendingTarget(Direction dir)
    {
       Coord loc = dir.getAsCoord();
@@ -54,6 +56,9 @@ public class AI implements AIConstants, ZoneConstants
       pendingAction = null;
    }
    
+   // acting
+   //////////////////////////////////////////////////
+   
    public void act()
    {
       switch(pendingAction)
@@ -63,6 +68,9 @@ public class AI implements AIConstants, ZoneConstants
             break;
          case ActorAction.STEP :
             doStep(); 
+            break;
+         case ActorAction.INTERACT :
+            doInteract(); 
             break;
       }
       clearPlan();
@@ -82,6 +90,13 @@ public class AI implements AIConstants, ZoneConstants
       self.setYOffset(0.0 - stepDir.y);
       AnimationScript as = AnimationScriptFactory.getStep(self, stepDir);
       AnimationManager.addSemiLocking(as);
+      self.discharge(1);
+   }
+   
+   protected void doInteract()
+   {
+      ToggleTile tt = (ToggleTile)Game.getCurZone().getTile(pendingTarget);
+      tt.toggle();
       self.discharge(1);
    }
 }

@@ -5,6 +5,9 @@ public interface AIConstants
 {
    public enum ActorAction
    {
-      CONTEXTUAL, DELAY, STEP;
+      DELAY,
+      INTERACT,
+      STEP,
+      CONTEXTUAL;
    }
 }
