@@ -12,12 +12,12 @@ public class Main
       DaeFrame frame = new DaeFrame();
       Game game = new Game();
       game.setCurZone(new ZoneMap(10, 10));
-      Actor a = new Actor(new TilePalette("Daedalus/res/img/WSFont_16x16.png", 16, 16));
+      Actor a = new Actor();
       a.setTileLoc(2, 2);
       game.setPlayer(a);
       game.addActor(a);
       
-      Actor b = new Actor(new TilePalette("Daedalus/res/img/WSFont_16x16.png", 16, 16));
+      Actor b = new Actor();
       b.setName("NPC");
       b.setTileIndex('X');
       b.setTileLoc(0, 0);

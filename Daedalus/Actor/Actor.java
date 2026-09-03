@@ -22,9 +22,9 @@ public class Actor extends UnboundTile
    public void setCharge(int c){charge = c;}
 
    
-   public Actor(TilePalette tp)
+   public Actor()
    {
-      super(tp, '?', GUIConstants.CYAN, GUIConstants.ORANGE);
+      super(GUIConstants.SQUARE_PALETTE, '?', GUIConstants.CYAN, GUIConstants.ORANGE);
       setLowerTileIndex(WSFontConstants.CIRCLE_TILE);
       ai = new AI(this);
       name = "Unknown Actor";
