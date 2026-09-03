@@ -2,6 +2,8 @@ package Daedalus.Actor;
 
 import Daedalus.AI.*;
 import Daedalus.GUI.*;
+import Daedalus.Engine.*;
+import WidlerSuite.Coord;
 import WidlerSuite.WSFontConstants;
 
 public class Actor extends UnboundTile
@@ -29,6 +31,14 @@ public class Actor extends UnboundTile
       ai = new AI(this);
       name = "Unknown Actor";
       charge = 0;
+   }
+      
+   @Override
+	public void setTileLoc(int x, int y)
+   {
+      Coord prevLoc = getTileLoc();
+      super.setTileLoc(x, y);
+      Game.setPlayerPosition(this, prevLoc);
    }
    
    public void charge()

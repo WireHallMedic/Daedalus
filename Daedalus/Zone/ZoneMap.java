@@ -2,6 +2,7 @@ package Daedalus.Zone;
 
 import java.awt.*;
 import Daedalus.GUI.*;
+import Daedalus.Actor.*;
 import WidlerSuite.Coord;
 
 public class ZoneMap implements ZoneConstants, GUIConstants
@@ -40,6 +41,8 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    {
       return x >= 0 && y >= 0 && x < width && y < height;
    }
+   public boolean isInBounds(Coord c){return isInBounds(c.x, c.y);}
+   public boolean isInBounds(Actor a){return isInBounds(a.getTileLoc());}
    
    public void setTile(int x, int y, TileBase base)
    {

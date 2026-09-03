@@ -213,7 +213,7 @@ public class DaePanel extends JPanel implements ActionListener, GUIConstants, Ke
       }
    }
    
-   // overridden in child classes
+   // overridden in child classes, they should still call this version
    public void updateVisuals()
    {
       frameCount++;
