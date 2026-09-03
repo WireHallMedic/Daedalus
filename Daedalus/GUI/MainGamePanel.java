@@ -39,9 +39,9 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
    }
    
    @Override
-   public void update()
+   public void updateVisuals()
    {
-      super.update();
+      super.updateVisuals();
    }
    
    @Override

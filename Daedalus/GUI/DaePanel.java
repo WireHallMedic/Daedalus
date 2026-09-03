@@ -214,7 +214,7 @@ public class DaePanel extends JPanel implements ActionListener, GUIConstants, Ke
    }
    
    // overridden in child classes
-   public void update()
+   public void updateVisuals()
    {
       frameCount++;
       if(frameCount == FRAMES_PER_SECOND)
@@ -230,7 +230,7 @@ public class DaePanel extends JPanel implements ActionListener, GUIConstants, Ke
    public BufferedImage getUnscaledImage()
    {
       
-      // show FPS if enabled; this is here rather than in update() to ensure it is not clobbered in child class
+      // show FPS if enabled; this is here rather than in updateVisuals() to ensure it is not clobbered in child class
       if(showFPS)
       {
          write(tilesWide - 6, 0, String.format("%5.2f", framesPerSecond), WHITE, BLACK, 5, 1);
@@ -285,7 +285,7 @@ public class DaePanel extends JPanel implements ActionListener, GUIConstants, Ke
    // kicked by timer
    public void actionPerformed(ActionEvent ae)
    {
-      update();
+      updateVisuals();
       cleanUnboundTileList();
       this.repaint();
    }

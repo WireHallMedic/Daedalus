@@ -23,27 +23,6 @@ public class BoardPanel extends DaePanel implements GUIConstants
       yInset = 0.0;
    }
    
-   @Override
-   public void update()
-   {
-      super.update();
-      if(Game.getPlayer() != null)
-      {
-         cornerLoc.x = Game.getPlayer().getTileLoc().x - (tilesWide / 2);
-         cornerLoc.y = Game.getPlayer().getTileLoc().y - (tilesTall / 2);
-         xInset = Game.getPlayer().getXOffset();
-         yInset = Game.getPlayer().getYOffset();
-      }
-//       if(Game.getCurZone() != null)
-//       {
-//          for(int x = 0; x < tilesWide; x++)
-//          for(int y = 0; y < tilesTall; y++)
-//          {
-//             imageTileArr[x][y].set(Game.getCurZone().getTile(x + cornerLoc.x, y + cornerLoc.y));
-//          }
-//       }
-   }
-   
    // as we generate an oversized image for scrolling, we clip it down to size here
    @Override
    public BufferedImage getUnscaledImage()
@@ -63,6 +42,15 @@ public class BoardPanel extends DaePanel implements GUIConstants
    @Override
    protected void drawImageTiles(Graphics2D g2dUnscaled, int xStep, int yStep)
    {
+      // storing these values needs to be as close to drawing as possible to avoid juttering,
+      // which is why this is not in updatVisuals()
+      if(Game.getPlayer() != null)
+      {
+         cornerLoc.x = Game.getPlayer().getTileLoc().x - (tilesWide / 2);
+         cornerLoc.y = Game.getPlayer().getTileLoc().y - (tilesTall / 2);
+         xInset = Game.getPlayer().getXOffset();
+         yInset = Game.getPlayer().getYOffset();
+      }
       ZoneMap map = Game.getCurZone();
       BufferedImage curTile = null;
       for(int x = 0; x < tilesWide; x++)
@@ -79,19 +67,19 @@ public class BoardPanel extends DaePanel implements GUIConstants
       Vector<Actor> actorList = Game.getActorList();
       // as the player location can change between determining the corner tile and drawing the sprite,
       // causing juttering, we'll display it with numbers stored at the same time
-//       Actor player = Game.getPlayer();
-//       if(player != null)
-//       {
-//          int tileWidth = palette.getTileWidth();
-//          int tileHeight = palette.getTileHeight();
-//          int xPosition = ((tilesWide / 2) * tileWidth) + (int)(tileWidth * xInset);
-//          int yPosition = ((tilesTall / 2) * tileHeight) + (int)(tileHeight * yInset);
-//          g2dUnscaled.drawImage(player.getImage(), xPosition, yPosition, null);
-//       }
+      Actor player = Game.getPlayer();
+      if(player != null)
+      {
+         int tileWidth = palette.getTileWidth();
+         int tileHeight = palette.getTileHeight();
+         int xPosition = ((tilesWide / 2) * tileWidth) + (int)(tileWidth * xInset);
+         int yPosition = ((tilesTall / 2) * tileHeight) + (int)(tileHeight * yInset);
+         g2dUnscaled.drawImage(player.getImage(), xPosition, yPosition, null);
+      }
       if(actorList != null)
       {
          for(Actor a : actorList)
-//            if(a != Game.getPlayer())
+            if(a != Game.getPlayer())
                a.drawToImage(g2dUnscaled, cornerLoc);
       }
       for(UnboundTile ut: unboundTileList)
