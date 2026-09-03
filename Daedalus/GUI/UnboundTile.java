@@ -44,15 +44,15 @@ public class UnboundTile extends ImageTile
       expired = false;
    }
    
+   public UnboundTile(UnboundTile that)
+   {
+      super(that);
+      set(that);
+   }
+   
    public UnboundTile copy()
    {
-      UnboundTile copy = new UnboundTile(palette, tileIndex, fgColor, bgColor);
-      copy.tileLoc = this.tileLoc.copy();
-      copy.xOffset = this.xOffset;
-      copy.yOffset = this.yOffset;
-      copy.scale = this.scale;
-      copy.expired = this.expired;
-      return copy;
+      return new UnboundTile(this);
    }
    
    public void set(UnboundTile that)

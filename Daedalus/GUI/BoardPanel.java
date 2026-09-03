@@ -5,15 +5,21 @@ import Daedalus.Engine.Game;
 import Daedalus.Actor.*;
 import java.awt.*;
 import java.util.*;
+import java.awt.image.*;
 
 public class BoardPanel extends DaePanel implements GUIConstants
 {
    private Coord cornerLoc;
+   private double xInset;
+   private double yInset;
+   
    public BoardPanel(TilePalette tilePalette)
    {  
-      super(BOARD_SIZE_TILES, BOARD_SIZE_TILES, tilePalette);
+      super(BOARD_SIZE_TILES + 2, BOARD_SIZE_TILES + 2, tilePalette);
       setAll('#', WHITE, BLACK);
       cornerLoc = new Coord(0, 0);
+      xInset = 0.0;
+      yInset = 0.0;
    }
    
    @Override
@@ -22,17 +28,33 @@ public class BoardPanel extends DaePanel implements GUIConstants
       super.update();
       if(Game.getPlayer() != null)
       {
-         cornerLoc.x = Game.getPlayer().getTileLoc().x - (BOARD_SIZE_TILES / 2);
-         cornerLoc.y = Game.getPlayer().getTileLoc().y - (BOARD_SIZE_TILES / 2);
+         cornerLoc.x = Game.getPlayer().getTileLoc().x - (tilesWide / 2);
+         cornerLoc.y = Game.getPlayer().getTileLoc().y - (tilesTall / 2);
+         xInset = Game.getPlayer().getXOffset();
+         yInset = Game.getPlayer().getYOffset();
       }
       if(Game.getCurZone() != null)
       {
-         for(int x = 0; x < BOARD_SIZE_TILES; x++)
-         for(int y = 0; y < BOARD_SIZE_TILES; y++)
+         for(int x = 0; x < tilesWide; x++)
+         for(int y = 0; y < tilesTall; y++)
          {
             imageTileArr[x][y].set(Game.getCurZone().getTile(x + cornerLoc.x, y + cornerLoc.y));
          }
       }
+   }
+   
+   // as we generate an oversized image for scrolling, we clip it down to size here
+   @Override
+   public BufferedImage getUnscaledImage()
+   {
+      BufferedImage oversizedImage = super.getUnscaledImage();
+      int tileWidth = palette.getTileWidth();
+      int tileHeight = palette.getTileHeight();
+      
+      int xOrigin = tileWidth + (int)(tileWidth * xInset);
+      int yOrigin = tileHeight + (int)(tileHeight * yInset);
+      
+      return oversizedImage.getSubimage(xOrigin, yOrigin, tileWidth * BOARD_SIZE_TILES, tileHeight * BOARD_SIZE_TILES);
    }
    
    @Override
@@ -40,17 +62,20 @@ public class BoardPanel extends DaePanel implements GUIConstants
    {
       Vector<Actor> actorList = Game.getActorList();
       // as the player location can change between determining the corner tile and drawing the sprite,
-      // causing juttering, we'll just always display it in the exact center
+      // causing juttering, we'll display it with numbers stored at the same time
       Actor player = Game.getPlayer();
-      if(player != null)
-      {
-         g2dUnscaled.drawImage(player.getImage(), (BOARD_SIZE_TILES / 2) * palette.getTileWidth(), 
-                               (BOARD_SIZE_TILES / 2) * palette.getTileHeight(), null);
-      }
+//       if(player != null)
+//       {
+//          int tileWidth = palette.getTileWidth();
+//          int tileHeight = palette.getTileHeight();
+//          int xPosition = ((tilesWide / 2) * tileWidth) + (int)(tileWidth * xInset);
+//          int yPosition = ((tilesTall / 2) * tileHeight) + (int)(tileHeight * yInset);
+//          g2dUnscaled.drawImage(player.getImage(), xPosition, yPosition, null);
+//       }
       if(actorList != null)
       {
          for(Actor a : actorList)
-            if(a != Game.getPlayer())
+//             if(a != Game.getPlayer())
                a.drawToImage(g2dUnscaled, cornerLoc);
       }
       for(UnboundTile ut: unboundTileList)

@@ -66,6 +66,18 @@ public interface ZoneConstants
          return new Coord(x, y);
       }
       
+      public static Direction getFromCoord(Coord c)
+      {
+         int x = Math.min(1, Math.max(c.x, -1));
+         int y = Math.min(1, Math.max(c.y, -1));
+         for(Direction dir : Direction.values())
+         {
+            if(dir.x == x && dir.y == y)
+               return dir;
+         }
+         return null;
+      }
+      
       public Direction nextClockwise()
       {
          int index = this.ordinal() + 1;
@@ -79,6 +91,16 @@ public interface ZoneConstants
          int index = this.ordinal() - 1;
          if(index == 0)
             index = Direction.values().length - 1;
+         return Direction.values()[index];
+      }
+      
+      public Direction opposite()
+      {
+         if(this == ORIGIN)
+            return this;
+         int index = this.ordinal() + 4;
+         if(index >= Direction.values().length)
+            index -= 4;
          return Direction.values()[index];
       }
    }

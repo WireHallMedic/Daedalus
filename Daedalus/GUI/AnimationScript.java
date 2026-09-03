@@ -13,38 +13,38 @@ public class AnimationScript
 	private UnboundTile target;
 	private int endBehavior;
 	private int age;
-	private Vector<Integer> tileIndexList;
-	private Vector<Integer> fgColorList;
-	private Vector<Integer> bgColorList;
-	private Vector<Integer> lowerTileIndexList;
-	private Vector<Double> xMoveList;
-	private Vector<Double> yMoveList;
-	private Vector<Double> scaleList;
+	private int[] tileIndexList;
+	private int[] fgColorList;
+	private int[] bgColorList;
+	private int[] lowerTileIndexList;
+	private double[] xMoveList;
+	private double[] yMoveList;
+	private double[] scaleList;
    private UnboundTile originalTile;
 
 
 	public UnboundTile getTarget(){return target;}
 	public int getEndBehavior(){return endBehavior;}
 	public int getAge(){return age;}
-	public Vector<Integer> getTileIndexList(){return tileIndexList;}
-	public Vector<Integer> getFGColorList(){return fgColorList;}
-	public Vector<Integer> getBGColorList(){return bgColorList;}
-	public Vector<Integer> getLowerTileIndexList(){return lowerTileIndexList;}
-	public Vector<Double> getXMoveList(){return xMoveList;}
-	public Vector<Double> getYMoveList(){return yMoveList;}
-	public Vector<Double> getScaleList(){return scaleList;}
+	public int[] getTileIndexList(){return tileIndexList;}
+	public int[] getFGColorList(){return fgColorList;}
+	public int[] getBGColorList(){return bgColorList;}
+	public int[] getLowerTileIndexList(){return lowerTileIndexList;}
+	public double[] getXMoveList(){return xMoveList;}
+	public double[] getYMoveList(){return yMoveList;}
+	public double[] getScaleList(){return scaleList;}
 
 
 	public void setTarget(UnboundTile t){target = t;}
 	public void setEndBehavior(int e){endBehavior = e;}
 	public void setAge(int a){age = a;}
-	public void setTileIndexList(Vector<Integer> i){tileIndexList = i;}
-	public void setFGColorList(Vector<Integer> f){fgColorList = f;}
-	public void setBGColorList(Vector<Integer> b){bgColorList = b;}
-	public void setLowerTileIndexList(Vector<Integer> l){lowerTileIndexList = l;}
-	public void setXMoveList(Vector<Double> x){xMoveList = x;}
-	public void setYMoveList(Vector<Double> y){yMoveList = y;}
-	public void setScaleList(Vector<Double> s){scaleList = s;}
+	public void setTileIndexList(int[] i){tileIndexList = i;}
+	public void setFGColorList(int[] f){fgColorList = f;}
+	public void setBGColorList(int[] b){bgColorList = b;}
+	public void setLowerTileIndexList(int[] l){lowerTileIndexList = l;}
+	public void setXMoveList(double[] x){xMoveList = x;}
+	public void setYMoveList(double[] y){yMoveList = y;}
+	public void setScaleList(double[] s){scaleList = s;}
 
 
    public AnimationScript(UnboundTile _target)
@@ -66,19 +66,19 @@ public class AnimationScript
    {
       int lifespan = 0;
       if(tileIndexList != null)
-         lifespan = Math.max(lifespan, tileIndexList.size());
+         lifespan = Math.max(lifespan, tileIndexList.length);
       if(fgColorList != null)
-         lifespan = Math.max(lifespan, fgColorList.size());
+         lifespan = Math.max(lifespan, fgColorList.length);
       if(bgColorList != null)
-         lifespan = Math.max(lifespan, bgColorList.size());
+         lifespan = Math.max(lifespan, bgColorList.length);
       if(lowerTileIndexList != null)
-         lifespan = Math.max(lifespan, lowerTileIndexList.size());
+         lifespan = Math.max(lifespan, lowerTileIndexList.length);
       if(xMoveList != null)
-         lifespan = Math.max(lifespan, xMoveList.size());
+         lifespan = Math.max(lifespan, xMoveList.length);
       if(yMoveList != null)
-         lifespan = Math.max(lifespan, yMoveList.size());
+         lifespan = Math.max(lifespan, yMoveList.length);
       if(scaleList != null)
-         lifespan = Math.max(lifespan, scaleList.size());
+         lifespan = Math.max(lifespan, scaleList.length);
       return lifespan;
    }
    
@@ -98,19 +98,19 @@ public class AnimationScript
       if(!isExpired())
       {
       if(tileIndexList != null)
-         target.setTileIndex(tileIndexList.elementAt(age));
+         target.setTileIndex(tileIndexList[age]);
       if(fgColorList != null)
-         target.setFGColor(fgColorList.elementAt(age));
+         target.setFGColor(fgColorList[age]);
       if(bgColorList != null)
-         target.setBGColor(bgColorList.elementAt(age));
+         target.setBGColor(bgColorList[age]);
       if(lowerTileIndexList != null)
-         target.setLowerTileIndex(lowerTileIndexList.elementAt(age));
+         target.setLowerTileIndex(lowerTileIndexList[age]);
       if(xMoveList != null)
-         target.setXOffset(target.getXOffset() + xMoveList.elementAt(age));
+         target.setXOffset(target.getXOffset() + xMoveList[age]);
       if(yMoveList != null)
-         target.setYOffset(target.getYOffset() + yMoveList.elementAt(age));
+         target.setYOffset(target.getYOffset() + yMoveList[age]);
       if(scaleList != null)
-         target.setScale(scaleList.elementAt(age));
+         target.setScale(scaleList[age]);
       }
    }
    

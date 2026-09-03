@@ -83,7 +83,7 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
    // animation loop
    public void run()
    {
-      int millisPerLoop = (1000 / FRAMES_PER_SECOND) - 1;
+      int millisPerLoop = 1000 / FRAMES_PER_SECOND;
       long lastLoop = System.currentTimeMillis();
       while(true)
       {

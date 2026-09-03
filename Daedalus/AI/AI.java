@@ -1,5 +1,6 @@
 package Daedalus.AI;
 
+import Daedalus.GUI.*;
 import Daedalus.Zone.*;
 import Daedalus.Actor.*;
 import Daedalus.Engine.*;
@@ -76,7 +77,13 @@ public class AI implements AIConstants, ZoneConstants
    
    private void doStep()
    {
+      Direction stepDir = Direction.getFromCoord(new Coord(pendingTarget.x - self.getTileLoc().x, 
+                                                pendingTarget.y - self.getTileLoc().y));
       self.setTileLoc(pendingTarget);
+      self.setXOffset(0.0 - stepDir.x);
+      self.setYOffset(0.0 - stepDir.y);
+      AnimationScript as = AnimationScriptFactory.getStep(self, stepDir);
+      AnimationManager.addSemiLocking(as);
       self.discharge(1);
    }
 }

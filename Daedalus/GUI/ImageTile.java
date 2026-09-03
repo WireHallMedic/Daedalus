@@ -46,11 +46,15 @@ public class ImageTile
       dirty = true;
    }
    
+   public ImageTile(ImageTile that)
+   {
+      this(that.palette);
+      set(that);
+   }
+   
    public ImageTile copy()
    {
-      ImageTile copy = new ImageTile(palette, tileIndex, fgColor, bgColor);
-      copy.lowerTileIndex = this.lowerTileIndex;
-      return copy;
+      return new ImageTile(this);
    }
    
    public void set(ImageTile that)
