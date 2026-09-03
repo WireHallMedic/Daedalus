@@ -5,6 +5,7 @@ import Daedalus.Zone.*;
 import Daedalus.Actor.*;
 import Daedalus.Engine.*;
 import WidlerSuite.Coord;
+import java.util.*;
 
 public class WanderAI extends AI implements AIConstants, ZoneConstants
 {
@@ -26,12 +27,21 @@ public class WanderAI extends AI implements AIConstants, ZoneConstants
    {
       if(RNG.nextDouble() <= stepChance)
       {
-         Direction stepDir = Direction.random();
-         setPendingTarget(stepDir);
-         if(Game.canStep(self, pendingTarget))
+         Vector<Coord> tileList = new Vector<Coord>();
+         for(int i = 1; i < Direction.values().length; i++)
+         {
+            Coord c = Direction.values()[i].getAsCoord();
+            c.add(self.getTileLoc());
+            if(Game.canStep(self, c))
+               tileList.add(c);
+         }
+         if(tileList.size() > 0)
+         {
+            setPendingTarget(tileList.elementAt(RNG.nextInt(tileList.size())));
             setPendingAction(ActorAction.STEP);
+         }
          else
-            setPendingAction(ActorAction.DELAY);
+            super.plan();
       }
       else
          super.plan();
