@@ -23,7 +23,7 @@ public class Main
       Actor b = new Actor();
       b.setName("NPC");
       b.setTileIndex('X');
-      b.setTileLoc(0, 0);
+      b.setTileLoc(1, 1);
       WanderAI bAI = new WanderAI(b);
       bAI.setStepChance(1.0);
       b.setAI(bAI);
@@ -32,7 +32,7 @@ public class Main
       b = new Actor();
       b.setName("NPC");
       b.setTileIndex('X');
-      b.setTileLoc(4, 0);
+      b.setTileLoc(4, 1);
       bAI = new WanderAI(b);
       bAI.setStepChance(1.0);
       b.setAI(bAI);

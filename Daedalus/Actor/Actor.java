@@ -11,12 +11,14 @@ public class Actor extends UnboundTile
 	private String name;
 	private AI ai;
    private int charge;
+   private boolean dead;
    public static final int FULLY_CHARGED = 10;
 
 
 	public String getName(){return name;}
 	public AI getAI(){return ai;}
    public int getCharge(){return charge;}
+   public boolean isDead(){return dead;}
 
 
 	public void setName(String n){name = n;}
@@ -41,6 +43,8 @@ public class Actor extends UnboundTile
       Game.setPlayerPosition(this, prevLoc);
    }
    
+   
+   // initiative
    public void charge()
    {
       if(charge < FULLY_CHARGED)
@@ -55,6 +59,12 @@ public class Actor extends UnboundTile
    public void discharge(int amt)
    {
       charge -= amt;
+   }
+   
+   // health
+   public void die()
+   {
+      dead = true;
    }
    
    // AI stuff

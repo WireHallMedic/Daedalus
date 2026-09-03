@@ -78,6 +78,26 @@ public class Game implements Runnable
       }
    }
    
+   private void cleanActorList()
+   {
+      for(int i = 0; i < actorList.size(); i++)
+      {
+         if(actorList.elementAt(i).isDead())
+         {
+            AnimationManager.removeTargetingScripts(actorList.elementAt(i));
+            removeActorAt(i);
+            i--;
+         }
+      }
+   }
+   
+   private static void removeActorAt(int listIndex)
+   {
+      actorList.removeElementAt(listIndex);
+      if(listIndex >= initiativeIndex)
+         initiativeIndex--;
+   }
+   
    public static boolean isActorAt(int x, int y)
    {
       return curZone.isInBounds(x, y) && actorMap[x][y] != null;
@@ -123,6 +143,7 @@ public class Game implements Runnable
                   if(curActor.hasPlan() && AnimationManager.isClearToAct(curActor))
                   {
                      curActor.act();
+                     cleanActorList();
                      incrementInitiativeIndex();
                   }
                }
