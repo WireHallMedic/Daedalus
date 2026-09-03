@@ -92,6 +92,12 @@ public class Game implements Runnable
    }
    public static Actor getActorAt(Coord c){return getActorAt(c.x, c.y);}
    
+   public static boolean canStep(Actor a, int x, int y)
+   {
+      return !isActorAt(x, y) && curZone.canStep(a, x, y);
+   }
+   public static boolean canStep(Actor a, Coord c){return canStep(a, c.x, c.y);}
+   
    public void run()
    {
       while(continueF)

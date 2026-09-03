@@ -28,7 +28,10 @@ public class WanderAI extends AI implements AIConstants, ZoneConstants
       {
          Direction stepDir = Direction.random();
          setPendingTarget(stepDir);
-         setPendingAction(ActorAction.STEP);
+         if(Game.canStep(self, pendingTarget))
+            setPendingAction(ActorAction.STEP);
+         else
+            setPendingAction(ActorAction.DELAY);
       }
       else
          super.plan();

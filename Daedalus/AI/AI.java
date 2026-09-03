@@ -8,9 +8,9 @@ import WidlerSuite.Coord;
 
 public class AI implements AIConstants, ZoneConstants
 {
-	private Actor self;
-	private Coord pendingTarget;
-	private ActorAction pendingAction;
+	protected Actor self;
+	protected Coord pendingTarget;
+	protected ActorAction pendingAction;
 
 
 	public Actor getSelf(){return self;}
@@ -70,12 +70,12 @@ public class AI implements AIConstants, ZoneConstants
       clearPlan();
    }
    
-   private void doDelay()
+   protected void doDelay()
    {
       self.discharge(1);
    }
    
-   private void doStep()
+   protected void doStep()
    {
       Direction stepDir = Direction.getFromCoord(new Coord(pendingTarget.x - self.getTileLoc().x, 
                                                 pendingTarget.y - self.getTileLoc().y));

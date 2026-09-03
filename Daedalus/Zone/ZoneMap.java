@@ -56,4 +56,10 @@ public class ZoneMap implements ZoneConstants, GUIConstants
          return tileMap[x][y];
       return oobTile.copy();
    }
+   
+   public boolean canStep(Actor a, int x, int y)
+   {
+      return isInBounds(x, y) && tileMap[x][y].isLowPassable();
+   }
+   public boolean canStep(Actor a, Coord c){return canStep(a, c.x, c.y);}
 }
