@@ -57,6 +57,14 @@ public class ImageTile
       return new ImageTile(this);
    }
    
+   public void set(int index, int fg, int bg)
+   {
+      tileIndex = index;
+      fgColor = fg;
+      bgColor = bg;
+      dirty = true;
+   }
+   
    public void set(ImageTile that)
    {
       this.palette = that.palette;

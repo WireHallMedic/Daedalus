@@ -3,6 +3,7 @@ package Daedalus.GUI;
 import WidlerSuite.Coord;
 import Daedalus.Engine.Game;
 import Daedalus.Actor.*;
+import Daedalus.Zone.*;
 import java.awt.*;
 import java.util.*;
 import java.awt.image.*;
@@ -33,14 +34,14 @@ public class BoardPanel extends DaePanel implements GUIConstants
          xInset = Game.getPlayer().getXOffset();
          yInset = Game.getPlayer().getYOffset();
       }
-      if(Game.getCurZone() != null)
-      {
-         for(int x = 0; x < tilesWide; x++)
-         for(int y = 0; y < tilesTall; y++)
-         {
-            imageTileArr[x][y].set(Game.getCurZone().getTile(x + cornerLoc.x, y + cornerLoc.y));
-         }
-      }
+//       if(Game.getCurZone() != null)
+//       {
+//          for(int x = 0; x < tilesWide; x++)
+//          for(int y = 0; y < tilesTall; y++)
+//          {
+//             imageTileArr[x][y].set(Game.getCurZone().getTile(x + cornerLoc.x, y + cornerLoc.y));
+//          }
+//       }
    }
    
    // as we generate an oversized image for scrolling, we clip it down to size here
@@ -48,6 +49,7 @@ public class BoardPanel extends DaePanel implements GUIConstants
    public BufferedImage getUnscaledImage()
    {
       BufferedImage oversizedImage = super.getUnscaledImage();
+      
       int tileWidth = palette.getTileWidth();
       int tileHeight = palette.getTileHeight();
       
@@ -57,13 +59,27 @@ public class BoardPanel extends DaePanel implements GUIConstants
       return oversizedImage.getSubimage(xOrigin, yOrigin, tileWidth * BOARD_SIZE_TILES, tileHeight * BOARD_SIZE_TILES);
    }
    
+   // draw from map, not held tiles
+   @Override
+   protected void drawImageTiles(Graphics2D g2dUnscaled, int xStep, int yStep)
+   {
+      ZoneMap map = Game.getCurZone();
+      BufferedImage curTile = null;
+      for(int x = 0; x < tilesWide; x++)
+      for(int y = 0; y < tilesTall; y++)
+      {
+         curTile = Game.getCurZone().getTile(x + cornerLoc.x, y + cornerLoc.y).getImage();
+         g2dUnscaled.drawImage(curTile, xStep * x, yStep * y, null);
+      }
+   }
+   
    @Override
    protected void drawUnboundTiles(Graphics2D g2dUnscaled)
    {
       Vector<Actor> actorList = Game.getActorList();
       // as the player location can change between determining the corner tile and drawing the sprite,
       // causing juttering, we'll display it with numbers stored at the same time
-      Actor player = Game.getPlayer();
+//       Actor player = Game.getPlayer();
 //       if(player != null)
 //       {
 //          int tileWidth = palette.getTileWidth();
@@ -75,7 +91,7 @@ public class BoardPanel extends DaePanel implements GUIConstants
       if(actorList != null)
       {
          for(Actor a : actorList)
-//             if(a != Game.getPlayer())
+//            if(a != Game.getPlayer())
                a.drawToImage(g2dUnscaled, cornerLoc);
       }
       for(UnboundTile ut: unboundTileList)

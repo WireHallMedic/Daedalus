@@ -12,8 +12,6 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
 {
    private Vector<DaePanel> panelList;
    private DaePanel curPanel;
-   private TilePalette rectPalette;
-   private TilePalette squarePalette;
    private JPanel innerPanel;
    private MainGamePanel mainGamePanel;
    
@@ -25,9 +23,6 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       setTitle("Daedalus");
       setLayout(new GridLayout(1, 1));
-      
-      rectPalette = new TilePalette("Daedalus/res/img/WSFont_8x16.png", 16, 16);
-      squarePalette = new TilePalette("Daedalus/res/img/WSFont_16x16.png", 16, 16);
       
       addComponentListener(this);
       
@@ -41,7 +36,7 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
       innerPanel.setVisible(true);
       this.add(innerPanel);
       
-      mainGamePanel = new MainGamePanel(rectPalette, squarePalette);
+      mainGamePanel = new MainGamePanel(RECT_PALETTE, SQUARE_PALETTE);
       innerPanel.add(mainGamePanel);
       panelList.add(mainGamePanel);
       
