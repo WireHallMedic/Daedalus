@@ -3,6 +3,8 @@ package Daedalus.GUI;
 import java.awt.*;
 import java.util.*;
 import Daedalus.Zone.*;
+import Daedalus.Item.*;
+import WidlerSuite.Coord;
 
 public class AnimationScriptFactory implements ZoneConstants
 {
@@ -87,4 +89,14 @@ public class AnimationScriptFactory implements ZoneConstants
       script.setEndBehavior(AnimationScript.EXPIRE_TARGET);
       return script;
    }
+   
+   // creates pickup unboundTile and script, and adds them to boardPanel and 
+   public static void addPickupEffect(Item item, Coord loc)
+   {
+      UnboundTile ut = item.getUnboundTile(loc);
+      AnimationScript as = AnimationScriptFactory.getPickupEffect(ut);
+      AnimationManager.addToBoardPanel(ut);
+      AnimationManager.addNonLocking(as);
+   }
+   public static void addPickupEffect(Item item, int x, int y){addPickupEffect(item, new Coord(x, y));}
 }

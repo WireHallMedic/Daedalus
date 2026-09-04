@@ -90,12 +90,4 @@ public class AnimationManager
          boardPanel.addUnboundTile(ut);
    }
    
-   public static void addPickupEffect(Item item, Coord loc)
-   {
-      UnboundTile ut = item.getUnboundTile(loc);
-      AnimationScript as = AnimationScriptFactory.getPickupEffect(ut);
-      addToBoardPanel(ut);
-      addNonLocking(as);
-   }
-   public static void addPickupEffect(Item item, int x, int y){addPickupEffect(item, new Coord(x, y));}
 }
