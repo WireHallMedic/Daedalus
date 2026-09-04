@@ -52,12 +52,13 @@ public class BoardPanel extends DaePanel implements GUIConstants
          yInset = Game.getPlayer().getYOffset();
       }
       ZoneMap map = Game.getCurZone();
-      BufferedImage curTile = null;
+      BufferedImage curTileImage = null;
       for(int x = 0; x < tilesWide; x++)
       for(int y = 0; y < tilesTall; y++)
       {
-         curTile = Game.getCurZone().getTile(x + cornerLoc.x, y + cornerLoc.y).getImage();
-         g2dUnscaled.drawImage(curTile, xStep * x, yStep * y, null);
+         //curTileImage = Game.getCurZone().getTile(x + cornerLoc.x, y + cornerLoc.y).getImage();
+         curTileImage = Game.getCurZone().getImage(x + cornerLoc.x, y + cornerLoc.y);
+         g2dUnscaled.drawImage(curTileImage, xStep * x, yStep * y, null);
       }
    }
    

@@ -28,6 +28,8 @@ public class Item implements ItemConstants, GUIConstants
    public Item(String _name, int tileIndex){this(_name, tileIndex, WHITE, BLACK);}
    
    
+   // passthroughs for imageTiles
+   //////////////////////////////////////////////
    public void setFGColor(int f)
    {
       squareTile.setFGColor(f);
@@ -51,4 +53,9 @@ public class Item implements ItemConstants, GUIConstants
       squareTile.setLowerTileIndex(t);
       rectTile.setLowerTileIndex(t);
    }
+   
+   public int getFGColor(){return squareTile.getFGColor();}
+	public int getBGColor(){return squareTile.getBGColor();}
+	public int getTileIndex(){return squareTile.getTileIndex();}
+   public int getLowerTileIndex(){return squareTile.getLowerTileIndex();}
 }
