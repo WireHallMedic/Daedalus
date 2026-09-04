@@ -2,6 +2,7 @@ package Daedalus.AI;
 
 import Daedalus.GUI.*;
 import Daedalus.Zone.*;
+import Daedalus.Item.*;
 import Daedalus.Actor.*;
 import Daedalus.Engine.*;
 import WidlerSuite.Coord;
@@ -47,6 +48,18 @@ public class AI implements AIConstants, ZoneConstants
             clearPlan();
          }
       }
+      
+      // check validity if interacting
+      if(pendingAction == ActorAction.PICK_UP)
+      {
+         if(Game.getCurZone().isItemAt(loc))
+            pendingTarget = loc;
+         else
+         {
+            MainGamePanel.addMessage("Nothing to pick up here.", true);
+            clearPlan();
+         }
+      }
       // if no check needed, just assign loc
       else
       {
@@ -87,6 +100,9 @@ public class AI implements AIConstants, ZoneConstants
          case ActorAction.INTERACT :
             doInteract();
             break;
+         case ActorAction.PICK_UP :
+            doPickUp();
+            break;
       }
       clearPlan();
    }
@@ -118,5 +134,17 @@ public class AI implements AIConstants, ZoneConstants
       ToggleTile tt = (ToggleTile)Game.getCurZone().getTile(pendingTarget);
       tt.toggle();
       self.discharge(1);
+   }
+   
+   protected void doPickUp()
+   {
+      Item item = Game.getCurZone().takeItemAt(pendingTarget);
+      // TODO - give item to actor
+      self.discharge(1);
+      if(self == Game.getPlayer())
+      {
+         MainGamePanel.clearMessage();
+         MainGamePanel.addMessage("You picked up " + item.getNameWithParticle() + ".");
+      }
    }
 }

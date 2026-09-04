@@ -124,6 +124,7 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
       
    public void keyPressed(KeyEvent ke)
    {
+      // single-key actions need to set pendingTarget after seting pendingAction.
       switch(ke.getKeyCode())
       {
          case KeyEvent.VK_NUMPAD1:
@@ -163,6 +164,10 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
             clearMessage();
             MainGamePanel.addMessage("Select target to interact with.", true);
             Game.getPlayer().getAI().setPendingAction(ActorAction.INTERACT);
+            break;
+         case KeyEvent.VK_G:
+            Game.getPlayer().getAI().setPendingAction(ActorAction.PICK_UP);
+            Game.getPlayer().getAI().setPendingTarget(Direction.ORIGIN);
             break;
          case KeyEvent.VK_SPACE:
             AnimationScript testScript = AnimationScriptFactory.getImpact(Game.getActorList().elementAt(0), Direction.NORTH_EAST);
