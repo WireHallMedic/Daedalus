@@ -5,9 +5,9 @@ import WidlerSuite.Coord;
 
 public class Item implements ItemConstants, GUIConstants
 {
-	private ImageTile squareTile;
-	private ImageTile rectTile;
-   private String name;
+	protected ImageTile squareTile;
+	protected ImageTile rectTile;
+   protected String name;
 
 
 	public ImageTile getSquareTile(){return squareTile;}

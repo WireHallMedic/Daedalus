@@ -13,7 +13,7 @@ s#i0
 s#k0
 s#j0
 s#l0
-!1069;g
+!1139;g
 %\011Daedalus%sActor%sActor.java
 %\011Daedalus%sAI%sAI.java
 %\011Daedalus%sAI%sAIConstants.java
@@ -32,6 +32,8 @@ s#l0
 %\011Daedalus%sGUI%sMainGamePanel.java
 %\011Daedalus%sGUI%sTilePalette.java
 %\011Daedalus%sGUI%sUnboundTile.java
+%\011Daedalus%sItem%sCredits.java
+%\011Daedalus%sItem%sInventory.java
 %\011Daedalus%sItem%sItem.java
 %\011Daedalus%sItem%sItemConstants.java
 %\011Daedalus%sMain.java
@@ -44,7 +46,7 @@ s#l0
 %\011Daedalus%sZone%sZoneConstants.java
 %\011Daedalus%sZone%sZoneMap.java
 %\011Daedalus%sZone%sZoneTile.java
-!1069;f
+!1139;f
 %\011Daedalus%sActor%sActor.java
 %\011Daedalus%sAI%sAI.java
 %\011Daedalus%sAI%sAIConstants.java
@@ -63,6 +65,8 @@ s#l0
 %\011Daedalus%sGUI%sMainGamePanel.java
 %\011Daedalus%sGUI%sTilePalette.java
 %\011Daedalus%sGUI%sUnboundTile.java
+%\011Daedalus%sItem%sCredits.java
+%\011Daedalus%sItem%sInventory.java
 %\011Daedalus%sItem%sItem.java
 %\011Daedalus%sItem%sItemConstants.java
 %\011Daedalus%sMain.java

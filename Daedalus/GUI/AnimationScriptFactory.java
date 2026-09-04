@@ -94,6 +94,7 @@ public class AnimationScriptFactory implements ZoneConstants
    public static void addPickupEffect(Item item, Coord loc)
    {
       UnboundTile ut = item.getUnboundTile(loc);
+      ut.setYOffset(-.5);
       AnimationScript as = AnimationScriptFactory.getPickupEffect(ut);
       AnimationManager.addToBoardPanel(ut);
       AnimationManager.addNonLocking(as);
