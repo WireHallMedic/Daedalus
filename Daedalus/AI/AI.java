@@ -52,11 +52,21 @@ public class AI implements AIConstants, ZoneConstants
          }
       }
       
-      // check validity if interacting
+      // check validity if picking up
       if(pendingAction == ActorAction.PICK_UP)
       {
          if(Game.getCurZone().isItemAt(loc))
-            pendingTarget = loc;
+         {
+            // item is credits, or actor has room
+            if(Game.getCurZone().getItemAt(loc) instanceof Credits || !self.getInventory().isFull())
+               pendingTarget = loc;
+            // no room
+            else
+            {
+               MainGamePanel.addMessage("Your inventory is full.", true);
+               clearPlan();
+            }
+         }
          else
          {
             MainGamePanel.addMessage("Nothing to pick up here.", true);

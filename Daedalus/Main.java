@@ -2,6 +2,7 @@ package Daedalus;
 
 import Daedalus.AI.*;
 import Daedalus.GUI.*;
+import Daedalus.Item.*;
 import Daedalus.Engine.*;
 import Daedalus.Actor.*;
 import Daedalus.Zone.*;
@@ -19,6 +20,10 @@ public class Main
       a.setTileLoc(2, 2);
       game.setPlayer(a);
       game.addActor(a);
+      for(int i = 0; i < ItemConstants.MAX_INVENTORY_SIZE - 1; i++)
+      {
+         a.getInventory().add(new Item("Test Item", '"'));
+      }
       
       Actor b = new Actor();
       b.setName("NPC");
