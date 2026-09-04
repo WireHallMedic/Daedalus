@@ -170,8 +170,9 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
             Game.getPlayer().getAI().setPendingTarget(Direction.ORIGIN);
             break;
          case KeyEvent.VK_SPACE:
-            AnimationScript testScript = AnimationScriptFactory.getImpact(Game.getActorList().elementAt(0), Direction.NORTH_EAST);
-            AnimationManager.addNonLocking(testScript);
+            int count = Game.getPlayer().getInventory().size();
+            int credits = Game.getPlayer().getInventory().getCredits().getValue();
+            System.out.println(String.format("Inventory: %d items, %d credits", count, credits));
             break;
       }
    }

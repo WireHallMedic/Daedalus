@@ -2,23 +2,27 @@ package Daedalus.Actor;
 
 import Daedalus.AI.*;
 import Daedalus.GUI.*;
+import Daedalus.Item.*;
 import Daedalus.Engine.*;
 import WidlerSuite.Coord;
 import WidlerSuite.WSFontConstants;
 
 public class Actor extends UnboundTile
 {
+   public static final int FULLY_CHARGED = 10;
+   
 	private String name;
 	private AI ai;
    private int charge;
    private boolean dead;
-   public static final int FULLY_CHARGED = 10;
+   private Inventory inventory;
 
 
 	public String getName(){return name;}
 	public AI getAI(){return ai;}
    public int getCharge(){return charge;}
    public boolean isDead(){return dead;}
+   public Inventory getInventory(){return inventory;}
 
 
 	public void setName(String n){name = n;}
@@ -33,6 +37,7 @@ public class Actor extends UnboundTile
       ai = new AI(this);
       name = "Unknown Actor";
       charge = 0;
+      inventory = new Inventory(this);
    }
       
    @Override
@@ -72,4 +77,10 @@ public class Actor extends UnboundTile
    public void plan(){ai.plan();}
    public void clearPlan(){ai.clearPlan();}
    public void act(){ai.act();}
+   
+   // items
+   public void addToInventory(Item item)
+   {
+      inventory.add(item);
+   }
 }

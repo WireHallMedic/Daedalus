@@ -151,7 +151,7 @@ public class AI implements AIConstants, ZoneConstants
    protected void doPickUp()
    {
       Item item = Game.getCurZone().takeItemAt(pendingTarget);
-      // TODO - give item to actor
+      self.addToInventory(item);
       self.discharge(1);
       if(self == Game.getPlayer())
       {
