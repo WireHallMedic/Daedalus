@@ -28,19 +28,18 @@ public class AnimationScriptFactory implements ZoneConstants
    public static AnimationScript getFloat(UnboundTile target)
    {  
       AnimationScript script = new AnimationScript(target);
-      int halfMoveDuration = GUIConstants.FRAMES_PER_SECOND;
-      int pauseDuration = halfMoveDuration / 4;
-      double yStep = 0.5 / halfMoveDuration;
-      double[] yList = new double[(halfMoveDuration + pauseDuration) * 2];
-      for(int i = 0; i < halfMoveDuration; i++)
+      int halfDuration = GUIConstants.FRAMES_PER_SECOND;
+      double yStep = 0.25 / halfDuration;
+      double[] yList = new double[halfDuration * 2];
+      for(int i = 0; i < halfDuration; i++)
       {
-         double theta = Math.PI + (Math.PI * (i / (double)halfMoveDuration) * 2.0);
-         yList[i] = -(yStep * ((Math.cos(theta) + 1) / 2));
-         yList[pauseDuration + i + halfMoveDuration] = -yList[i];
+         yList[i] = -yStep;
+         yList[i + halfDuration] = yStep;
       }
       script.setYMoveList(yList);
       script.setEndBehavior(AnimationScript.CENTER_TARGET + AnimationScript.LOOP);
       script.setNonTrackingMovement(true);
       return script;
    }
+
 }
