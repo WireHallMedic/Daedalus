@@ -41,7 +41,20 @@ public class InventoryPanel extends SelectionPanel implements ActionListener, GU
          itemList.clear();
          for(Item item : inventory.getItemList())
          {
-            itemList.add(item.getName());
+            itemList.add("  " + item.getName());
+         }
+      }
+   }
+   
+   @Override
+   public void updateVisuals()
+   {
+      if(inventory != null)
+      {
+         for(int i = 0; i < inventory.size(); i++)
+         {
+            Item item = inventory.getItemList().elementAt(i);
+            setTile(listStartX, listStartY + i, item.getTileIndex(), item.getFGColor(), item.getBGColor());
          }
       }
    }
@@ -67,7 +80,7 @@ public class InventoryPanel extends SelectionPanel implements ActionListener, GU
       if(inventory != null)
       {
          String str = ((char)WSFontConstants.CENT_TILE) + " " + inventory.getCredits().getValue();
-         write(listStartX + maxStringWidth, listStartY, str, UI_FG_COLOR, UI_BG_COLOR, 12, 1);
+         write(listStartX, listStartY - 2, str, UI_FG_COLOR, UI_BG_COLOR, 12, 1);
       }
    }
 }

@@ -50,7 +50,7 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
       curPanel = mainGamePanel;
       curPanel.setVisible(true);
       setVisible(true);
-      innerPanel.grabFocus();
+      innerPanel.requestFocusInWindow();
       
       new Thread(this).start();
    }

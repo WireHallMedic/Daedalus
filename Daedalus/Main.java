@@ -22,7 +22,7 @@ public class Main
       game.addActor(a);
       for(int i = 0; i < ItemConstants.MAX_INVENTORY_SIZE - 1; i++)
       {
-         a.getInventory().add(new Item("Test Item", '"'));
+         a.getInventory().add(new Item("Test Item", '*'));
       }
       
       Actor b = new Actor();
