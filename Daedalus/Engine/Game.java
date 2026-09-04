@@ -143,6 +143,8 @@ public class Game implements Runnable
                   if(curActor.hasPlan() && AnimationManager.isClearToAct(curActor))
                   {
                      curActor.act();
+                     if(curActor == player)
+                        MainGamePanel.incrementMessagePanel();
                      cleanActorList();
                      incrementInitiativeIndex();
                   }

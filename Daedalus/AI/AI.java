@@ -43,7 +43,7 @@ public class AI implements AIConstants, ZoneConstants
             pendingTarget = loc;
          else
          {
-            MainGamePanel.addMessage("Nothing to interact with there.");
+            MainGamePanel.addMessage("Nothing to interact with there.", true);
             clearPlan();
          }
       }

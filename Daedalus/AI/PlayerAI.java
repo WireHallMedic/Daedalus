@@ -31,7 +31,7 @@ public class PlayerAI extends AI implements AIConstants, ZoneConstants
          }
          else
          {
-            MainGamePanel.addMessage("You can't move there.");
+            MainGamePanel.addMessage("You can't move there.", true);
             clearPlan();
          }
       }

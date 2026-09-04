@@ -14,7 +14,10 @@ import WidlerSuite.Coord;
 public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants, ZoneConstants
 {
    private BoardPanel boardPanel;
-   private static String messagePanelMessage = null;
+   private static String messagePanelMessage = "";
+   private static int messageCount = 0;
+   private static boolean dimMessage = false;
+   private static boolean persistMessage = false;
    private static final int MESSAGE_PANEL_X_START = (BOARD_SIZE_TILES * 2) + 2;
    private static final int MESSAGE_PANEL_Y_START = 1;
    private static final int MESSAGE_PANEL_WIDTH = PANEL_WIDTH_TILES - MESSAGE_PANEL_X_START - 1;
@@ -25,12 +28,44 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
       super(PANEL_WIDTH_TILES, PANEL_HEIGHT_TILES, rectPalette);
       boardPanel = new BoardPanel(squarePalette);
       showFPS = true;
-      addMessage("");
+      clearMessage();
    }
    
-   public static void addMessage(String m)
+   public static void addMessage(String m, boolean waitingForPlayer)
    {
-      messagePanelMessage = m;
+      // all current messages are old, clear for new
+      if(dimMessage)
+      {
+         dimMessage = false;
+         messagePanelMessage = "";
+      }
+      messagePanelMessage = messagePanelMessage + m + " ";
+      messageCount++;
+      if(!waitingForPlayer)
+         persistMessage = true;
+   }
+   public static void addMessage(String m){addMessage(m, false);}
+   
+   public static void clearMessage()
+   {
+      persistMessage = false;
+      dimMessage = false;
+      messagePanelMessage = "";
+      messageCount = 0;
+   }
+   
+   // messages dim the turn after they arrive. There's some finesse here
+   // due to some messages arriving while waiting for the player to act; 
+   // we'd like them to stick around one turn
+   public static void incrementMessagePanel()
+   {
+      if(persistMessage)
+         persistMessage = false;
+      else if(!dimMessage && messageCount > 0)
+      {
+         dimMessage = true;
+         messageCount = 0;
+      }
    }
    
    @Override
@@ -44,13 +79,17 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
    public void updateVisuals()
    {
       super.updateVisuals();
-      if(messagePanelMessage != null)
+      
+      int messagePanelFGColor = WHITE;
+      if(dimMessage)
+         messagePanelFGColor = LIGHT_GREY;
+      if(messagePanelMessage.length() > 0)
       {
          write(MESSAGE_PANEL_X_START, MESSAGE_PANEL_Y_START, messagePanelMessage, 
-               WHITE, BLACK, MESSAGE_PANEL_WIDTH, MESSAGE_PANEL_HEIGHT);
-         messagePanelMessage = null;
+               messagePanelFGColor, BLACK, MESSAGE_PANEL_WIDTH, MESSAGE_PANEL_HEIGHT);
       }
    }
+   
    
    @Override
    public BufferedImage getUnscaledImage()
@@ -116,11 +155,13 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
             Game.getPlayer().getAI().setPendingTarget(Direction.NORTH_EAST);
             break;
          case KeyEvent.VK_ESCAPE:
-            MainGamePanel.addMessage("Action cancelled.");
+            clearMessage();
+            MainGamePanel.addMessage("Action cancelled.", true);
             Game.getPlayer().getAI().clearPlan();
             break;
          case KeyEvent.VK_U:
-            MainGamePanel.addMessage("Select target to interact with.");
+            clearMessage();
+            MainGamePanel.addMessage("Select target to interact with.", true);
             Game.getPlayer().getAI().setPendingAction(ActorAction.INTERACT);
             break;
          case KeyEvent.VK_SPACE:
