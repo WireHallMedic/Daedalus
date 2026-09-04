@@ -14,12 +14,23 @@ import WidlerSuite.Coord;
 public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants, ZoneConstants
 {
    private BoardPanel boardPanel;
+   private static String messagePanelMessage = null;
+   private static final int MESSAGE_PANEL_X_START = (BOARD_SIZE_TILES * 2) + 2;
+   private static final int MESSAGE_PANEL_Y_START = 1;
+   private static final int MESSAGE_PANEL_WIDTH = PANEL_WIDTH_TILES - MESSAGE_PANEL_X_START - 1;
+   private static final int MESSAGE_PANEL_HEIGHT = 4;
    
    public MainGamePanel(TilePalette rectPalette, TilePalette squarePalette)
    {
       super(PANEL_WIDTH_TILES, PANEL_HEIGHT_TILES, rectPalette);
       boardPanel = new BoardPanel(squarePalette);
       showFPS = true;
+      addMessage("");
+   }
+   
+   public static void addMessage(String m)
+   {
+      messagePanelMessage = m;
    }
    
    @Override
@@ -27,6 +38,18 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
    {
       boardPanel.actionPerformed(ae);
       super.actionPerformed(ae);
+   }
+   
+   @Override
+   public void updateVisuals()
+   {
+      super.updateVisuals();
+      if(messagePanelMessage != null)
+      {
+         write(MESSAGE_PANEL_X_START, MESSAGE_PANEL_Y_START, messagePanelMessage, 
+               WHITE, BLACK, MESSAGE_PANEL_WIDTH, MESSAGE_PANEL_HEIGHT);
+         messagePanelMessage = null;
+      }
    }
    
    @Override
@@ -42,13 +65,20 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
    protected int[][] getBorderArray()
    {
       int[][] borderArr = super.getBorderArray();
+      // section off hud
       for(int x = 0; x < tilesWide; x++)
       {
          borderArr[x][BOARD_SIZE_TILES + 1] = 1;
       }
+      // dividing line between board and right side
       for(int y = 0; y < BOARD_SIZE_TILES + 2; y++)
       {
          borderArr[(BOARD_SIZE_TILES * 2) + 1][y] = 1;
+      }
+      // message panel
+      for(int x = 0; x < MESSAGE_PANEL_WIDTH; x++)
+      {
+         borderArr[MESSAGE_PANEL_X_START + x][MESSAGE_PANEL_Y_START + MESSAGE_PANEL_HEIGHT] = 1;
       }
       return borderArr;
    }
@@ -59,42 +89,43 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
       {
          case KeyEvent.VK_NUMPAD1:
             Game.getPlayer().getAI().setPendingTarget(Direction.SOUTH_WEST);
-            Game.getPlayer().getAI().setPendingAction(ActorAction.CONTEXTUAL);
             break;
          case KeyEvent.VK_NUMPAD2:
             Game.getPlayer().getAI().setPendingTarget(Direction.SOUTH);
-            Game.getPlayer().getAI().setPendingAction(ActorAction.CONTEXTUAL);
             break;
          case KeyEvent.VK_NUMPAD3:
             Game.getPlayer().getAI().setPendingTarget(Direction.SOUTH_EAST);
-            Game.getPlayer().getAI().setPendingAction(ActorAction.CONTEXTUAL);
             break;
          case KeyEvent.VK_NUMPAD4:
             Game.getPlayer().getAI().setPendingTarget(Direction.WEST);
-            Game.getPlayer().getAI().setPendingAction(ActorAction.CONTEXTUAL);
             break;
          case KeyEvent.VK_NUMPAD5:
-            Game.getPlayer().getAI().setPendingTarget(Direction.ORIGIN);
             Game.getPlayer().getAI().setPendingAction(ActorAction.DELAY);
+            Game.getPlayer().getAI().setPendingTarget(Direction.ORIGIN);
             break;
          case KeyEvent.VK_NUMPAD6:
             Game.getPlayer().getAI().setPendingTarget(Direction.EAST);
-            Game.getPlayer().getAI().setPendingAction(ActorAction.CONTEXTUAL);
             break;
          case KeyEvent.VK_NUMPAD7:
             Game.getPlayer().getAI().setPendingTarget(Direction.NORTH_WEST);
-            Game.getPlayer().getAI().setPendingAction(ActorAction.CONTEXTUAL);
             break;
          case KeyEvent.VK_NUMPAD8:
             Game.getPlayer().getAI().setPendingTarget(Direction.NORTH);
-            Game.getPlayer().getAI().setPendingAction(ActorAction.CONTEXTUAL);
             break;
          case KeyEvent.VK_NUMPAD9:
             Game.getPlayer().getAI().setPendingTarget(Direction.NORTH_EAST);
-            Game.getPlayer().getAI().setPendingAction(ActorAction.CONTEXTUAL);
+            break;
+         case KeyEvent.VK_ESCAPE:
+            MainGamePanel.addMessage("Action cancelled.");
+            Game.getPlayer().getAI().clearPlan();
+            break;
+         case KeyEvent.VK_U:
+            MainGamePanel.addMessage("Select target to interact with.");
+            Game.getPlayer().getAI().setPendingAction(ActorAction.INTERACT);
             break;
          case KeyEvent.VK_SPACE:
-            Game.getActorList().elementAt(1).die();
+            AnimationScript testScript = AnimationScriptFactory.getFloat(Game.getActorList().elementAt(0));
+            AnimationManager.addNonLocking(testScript);
             break;
       }
    }

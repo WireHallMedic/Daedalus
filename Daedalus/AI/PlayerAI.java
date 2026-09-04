@@ -30,7 +30,17 @@ public class PlayerAI extends AI implements AIConstants, ZoneConstants
             pendingAction = ActorAction.INTERACT;
          }
          else
-            pendingAction = null;
+         {
+            MainGamePanel.addMessage("You can't move there.");
+            clearPlan();
+         }
       }
+   }
+   
+   @Override
+   public void clearPlan()
+   {
+      pendingTarget = null;
+      pendingAction = ActorAction.CONTEXTUAL;
    }
 }

@@ -13,6 +13,7 @@ public class AnimationScript
 	private UnboundTile target;
 	private int endBehavior;
 	private int age;
+   private boolean nonTrackingMovement;   // non-tracking movement is ignored for centering screen on player
 	private int[] tileIndexList;
 	private int[] fgColorList;
 	private int[] bgColorList;
@@ -26,6 +27,7 @@ public class AnimationScript
 	public UnboundTile getTarget(){return target;}
 	public int getEndBehavior(){return endBehavior;}
 	public int getAge(){return age;}
+   public boolean isNonTrackingMovement(){return nonTrackingMovement;}
 	public int[] getTileIndexList(){return tileIndexList;}
 	public int[] getFGColorList(){return fgColorList;}
 	public int[] getBGColorList(){return bgColorList;}
@@ -38,6 +40,7 @@ public class AnimationScript
 	public void setTarget(UnboundTile t){target = t;}
 	public void setEndBehavior(int e){endBehavior = e;}
 	public void setAge(int a){age = a;}
+   public void setNonTrackingMovement(boolean ntm){nonTrackingMovement = ntm;}
 	public void setTileIndexList(int[] i){tileIndexList = i;}
 	public void setFGColorList(int[] f){fgColorList = f;}
 	public void setBGColorList(int[] b){bgColorList = b;}
@@ -52,6 +55,7 @@ public class AnimationScript
       target = _target;
       endBehavior = 0;
       age = -1;
+      nonTrackingMovement = false;
       tileIndexList = null;
    	fgColorList = null;
    	bgColorList = null;
@@ -97,20 +101,30 @@ public class AnimationScript
       
       if(!isExpired())
       {
-      if(tileIndexList != null)
-         target.setTileIndex(tileIndexList[age]);
-      if(fgColorList != null)
-         target.setFGColor(fgColorList[age]);
-      if(bgColorList != null)
-         target.setBGColor(bgColorList[age]);
-      if(lowerTileIndexList != null)
-         target.setLowerTileIndex(lowerTileIndexList[age]);
-      if(xMoveList != null)
-         target.setXOffset(target.getXOffset() + xMoveList[age]);
-      if(yMoveList != null)
-         target.setYOffset(target.getYOffset() + yMoveList[age]);
-      if(scaleList != null)
-         target.setScale(scaleList[age]);
+         if(tileIndexList != null)
+            target.setTileIndex(tileIndexList[age]);
+         if(fgColorList != null)
+            target.setFGColor(fgColorList[age]);
+         if(bgColorList != null)
+            target.setBGColor(bgColorList[age]);
+         if(lowerTileIndexList != null)
+            target.setLowerTileIndex(lowerTileIndexList[age]);
+         if(scaleList != null)
+            target.setScale(scaleList[age]);
+         if(nonTrackingMovement)
+         {
+            if(xMoveList != null)
+               target.setNonTrackingXOffset(target.getNonTrackingXOffset() + xMoveList[age]);
+            if(yMoveList != null)
+               target.setNonTrackingYOffset(target.getNonTrackingYOffset() + yMoveList[age]);
+         }
+         else
+         {
+            if(xMoveList != null)
+               target.setXOffset(target.getXOffset() + xMoveList[age]);
+            if(yMoveList != null)
+               target.setYOffset(target.getYOffset() + yMoveList[age]);
+         }
       }
    }
    
@@ -133,8 +147,16 @@ public class AnimationScript
       }
       if((endBehavior & CENTER_TARGET) > 0)
       {
-         target.setXOffset(0.0);
-         target.setYOffset(0.0);
+         if(nonTrackingMovement)
+         {
+            target.setNonTrackingXOffset(0.0);
+            target.setNonTrackingYOffset(0.0);
+         }
+         else
+         {
+            target.setXOffset(0.0);
+            target.setYOffset(0.0);
+         }
       }
    }
 }

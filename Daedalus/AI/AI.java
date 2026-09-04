@@ -26,8 +26,7 @@ public class AI implements AIConstants, ZoneConstants
    public AI(Actor a)
    {
       self = a;
-      pendingTarget = null;
-      pendingAction = null;
+      clearPlan();
    }
    
    // planning
@@ -36,7 +35,23 @@ public class AI implements AIConstants, ZoneConstants
    {
       Coord loc = dir.getAsCoord();
       loc.add(self.getTileLoc());
-      pendingTarget = loc;
+      
+      // check validity if interacting
+      if(pendingAction == ActorAction.INTERACT)
+      {
+         if(Game.getCurZone().getTile(loc) instanceof ToggleTile)
+            pendingTarget = loc;
+         else
+         {
+            MainGamePanel.addMessage("Nothing to interact with there.");
+            clearPlan();
+         }
+      }
+      // if no check needed, just assign loc
+      else
+      {
+         pendingTarget = loc;
+      }
    }
    
    public boolean hasPlan()
@@ -70,7 +85,7 @@ public class AI implements AIConstants, ZoneConstants
             doStep(); 
             break;
          case ActorAction.INTERACT :
-            doInteract(); 
+            doInteract();
             break;
       }
       clearPlan();

@@ -9,6 +9,8 @@ public class UnboundTile extends ImageTile
 {
 	private double xOffset;
 	private double yOffset;
+	private double nonTrackingXOffset;
+	private double nonTrackingYOffset;
 	private double scale;
 	private Coord tileLoc;
    private boolean expired;
@@ -16,6 +18,8 @@ public class UnboundTile extends ImageTile
 
 	public double getXOffset(){return xOffset;}
 	public double getYOffset(){return yOffset;}
+	public double getNonTrackingXOffset(){return nonTrackingXOffset;}
+	public double getNonTrackingYOffset(){return nonTrackingYOffset;}
 	public double getScale(){return scale;}
 	public Coord getTileLoc(){return new Coord(tileLoc);}
    public boolean isExpired(){return expired;}
@@ -23,6 +27,8 @@ public class UnboundTile extends ImageTile
 
 	public void setXOffset(double x){xOffset = x;}
 	public void setYOffset(double y){yOffset = y;}
+	public void setNonTrackingXOffset(double x){nonTrackingXOffset = x;}
+	public void setNonTrackingYOffset(double y){nonTrackingYOffset = y;}
 	public void setScale(double s){scale = s; dirty = true;}
 	public void setTileLoc(Coord t){setTileLoc(t.x, t.y);}
 	public void setTileLoc(int x, int y){tileLoc = new Coord(x, y);}
@@ -40,6 +46,8 @@ public class UnboundTile extends ImageTile
       tileLoc = new Coord(-1, -1);
       xOffset = 0.0;
       yOffset = 0.0;
+      nonTrackingXOffset = 0.0;
+      nonTrackingYOffset = 0.0;
       scale = 1.0;
       expired = false;
    }
@@ -61,6 +69,8 @@ public class UnboundTile extends ImageTile
       this.tileLoc = that.tileLoc.copy();
       this.xOffset = that.xOffset;
       this.yOffset = that.yOffset;
+      this.nonTrackingXOffset = that.nonTrackingXOffset;
+      this.nonTrackingYOffset = that.nonTrackingYOffset;
       this.scale = that.scale;
       this.expired = that.expired;
       this.dirty = true;
@@ -88,8 +98,8 @@ public class UnboundTile extends ImageTile
    {
       int xInset = (tileLoc.x - offsetTilesX) * palette.getTileWidth();
       int yInset = (tileLoc.y - offsetTilesY) * palette.getTileHeight();
-      xInset += (int)(xOffset * palette.getTileWidth());
-      yInset += (int)(yOffset * palette.getTileHeight());
+      xInset += (int)((xOffset + nonTrackingXOffset) * palette.getTileWidth());
+      yInset += (int)((yOffset + nonTrackingYOffset) * palette.getTileHeight());
       g2d.drawImage(getImage(), xInset, yInset, null);
    }
    public void drawToImage(Graphics2D g2d){drawToImage(g2d, 0, 0);}
