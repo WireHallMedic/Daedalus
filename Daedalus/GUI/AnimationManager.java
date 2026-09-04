@@ -1,14 +1,20 @@
 package Daedalus.GUI;
 
 import java.util.*;
+import Daedalus.Item.*;
 import Daedalus.Actor.*;
 import Daedalus.Engine.*;
+import WidlerSuite.Coord;
 
 public class AnimationManager
 {
    private static Vector<AnimationScript> lockingList = new Vector<AnimationScript>();
    private static Vector<AnimationScript> nonLockingList = new Vector<AnimationScript>();
    private static Vector<AnimationScript> semiLockingList = new Vector<AnimationScript>();
+   private static BoardPanel boardPanel = null; // because we need to add visual effects from a bunch of other 
+                                                // places, like AI. Set in BoardPanel constructor.
+   
+   public static void setBoardPanel(BoardPanel bp){boardPanel = bp;}
    
    public static void addLocking(AnimationScript as){lockingList.add(as);}
    public static void addNonLocking(AnimationScript as){nonLockingList.add(as);}
@@ -77,4 +83,19 @@ public class AnimationManager
          }
       }
    }
+   
+   public static void addToBoardPanel(UnboundTile ut)
+   {
+      if(boardPanel != null)
+         boardPanel.addUnboundTile(ut);
+   }
+   
+   public static void addPickupEffect(Item item, Coord loc)
+   {
+      UnboundTile ut = item.getUnboundTile(loc);
+      AnimationScript as = AnimationScriptFactory.getPickupEffect(ut);
+      addToBoardPanel(ut);
+      addNonLocking(as);
+   }
+   public static void addPickupEffect(Item item, int x, int y){addPickupEffect(item, new Coord(x, y));}
 }

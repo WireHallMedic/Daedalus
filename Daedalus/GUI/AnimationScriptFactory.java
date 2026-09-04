@@ -72,4 +72,19 @@ public class AnimationScriptFactory implements ZoneConstants
    {
       return getImpact(target, dir);
    }
+   
+   public static AnimationScript getPickupEffect(UnboundTile target)
+   {
+      AnimationScript script = new AnimationScript(target);
+      int duration = GUIConstants.FRAMES_PER_SECOND / 2;
+      double[] yList = new double[duration];
+      double yStep = -0.5 / duration;
+      for(int i = 0; i < duration; i++)
+      {
+         yList[i] = yStep;
+      }
+      script.setYMoveList(yList);
+      script.setEndBehavior(AnimationScript.EXPIRE_TARGET);
+      return script;
+   }
 }

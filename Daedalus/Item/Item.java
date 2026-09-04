@@ -1,6 +1,7 @@
 package Daedalus.Item;
 
 import Daedalus.GUI.*;
+import WidlerSuite.Coord;
 
 public class Item implements ItemConstants, GUIConstants
 {
@@ -38,6 +39,17 @@ public class Item implements ItemConstants, GUIConstants
          return "an " + name;
       return "a " + name;
    }
+   
+   // for pickup effects
+   public UnboundTile getUnboundTile(int xLoc, int yLoc)
+   {
+      UnboundTile ut = new UnboundTile(SQUARE_PALETTE);
+      ut.set(getSquareTile());
+      ut.setTileLoc(xLoc, yLoc);
+      ut.setBGColor(GUIConstants.TRANSPARENT);
+      return ut;
+   }
+   public UnboundTile getUnboundTile(Coord c){return getUnboundTile(c.x, c.y);}
    
    
    // passthroughs for imageTiles

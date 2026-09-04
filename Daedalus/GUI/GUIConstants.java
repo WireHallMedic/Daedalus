@@ -32,4 +32,5 @@ public interface GUIConstants
                                             BLUE, GREEN, BROWN, PURPLE, 
                                             LIGHT_BLUE, LIGHT_GREEN, BEIGE, RED, 
                                             CYAN, YELLOW, ORANGE, PINK};
+   public static final int TRANSPARENT = new Color(0, 0, 0, 0).getRGB();
 }

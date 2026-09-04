@@ -146,5 +146,7 @@ public class AI implements AIConstants, ZoneConstants
          MainGamePanel.clearMessage();
          MainGamePanel.addMessage("You picked up " + item.getNameWithParticle() + ".");
       }
+      AnimationManager.addPickupEffect(item, pendingTarget);
    }
+   
 }

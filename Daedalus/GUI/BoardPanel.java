@@ -21,6 +21,7 @@ public class BoardPanel extends DaePanel implements GUIConstants
       cornerLoc = new Coord(0, 0);
       xInset = 0.0;
       yInset = 0.0;
+      AnimationManager.setBoardPanel(this);
    }
    
    // as we generate an oversized image for scrolling, we clip it down to size here
@@ -56,7 +57,6 @@ public class BoardPanel extends DaePanel implements GUIConstants
       for(int x = 0; x < tilesWide; x++)
       for(int y = 0; y < tilesTall; y++)
       {
-         //curTileImage = Game.getCurZone().getTile(x + cornerLoc.x, y + cornerLoc.y).getImage();
          curTileImage = Game.getCurZone().getImage(x + cornerLoc.x, y + cornerLoc.y);
          g2dUnscaled.drawImage(curTileImage, xStep * x, yStep * y, null);
       }
