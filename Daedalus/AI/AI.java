@@ -106,6 +106,11 @@ public class AI implements AIConstants, ZoneConstants
       AnimationScript as = AnimationScriptFactory.getStep(self, stepDir);
       AnimationManager.addSemiLocking(as);
       self.discharge(1);
+      if(self == Game.getPlayer() && Game.getCurZone().isItemAt(self.getTileLoc()))
+      {
+         String itemName = Game.getCurZone().getItemAt(self.getTileLoc()).getNameWithParticle();
+         MainGamePanel.addMessage("You are standing on " + itemName + ".");
+      }
    }
    
    protected void doInteract()

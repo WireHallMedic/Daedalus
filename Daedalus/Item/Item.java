@@ -28,6 +28,18 @@ public class Item implements ItemConstants, GUIConstants
    public Item(String _name, int tileIndex){this(_name, tileIndex, WHITE, BLACK);}
    
    
+   public String getNameWithParticle()
+   {
+      if(name.toLowerCase().charAt(0) == 'a' ||
+         name.toLowerCase().charAt(0) == 'e' ||
+         name.toLowerCase().charAt(0) == 'i' ||
+         name.toLowerCase().charAt(0) == 'o' ||
+         name.toLowerCase().charAt(0) == 'u')
+         return "an " + name;
+      return "a " + name;
+   }
+   
+   
    // passthroughs for imageTiles
    //////////////////////////////////////////////
    public void setFGColor(int f)

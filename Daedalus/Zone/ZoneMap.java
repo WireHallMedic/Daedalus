@@ -154,6 +154,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
       z.setTile(6, 7, new Chest());
       
       z.setItemAt(new Item("Test Item", '"'), 1, 5);
+      z.setItemAt(new Item("Enticing Item", '"'), 1, 6);
       return z;
    }
 }
