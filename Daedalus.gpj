@@ -13,7 +13,7 @@ s#i0
 s#k0
 s#j0
 s#l0
-!998;g
+!1069;g
 %\011Daedalus%sActor%sActor.java
 %\011Daedalus%sAI%sAI.java
 %\011Daedalus%sAI%sAIConstants.java
@@ -32,6 +32,8 @@ s#l0
 %\011Daedalus%sGUI%sMainGamePanel.java
 %\011Daedalus%sGUI%sTilePalette.java
 %\011Daedalus%sGUI%sUnboundTile.java
+%\011Daedalus%sItem%sItem.java
+%\011Daedalus%sItem%sItemConstants.java
 %\011Daedalus%sMain.java
 %\011Daedalus%sres%simg%sWSFont_16x16.png
 %\011Daedalus%sres%simg%sWSFont_8x16.png
@@ -42,7 +44,7 @@ s#l0
 %\011Daedalus%sZone%sZoneConstants.java
 %\011Daedalus%sZone%sZoneMap.java
 %\011Daedalus%sZone%sZoneTile.java
-!998;f
+!1069;f
 %\011Daedalus%sActor%sActor.java
 %\011Daedalus%sAI%sAI.java
 %\011Daedalus%sAI%sAIConstants.java
@@ -61,6 +63,8 @@ s#l0
 %\011Daedalus%sGUI%sMainGamePanel.java
 %\011Daedalus%sGUI%sTilePalette.java
 %\011Daedalus%sGUI%sUnboundTile.java
+%\011Daedalus%sItem%sItem.java
+%\011Daedalus%sItem%sItemConstants.java
 %\011Daedalus%sMain.java
 %\011Daedalus%sres%simg%sWSFont_16x16.png
 %\011Daedalus%sres%simg%sWSFont_8x16.png
