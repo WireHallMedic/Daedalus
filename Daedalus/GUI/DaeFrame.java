@@ -14,6 +14,8 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
    private DaePanel curPanel;
    private JPanel innerPanel;
    private MainGamePanel mainGamePanel;
+   private InventoryPanel inventoryPanel;
+   private static Class pendingPanelClass = null;
    
    
    public DaeFrame()
@@ -40,6 +42,10 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
       innerPanel.add(mainGamePanel);
       panelList.add(mainGamePanel);
       
+      inventoryPanel = new InventoryPanel();
+      innerPanel.add(inventoryPanel);
+      panelList.add(inventoryPanel);
+      
       arrangePanels();
       curPanel = mainGamePanel;
       curPanel.setVisible(true);
@@ -47,6 +53,28 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
       innerPanel.grabFocus();
       
       new Thread(this).start();
+   }
+   
+   public static void setActivePanel(Class panelClass)
+   {
+      pendingPanelClass = panelClass;
+   }
+   
+   private void activeatePanel()
+   {
+      for(DaePanel p: panelList)
+      {
+         if(p.getClass() == pendingPanelClass)
+         {
+            p.setVisible(true);
+            curPanel = p;
+         }
+         else
+         {
+            p.setVisible(false);
+         }
+      }
+      pendingPanelClass = null;
    }
 
    public void arrangePanels()
@@ -60,6 +88,8 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
    
    public void actionPerformed(ActionEvent ae)
    {
+      if(pendingPanelClass != null)
+         activeatePanel();
       curPanel.actionPerformed(ae);
    }
    

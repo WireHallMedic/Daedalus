@@ -27,6 +27,14 @@ public class SelectionPanel extends DaePanel implements ActionListener, GUIConst
       maxStringWidth = 40;
    }
    
+   @Override
+   public void setVisible(boolean v)
+   {
+      if(v)
+         setTiles();
+      super.setVisible(v);
+   }
+   
    public void keyPressed(KeyEvent ke)
    {
       // single-key actions need to set pendingTarget after seting pendingAction.
@@ -69,7 +77,7 @@ public class SelectionPanel extends DaePanel implements ActionListener, GUIConst
          str = "";
          if(i < itemList.size())
             str = itemList.elementAt(i);
-         write(listStartX, listStartY, str, UI_FG_COLOR, UI_BG_COLOR, maxStringWidth, 1);
+         write(listStartX, listStartY + i, str, UI_FG_COLOR, UI_BG_COLOR, maxStringWidth, 1);
       }
       setCursor();
    }

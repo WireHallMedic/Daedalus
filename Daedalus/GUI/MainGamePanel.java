@@ -7,6 +7,7 @@ import java.awt.event.*;
 import java.util.*;
 import Daedalus.AI.*;
 import Daedalus.Zone.*;
+import Daedalus.Item.*;
 import Daedalus.Engine.*;
 import WidlerSuite.Coord;
 
@@ -168,6 +169,9 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
          case KeyEvent.VK_G:
             Game.getPlayer().getAI().setPendingAction(ActorAction.PICK_UP);
             Game.getPlayer().getAI().setPendingTarget(Direction.ORIGIN);
+            break;
+         case KeyEvent.VK_I:
+            DaeFrame.setActivePanel(InventoryPanel.class);
             break;
          case KeyEvent.VK_SPACE:
             int count = Game.getPlayer().getInventory().size();
