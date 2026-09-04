@@ -73,8 +73,9 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    public static ZoneMap getTestMap()
    {
       ZoneMap z = new ZoneMap(10, 10);
-      z.setTile(6, 3, new ToggleTile(TileBase.DOOR, TileBase.OPEN_DOOR));
-      z.setTile(6, 5, new ToggleTile(TileBase.SWITCH, TileBase.FLIPPED_SWITCH));
+      z.setTile(6, 3, new Door());
+      z.setTile(6, 5, new Switch());
+      z.setTile(6, 7, new Chest());
       z.getTile(6, 5).setFGColor(CYAN);
       return z;
    }

@@ -9,6 +9,11 @@ public class ToggleTile extends ZoneTile implements ZoneConstants, GUIConstants
 	protected ZoneTile aState;
 	protected ZoneTile bState;
    protected boolean curState;
+   protected boolean oneToggleOnly;
+   
+   public boolean isOneToggleOnly(){return oneToggleOnly;}
+   
+   public void setOneToggleOnly(boolean oto){oneToggleOnly = oto;}
 
    public ToggleTile(TileBase base1, TileBase base2)
    {
@@ -16,11 +21,13 @@ public class ToggleTile extends ZoneTile implements ZoneConstants, GUIConstants
       aState = new ZoneTile(base1);
       bState = new ZoneTile(base2);
       curState = true;
+      oneToggleOnly = false;
    }
    
    public void toggle()
    {
-      curState = !curState;
+      if(curState || !oneToggleOnly)
+         curState = !curState;
    }
    
    public ZoneTile getCurState()

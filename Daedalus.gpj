@@ -13,7 +13,7 @@ s#i0
 s#k0
 s#j0
 s#l0
-!902;g
+!998;g
 %\011Daedalus%sActor%sActor.java
 %\011Daedalus%sAI%sAI.java
 %\011Daedalus%sAI%sAIConstants.java
@@ -35,11 +35,14 @@ s#l0
 %\011Daedalus%sMain.java
 %\011Daedalus%sres%simg%sWSFont_16x16.png
 %\011Daedalus%sres%simg%sWSFont_8x16.png
+%\011Daedalus%sZone%sChest.java
+%\011Daedalus%sZone%sDoor.java
+%\011Daedalus%sZone%sSwitch.java
 %\011Daedalus%sZone%sToggleTile.java
 %\011Daedalus%sZone%sZoneConstants.java
 %\011Daedalus%sZone%sZoneMap.java
 %\011Daedalus%sZone%sZoneTile.java
-!902;f
+!998;f
 %\011Daedalus%sActor%sActor.java
 %\011Daedalus%sAI%sAI.java
 %\011Daedalus%sAI%sAIConstants.java
@@ -61,6 +64,9 @@ s#l0
 %\011Daedalus%sMain.java
 %\011Daedalus%sres%simg%sWSFont_16x16.png
 %\011Daedalus%sres%simg%sWSFont_8x16.png
+%\011Daedalus%sZone%sChest.java
+%\011Daedalus%sZone%sDoor.java
+%\011Daedalus%sZone%sSwitch.java
 %\011Daedalus%sZone%sToggleTile.java
 %\011Daedalus%sZone%sZoneConstants.java
 %\011Daedalus%sZone%sZoneMap.java
