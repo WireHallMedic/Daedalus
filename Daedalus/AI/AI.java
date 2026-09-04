@@ -47,6 +47,7 @@ public class AI implements AIConstants, ZoneConstants
             pendingTarget = loc;
          else
          {
+            MainGamePanel.clearMessage();
             MainGamePanel.addMessage("Nothing to interact with there.", true);
             clearPlan();
          }
@@ -63,12 +64,14 @@ public class AI implements AIConstants, ZoneConstants
             // no room
             else
             {
+               MainGamePanel.clearMessage();
                MainGamePanel.addMessage("Your inventory is full.", true);
                clearPlan();
             }
          }
          else
          {
+            MainGamePanel.clearMessage();
             MainGamePanel.addMessage("Nothing to pick up here.", true);
             clearPlan();
          }
@@ -146,6 +149,7 @@ public class AI implements AIConstants, ZoneConstants
       self.discharge(1);
       if(self == Game.getPlayer() && Game.getCurZone().isItemAt(self.getTileLoc()))
       {
+         MainGamePanel.clearMessage();
          String itemName = Game.getCurZone().getItemAt(self.getTileLoc()).getNameWithParticle();
          MainGamePanel.addMessage("You are standing on " + itemName + ".");
       }

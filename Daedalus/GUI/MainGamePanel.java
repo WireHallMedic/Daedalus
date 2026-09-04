@@ -86,7 +86,7 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
       if(messagePanelMessage.length() > 0)
       {
          write(MESSAGE_PANEL_X_START, MESSAGE_PANEL_Y_START, messagePanelMessage, 
-               messagePanelFGColor, BLACK, MESSAGE_PANEL_WIDTH, MESSAGE_PANEL_HEIGHT);
+               messagePanelFGColor, UI_BG_COLOR, MESSAGE_PANEL_WIDTH, MESSAGE_PANEL_HEIGHT);
       }
    }
    

@@ -37,7 +37,7 @@ public class DaePanel extends JPanel implements ActionListener, GUIConstants, Ke
       showFPS = false;
       imageTileArr = new ImageTile[tilesWide][tilesTall];
       unboundTileList = new Vector<UnboundTile>();
-      setAll('.', WHITE, BLACK);
+      setAll(' ', UI_FG_COLOR, UI_BG_COLOR);
       setBackground(BLACK);
       setFocusable(false);
       setBorder();
