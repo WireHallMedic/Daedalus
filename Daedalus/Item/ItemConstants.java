@@ -5,6 +5,8 @@ import Daedalus.GUI.*;
 
 public interface ItemConstants
 {
+   public static final int MAX_INVENTORY_SIZE = 20;
+   
    public enum ItemBase
    {
       CREDITS     (WSFontConstants.CENT_TILE, WSFontConstants.CENT_TILE),

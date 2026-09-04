@@ -12,17 +12,20 @@ public class AI implements AIConstants, ZoneConstants
 	protected Actor self;
 	protected Coord pendingTarget;
 	protected ActorAction pendingAction;
+   protected int pendingIndex;            // used for supplementary information
 
 
 	public Actor getSelf(){return self;}
 	public Coord getPendingTarget(){return new Coord(pendingTarget);}
 	public ActorAction getPendingAction(){return pendingAction;}
+   public int getPendingIndex(){return pendingIndex;}
 
 
 	public void setSelf(Actor s){self = s;}
 	public void setPendingTarget(Coord p){setPendingTarget(p.x, p.y);}
 	public void setPendingTarget(int x, int y){pendingTarget = new Coord(x, y);}
 	public void setPendingAction(ActorAction p){pendingAction = p;}
+   public void setPendingIndex(int p){pendingIndex = p;}
 
    public AI(Actor a)
    {
@@ -69,13 +72,22 @@ public class AI implements AIConstants, ZoneConstants
    
    public boolean hasPlan()
    {
-      return pendingTarget != null && pendingAction != null && pendingAction != ActorAction.CONTEXTUAL;
+      // basic check
+      boolean plan = pendingTarget != null && pendingAction != null && pendingAction != ActorAction.CONTEXTUAL;
+      
+      // check thins that need pendingIndex have it
+      if(pendingAction == ActorAction.DROP || pendingAction == ActorAction.USE)
+         if(pendingIndex == -1)
+            plan = false;
+      
+      return plan;
    }
    
    public void plan()
    {
       pendingTarget = new Coord();
       pendingAction = ActorAction.DELAY;
+      pendingIndex = -1;
    }
    
    public void clearPlan()
