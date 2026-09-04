@@ -124,7 +124,7 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
             Game.getPlayer().getAI().setPendingAction(ActorAction.INTERACT);
             break;
          case KeyEvent.VK_SPACE:
-            AnimationScript testScript = AnimationScriptFactory.getFloat(Game.getActorList().elementAt(0));
+            AnimationScript testScript = AnimationScriptFactory.getImpact(Game.getActorList().elementAt(0), Direction.NORTH_EAST);
             AnimationManager.addNonLocking(testScript);
             break;
       }
