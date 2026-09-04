@@ -65,22 +65,10 @@ public class BoardPanel extends DaePanel implements GUIConstants
    protected void drawUnboundTiles(Graphics2D g2dUnscaled)
    {
       Vector<Actor> actorList = Game.getActorList();
-      // as the player location can change between determining the corner tile and drawing the sprite,
-      // causing juttering, we'll display it with numbers stored at the same time
-      Actor player = Game.getPlayer();
-//       if(player != null)
-//       {
-//          int tileWidth = palette.getTileWidth();
-//          int tileHeight = palette.getTileHeight();
-//          int xPosition = ((tilesWide / 2) * tileWidth) + (int)(tileWidth * xInset);
-//          int yPosition = ((tilesTall / 2) * tileHeight) + (int)(tileHeight * yInset);
-//          g2dUnscaled.drawImage(player.getImage(), xPosition, yPosition, null);
-//       }
       if(actorList != null)
       {
          for(Actor a : actorList)
-//             if(a != Game.getPlayer())
-               a.drawToImage(g2dUnscaled, cornerLoc);
+            a.drawToImage(g2dUnscaled, cornerLoc);
       }
       for(UnboundTile ut: unboundTileList)
          ut.drawToImage(g2dUnscaled, cornerLoc);
