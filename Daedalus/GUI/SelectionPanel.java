@@ -27,6 +27,22 @@ public class SelectionPanel extends DaePanel implements ActionListener, GUIConst
       maxStringWidth = 40;
    }
    
+   // sets the passed string centered at the bottom
+   public void setFooter(String str)
+   {
+      int strInset = ((PANEL_WIDTH_TILES - 2 - str.length()) / 2) + 1;
+      write(1, PANEL_HEIGHT_TILES - 2, "",  UI_FG_COLOR, UI_BG_COLOR, PANEL_WIDTH_TILES - 2, 1);
+      write(strInset, PANEL_HEIGHT_TILES - 2, str,  UI_FG_COLOR, UI_BG_COLOR, str.length(), 1);
+   }
+   
+   // sets the passed string centered at the top
+   public void setHeader(String str)
+   {
+      int strInset = ((PANEL_WIDTH_TILES - 2 - str.length()) / 2) + 1;
+      write(1, 1, "",  UI_FG_COLOR, UI_BG_COLOR, PANEL_WIDTH_TILES - 2, 1);
+      write(strInset, 1, str,  UI_FG_COLOR, UI_BG_COLOR, str.length(), 1);
+   }
+   
    @Override
    public void setVisible(boolean v)
    {

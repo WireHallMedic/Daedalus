@@ -7,6 +7,7 @@ import java.awt.event.*;
 import java.util.*;
 import Daedalus.AI.*;
 import Daedalus.Item.*;
+import Daedalus.Zone.*;
 import Daedalus.Actor.*;
 import Daedalus.Engine.*;
 import WidlerSuite.WSFontConstants;
@@ -20,6 +21,8 @@ public class InventoryPanel extends SelectionPanel implements ActionListener, GU
    {
       super();
       inventory = null;
+      setHeader("Inventory");
+      setFooter("[D]rop or [ESC] to exit");
    }
    
    @Override
@@ -67,6 +70,15 @@ public class InventoryPanel extends SelectionPanel implements ActionListener, GU
       {
          case KeyEvent.VK_ESCAPE:
             DaeFrame.setActivePanel(MainGamePanel.class);
+            break;
+         case KeyEvent.VK_D:
+            if(inventory.getItemList().size() > 0)
+            {
+               Game.getPlayer().getAI().setPendingAction(AIConstants.ActorAction.DROP);
+               Game.getPlayer().getAI().setPendingIndex(curIndex);
+               Game.getPlayer().getAI().setPendingTarget(ZoneConstants.Direction.ORIGIN);
+               DaeFrame.setActivePanel(MainGamePanel.class);
+            }
             break;
          default :
             super.keyPressed(ke);

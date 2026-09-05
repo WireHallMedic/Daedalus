@@ -6,9 +6,12 @@ import Daedalus.GUI.*;
 import Daedalus.Item.*;
 import Daedalus.Actor.*;
 import WidlerSuite.Coord;
+import WidlerSuite.SpiralSearch;
 
 public class ZoneMap implements ZoneConstants, GUIConstants
 {
+   public static final int ITEM_SEARCH_MAP_RADIUS = 15;
+   
 	private int width;
 	private int height;
 	private ZoneTile oobTile;
@@ -96,7 +99,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    }
    public BufferedImage getImage(Coord c){return getImage(c.x, c.y);}
    
-   // interaction stuff
+   // actor stuff
    ////////////////////////////////////////////
    
    public boolean canStep(Actor a, int x, int y)
@@ -104,6 +107,27 @@ public class ZoneMap implements ZoneConstants, GUIConstants
       return isInBounds(x, y) && tileMap[x][y].isLowPassable();
    }
    public boolean canStep(Actor a, Coord c){return canStep(a, c.x, c.y);}
+   
+   
+   
+   // item stuff
+   ////////////////////////////////////////////
+   
+   
+   public boolean canPlaceItem(int x, int y)
+   {
+      return isValidLocationForItem(x, y) && getItemAt(x, y) == null;
+   }
+   public boolean canPlaceItem(Coord c){return canPlaceItem(c.x, c.y);}
+   
+   
+   public boolean isValidLocationForItem(int x, int y)
+   {
+      return isInBounds(x, y) && 
+             tileMap[x][y].isLowPassable() &&
+             !(tileMap[x][y] instanceof Door);
+   }
+   public boolean isValidLocationForItem(Coord c){return isValidLocationForItem(c.x, c.y);}
    
    
    public boolean isItemAt(int x, int y)
@@ -140,6 +164,55 @@ public class ZoneMap implements ZoneConstants, GUIConstants
       itemMap[x][y] = item;
    }
    public void setItemAt(Item item, Coord c){setItemAt(item, c.x, c.y);}
+   
+   
+   // drops an item in the nearest droppable tile
+   public void dropItem(Item item, int x, int y)
+   {
+      Coord loc = getDropLocation(x, y);
+      if(loc != null)
+         setItemAt(item, loc.x, loc.y);
+   }
+   public void dropItem(Item item, Coord c){dropItem(item, c.x, c.y);}
+   
+   
+   public boolean[][] getItemDroppableMap(int centerX, int centerY)
+   {
+      boolean[][] map = new boolean[ITEM_SEARCH_MAP_RADIUS][ITEM_SEARCH_MAP_RADIUS];
+      int radius = ITEM_SEARCH_MAP_RADIUS / 2;
+      for(int x = 0; x < ITEM_SEARCH_MAP_RADIUS; x++)
+      for(int y = 0; y < ITEM_SEARCH_MAP_RADIUS; y++)
+      {
+         int xSearch = centerX - radius + x;
+         int ySearch = centerY - radius + y;
+         map[x][y] = isValidLocationForItem(xSearch, ySearch);
+      }
+      return map;
+   }
+   public boolean[][] getItemDroppableMap(Coord c){return getItemDroppableMap(c.x, c.y);}
+   
+   
+   public Coord getDropLocation(int originX, int originY)
+   {
+      int xInset = originX - (ITEM_SEARCH_MAP_RADIUS / 2);
+      int yInset = originY - (ITEM_SEARCH_MAP_RADIUS / 2);
+      boolean[][] searchMap = getItemDroppableMap(originX, originY);
+      SpiralSearch search = new SpiralSearch(searchMap, ITEM_SEARCH_MAP_RADIUS / 2, ITEM_SEARCH_MAP_RADIUS / 2);
+      Coord prospect = search.getNext();
+      while(prospect != null)
+      {
+         prospect.x += xInset;
+         prospect.y += yInset;
+         if(canPlaceItem(prospect))
+         {
+            return prospect;
+         }
+         prospect = search.getNext();
+      }
+      System.out.println("No place to drop item.");
+      return null;
+   }
+   public Coord getDropLocation(Coord origin){return getDropLocation(origin.x, origin.y);}
    
    
    // test map

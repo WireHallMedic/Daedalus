@@ -128,6 +128,9 @@ public class AI implements AIConstants, ZoneConstants
          case ActorAction.PICK_UP :
             doPickUp();
             break;
+         case ActorAction.DROP :
+            doDrop();
+            break;
       }
       clearPlan();
    }
@@ -173,6 +176,13 @@ public class AI implements AIConstants, ZoneConstants
          MainGamePanel.addMessage("You picked up " + item.getNameWithParticle() + ".");
       }
       AnimationScriptFactory.addPickupEffect(item, pendingTarget);
+   }
+   
+   protected void doDrop()
+   {
+      Item item = self.getInventory().takeItem(pendingIndex);
+      Game.getCurZone().dropItem(item, pendingTarget);
+      self.discharge(1);
    }
    
 }
