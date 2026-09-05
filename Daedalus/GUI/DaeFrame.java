@@ -52,7 +52,6 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
       setVisible(true);
       
       new Thread(this).start();
-      innerPanel.requestFocusInWindow();
       
    }
    
@@ -89,6 +88,8 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
    
    public void actionPerformed(ActionEvent ae)
    {
+      if(!innerPanel.hasFocus())
+         innerPanel.requestFocusInWindow();
       if(pendingPanelClass != null)
          activeatePanel();
       curPanel.actionPerformed(ae);

@@ -59,7 +59,8 @@ public class BoardPanel extends DaePanel implements GUIConstants
       {
          curTileImage = Game.getCurZone().getImage(x + cornerLoc.x, y + cornerLoc.y);
          g2dUnscaled.drawImage(curTileImage, xStep * x, yStep * y, null);
-      }
+      } 
+      
    }
    
    @Override
@@ -73,6 +74,15 @@ public class BoardPanel extends DaePanel implements GUIConstants
       }
       for(UnboundTile ut: unboundTileList)
          ut.drawToImage(g2dUnscaled, cornerLoc);
+          
+      // occlude tiles outsize the player's FoV
+      BufferedImage blackSquare = palette.getTile(' ');
+      for(int x = 0; x < tilesWide; x++)
+      for(int y = 0; y < tilesTall; y++)
+      {
+         if(!Game.getPlayer().canSee(x + cornerLoc.x, y + cornerLoc.y))
+            g2dUnscaled.drawImage(blackSquare, palette.getTileWidth() * x, palette.getTileHeight() * y, null);
+      }
    }
 
 }

@@ -252,15 +252,30 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    
    public static ZoneMap getTestMap()
    {
-      ZoneMap z = new ZoneMap(10, 10);
+      int diameter = 12;
+      ZoneMap z = new ZoneMap(diameter, diameter);
       z.setTile(6, 3, new Door());
       z.setTile(6, 5, new Switch());
       z.getTile(6, 5).setFGColor(CYAN);
       z.setTile(6, 7, new Chest());
       
+      for(int x = 0; x < diameter; x++)
+      {
+         z.setTile(x, 0, new ZoneTile(TileBase.WALL));
+         z.setTile(x, diameter - 1, new ZoneTile(TileBase.WALL));
+      }
+      
+      for(int y = 0; y < diameter; y++)
+      {
+         z.setTile(0, y, new ZoneTile(TileBase.WALL));
+         z.setTile(diameter - 1, y, new ZoneTile(TileBase.WALL));
+      }
+      
       z.setItemAt(new Item("Test Item", '"'), 1, 5);
       z.setItemAt(new Item("Enticing Item", '"'), 1, 6);
       z.setItemAt(new Credits(10), 1, 7);
+      
+      z.updateSubmaps();
       return z;
    }
 }

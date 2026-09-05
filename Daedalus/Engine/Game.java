@@ -136,6 +136,7 @@ public class Game implements Runnable
                // cur actor is charged, try to plan and act
                if(curActor.isCharged())
                {
+                  curActor.startOfTurn();
                   // plan if needed
                   if(!curActor.hasPlan())
                      curActor.plan();
@@ -143,6 +144,8 @@ public class Game implements Runnable
                   if(curActor.hasPlan() && AnimationManager.isClearToAct(curActor))
                   {
                      curActor.act();
+                     curActor.endOfTurn();
+                     player.updateFoV();
                      if(curActor == player)
                         MainGamePanel.incrementMessagePanel();
                      cleanActorList();

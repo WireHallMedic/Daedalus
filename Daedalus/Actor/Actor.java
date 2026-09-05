@@ -20,6 +20,7 @@ public class Actor extends UnboundTile implements ActorConstants
    private StatBlock baseStats;
    private ShadowFoV fov;
    private ZoneMap curZone;      // used to know when stuff needs to be updated
+   private boolean turnHasStarted;
 
 
 	public String getName(){return name;}
@@ -49,6 +50,7 @@ public class Actor extends UnboundTile implements ActorConstants
       baseStats = new StatBlock();
       ShadowFoV fov = null;
       curZone = null;
+      turnHasStarted = false;
    }
       
    @Override
@@ -82,20 +84,38 @@ public class Actor extends UnboundTile implements ActorConstants
       discharge(speed.increments);
    }
    
-   public void startTurn()
+   public void startOfTurn()
    {
-      if(curZone != Game.getCurZone())
+      if(!turnHasStarted)
       {
-         curZone = Game.getCurZone();
-         fov = new ShadowFoVRect(curZone.getVisibilityMap());
+         // do stuff if we're on a new map
+         if(curZone != Game.getCurZone())
+         {
+            curZone = Game.getCurZone();
+            fov = new ShadowFoVRect(curZone.getVisibilityMap());
+         }
+         turnHasStarted = true;
+         updateFoV();
       }
+   }
+   
+   public void endOfTurn()
+   {
+      turnHasStarted = false;
    }
    
    // vision
    public void updateFoV()
    {
-
+      fov.calcFoV(getTileLoc().x, getTileLoc().y, getVisionRadius());
    }
+   
+   public boolean canSee(int x, int y)
+   {
+      return fov.isVisible(x, y);
+   }
+   public boolean canSee(Actor a){return canSee(a.getTileLoc());}
+   public boolean canSee(Coord c){return canSee(c.x, c.y);}
    
    // stat block
    public int getMaxHealth(){return baseStats.getMaxHealth();}
