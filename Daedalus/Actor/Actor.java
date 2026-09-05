@@ -86,6 +86,7 @@ public class Actor extends UnboundTile implements ActorConstants
    
    public void startOfTurn()
    {
+      // flag to ensure only runs once per turn
       if(!turnHasStarted)
       {
          // do stuff if we're on a new map
@@ -108,6 +109,8 @@ public class Actor extends UnboundTile implements ActorConstants
    public void updateFoV()
    {
       fov.calcFoV(getTileLoc().x, getTileLoc().y, getVisionRadius());
+      if(this == Game.getPlayer())
+         updateLastSeenMap();
    }
    
    public boolean canSee(int x, int y)
@@ -116,6 +119,18 @@ public class Actor extends UnboundTile implements ActorConstants
    }
    public boolean canSee(Actor a){return canSee(a.getTileLoc());}
    public boolean canSee(Coord c){return canSee(c.x, c.y);}
+   
+   private void updateLastSeenMap()
+   {
+      for(int x = getTileLoc().x - getVisionRadius(); x < getTileLoc().x + getVisionRadius(); x++)
+      for(int y = getTileLoc().y - getVisionRadius(); y < getTileLoc().y + getVisionRadius(); y++)
+      {
+         if(canSee(x, y))
+         {
+            curZone.setLastSeen(x, y);
+         }
+      }
+   }
    
    // stat block
    public int getMaxHealth(){return baseStats.getMaxHealth();}

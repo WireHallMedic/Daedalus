@@ -81,7 +81,8 @@ public class BoardPanel extends DaePanel implements GUIConstants
       for(int y = 0; y < tilesTall; y++)
       {
          if(!Game.getPlayer().canSee(x + cornerLoc.x, y + cornerLoc.y))
-            g2dUnscaled.drawImage(blackSquare, palette.getTileWidth() * x, palette.getTileHeight() * y, null);
+            g2dUnscaled.drawImage(Game.getCurZone().getLastSeen(x + cornerLoc.x, y + cornerLoc.y), 
+                                  palette.getTileWidth() * x, palette.getTileHeight() * y, null);
       }
    }
 

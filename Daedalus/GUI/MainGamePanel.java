@@ -174,9 +174,7 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
             DaeFrame.setActivePanel(InventoryPanel.class);
             break;
          case KeyEvent.VK_SPACE:
-            int count = Game.getPlayer().getInventory().size();
-            int credits = Game.getPlayer().getInventory().getCredits().getValue();
-            System.out.println(String.format("Inventory: %d items, %d credits", count, credits));
+            Game.getCurZone().setTile(1, 1, new ZoneTile(TileBase.DEEP_LIQUID));
             break;
       }
    }

@@ -17,6 +17,8 @@ public class ZoneMap implements ZoneConstants, GUIConstants
 	private ZoneTile[][] tileMap;
 	private Item[][] itemMap;
 	private boolean[][] visibilityMap;
+	private BufferedImage[][] lastSeenMap;
+   private static final BufferedImage BLACK_SQUARE = SQUARE_PALETTE.getTile(' ');
 
 
 	public int getWidth(){return width;}
@@ -25,14 +27,14 @@ public class ZoneMap implements ZoneConstants, GUIConstants
 	public ZoneTile[][] getTileMap(){return tileMap;}
    public Item[][] getItemMap(){return itemMap;}
    public boolean[][] getVisibilityMap(){return visibilityMap;}
+   public BufferedImage[][] getLastSeenMap(){return lastSeenMap;}
 
 
 	public void setWidth(int w){width = w;}
 	public void setHeight(int h){height = h;}
 	public void setOOBTile(ZoneTile o){oobTile = o;}
-	public void setTileMap(ZoneTile[][] t){tileMap = t;}
+	public void setTileMap(ZoneTile[][] t){tileMap = t; updateSubmaps();}
    public void setItemMap(Item[][] im){itemMap = im;}
-   public void setVisibilityMap(boolean[][] vm){visibilityMap = vm;}
 
 
    public ZoneMap(int w, int h)
@@ -43,12 +45,14 @@ public class ZoneMap implements ZoneConstants, GUIConstants
       tileMap = new ZoneTile[width][height];
       itemMap = new Item[width][height];
       visibilityMap = new boolean[width][height];
+      lastSeenMap = new BufferedImage[width][height];
       for(int x = 0; x < width; x++)
       for(int y = 0; y < height; y++)
       {
          tileMap[x][y] = new ZoneTile(TileBase.CLEAR);
          itemMap[x][y] = null;
          visibilityMap[x][y] = false;
+         lastSeenMap[x][y] = BLACK_SQUARE;
       }
    }
    
@@ -105,7 +109,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
       }
    }
    
-   
+
    public ZoneTile getTile(int x, int y)
    {
       if(isInBounds(x, y))
@@ -130,6 +134,31 @@ public class ZoneMap implements ZoneConstants, GUIConstants
       return tileMap[x][y].getImage();
    }
    public BufferedImage getImage(Coord c){return getImage(c.x, c.y);}
+   
+   
+   public void updateLastSeen(int x, int y, int tileIndex)
+   {
+      lastSeenMap[x][y] = SQUARE_PALETTE.getTile(tileIndex);
+   }
+   
+   
+   public BufferedImage getLastSeen(int x, int y)
+   {
+      if(isInBounds(x, y))
+         return lastSeenMap[x][y];
+      return BLACK_SQUARE;
+   }
+   public BufferedImage getLastSeen(Coord c){return getLastSeen(c.x, c.y);}
+   
+   public void setLastSeen(int x, int y)
+   {
+      if(!isInBounds(x, y))
+         lastSeenMap[x][y] = SQUARE_PALETTE.getTile(oobTile.getTileIndex(), GREY, BLACK);
+      else if(isItemAt(x, y))
+         lastSeenMap[x][y] = SQUARE_PALETTE.getTile(itemMap[x][y].getTileIndex(), GREY, BLACK);
+      else 
+         lastSeenMap[x][y] = SQUARE_PALETTE.getTile(tileMap[x][y].getTileIndex(), GREY, BLACK);
+   }
    
    
    // actor stuff
