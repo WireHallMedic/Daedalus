@@ -36,6 +36,17 @@ public class BoardPanel extends DaePanel implements GUIConstants
       int xOrigin = tileWidth + (int)(tileWidth * xInset);
       int yOrigin = tileHeight + (int)(tileHeight * yInset);
       
+      // screen shake
+      if(AnimationManager.isShakingScreen())
+      {
+         xOrigin += (int)(tileWidth * AnimationManager.getScreenShakeX());
+         yOrigin += (int)(tileWidth * AnimationManager.getScreenShakeY());
+         
+         // bind to range so we don't try and read outside the image
+         xOrigin = Math.max(0, Math.min(2 * tileWidth, xOrigin));
+         yOrigin = Math.max(0, Math.min(2 * tileHeight, yOrigin));
+      }
+      
       return oversizedImage.getSubimage(xOrigin, yOrigin, tileWidth * BOARD_SIZE_TILES, tileHeight * BOARD_SIZE_TILES);
    }
    

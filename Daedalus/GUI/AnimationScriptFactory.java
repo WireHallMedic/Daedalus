@@ -132,6 +132,7 @@ public class AnimationScriptFactory implements ZoneConstants, GUIConstants
    {
       AnimationScript script = new AnimationScript(target);
       int duration = GUIConstants.FRAMES_PER_SECOND / 3;
+      duration += (GUIConstants.FRAMES_PER_SECOND / 6) * RNG.nextDouble();
       double travelDist = baseTravelDistance + (RNG.nextDouble() * (baseTravelDistance / 2.0));
       double angle = (Math.PI / 4.0) * (double)rotation;
       double angleVariation = Math.PI / 8;

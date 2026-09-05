@@ -13,12 +13,20 @@ public class AnimationManager
    private static Vector<AnimationScript> semiLockingList = new Vector<AnimationScript>();
    private static BoardPanel boardPanel = null; // because we need to add visual effects from a bunch of other 
                                                 // places, like AI. Set in BoardPanel constructor.
+   private static double screenShakeX = 0.0;
+   private static double screenShakeY = 0.0;
+   private static int screenShakeDuration = 0;
+   private static double screenShakeMaxDistance = 0.0;
    
    public static void setBoardPanel(BoardPanel bp){boardPanel = bp;}
    
    public static void addLocking(AnimationScript as){lockingList.add(as);}
    public static void addNonLocking(AnimationScript as){nonLockingList.add(as);}
    public static void addSemiLocking(AnimationScript as){semiLockingList.add(as);}
+   
+   public static double getScreenShakeX(){return screenShakeX;}
+   public static double getScreenShakeY(){return screenShakeY;}
+   public static boolean isShakingScreen(){return screenShakeDuration > 0;}
    
    public static boolean isLocked()
    {
@@ -35,6 +43,18 @@ public class AnimationManager
       updateList(lockingList);
       updateList(nonLockingList);
       updateList(semiLockingList);
+      
+      if(isShakingScreen())
+      {
+         screenShakeX = ((2.0 * screenShakeMaxDistance) * RNG.nextDouble()) - screenShakeMaxDistance;
+         screenShakeY = ((2.0 * screenShakeMaxDistance) * RNG.nextDouble()) - screenShakeMaxDistance;
+         screenShakeDuration--;
+      }
+      else
+      {
+         screenShakeX = 0.0;
+         screenShakeY = 0.0;
+      }
    }
    
    private static void updateList(Vector<AnimationScript> list)
@@ -88,6 +108,33 @@ public class AnimationManager
    {
       if(boardPanel != null)
          boardPanel.addUnboundTile(ut);
+   }
+   
+   
+   public static void setScreenShake(double maxDist, int durationInTicks)
+   {
+      screenShakeDuration = durationInTicks;
+      screenShakeMaxDistance = maxDist;
+   }
+   
+   public static void setScreenRumble()
+   {
+      setScreenShake(.125, GUIConstants.FRAMES_PER_SECOND / 6);
+   }
+   
+   public static void setScreenShake()
+   {
+      setScreenShake(.25, GUIConstants.FRAMES_PER_SECOND / 3);
+   }
+   
+   public static void setViolentScreenShake()
+   {
+      setScreenShake(.5, GUIConstants.FRAMES_PER_SECOND / 2);
+   }
+   
+   public static void setTestScreenShake()
+   {
+      setScreenShake(5.0, GUIConstants.FRAMES_PER_SECOND / 2);
    }
    
 }
