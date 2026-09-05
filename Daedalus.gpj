@@ -87,5 +87,7 @@ s#l0
 %\011Daedalus%sZone%sZoneConstants.java
 %\011Daedalus%sZone%sZoneMap.java
 %\011Daedalus%sZone%sZoneTile.java
+!37;l
+%\011Daedalus%sActor%sActorTest.java
 !24;m
 RunSelect	Daedalus.Main

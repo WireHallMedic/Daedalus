@@ -14,6 +14,7 @@ public class Actor extends UnboundTile implements ActorConstants
    private int charge;
    private boolean dead;
    private Inventory inventory;
+   private StatBlock baseStats;
 
 
 	public String getName(){return name;}
@@ -21,11 +22,13 @@ public class Actor extends UnboundTile implements ActorConstants
    public int getCharge(){return charge;}
    public boolean isDead(){return dead;}
    public Inventory getInventory(){return inventory;}
+   public StatBlock getBaseStats(){return baseStats;}
 
 
 	public void setName(String n){name = n;}
 	public void setAI(AI a){ai = a;}
    public void setCharge(int c){charge = c;}
+   public void setBaseStats(StatBlock bs){baseStats = bs;}
 
    
    public Actor()
@@ -36,6 +39,7 @@ public class Actor extends UnboundTile implements ActorConstants
       name = "Unknown Actor";
       charge = 0;
       inventory = new Inventory(this);
+      baseStats = new StatBlock();
    }
       
    @Override
@@ -63,6 +67,13 @@ public class Actor extends UnboundTile implements ActorConstants
    {
       charge -= amt;
    }
+   
+   // stat block
+   public int getMaxHealth(){return baseStats.getMaxHealth();}
+	public int getVisionRadius(){return baseStats.getVisionRadius();}
+	public ActionSpeed getMoveSpeed(){return baseStats.getMoveSpeed();}
+	public ActionSpeed getAttackSpeed(){return baseStats.getAttackSpeed();}
+	public ActionSpeed getInteractSpeed(){return baseStats.getInteractSpeed();}
    
    // health
    public void die()

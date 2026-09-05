@@ -10,7 +10,7 @@ public interface ActorConstants
       SLOW           ("Slow", 4, 1),
       NORMAL         ("Normal", 2, 0),
       FAST           ("Fast", 1, -1),
-      INSTANTANEOUS  ("Instantaneous", 0, 0);
+      INSTANTANEOUS  ("Instantaneous", 0, 1000);
       
       public String name;
       public int increments;
@@ -25,11 +25,10 @@ public interface ActorConstants
       
       // we need to track a non-final value to stack speeds, so that
       // we don't lose information by hitting the rails
-      public static ActionSpeed getByModifier(ActionSpeed base, int mod)
+      public static ActionSpeed getByModifier(int mod)
       {
-         if(base == INSTANTANEOUS)
+         if(mod == INSTANTANEOUS.modifier)
             return INSTANTANEOUS;
-         mod += base.modifier;
          if(mod < 0)
             return FAST;
          else if(mod > 0)
