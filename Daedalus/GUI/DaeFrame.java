@@ -34,6 +34,7 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
       innerPanel.setLayout(null);
       innerPanel.setBackground(new Color(BLACK));
       innerPanel.setFocusable(true);
+      innerPanel.setFocusTraversalKeysEnabled(false);
       innerPanel.addKeyListener(this);
       innerPanel.setVisible(true);
       this.add(innerPanel);
