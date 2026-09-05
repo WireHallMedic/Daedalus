@@ -2,6 +2,7 @@ package Daedalus.Zone;
 
 import java.awt.*;
 import java.awt.image.*;
+import Daedalus.AI.*;
 import Daedalus.GUI.*;
 import Daedalus.Item.*;
 import Daedalus.Actor.*;
@@ -10,13 +11,12 @@ import WidlerSuite.SpiralSearch;
 
 public class ZoneMap implements ZoneConstants, GUIConstants
 {
-   public static final int ITEM_SEARCH_MAP_RADIUS = 15;
-   
 	private int width;
 	private int height;
 	private ZoneTile oobTile;
 	private ZoneTile[][] tileMap;
 	private Item[][] itemMap;
+	private boolean[][] visibilityMap;
 
 
 	public int getWidth(){return width;}
@@ -24,6 +24,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
 	public ZoneTile getOOBTile(){return oobTile;}
 	public ZoneTile[][] getTileMap(){return tileMap;}
    public Item[][] getItemMap(){return itemMap;}
+   public boolean[][] getVisibilityMap(){return visibilityMap;}
 
 
 	public void setWidth(int w){width = w;}
@@ -31,6 +32,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
 	public void setOOBTile(ZoneTile o){oobTile = o;}
 	public void setTileMap(ZoneTile[][] t){tileMap = t;}
    public void setItemMap(Item[][] im){itemMap = im;}
+   public void setVisibilityMap(boolean[][] vm){visibilityMap = vm;}
 
 
    public ZoneMap(int w, int h)
@@ -40,11 +42,13 @@ public class ZoneMap implements ZoneConstants, GUIConstants
       oobTile = new ZoneTile(TileBase.WALL);
       tileMap = new ZoneTile[width][height];
       itemMap = new Item[width][height];
+      visibilityMap = new boolean[width][height];
       for(int x = 0; x < width; x++)
       for(int y = 0; y < height; y++)
       {
          tileMap[x][y] = new ZoneTile(TileBase.CLEAR);
          itemMap[x][y] = null;
+         visibilityMap[x][y] = false;
       }
    }
    
@@ -57,20 +61,48 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    public boolean isInBounds(Actor a){return isInBounds(a.getTileLoc());}
    
    
+   public void updateSubmaps(int x, int y)
+   {
+      visibilityMap[x][y] = getTile(x, y).isTransparent();
+   }
+   public void updateSubmaps(Coord c){updateSubmaps(c.x, c.y);}
+   
+   
+   public void updateSubmaps()
+   {
+      for(int x = 0; x < width; x++)
+      for(int y = 0; y < height; y++)
+         updateSubmaps(x, y);
+   }
+   
+   public void toggle(int x, int y)
+   {
+      ((ToggleTile)tileMap[x][y]).toggle();
+      updateSubmaps(x, y);
+   }
+   public void toggle(Coord c){toggle(c.x, c.y);}
+   
+   
    // tile and image stuff
    ////////////////////////////////////////////////
    
    public void setTile(int x, int y, ZoneTile zt)
    {
       if(isInBounds(x, y))
+      {
          tileMap[x][y] = zt;
+         updateSubmaps(x, y);
+      }
    }
    
    
    public void setTile(int x, int y, TileBase base)
    {
       if(isInBounds(x, y))
+      {
          tileMap[x][y].set(base);
+         updateSubmaps(x, y);
+      }
    }
    
    
@@ -99,6 +131,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    }
    public BufferedImage getImage(Coord c){return getImage(c.x, c.y);}
    
+   
    // actor stuff
    ////////////////////////////////////////////
    
@@ -112,7 +145,6 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    
    // item stuff
    ////////////////////////////////////////////
-   
    
    public boolean canPlaceItem(int x, int y)
    {
@@ -178,10 +210,10 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    
    public boolean[][] getItemDroppableMap(int centerX, int centerY)
    {
-      boolean[][] map = new boolean[ITEM_SEARCH_MAP_RADIUS][ITEM_SEARCH_MAP_RADIUS];
-      int radius = ITEM_SEARCH_MAP_RADIUS / 2;
-      for(int x = 0; x < ITEM_SEARCH_MAP_RADIUS; x++)
-      for(int y = 0; y < ITEM_SEARCH_MAP_RADIUS; y++)
+      boolean[][] map = new boolean[ITEM_SEARCH_DIAMETER][ITEM_SEARCH_DIAMETER];
+      int radius = ITEM_SEARCH_DIAMETER / 2;
+      for(int x = 0; x < ITEM_SEARCH_DIAMETER; x++)
+      for(int y = 0; y < ITEM_SEARCH_DIAMETER; y++)
       {
          int xSearch = centerX - radius + x;
          int ySearch = centerY - radius + y;
@@ -194,10 +226,10 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    
    public Coord getDropLocation(int originX, int originY)
    {
-      int xInset = originX - (ITEM_SEARCH_MAP_RADIUS / 2);
-      int yInset = originY - (ITEM_SEARCH_MAP_RADIUS / 2);
+      int xInset = originX - (ITEM_SEARCH_DIAMETER / 2);
+      int yInset = originY - (ITEM_SEARCH_DIAMETER / 2);
       boolean[][] searchMap = getItemDroppableMap(originX, originY);
-      SpiralSearch search = new SpiralSearch(searchMap, ITEM_SEARCH_MAP_RADIUS / 2, ITEM_SEARCH_MAP_RADIUS / 2);
+      SpiralSearch search = new SpiralSearch(searchMap, ITEM_SEARCH_DIAMETER / 2, ITEM_SEARCH_DIAMETER / 2);
       Coord prospect = search.getNext();
       while(prospect != null)
       {

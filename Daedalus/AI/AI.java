@@ -160,8 +160,9 @@ public class AI implements AIConstants, ZoneConstants
    
    protected void doInteract()
    {
-      ToggleTile tt = (ToggleTile)Game.getCurZone().getTile(pendingTarget);
-      tt.toggle();
+//       ToggleTile tt = (ToggleTile)Game.getCurZone().getTile(pendingTarget);
+//       tt.toggle();
+      Game.getCurZone().toggle(pendingTarget);
       self.discharge(self.getInteractSpeed());
    }
    

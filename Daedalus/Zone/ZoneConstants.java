@@ -6,6 +6,8 @@ import Daedalus.Engine.*;
 
 public interface ZoneConstants
 {
+   public static final int ITEM_SEARCH_DIAMETER = 15;
+   
    public enum TileBase
    {
       CLEAR          ("Clear", true, true, true, WSFontConstants.SMALL_BULLET_TILE),

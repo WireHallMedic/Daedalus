@@ -3,9 +3,12 @@ package Daedalus.Actor;
 import Daedalus.AI.*;
 import Daedalus.GUI.*;
 import Daedalus.Item.*;
+import Daedalus.Zone.*;
 import Daedalus.Engine.*;
 import WidlerSuite.Coord;
 import WidlerSuite.WSFontConstants;
+import WidlerSuite.ShadowFoV;
+import WidlerSuite.ShadowFoVRect;
 
 public class Actor extends UnboundTile implements ActorConstants
 {
@@ -15,6 +18,8 @@ public class Actor extends UnboundTile implements ActorConstants
    private boolean dead;
    private Inventory inventory;
    private StatBlock baseStats;
+   private ShadowFoV fov;
+   private ZoneMap curZone;      // used to know when stuff needs to be updated
 
 
 	public String getName(){return name;}
@@ -23,12 +28,14 @@ public class Actor extends UnboundTile implements ActorConstants
    public boolean isDead(){return dead;}
    public Inventory getInventory(){return inventory;}
    public StatBlock getBaseStats(){return baseStats;}
+   public ShadowFoV getFoV(){return fov;}
 
 
 	public void setName(String n){name = n;}
 	public void setAI(AI a){ai = a;}
    public void setCharge(int c){charge = c;}
    public void setBaseStats(StatBlock bs){baseStats = bs;}
+   public void setFoV(ShadowFoV f){fov = f;}
 
    
    public Actor()
@@ -40,6 +47,8 @@ public class Actor extends UnboundTile implements ActorConstants
       charge = 0;
       inventory = new Inventory(this);
       baseStats = new StatBlock();
+      ShadowFoV fov = null;
+      curZone = null;
    }
       
    @Override
@@ -71,6 +80,21 @@ public class Actor extends UnboundTile implements ActorConstants
    public void discharge(ActionSpeed speed)
    {
       discharge(speed.increments);
+   }
+   
+   public void startTurn()
+   {
+      if(curZone != Game.getCurZone())
+      {
+         curZone = Game.getCurZone();
+         fov = new ShadowFoVRect(curZone.getVisibilityMap());
+      }
+   }
+   
+   // vision
+   public void updateFoV()
+   {
+
    }
    
    // stat block
