@@ -7,10 +7,8 @@ import Daedalus.Engine.*;
 import WidlerSuite.Coord;
 import WidlerSuite.WSFontConstants;
 
-public class Actor extends UnboundTile
+public class Actor extends UnboundTile implements ActorConstants
 {
-   public static final int FULLY_CHARGED = 10;
-   
 	private String name;
 	private AI ai;
    private int charge;
