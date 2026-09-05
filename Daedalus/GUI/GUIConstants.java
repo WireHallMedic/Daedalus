@@ -38,4 +38,7 @@ public interface GUIConstants
    public static final int UI_FG_COLOR = CYAN;
    public static final int UI_BG_COLOR = BLACK;
    public static final int CURSOR_ICON_INDEX = WSFontConstants.RIGHT_TRIANGE_TILE;
+   
+   public static final int EXPLOSION_YELLOW = new Color(255, 255, 0).getRGB();
+   public static final int EXPLOSION_RED = new Color(255, 0, 0).getRGB();
 }

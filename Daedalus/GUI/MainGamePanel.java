@@ -174,7 +174,7 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
             DaeFrame.setActivePanel(InventoryPanel.class);
             break;
          case KeyEvent.VK_SPACE:
-            Game.getCurZone().setTile(1, 1, new ZoneTile(TileBase.DEEP_LIQUID));
+            AnimationScriptFactory.addExplosion(Game.getPlayer().getTileLoc().x - 2, Game.getPlayer().getTileLoc().y);
             break;
       }
    }

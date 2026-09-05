@@ -4,9 +4,11 @@ import java.awt.*;
 import java.util.*;
 import Daedalus.Zone.*;
 import Daedalus.Item.*;
+import Daedalus.Engine.*;
 import WidlerSuite.Coord;
+import WidlerSuite.Vect;
 
-public class AnimationScriptFactory implements ZoneConstants
+public class AnimationScriptFactory implements ZoneConstants, GUIConstants
 {
    public static AnimationScript getStep(UnboundTile target, Direction dir)
    {
@@ -90,14 +92,99 @@ public class AnimationScriptFactory implements ZoneConstants
       return script;
    }
    
+   // adders. Create and add to boardpanel and animationmanager
+   ///////////////////////////////////////////////////////////////////////////////
+   
    // creates pickup unboundTile and script, and adds them to boardPanel and 
    public static void addPickupEffect(Item item, Coord loc)
    {
       UnboundTile ut = item.getUnboundTile(loc);
       ut.setYOffset(-.5);
-      AnimationScript as = AnimationScriptFactory.getPickupEffect(ut);
+      AnimationScript as = getPickupEffect(ut);
       AnimationManager.addToBoardPanel(ut);
       AnimationManager.addNonLocking(as);
    }
    public static void addPickupEffect(Item item, int x, int y){addPickupEffect(item, new Coord(x, y));}
+   
+   
+   public static void addExplosion(Coord loc)
+   {
+      double baseDist = 1.0;
+      for(int i = 0; i < 16; i++)
+      {
+         if(i == 8)
+            baseDist /= 2.0;
+         UnboundTile ut = new UnboundTile(SQUARE_PALETTE, '*', YELLOW, TRANSPARENT);
+         ut.setTileLoc(loc);
+         AnimationScript as = AnimationScriptFactory.getExplosionParticleAnimation(ut, i, baseDist);
+         AnimationManager.addToBoardPanel(ut);
+         AnimationManager.addNonLocking(as);
+      }
+   }
+   public static void addExplosion(int x, int y){addExplosion(new Coord(x, y));}
+   
+   
+   
+   // private methods
+   /////////////////////////////////////////////////////////////
+   
+   private static AnimationScript getExplosionParticleAnimation(UnboundTile target, int rotation, double baseTravelDistance)
+   {
+      AnimationScript script = new AnimationScript(target);
+      int duration = GUIConstants.FRAMES_PER_SECOND / 3;
+      double travelDist = baseTravelDistance + (RNG.nextDouble() * (baseTravelDistance / 2.0));
+      double angle = (Math.PI / 4.0) * (double)rotation;
+      double angleVariation = Math.PI / 8;
+      angle += RNG.nextDouble() * angleVariation;
+      angle -= RNG.nextDouble() * angleVariation;
+      Vect vect = new Vect(angle, travelDist);
+      double xStep = vect.getXAsDouble() / duration;
+      double yStep = vect.getYAsDouble() / duration;
+      double[] xList = new double[duration];
+      double[] yList = new double[duration];
+      for(int i = 0; i < duration; i++)
+      {
+         xList[i] = xStep;
+         yList[i] = yStep;
+      }
+      script.setXMoveList(xList);
+      script.setYMoveList(yList);
+      //script.setScaleList(getDoubleGradient(.5, 1.5, duration));
+      script.setFGColorList(getColorGradient(EXPLOSION_YELLOW, EXPLOSION_RED, duration));
+      script.setEndBehavior(AnimationScript.EXPIRE_TARGET);
+      return script;
+   }
+   
+   private static double[] getDoubleGradient(double start, double end, int length)
+   {
+      double[] gradient = new double[length];
+      double curVal = start;
+      double incrementAmt = (end - start) / length;
+      for(int i = 0; i < length; i++)
+      {
+         gradient[i] = curVal;
+         curVal += incrementAmt;
+      }
+      return gradient;
+   }
+   
+   private static int[] getColorGradient(int start, int end, int length)
+   {
+      int[] gradient = new int[length];
+      int startRed = new Color(start).getRed();
+      int startGreen = new Color(start).getGreen();
+      int startBlue = new Color(start).getBlue();
+      int endRed = new Color(end).getRed();
+      int endGreen = new Color(end).getGreen();
+      int endBlue = new Color(end).getBlue();
+      int redStep = (endRed - startRed) / length;
+      int greenStep = (endGreen - startGreen) / length;
+      int blueStep = (endBlue - startBlue) / length;
+
+      for(int i = 0; i < length; i++)
+      {
+         gradient[i] = new Color(startRed + (redStep * i), startGreen + (greenStep * i), startBlue + (blueStep * i)).getRGB();
+      }
+      return gradient;
+   }
 }
