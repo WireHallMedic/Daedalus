@@ -137,7 +137,7 @@ public class AI implements AIConstants, ZoneConstants
    
    protected void doDelay()
    {
-      self.discharge(1);
+      self.discharge(self.getMoveSpeed());
    }
    
    protected void doStep()
@@ -149,7 +149,7 @@ public class AI implements AIConstants, ZoneConstants
       self.setYOffset(0.0 - stepDir.y);
       AnimationScript as = AnimationScriptFactory.getStep(self, stepDir);
       AnimationManager.addSemiLocking(as);
-      self.discharge(1);
+      self.discharge(self.getMoveSpeed());
       if(self == Game.getPlayer() && Game.getCurZone().isItemAt(self.getTileLoc()))
       {
          MainGamePanel.clearMessage();
@@ -162,14 +162,14 @@ public class AI implements AIConstants, ZoneConstants
    {
       ToggleTile tt = (ToggleTile)Game.getCurZone().getTile(pendingTarget);
       tt.toggle();
-      self.discharge(1);
+      self.discharge(self.getInteractSpeed());
    }
    
    protected void doPickUp()
    {
       Item item = Game.getCurZone().takeItemAt(pendingTarget);
       self.addToInventory(item);
-      self.discharge(1);
+      self.discharge(self.getInteractSpeed());
       if(self == Game.getPlayer())
       {
          MainGamePanel.clearMessage();
@@ -182,7 +182,7 @@ public class AI implements AIConstants, ZoneConstants
    {
       Item item = self.getInventory().takeItem(pendingIndex);
       Game.getCurZone().dropItem(item, pendingTarget);
-      self.discharge(1);
+      self.discharge(self.getInteractSpeed());
    }
    
 }

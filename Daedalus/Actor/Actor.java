@@ -68,6 +68,11 @@ public class Actor extends UnboundTile implements ActorConstants
       charge -= amt;
    }
    
+   public void discharge(ActionSpeed speed)
+   {
+      discharge(speed.increments);
+   }
+   
    // stat block
    public int getMaxHealth(){return baseStats.getMaxHealth();}
 	public int getVisionRadius(){return baseStats.getVisionRadius();}
