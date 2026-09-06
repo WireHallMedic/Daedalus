@@ -81,10 +81,10 @@ public class BoardPanel extends DaePanel implements GUIConstants
       if(actorList != null)
       {
          for(int i = 0; i < actorList.size(); i++)
-            actorList.elementAt(i).drawToImage(g2dUnscaled, cornerLoc);
+            actorList.elementAt(i).drawToImage(g2dUnscaled, palette, cornerLoc);
       }
       for(int i = 0; i < unboundTileList.size(); i++)
-         unboundTileList.elementAt(i).drawToImage(g2dUnscaled, cornerLoc);
+         unboundTileList.elementAt(i).drawToImage(g2dUnscaled, palette, cornerLoc);
           
       // occlude tiles outsize the player's FoV
       BufferedImage blackSquare = palette.getTile(' ');

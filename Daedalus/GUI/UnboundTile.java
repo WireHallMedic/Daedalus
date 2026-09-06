@@ -7,13 +7,13 @@ import java.awt.image.*;
 
 public class UnboundTile extends ImageTile
 {
-	private double xOffset;
-	private double yOffset;
-	private double nonTrackingXOffset;
-	private double nonTrackingYOffset;
-	private double scale;
-	private Coord tileLoc;
-   private boolean expired;
+	protected double xOffset;
+	protected double yOffset;
+	protected double nonTrackingXOffset;
+	protected double nonTrackingYOffset;
+	protected double scale;
+	protected Coord tileLoc;
+   protected boolean expired;
 
 
 	public double getXOffset(){return xOffset;}
@@ -94,20 +94,20 @@ public class UnboundTile extends ImageTile
       image = scaledImage;
    }
    
-   public void drawToImage(Graphics2D g2d, int offsetTilesX, int offsetTilesY)
+   public void drawToImage(Graphics2D g2d, TilePalette panelPalette, int offsetTilesX, int offsetTilesY)
    {
       // set base location
-      int xInset = (tileLoc.x - offsetTilesX) * palette.getTileWidth();
-      int yInset = (tileLoc.y - offsetTilesY) * palette.getTileHeight();
+      int xInset = (tileLoc.x - offsetTilesX) * panelPalette.getTileWidth();
+      int yInset = (tileLoc.y - offsetTilesY) * panelPalette.getTileHeight();
       // adjust for offset
-      xInset += (int)((xOffset + nonTrackingXOffset) * palette.getTileWidth());
-      yInset += (int)((yOffset + nonTrackingYOffset) * palette.getTileHeight());
+      xInset += (int)((xOffset + nonTrackingXOffset) * panelPalette.getTileWidth());
+      yInset += (int)((yOffset + nonTrackingYOffset) * panelPalette.getTileHeight());
       // adjust for size
-      xInset += (palette.getTileWidth() - getImage().getWidth()) / 2;
-      yInset += (palette.getTileHeight() - getImage().getHeight()) / 2;
+      xInset += (panelPalette.getTileWidth() - getImage().getWidth()) / 2;
+      yInset += (panelPalette.getTileHeight() - getImage().getHeight()) / 2;
       g2d.drawImage(getImage(), xInset, yInset, null);
    }
-   public void drawToImage(Graphics2D g2d){drawToImage(g2d, 0, 0);}
-   public void drawToImage(Graphics2D g2d, Coord tileOffset){drawToImage(g2d, tileOffset.x, tileOffset.y);}
+   public void drawToImage(Graphics2D g2d, TilePalette panelPalette){drawToImage(g2d, panelPalette, 0, 0);}
+   public void drawToImage(Graphics2D g2d, TilePalette panelPalette, Coord tileOffset){drawToImage(g2d, panelPalette, tileOffset.x, tileOffset.y);}
 }
 

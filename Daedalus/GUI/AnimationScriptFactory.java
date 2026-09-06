@@ -92,6 +92,21 @@ public class AnimationScriptFactory implements ZoneConstants, GUIConstants
       return script;
    }
    
+   public static AnimationScript getFloatStringEffect(UnboundTile target)
+   {
+      AnimationScript script = new AnimationScript(target);
+      int duration = GUIConstants.FRAMES_PER_SECOND;
+      double[] yList = new double[duration];
+      double yStep = -1.0 / duration;
+      for(int i = 0; i < duration; i++)
+      {
+         yList[i] = yStep;
+      }
+      script.setYMoveList(yList);
+      script.setEndBehavior(AnimationScript.EXPIRE_TARGET);
+      return script;
+   }
+   
    // adders. Create and add to boardpanel and animationmanager
    ///////////////////////////////////////////////////////////////////////////////
    
@@ -114,7 +129,7 @@ public class AnimationScriptFactory implements ZoneConstants, GUIConstants
       {
          if(i == 8)
             baseDist /= 2.0;
-         UnboundTile ut = new UnboundTile(SQUARE_PALETTE, '*', YELLOW, TRANSPARENT);
+         UnboundTile ut = new UnboundTile(SQUARE_PALETTE, '*', VIVID_YELLOW, TRANSPARENT);
          ut.setTileLoc(loc);
          AnimationScript as = AnimationScriptFactory.getExplosionParticleAnimation(ut, i, baseDist);
          AnimationManager.addToBoardPanel(ut);
@@ -122,6 +137,20 @@ public class AnimationScriptFactory implements ZoneConstants, GUIConstants
       }
    }
    public static void addExplosion(int x, int y){addExplosion(new Coord(x, y));}
+   
+   
+   public static void addFloatString(String str, Coord loc, int fgColor)
+   {  
+      UnboundString floatStr = new UnboundString(str);
+      floatStr.setTileLoc(loc);
+      floatStr.setYOffset(-.5);
+      floatStr.setFGColor(fgColor);
+      
+      AnimationScript as = getFloatStringEffect(floatStr);
+      AnimationManager.addNonLocking(as);
+      AnimationManager.addToBoardPanel(floatStr);
+   }
+   public static void getFloatStringEffect(String str, int x, int y, int fgColor){addFloatString(str, new Coord(x, y), fgColor);}
    
    
    
@@ -150,8 +179,25 @@ public class AnimationScriptFactory implements ZoneConstants, GUIConstants
       }
       script.setXMoveList(xList);
       script.setYMoveList(yList);
+      int color1 = VIVID_YELLOW;
+      int color2 = VIVID_RED;
+      if(RNG.nextBoolean())
+      {
+         color1 = VIVID_RED;
+         color2 = VIVID_YELLOW;
+      }
+      int timeIncrement = FRAMES_PER_SECOND / 10;
+      int[] fgColor = new int[duration];
+      for(int i = 0; i < duration; i++)
+      {
+         if((i / timeIncrement) % 2 == 0)
+            fgColor[i] = color1;
+         else
+            fgColor[i] = color2;
+      }
+      script.setFGColorList(fgColor);
       //script.setScaleList(getDoubleGradient(.5, 1.5, duration));
-      script.setFGColorList(getColorGradient(EXPLOSION_YELLOW, EXPLOSION_RED, duration));
+      //script.setFGColorList(getColorGradient(EXPLOSION_YELLOW, EXPLOSION_RED, duration));
       script.setEndBehavior(AnimationScript.EXPIRE_TARGET);
       return script;
    }
@@ -195,9 +241,8 @@ public class AnimationScriptFactory implements ZoneConstants, GUIConstants
    //////////////////////////////////////////////////
    public static void addTestEffect()
    {
-      AnimationScript as = new AnimationScript(Game.getPlayer());
-      double[] sizeArr = getDoubleGradient(1.0, 3.0, 60);
-      as.setScaleList(sizeArr);
-      AnimationManager.addLocking(as);
+      addExplosion(Game.getPlayer().getTileLoc());
+      AnimationManager.setScreenShake();
+      //addFloatString("Snort", Game.getPlayer().getTileLoc(), LIGHT_GREEN);
    }
 }

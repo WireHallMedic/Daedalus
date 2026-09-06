@@ -264,7 +264,7 @@ public class DaePanel extends JPanel implements ActionListener, GUIConstants, Ke
    protected void drawUnboundTiles(Graphics2D g2dUnscaled)
    {
       for(UnboundTile ut: unboundTileList)
-         ut.drawToImage(g2dUnscaled);
+         ut.drawToImage(g2dUnscaled, palette);
    }
    
    public void paint(Graphics g)
