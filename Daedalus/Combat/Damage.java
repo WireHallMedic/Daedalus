@@ -12,6 +12,12 @@ public class Damage implements CombatConstants
    {
       values = new int[DamageType.values().length];
    }
+
+   public Damage(DamageType type, int val)
+   {
+      this();
+      setValue(type, val);
+   }
    
    public Damage copy()
    {
@@ -29,6 +35,14 @@ public class Damage implements CombatConstants
    public void subtract(Damage that)
    {
       for(int i = 0; i < DamageType.values().length; i++)
-         values[i] -= that.values[i];
+         values[i] = Math.max(0, this.values[i] - that.values[i]);
+   }
+   
+   public int getSum()
+   {
+      int sum = 0;
+      for(int i = 0; i < DamageType.values().length; i++)
+         sum += values[i];
+      return sum;
    }
 }

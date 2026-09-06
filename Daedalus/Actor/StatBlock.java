@@ -25,8 +25,8 @@ public class StatBlock implements ActorConstants
 
    public StatBlock()
    {
-      maxHealth = 10;
-      visionRadius = 10;
+      maxHealth = 0;
+      visionRadius = 0;
       moveSpeed = ActionSpeed.NORMAL.modifier;
       attackSpeed = ActionSpeed.NORMAL.modifier;
       interactSpeed = ActionSpeed.NORMAL.modifier;

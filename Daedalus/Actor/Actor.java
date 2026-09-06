@@ -4,6 +4,7 @@ import Daedalus.AI.*;
 import Daedalus.GUI.*;
 import Daedalus.Item.*;
 import Daedalus.Zone.*;
+import Daedalus.Combat.*;
 import Daedalus.Engine.*;
 import WidlerSuite.Coord;
 import WidlerSuite.WSFontConstants;
@@ -21,6 +22,7 @@ public class Actor extends UnboundTile implements ActorConstants
    private ShadowFoV fov;
    private ZoneMap curZone;      // used to know when stuff needs to be updated
    private boolean turnHasStarted;
+   private int curHealth;
 
 
 	public String getName(){return name;}
@@ -30,6 +32,7 @@ public class Actor extends UnboundTile implements ActorConstants
    public Inventory getInventory(){return inventory;}
    public StatBlock getBaseStats(){return baseStats;}
    public ShadowFoV getFoV(){return fov;}
+   public int getCurHealth(){return curHealth;}
 
 
 	public void setName(String n){name = n;}
@@ -37,6 +40,7 @@ public class Actor extends UnboundTile implements ActorConstants
    public void setCharge(int c){charge = c;}
    public void setBaseStats(StatBlock bs){baseStats = bs;}
    public void setFoV(ShadowFoV f){fov = f;}
+   public void setCurHealth(int ch){curHealth = ch;}
 
    
    public Actor()
@@ -51,6 +55,10 @@ public class Actor extends UnboundTile implements ActorConstants
       ShadowFoV fov = null;
       curZone = null;
       turnHasStarted = false;
+      
+      baseStats.setMaxHealth(10);
+      baseStats.setVisionRadius(10);
+      fullHeal();
    }
       
    @Override
@@ -143,6 +151,21 @@ public class Actor extends UnboundTile implements ActorConstants
    public void die()
    {
       dead = true;
+   }
+   
+   public void fullHeal()
+   {
+      curHealth = getMaxHealth();
+   }
+   
+   // returns the damage dealth
+   public int applyDamage(Damage d)
+   {
+      curHealth = Math.max(0, curHealth - d.getSum());
+      
+      if(curHealth == 0)
+         die();
+      return d.getSum();
    }
    
    // AI stuff

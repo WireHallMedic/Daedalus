@@ -8,6 +8,8 @@ import java.util.*;
 import Daedalus.AI.*;
 import Daedalus.Zone.*;
 import Daedalus.Item.*;
+import Daedalus.Combat.*;
+import Daedalus.Ability.*;
 import Daedalus.Engine.*;
 import WidlerSuite.Coord;
 
@@ -176,7 +178,9 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
          case KeyEvent.VK_SPACE:
 //             AnimationScriptFactory.addExplosion(Game.getPlayer().getTileLoc());
 //             AnimationManager.setScreenRumble();
-            AnimationScriptFactory.addTestEffect();
+//             AnimationScriptFactory.addTestEffect();
+
+            CombatManager.applyAttack(Game.getPlayer(), Game.getActorList().elementAt(1), Attack.getMock());
             break;
       }
    }
