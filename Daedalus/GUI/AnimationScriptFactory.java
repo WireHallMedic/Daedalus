@@ -188,4 +188,16 @@ public class AnimationScriptFactory implements ZoneConstants, GUIConstants
       }
       return gradient;
    }
+   
+   
+   
+   // testing
+   //////////////////////////////////////////////////
+   public static void addTestEffect()
+   {
+      AnimationScript as = new AnimationScript(Game.getPlayer());
+      double[] sizeArr = getDoubleGradient(1.0, 3.0, 60);
+      as.setScaleList(sizeArr);
+      AnimationManager.addLocking(as);
+   }
 }

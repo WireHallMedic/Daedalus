@@ -13,7 +13,8 @@ s#i0
 s#k0
 s#j0
 s#l0
-!1298;g
+!74;u
+a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!1298;g
 %\011Daedalus%sActor%sActor.java
 %\011Daedalus%sActor%sActorConstants.java
 %\011Daedalus%sActor%sStatBlock.java
@@ -89,5 +90,7 @@ s#l0
 %\011Daedalus%sZone%sZoneTile.java
 !37;l
 %\011Daedalus%sActor%sActorTest.java
+!149;t
+jgrJUnit0xr	%\011Daedalus%sActor%sActor.java	1788626305269:P%\011ActorTest.java	%\011Daedalus%sActor%sActorTest.java	1788626305269:P%\011Actor.java	
 !24;m
 RunSelect	Daedalus.Main

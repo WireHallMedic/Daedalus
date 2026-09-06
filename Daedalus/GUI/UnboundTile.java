@@ -96,10 +96,15 @@ public class UnboundTile extends ImageTile
    
    public void drawToImage(Graphics2D g2d, int offsetTilesX, int offsetTilesY)
    {
+      // set base location
       int xInset = (tileLoc.x - offsetTilesX) * palette.getTileWidth();
       int yInset = (tileLoc.y - offsetTilesY) * palette.getTileHeight();
+      // adjust for offset
       xInset += (int)((xOffset + nonTrackingXOffset) * palette.getTileWidth());
       yInset += (int)((yOffset + nonTrackingYOffset) * palette.getTileHeight());
+      // adjust for size
+      xInset += (palette.getTileWidth() - getImage().getWidth()) / 2;
+      yInset += (palette.getTileHeight() - getImage().getHeight()) / 2;
       g2d.drawImage(getImage(), xInset, yInset, null);
    }
    public void drawToImage(Graphics2D g2d){drawToImage(g2d, 0, 0);}
