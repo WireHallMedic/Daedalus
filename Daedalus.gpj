@@ -14,7 +14,7 @@ s#k0
 s#j0
 s#l0
 !74;u
-a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!1566;g
+a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!1608;g
 %\011Daedalus%sAbility%sAbility.java
 %\011Daedalus%sAbility%sAbilityConstants.java
 %\011Daedalus%sAbility%sAttack.java
@@ -26,6 +26,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!1566;
 %\011Daedalus%sAI%sPlayerAI.java
 %\011Daedalus%sAI%sWanderAI.java
 %\011Daedalus%sCombat%sCombatConstants.java
+%\011Daedalus%sCombat%sCombatManager.java
 %\011Daedalus%sCombat%sDamage.java
 %\011Daedalus%sEngine%sGame.java
 %\011Daedalus%sEngine%sRNG.java
@@ -58,7 +59,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!1566;
 %\011Daedalus%sZone%sZoneConstants.java
 %\011Daedalus%sZone%sZoneMap.java
 %\011Daedalus%sZone%sZoneTile.java
-!1566;f
+!1608;f
 %\011Daedalus%sAbility%sAbility.java
 %\011Daedalus%sAbility%sAbilityConstants.java
 %\011Daedalus%sAbility%sAttack.java
@@ -70,6 +71,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!1566;
 %\011Daedalus%sAI%sPlayerAI.java
 %\011Daedalus%sAI%sWanderAI.java
 %\011Daedalus%sCombat%sCombatConstants.java
+%\011Daedalus%sCombat%sCombatManager.java
 %\011Daedalus%sCombat%sDamage.java
 %\011Daedalus%sEngine%sGame.java
 %\011Daedalus%sEngine%sRNG.java
