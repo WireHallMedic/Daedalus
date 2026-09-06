@@ -12,6 +12,7 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
 {
    private Vector<DaePanel> panelList;
    private DaePanel curPanel;
+   private static DaePanel lastPanel;
    private JPanel innerPanel;
    private MainGamePanel mainGamePanel;
    private InventoryPanel inventoryPanel;
@@ -28,14 +29,13 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
       
       addComponentListener(this);
       this.addKeyListener(this);
+      this.setFocusTraversalKeysEnabled(false);
       
       // panels
       panelList = new Vector<DaePanel>();
       innerPanel = new JPanel();
       innerPanel.setLayout(null);
       innerPanel.setBackground(new Color(BLACK));
-      //innerPanel.setFocusable(true);
-      this.setFocusTraversalKeysEnabled(false);
       this.add(innerPanel);
       
       mainGamePanel = new MainGamePanel(RECT_PALETTE, SQUARE_PALETTE);
@@ -48,12 +48,11 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
       
       arrangePanels();
       curPanel = mainGamePanel;
+      lastPanel = curPanel;
       curPanel.setVisible(true);
       setVisible(true);
       toFront();
-      
-      // needs to happen after everything is set up
-      //SwingUtilities.invokeLater(() -> innerPanel.requestFocusInWindow());
+
       new Thread(this).start();
       
    }
@@ -63,8 +62,14 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
       pendingPanelClass = panelClass;
    }
    
+   public static void goToPreviousPanel()
+   {
+      pendingPanelClass = lastPanel.getClass();
+   }
+   
    private void activeatePanel()
    {
+      lastPanel = curPanel;
       for(DaePanel p: panelList)
       {
          if(p.getClass() == pendingPanelClass)
