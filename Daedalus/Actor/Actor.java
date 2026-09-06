@@ -23,6 +23,9 @@ public class Actor extends UnboundTile implements ActorConstants
    private ZoneMap curZone;      // used to know when stuff needs to be updated
    private boolean turnHasStarted;
    private int curHealth;
+	private Weapon weapon1;
+	private Weapon weapon2;
+	private boolean weaponSelection;
 
 
 	public String getName(){return name;}
@@ -33,6 +36,9 @@ public class Actor extends UnboundTile implements ActorConstants
    public StatBlock getBaseStats(){return baseStats;}
    public ShadowFoV getFoV(){return fov;}
    public int getCurHealth(){return curHealth;}
+	public Weapon getWeapon1(){return weapon1;}
+	public Weapon getWeapon2(){return weapon2;}
+	public boolean isWeaponSelection(){return weaponSelection;}
 
 
 	public void setName(String n){name = n;}
@@ -41,6 +47,9 @@ public class Actor extends UnboundTile implements ActorConstants
    public void setBaseStats(StatBlock bs){baseStats = bs;}
    public void setFoV(ShadowFoV f){fov = f;}
    public void setCurHealth(int ch){curHealth = ch;}
+	public void setWeapon1(Weapon w){weapon1 = w;}
+	public void setWeapon2(Weapon w){weapon2 = w;}
+	public void setWeaponSelection(boolean w){weaponSelection = w;}
 
    
    public Actor()
@@ -178,5 +187,25 @@ public class Actor extends UnboundTile implements ActorConstants
    public void addToInventory(Item item)
    {
       inventory.add(item);
+   }
+   
+   public Weapon getCurWeapon()
+   {
+      if(weaponSelection)
+         return weapon1;
+      return weapon2;
+   }
+   
+   public void setCurWeapon(Weapon w)
+   {
+      if(weaponSelection)
+         weapon1 = w;
+      else
+         weapon2 = w;
+   }
+   
+   public void swapWeapons()
+   {
+      weaponSelection = !weaponSelection;
    }
 }
