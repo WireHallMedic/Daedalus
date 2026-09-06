@@ -175,7 +175,7 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
             break;
          case KeyEvent.VK_SPACE:
             AnimationScriptFactory.addExplosion(Game.getPlayer().getTileLoc());
-            AnimationManager.setViolentScreenShake();
+            AnimationManager.setScreenRumble();
             break;
       }
    }

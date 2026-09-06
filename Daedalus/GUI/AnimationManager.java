@@ -119,22 +119,17 @@ public class AnimationManager
    
    public static void setScreenRumble()
    {
-      setScreenShake(.125, GUIConstants.FRAMES_PER_SECOND / 6);
+      setScreenShake(.15, GUIConstants.FRAMES_PER_SECOND / 6);
    }
    
    public static void setScreenShake()
    {
-      setScreenShake(.25, GUIConstants.FRAMES_PER_SECOND / 3);
+      setScreenShake(.5, GUIConstants.FRAMES_PER_SECOND / 3);
    }
    
    public static void setViolentScreenShake()
    {
-      setScreenShake(.5, GUIConstants.FRAMES_PER_SECOND / 2);
-   }
-   
-   public static void setTestScreenShake()
-   {
-      setScreenShake(5.0, GUIConstants.FRAMES_PER_SECOND / 2);
+      setScreenShake(1.0, GUIConstants.FRAMES_PER_SECOND / 2);
    }
    
 }
