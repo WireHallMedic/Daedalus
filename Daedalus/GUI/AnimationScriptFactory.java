@@ -186,6 +186,7 @@ public class AnimationScriptFactory implements ZoneConstants, GUIConstants
          color1 = VIVID_RED;
          color2 = VIVID_YELLOW;
       }
+      // set to alternate red and yellow every tenth of a second, randomizing which it starts on
       int timeIncrement = FRAMES_PER_SECOND / 10;
       int[] fgColor = new int[duration];
       for(int i = 0; i < duration; i++)
@@ -196,8 +197,6 @@ public class AnimationScriptFactory implements ZoneConstants, GUIConstants
             fgColor[i] = color2;
       }
       script.setFGColorList(fgColor);
-      //script.setScaleList(getDoubleGradient(.5, 1.5, duration));
-      //script.setFGColorList(getColorGradient(EXPLOSION_YELLOW, EXPLOSION_RED, duration));
       script.setEndBehavior(AnimationScript.EXPIRE_TARGET);
       return script;
    }

@@ -14,7 +14,8 @@ s#k0
 s#j0
 s#l0
 !74;u
-a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!1298;g
+a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!1458;g
+%\011Daedalus%sAbility%sAbilityConstants.java
 %\011Daedalus%sActor%sActor.java
 %\011Daedalus%sActor%sActorConstants.java
 %\011Daedalus%sActor%sStatBlock.java
@@ -22,6 +23,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!1298;
 %\011Daedalus%sAI%sAIConstants.java
 %\011Daedalus%sAI%sPlayerAI.java
 %\011Daedalus%sAI%sWanderAI.java
+%\011Daedalus%sCombat%sCombatConstants.java
 %\011Daedalus%sEngine%sGame.java
 %\011Daedalus%sEngine%sRNG.java
 %\011Daedalus%sGUI%sAnimationManager.java
@@ -36,6 +38,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!1298;
 %\011Daedalus%sGUI%sMainGamePanel.java
 %\011Daedalus%sGUI%sSelectionPanel.java
 %\011Daedalus%sGUI%sTilePalette.java
+%\011Daedalus%sGUI%sUnboundString.java
 %\011Daedalus%sGUI%sUnboundTile.java
 %\011Daedalus%sItem%sCredits.java
 %\011Daedalus%sItem%sInventory.java
@@ -46,12 +49,14 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!1298;
 %\011Daedalus%sres%simg%sWSFont_8x16.png
 %\011Daedalus%sZone%sChest.java
 %\011Daedalus%sZone%sDoor.java
+%\011Daedalus%sZone%sExit.java
 %\011Daedalus%sZone%sSwitch.java
 %\011Daedalus%sZone%sToggleTile.java
 %\011Daedalus%sZone%sZoneConstants.java
 %\011Daedalus%sZone%sZoneMap.java
 %\011Daedalus%sZone%sZoneTile.java
-!1298;f
+!1458;f
+%\011Daedalus%sAbility%sAbilityConstants.java
 %\011Daedalus%sActor%sActor.java
 %\011Daedalus%sActor%sActorConstants.java
 %\011Daedalus%sActor%sStatBlock.java
@@ -59,6 +64,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!1298;
 %\011Daedalus%sAI%sAIConstants.java
 %\011Daedalus%sAI%sPlayerAI.java
 %\011Daedalus%sAI%sWanderAI.java
+%\011Daedalus%sCombat%sCombatConstants.java
 %\011Daedalus%sEngine%sGame.java
 %\011Daedalus%sEngine%sRNG.java
 %\011Daedalus%sGUI%sAnimationManager.java
@@ -73,6 +79,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!1298;
 %\011Daedalus%sGUI%sMainGamePanel.java
 %\011Daedalus%sGUI%sSelectionPanel.java
 %\011Daedalus%sGUI%sTilePalette.java
+%\011Daedalus%sGUI%sUnboundString.java
 %\011Daedalus%sGUI%sUnboundTile.java
 %\011Daedalus%sItem%sCredits.java
 %\011Daedalus%sItem%sInventory.java
@@ -83,6 +90,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!1298;
 %\011Daedalus%sres%simg%sWSFont_8x16.png
 %\011Daedalus%sZone%sChest.java
 %\011Daedalus%sZone%sDoor.java
+%\011Daedalus%sZone%sExit.java
 %\011Daedalus%sZone%sSwitch.java
 %\011Daedalus%sZone%sToggleTile.java
 %\011Daedalus%sZone%sZoneConstants.java

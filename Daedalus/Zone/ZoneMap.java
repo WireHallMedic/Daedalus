@@ -186,7 +186,8 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    {
       return isInBounds(x, y) && 
              tileMap[x][y].isLowPassable() &&
-             !(tileMap[x][y] instanceof Door);
+             !(tileMap[x][y] instanceof Door) &&
+             !(tileMap[x][y] instanceof Exit);
    }
    public boolean isValidLocationForItem(Coord c){return isValidLocationForItem(c.x, c.y);}
    
