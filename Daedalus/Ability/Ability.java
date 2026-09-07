@@ -34,11 +34,11 @@ public class Ability implements AbilityConstants
       Vector<Coord> tileList = new Vector<Coord>();
       if(targetingType == TargetingType.POINT)
       {
-         tileList.add(EngineTools.getAffectedPoint(origin, target));
+         tileList.add(EngineTools.getAffectedPoint(origin, target, getRange()));
       }
       else if(targetingType == TargetingType.BLAST)
       {
-         for(Coord c: EngineTools.getAffectedBlast(origin, target))
+         for(Coord c: EngineTools.getAffectedBlast(origin, target, getRange()))
             tileList.add(c);
       }
       return tileList;
