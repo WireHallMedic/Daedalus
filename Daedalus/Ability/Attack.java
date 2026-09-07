@@ -24,8 +24,8 @@ public class Attack extends Ability implements AbilityConstants, CombatConstants
       Attack attack = new Attack("Test Attack");
       Damage damage = new Damage(DamageType.PIERCE, 6);
       attack.setDamage(damage);
-      //attack.setTargetingType(TargetingType.BLAST);
-      attack.setRange(3);
+      attack.setTargetingType(TargetingType.RING);
+      attack.setRange(2);
       return attack;
    }
 }

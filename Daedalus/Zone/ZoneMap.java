@@ -285,6 +285,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
       int diameter = 12;
       ZoneMap z = new ZoneMap(diameter, diameter);
       z.setTile(6, 3, new Door());
+      z.setTile(6, 4, new ZoneTile(TileBase.BARS));
       z.setTile(6, 5, new Switch());
       z.getTile(6, 5).setFGColor(CYAN);
       z.setTile(6, 7, new Chest());

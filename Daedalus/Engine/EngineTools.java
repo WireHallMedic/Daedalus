@@ -2,6 +2,7 @@ package Daedalus.Engine;
 
 import WidlerSuite.Coord;
 import WidlerSuite.StraightLine;
+import WidlerSuite.ShadowFoVRect;
 import Daedalus.Zone.*;
 import Daedalus.Actor.*;
 import java.util.*;
@@ -59,6 +60,46 @@ public class EngineTools
       for(int y = -1; y < 2; y++)
          blastArea.add(new Coord(blastCenter.x + x, blastCenter.y + y));
       return blastArea;
+   }
+   
+   public static Vector<Coord> getAffectedRing(Coord origin, int radius)
+   {
+      Vector<Coord> eminationList = getEmination(origin, radius);
+      for(int i = 0; i < eminationList.size(); i++)
+      {
+         if(eminationList.elementAt(i).equals(origin))
+         {
+            eminationList.removeElementAt(i);
+            i--;
+         }
+      }
+      return eminationList;
+   }
+   
+   // use shadowcasting to get area affected by blast, ring, etc
+   private static Vector<Coord> getEmination(Coord origin, int radius)
+   {
+      int diameter = radius + 1 + radius;
+      int xStart = origin.x - radius;
+      int yStart = origin.y - radius;
+      
+      boolean[][] blockingMap = new boolean[diameter][diameter];
+      for(int x = 0; x < diameter; x++)
+      for(int y = 0; y < diameter; y++)
+      {
+         blockingMap[x][y] = Game.getCurZone().getTile(xStart + x, yStart + y).isHighPassable();
+      }
+      ShadowFoVRect fov = new ShadowFoVRect(blockingMap);
+      fov.calcFoV(radius, radius, radius + 1);
+      Vector<Coord> areaList = new Vector<Coord>();
+      for(int x = 0; x < diameter; x++)
+      for(int y = 0; y < diameter; y++)
+      {
+         if(fov.isVisible(x, y))
+            if(EngineTools.getAngbandDistance(x, y, radius, radius) <= radius)
+               areaList.add(new Coord(origin.x + x - radius, origin.y + y - radius));
+      }
+      return areaList;
    }
    
    
