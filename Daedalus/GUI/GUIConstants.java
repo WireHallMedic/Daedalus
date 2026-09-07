@@ -43,7 +43,8 @@ public interface GUIConstants
    public static final int CURSOR_ICON_INDEX = WSFontConstants.RIGHT_TRIANGE_TILE;
    public static final int MENU_CURSOR_COLOR = CYAN;
    public static final int LOOK_CURSOR_COLOR = WHITE;
-   public static final int TARGETING_CURSOR_COLOR = RED;
+   public static final int TARGETING_CURSOR_COLOR = ORANGE;
+   public static final int TARGETING_BG_COLOR = RED;
    
    public static final int VIVID_YELLOW = new Color(255, 255, 0).getRGB();
    public static final int VIVID_RED = new Color(255, 0, 0).getRGB();

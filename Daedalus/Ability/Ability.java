@@ -1,5 +1,11 @@
 package Daedalus.Ability;
 
+import WidlerSuite.Coord;
+import WidlerSuite.StraightLine;
+import Daedalus.Zone.*;
+import Daedalus.Engine.*;
+import java.util.*;
+
 public class Ability implements AbilityConstants
 {
 	private String name;
@@ -21,5 +27,25 @@ public class Ability implements AbilityConstants
       name = n;
       targetingType = TargetingType.POINT;
       range = 10;
+   }
+   
+   public Vector<Coord> getAffectedTiles(Coord origin, Coord target)
+   {
+      Vector<Coord> tileList = new Vector<Coord>();
+      if(targetingType == TargetingType.POINT)
+      {
+         Coord affected = target.copy();
+         Vector<Coord> lineList = StraightLine.findLine(origin, target);
+         for(int i = 0; i < lineList.size(); i++)
+         {
+            if(!Game.getCurZone().getTile(lineList.elementAt(i)).isHighPassable())
+            {
+               affected = lineList.elementAt(i);
+               break;
+            }
+         }
+         tileList.add(affected);
+      }
+      return tileList;
    }
 }

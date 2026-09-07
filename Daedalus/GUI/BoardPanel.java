@@ -72,7 +72,23 @@ public class BoardPanel extends DaePanel implements GUIConstants
       {
          curTileImage = Game.getCurZone().getImage(x + cornerLoc.x, y + cornerLoc.y);
          g2dUnscaled.drawImage(curTileImage, xStep * x, yStep * y, null);
-      } 
+      }
+      
+      // overwrite tile bgs that are being targeted
+      if(parentPanel.getMode() == MainGamePanel.TARGETING_MODE)
+      {
+         Vector<Coord> affectedList = parentPanel.getAffectedList();
+         if(affectedList != null)
+         {
+            for(int i = 0; i < affectedList.size(); i++)
+            {
+               Coord c = affectedList.elementAt(i);
+               ZoneTile zt = Game.getCurZone().getTile(c);
+               ImageTile it = new ImageTile(SQUARE_PALETTE, zt.getTileIndex(), zt.getFGColor(), TARGETING_BG_COLOR);
+               g2dUnscaled.drawImage(it.getImage(), xStep * (c.x - cornerLoc.x), yStep * (c.y - cornerLoc.y), null);
+            }
+         }
+      }
    }
    
    @Override

@@ -32,9 +32,13 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
    private static boolean persistMessage = false;
    private int mode;
    private Coord cursorLoc;
+   private Vector<Coord> affectedList;
+   private Ability pendingAbility;
    
    public int getMode(){return mode;}
    public Coord getCursorLoc(){return cursorLoc.copy();}
+   public Vector<Coord> getAffectedList(){return affectedList;}
+   public Ability getPendingAbility(){return pendingAbility;}
    
    public MainGamePanel(TilePalette rectPalette, TilePalette squarePalette)
    {
@@ -43,6 +47,8 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
       showFPS = true;
       mode = ACT_MODE;
       cursorLoc = new Coord();
+      affectedList = null;
+      pendingAbility = null;
       clearMessage();
    }
    
@@ -192,10 +198,19 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
             mode = LOOK_MODE;
             break;
          case KeyEvent.VK_F:
-            cursorLoc = Game.getPlayer().getTileLoc().copy();
-            mode = TARGETING_MODE;
-            clearMessage();
-            MainGamePanel.addMessage("Select target.", true);
+            if(Game.getPlayer().getCurWeapon() != null)
+            {
+               cursorLoc = Game.getPlayer().getTileLoc().copy();
+               mode = TARGETING_MODE;
+               setTargetingValues();
+               clearMessage();
+               MainGamePanel.addMessage("Select target.", true);
+            }
+            else
+            {
+               clearMessage();
+               MainGamePanel.addMessage("You are unarmed.", true);
+            }
             break;
          case KeyEvent.VK_SPACE:
 //             AnimationScriptFactory.addExplosion(Game.getPlayer().getTileLoc());
@@ -283,8 +298,14 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
             mode = ACT_MODE;
             clearMessage();
             MainGamePanel.addMessage("Attack Cancelled", true);
+            setNonTargetingValues();
+            break;
+         case KeyEvent.VK_ENTER:
+            mode = ACT_MODE;
+            setNonTargetingValues();
             break;
       }
+      updateAffectedList();
    }
       
    public void keyPressed(KeyEvent ke)
@@ -298,4 +319,21 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
    }
    public void keyReleased(KeyEvent ke){}
    public void keyTyped(KeyEvent ke){}
+   
+   private void setTargetingValues()
+   {
+      pendingAbility = Game.getPlayer().getCurWeapon().getAttack();
+      affectedList = pendingAbility.getAffectedTiles(Game.getPlayer().getTileLoc(), cursorLoc);
+   }
+   
+   private void updateAffectedList()
+   {
+      affectedList = pendingAbility.getAffectedTiles(Game.getPlayer().getTileLoc(), cursorLoc);
+   }
+   
+   private void setNonTargetingValues()
+   {
+      pendingAbility = null;
+      affectedList = null;
+   }
 }
