@@ -17,9 +17,9 @@ public class InventoryPanel extends SelectionPanel implements ActionListener, GU
 {
    private Inventory inventory;
    
-   public InventoryPanel()
+   public InventoryPanel(DaeFrame pFrame)
    {
-      super();
+      super(pFrame);
       inventory = null;
       setHeader("Inventory");
       setFooter("[D]rop or [ESC] to exit");

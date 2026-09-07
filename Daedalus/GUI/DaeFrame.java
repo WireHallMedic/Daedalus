@@ -28,21 +28,20 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
       setLayout(new GridLayout(1, 1));
       
       addComponentListener(this);
-      this.addKeyListener(this);
-      this.setFocusTraversalKeysEnabled(false);
       
       // panels
       panelList = new Vector<DaePanel>();
       innerPanel = new JPanel();
       innerPanel.setLayout(null);
       innerPanel.setBackground(new Color(BLACK));
+      innerPanel.addKeyListener(this);
       this.add(innerPanel);
       
-      mainGamePanel = new MainGamePanel(RECT_PALETTE, SQUARE_PALETTE);
+      mainGamePanel = new MainGamePanel(RECT_PALETTE, SQUARE_PALETTE, this);
       innerPanel.add(mainGamePanel);
       panelList.add(mainGamePanel);
       
-      inventoryPanel = new InventoryPanel();
+      inventoryPanel = new InventoryPanel(this);
       innerPanel.add(inventoryPanel);
       panelList.add(inventoryPanel);
       
@@ -51,12 +50,19 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
       lastPanel = curPanel;
       curPanel.setVisible(true);
       
+      innerPanel.setFocusable(true);
+      this.addKeyListener(this);
+      this.setFocusTraversalKeysEnabled(false);
+      
       this.setVisible(true);
       this.toFront();
-      //this.requestFocus();
-      SwingUtilities.invokeLater(() -> this.requestFocusInWindow());
+      innerPanel.requestFocusInWindow();
       new Thread(this).start();
-      
+   }
+   
+   public void setFocus()
+   {
+      innerPanel.requestFocusInWindow();
    }
    
    public static void setActivePanel(Class panelClass)

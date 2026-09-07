@@ -10,7 +10,7 @@ import java.util.*;
 
 public class DaePanel extends JPanel implements ActionListener, GUIConstants, KeyListener
 {
-   
+   protected DaeFrame parentFrame;
 	protected Daedalus.GUI.TilePalette palette;
 	protected ImageTile[][] imageTileArr;
 	protected int tilesWide;
@@ -28,9 +28,10 @@ public class DaePanel extends JPanel implements ActionListener, GUIConstants, Ke
    
    public Vector<UnboundTile> getUnboundTileList(){return unboundTileList;}
    
-   public DaePanel(int columns, int rows, Daedalus.GUI.TilePalette tilePalette)
+   public DaePanel(int columns, int rows, Daedalus.GUI.TilePalette tilePalette, DaeFrame pFrame)
    {  
       super();
+      parentFrame = pFrame;
       tilesWide = columns;
       tilesTall = rows;
       palette = tilePalette;
@@ -39,8 +40,10 @@ public class DaePanel extends JPanel implements ActionListener, GUIConstants, Ke
       unboundTileList = new Vector<UnboundTile>();
       setAll(' ', UI_FG_COLOR, UI_BG_COLOR);
       setBackground(BLACK);
-      setFocusable(false);
       setBorder();
+      if(parentFrame != null)
+         addKeyListener(parentFrame);
+      setFocusTraversalKeysEnabled(false);
    }
    
    public void setAll(int tileIndex, int fgColor, int bgColor)
@@ -359,29 +362,4 @@ public class DaePanel extends JPanel implements ActionListener, GUIConstants, Ke
    public void keyReleased(KeyEvent ke){}
    public void keyTyped(KeyEvent ke){}
 
-    
-   public static void main(String[] args)
-   {
-      JFrame frame = new JFrame();
-      frame.setSize(1200, 800);
-      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      frame.setTitle("DaePanel");
-      TilePalette palette = RECT_PALETTE;
-      
-      DaePanel panel = new DaePanel(120, 40, palette);
-      frame.add(panel);
-      
-      frame.setVisible(true);
-      
-      UnboundTile ut = new UnboundTile(palette, 'X', Color.BLACK.getRGB(), Color.WHITE.getRGB());
-      ut.setLowerTileIndex(2);
-      ut.setScale(2.0);
-      ut.setTileLoc(1, 1);
-      panel.addUnboundTile(ut);
-      
-      String str = "Sphinx of black quartz, judge my vow!"; 
-      panel.write(5, 5, str, Color.CYAN.getRGB(), new Color(64, 64, 64).getRGB(), 10, 10);
-      
-      panel.repaint();
-   }
 }

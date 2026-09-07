@@ -34,17 +34,7 @@ public class Ability implements AbilityConstants
       Vector<Coord> tileList = new Vector<Coord>();
       if(targetingType == TargetingType.POINT)
       {
-         Coord affected = target.copy();
-         Vector<Coord> lineList = StraightLine.findLine(origin, target);
-         for(int i = 0; i < lineList.size(); i++)
-         {
-            if(!Game.getCurZone().getTile(lineList.elementAt(i)).isHighPassable())
-            {
-               affected = lineList.elementAt(i);
-               break;
-            }
-         }
-         tileList.add(affected);
+         tileList.add(EngineTools.getAffectedPoint(origin, target));
       }
       return tileList;
    }

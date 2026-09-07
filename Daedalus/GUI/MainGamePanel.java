@@ -40,10 +40,10 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
    public Vector<Coord> getAffectedList(){return affectedList;}
    public Ability getPendingAbility(){return pendingAbility;}
    
-   public MainGamePanel(TilePalette rectPalette, TilePalette squarePalette)
+   public MainGamePanel(TilePalette rectPalette, TilePalette squarePalette, DaeFrame pFrame)
    {
-      super(PANEL_WIDTH_TILES, PANEL_HEIGHT_TILES, rectPalette);
-      boardPanel = new BoardPanel(squarePalette, this);
+      super(PANEL_WIDTH_TILES, PANEL_HEIGHT_TILES, rectPalette, pFrame);
+      boardPanel = new BoardPanel(squarePalette, this, pFrame);
       showFPS = true;
       mode = ACT_MODE;
       cursorLoc = new Coord();
@@ -328,7 +328,10 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
    
    private void updateAffectedList()
    {
-      affectedList = pendingAbility.getAffectedTiles(Game.getPlayer().getTileLoc(), cursorLoc);
+      if(mode == TARGETING_MODE)
+         affectedList = pendingAbility.getAffectedTiles(Game.getPlayer().getTileLoc(), cursorLoc);
+      else
+         setNonTargetingValues();
    }
    
    private void setNonTargetingValues()

@@ -45,5 +45,6 @@ public class Main
       game.addActor(b);
       
       game.play();
+      frame.setFocus();
    }
 }

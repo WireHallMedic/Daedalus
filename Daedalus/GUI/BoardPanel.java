@@ -15,9 +15,9 @@ public class BoardPanel extends DaePanel implements GUIConstants
    private double yInset;
    private MainGamePanel parentPanel;
    
-   public BoardPanel(TilePalette tilePalette, MainGamePanel pp)
+   public BoardPanel(TilePalette tilePalette, MainGamePanel pp, DaeFrame pFrame)
    {  
-      super(BOARD_SIZE_TILES + 2, BOARD_SIZE_TILES + 2, tilePalette);
+      super(BOARD_SIZE_TILES + 2, BOARD_SIZE_TILES + 2, tilePalette, pFrame);
       parentPanel = pp;
       setAll('#', WHITE, BLACK);
       cornerLoc = new Coord(0, 0);
