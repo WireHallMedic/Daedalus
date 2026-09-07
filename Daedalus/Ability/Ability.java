@@ -36,6 +36,11 @@ public class Ability implements AbilityConstants
       {
          tileList.add(EngineTools.getAffectedPoint(origin, target));
       }
+      else if(targetingType == TargetingType.BLAST)
+      {
+         for(Coord c: EngineTools.getAffectedBlast(origin, target))
+            tileList.add(c);
+      }
       return tileList;
    }
 }

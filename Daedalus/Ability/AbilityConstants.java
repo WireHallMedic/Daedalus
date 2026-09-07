@@ -7,7 +7,7 @@ public interface AbilityConstants
       POINT,
       CONE,
       BEAM,
-      AREA,
+      BLAST,
       RING;
    }
    
