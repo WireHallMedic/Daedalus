@@ -13,7 +13,7 @@ public class EngineTools
       if(origin.equals(target))
          return origin.copy();
       Coord affected = target.copy();
-      Vector<Coord> lineList = StraightLine.findLine(origin, target);
+      Vector<Coord> lineList = StraightLine.findLine(origin, target, StraightLine.REMOVE_ORIGIN);
       for(int i = 0; i < lineList.size(); i++)
       {
          if(!Game.getCurZone().getTile(lineList.elementAt(i)).isHighPassable() ||

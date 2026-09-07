@@ -54,15 +54,14 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
       this.addKeyListener(this);
       this.setFocusTraversalKeysEnabled(false);
       
-      this.setVisible(true);
-      this.toFront();
       innerPanel.requestFocusInWindow();
+      this.setVisible(true);
       new Thread(this).start();
    }
    
    public void setFocus()
    {
-      innerPanel.requestFocusInWindow();
+      innerPanel.requestFocus();
    }
    
    public static void setActivePanel(Class panelClass)
