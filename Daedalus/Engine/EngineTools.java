@@ -1,13 +1,15 @@
 package Daedalus.Engine;
 
+import WidlerSuite.Vect;
 import WidlerSuite.Coord;
 import WidlerSuite.StraightLine;
 import WidlerSuite.ShadowFoVRect;
 import Daedalus.Zone.*;
+import Daedalus.Ability.*;
 import Daedalus.Actor.*;
 import java.util.*;
 
-public class EngineTools
+public class EngineTools implements AbilityConstants
 {
    public static int getAngbandDistance(int x1, int y1, int x2, int y2)
    {
@@ -62,6 +64,7 @@ public class EngineTools
       return blastArea;
    }
    
+   // like a blast, centered on origin, excludes origin
    public static Vector<Coord> getAffectedRing(Coord origin, int radius)
    {
       Vector<Coord> eminationList = getEmination(origin, radius);
@@ -74,6 +77,32 @@ public class EngineTools
          }
       }
       return eminationList;
+   }
+   
+   // return affected area of a cone.
+   public static Vector<Coord> getAffectedCone(Coord origin, Coord target, int range)
+   {
+      double minAngle = origin.getAngleTo(target) - (CONE_ARC / 2);
+      double maxAngle = origin.getAngleTo(target) + (CONE_ARC / 2);
+      Vect minVect = new Vect(minAngle, 20); // use an arbitrarily large number so we don't have
+      Vect maxVect = new Vect(maxAngle, 20); // gaps near the end
+      minVect.add(origin);
+      maxVect.add(origin);
+      Vector<Coord> endingLine = StraightLine.findLine(minVect.getAsCoord(), maxVect.getAsCoord());
+      Vector<Coord> tileList = new Vector<Coord>();
+      for(Coord farTile: endingLine)
+      {
+         Vector<Coord> perpendicularLine = StraightLine.findLine(origin, farTile, StraightLine.REMOVE_ORIGIN);
+         for(Coord curTile: perpendicularLine)
+         {
+            if(getAngbandDistance(curTile, origin) <= range)
+               if(!containsDuplicate(tileList, curTile))
+                  tileList.add(curTile);
+            if(!Game.getCurZone().getTile(curTile).isHighPassable())
+               break;
+         }
+      }
+      return tileList;
    }
    
    // use shadowcasting to get area affected by blast, ring, etc
@@ -100,6 +129,14 @@ public class EngineTools
                areaList.add(new Coord(origin.x + x - radius, origin.y + y - radius));
       }
       return areaList;
+   }
+   
+   private static boolean containsDuplicate(Vector<Coord> list, Coord c)
+   {
+      for(int i = 0; i < list.size(); i++)
+         if(list.elementAt(i).equals(c))
+            return true;
+      return false;
    }
    
    

@@ -46,6 +46,11 @@ public class Ability implements AbilityConstants
          for(Coord c: EngineTools.getAffectedRing(origin, getRange()))
             tileList.add(c);
       }
+      else if(targetingType == TargetingType.CONE)
+      {
+         for(Coord c: EngineTools.getAffectedCone(origin, target, getRange()))
+            tileList.add(c);
+      }
       return tileList;
    }
 }
