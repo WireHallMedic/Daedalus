@@ -13,10 +13,12 @@ public class BoardPanel extends DaePanel implements GUIConstants
    private Coord cornerLoc;
    private double xInset;
    private double yInset;
+   private MainGamePanel parentPanel;
    
-   public BoardPanel(TilePalette tilePalette)
+   public BoardPanel(TilePalette tilePalette, MainGamePanel pp)
    {  
       super(BOARD_SIZE_TILES + 2, BOARD_SIZE_TILES + 2, tilePalette);
+      parentPanel = pp;
       setAll('#', WHITE, BLACK);
       cornerLoc = new Coord(0, 0);
       xInset = 0.0;
@@ -71,7 +73,6 @@ public class BoardPanel extends DaePanel implements GUIConstants
          curTileImage = Game.getCurZone().getImage(x + cornerLoc.x, y + cornerLoc.y);
          g2dUnscaled.drawImage(curTileImage, xStep * x, yStep * y, null);
       } 
-      
    }
    
    @Override
@@ -94,6 +95,21 @@ public class BoardPanel extends DaePanel implements GUIConstants
          if(!Game.getPlayer().canSee(x + cornerLoc.x, y + cornerLoc.y))
             g2dUnscaled.drawImage(Game.getCurZone().getLastSeen(x + cornerLoc.x, y + cornerLoc.y), 
                                   palette.getTileWidth() * x, palette.getTileHeight() * y, null);
+      }
+      
+      // draw cursor if needed
+      if(AnimationManager.getMediumBlink() && parentPanel.getMode() != MainGamePanel.ACT_MODE)
+      {
+         int cursorColor = WHITE;
+         if(parentPanel.getMode() == MainGamePanel.LOOK_MODE)
+            cursorColor = LOOK_CURSOR_COLOR;
+         if(parentPanel.getMode() == MainGamePanel.TARGETING_MODE)
+            cursorColor = TARGETING_CURSOR_COLOR;
+         
+         BufferedImage cursorTile = palette.getTile('X', cursorColor, TRANSPARENT);
+         int cursorLocX = (parentPanel.getCursorLoc().x - cornerLoc.x) * palette.getTileWidth();
+         int cursorLocY = (parentPanel.getCursorLoc().y - cornerLoc.y) * palette.getTileHeight();
+         g2dUnscaled.drawImage(cursorTile, cursorLocX, cursorLocY, null);
       }
    }
 

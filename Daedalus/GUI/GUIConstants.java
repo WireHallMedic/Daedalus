@@ -12,6 +12,9 @@ public interface GUIConstants
    public static final int PANEL_WIDTH_TILES = 120;
    public static final int PANEL_HEIGHT_TILES = 40;
    public static final int BOARD_SIZE_TILES = 27;
+   public static final int SLOW_BLINK_SPEED = FRAMES_PER_SECOND;
+   public static final int MEDIUM_BLINK_SPEED = FRAMES_PER_SECOND / 2;
+   public static final int FAST_BLINK_SPEED = FRAMES_PER_SECOND / 4;
    
    public static final int BLACK = Color.BLACK.getRGB();
    public static final int GREY = new Color(87, 87, 87).getRGB();
@@ -38,6 +41,9 @@ public interface GUIConstants
    public static final int UI_FG_COLOR = CYAN;
    public static final int UI_BG_COLOR = BLACK;
    public static final int CURSOR_ICON_INDEX = WSFontConstants.RIGHT_TRIANGE_TILE;
+   public static final int MENU_CURSOR_COLOR = CYAN;
+   public static final int LOOK_CURSOR_COLOR = WHITE;
+   public static final int TARGETING_CURSOR_COLOR = RED;
    
    public static final int VIVID_YELLOW = new Color(255, 255, 0).getRGB();
    public static final int VIVID_RED = new Color(255, 0, 0).getRGB();

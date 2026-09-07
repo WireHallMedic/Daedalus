@@ -6,7 +6,7 @@ import Daedalus.Actor.*;
 import Daedalus.Engine.*;
 import WidlerSuite.Coord;
 
-public class AnimationManager
+public class AnimationManager implements GUIConstants
 {
    private static Vector<AnimationScript> lockingList = new Vector<AnimationScript>();
    private static Vector<AnimationScript> nonLockingList = new Vector<AnimationScript>();
@@ -17,6 +17,10 @@ public class AnimationManager
    private static double screenShakeY = 0.0;
    private static int screenShakeDuration = 0;
    private static double screenShakeMaxDistance = 0.0;
+   private static boolean slowBlink;
+   private static boolean mediumBlink;
+   private static boolean fastBlink;
+   private static int blinkCounter;
    
    public static void setBoardPanel(BoardPanel bp){boardPanel = bp;}
    
@@ -27,6 +31,9 @@ public class AnimationManager
    public static double getScreenShakeX(){return screenShakeX;}
    public static double getScreenShakeY(){return screenShakeY;}
    public static boolean isShakingScreen(){return screenShakeDuration > 0;}
+   public static boolean getSlowBlink(){return slowBlink;}
+   public static boolean getMediumBlink(){return mediumBlink;}
+   public static boolean getFastBlink(){return fastBlink;}
    
    public static boolean isLocked()
    {
@@ -43,6 +50,17 @@ public class AnimationManager
       updateList(lockingList);
       updateList(nonLockingList);
       updateList(semiLockingList);
+      
+      // increment blinking
+      blinkCounter++;
+      if(blinkCounter == FRAMES_PER_SECOND)
+         blinkCounter = 0;
+      if(blinkCounter % SLOW_BLINK_SPEED == 0)
+         slowBlink = !slowBlink;
+      if(blinkCounter % MEDIUM_BLINK_SPEED == 0)
+         mediumBlink = !mediumBlink;
+      if(blinkCounter % FAST_BLINK_SPEED == 0)
+         fastBlink = !fastBlink;
       
       if(isShakingScreen())
       {
