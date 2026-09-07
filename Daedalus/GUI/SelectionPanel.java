@@ -16,9 +16,9 @@ public class SelectionPanel extends DaePanel implements ActionListener, GUIConst
    protected int maxListLen;
    protected int maxStringWidth;
    
-   public SelectionPanel(DaeFrame pFrame)
+   public SelectionPanel()
    {
-      super(PANEL_WIDTH_TILES, PANEL_HEIGHT_TILES, RECT_PALETTE, pFrame);
+      super(PANEL_WIDTH_TILES, PANEL_HEIGHT_TILES, RECT_PALETTE);
       curIndex = 0;
       itemList = new Vector<String>();
       listStartX = 4;

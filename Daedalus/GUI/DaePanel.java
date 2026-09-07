@@ -10,7 +10,6 @@ import java.util.*;
 
 public class DaePanel extends JPanel implements ActionListener, GUIConstants, KeyListener
 {
-   protected DaeFrame parentFrame;
 	protected Daedalus.GUI.TilePalette palette;
 	protected ImageTile[][] imageTileArr;
 	protected int tilesWide;
@@ -28,10 +27,9 @@ public class DaePanel extends JPanel implements ActionListener, GUIConstants, Ke
    
    public Vector<UnboundTile> getUnboundTileList(){return unboundTileList;}
    
-   public DaePanel(int columns, int rows, Daedalus.GUI.TilePalette tilePalette, DaeFrame pFrame)
+   public DaePanel(int columns, int rows, Daedalus.GUI.TilePalette tilePalette)
    {  
       super();
-      parentFrame = pFrame;
       tilesWide = columns;
       tilesTall = rows;
       palette = tilePalette;
@@ -41,9 +39,6 @@ public class DaePanel extends JPanel implements ActionListener, GUIConstants, Ke
       setAll(' ', UI_FG_COLOR, UI_BG_COLOR);
       setBackground(BLACK);
       setBorder();
-      if(parentFrame != null)
-         addKeyListener(parentFrame);
-      setFocusTraversalKeysEnabled(false);
    }
    
    public void setAll(int tileIndex, int fgColor, int bgColor)

@@ -40,10 +40,10 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
    public Vector<Coord> getAffectedList(){return affectedList;}
    public Ability getPendingAbility(){return pendingAbility;}
    
-   public MainGamePanel(TilePalette rectPalette, TilePalette squarePalette, DaeFrame pFrame)
+   public MainGamePanel(TilePalette rectPalette, TilePalette squarePalette)
    {
-      super(PANEL_WIDTH_TILES, PANEL_HEIGHT_TILES, rectPalette, pFrame);
-      boardPanel = new BoardPanel(squarePalette, this, pFrame);
+      super(PANEL_WIDTH_TILES, PANEL_HEIGHT_TILES, rectPalette);
+      boardPanel = new BoardPanel(squarePalette, this);
       showFPS = true;
       mode = ACT_MODE;
       cursorLoc = new Coord();
