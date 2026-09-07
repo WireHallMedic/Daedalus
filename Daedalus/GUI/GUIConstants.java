@@ -1,6 +1,7 @@
 package Daedalus.GUI;
 
 import java.awt.*;
+import java.awt.Dimension.*;
 import WidlerSuite.WSFontConstants;
 
 public interface GUIConstants
@@ -8,6 +9,7 @@ public interface GUIConstants
    public static final TilePalette RECT_PALETTE = new TilePalette("Daedalus/res/img/WSFont_8x16.png", 16, 16);
    public static final TilePalette SQUARE_PALETTE = new TilePalette("Daedalus/res/img/WSFont_16x16.png", 16, 16);
    
+   public static final Dimension PREFERRED_PANEL_SIZE = new Dimension(1180, 820);
    public static final int FRAMES_PER_SECOND = 60;
    public static final int PANEL_WIDTH_TILES = 120;
    public static final int PANEL_HEIGHT_TILES = 40;

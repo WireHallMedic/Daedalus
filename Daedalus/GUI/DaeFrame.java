@@ -34,6 +34,7 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
       innerPanel = new JPanel();
       innerPanel.setLayout(null);
       innerPanel.setBackground(new Color(BLACK));
+      innerPanel.setPreferredSize(PREFERRED_PANEL_SIZE);
       this.add(innerPanel);
       
       mainGamePanel = new MainGamePanel(RECT_PALETTE, SQUARE_PALETTE);
@@ -52,8 +53,23 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
       this.addKeyListener(this);
       this.setFocusTraversalKeysEnabled(false);
       
-      this.setFocusable(true);
+      addWindowFocusListener(new WindowFocusListener() {
+            @Override
+            public void windowGainedFocus(WindowEvent e) {
+                System.out.println("Window gained focus!");
+            }
+
+            @Override
+            public void windowLostFocus(WindowEvent e) {
+                System.out.println("Window lost focus!");
+            }
+        });
+      
+      this.pack();
       this.setVisible(true);
+      this.toFront();
+      this.requestFocusInWindow();
+      
       new Thread(this).start();
    }
 
@@ -97,6 +113,10 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
    
    public void actionPerformed(ActionEvent ae)
    {
+      if(isVisible() && !hasFocus())
+      {
+         requestFocusInWindow();
+      }
       if(pendingPanelClass != null)
          activeatePanel();
       curPanel.actionPerformed(ae);
