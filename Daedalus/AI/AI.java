@@ -4,6 +4,7 @@ import Daedalus.GUI.*;
 import Daedalus.Zone.*;
 import Daedalus.Item.*;
 import Daedalus.Actor.*;
+import Daedalus.Combat.*;
 import Daedalus.Engine.*;
 import WidlerSuite.Coord;
 
@@ -131,6 +132,9 @@ public class AI implements AIConstants, ZoneConstants
          case ActorAction.DROP :
             doDrop();
             break;
+         case ActorAction.BASIC_ATTACK :
+            doBasicAttack();
+            break;
       }
       clearPlan();
    }
@@ -160,8 +164,6 @@ public class AI implements AIConstants, ZoneConstants
    
    protected void doInteract()
    {
-//       ToggleTile tt = (ToggleTile)Game.getCurZone().getTile(pendingTarget);
-//       tt.toggle();
       Game.getCurZone().toggle(pendingTarget);
       self.discharge(self.getInteractSpeed());
    }
@@ -184,6 +186,12 @@ public class AI implements AIConstants, ZoneConstants
       Item item = self.getInventory().takeItem(pendingIndex);
       Game.getCurZone().dropItem(item, pendingTarget);
       self.discharge(self.getInteractSpeed());
+   }
+   
+   protected void doBasicAttack()
+   {
+      CombatManager.resolveAttack(self, self.getBasicAttack(), pendingTarget);
+      self.discharge(self.getAttackSpeed());
    }
    
 }

@@ -6,6 +6,7 @@ import Daedalus.Item.*;
 import Daedalus.Zone.*;
 import Daedalus.Combat.*;
 import Daedalus.Engine.*;
+import Daedalus.Ability.*;
 import WidlerSuite.Coord;
 import WidlerSuite.WSFontConstants;
 import WidlerSuite.ShadowFoV;
@@ -207,5 +208,12 @@ public class Actor extends UnboundTile implements ActorConstants
    public void swapWeapons()
    {
       weaponSelection = !weaponSelection;
+   }
+   
+   public Attack getBasicAttack()
+   {
+      if(getCurWeapon() == null)
+         return null;
+      return getCurWeapon().getAttack();
    }
 }

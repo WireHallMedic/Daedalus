@@ -53,18 +53,6 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
       this.addKeyListener(this);
       this.setFocusTraversalKeysEnabled(false);
       
-      addWindowFocusListener(new WindowFocusListener() {
-            @Override
-            public void windowGainedFocus(WindowEvent e) {
-                System.out.println("Window gained focus!");
-            }
-
-            @Override
-            public void windowLostFocus(WindowEvent e) {
-                System.out.println("Window lost focus!");
-            }
-        });
-      
       this.pack();
       this.setVisible(true);
       this.toFront();

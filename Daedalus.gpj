@@ -14,7 +14,7 @@ s#k0
 s#j0
 s#l0
 !74;u
-a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!1681;g
+a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!1715;g
 %\011Daedalus%sAbility%sAbility.java
 %\011Daedalus%sAbility%sAbilityConstants.java
 %\011Daedalus%sAbility%sAttack.java
@@ -38,6 +38,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!1681;
 %\011Daedalus%sGUI%sDaeFrame.java
 %\011Daedalus%sGUI%sDaePanel.java
 %\011Daedalus%sGUI%sGUIConstants.java
+%\011Daedalus%sGUI%sGUITools.java
 %\011Daedalus%sGUI%sImageTile.java
 %\011Daedalus%sGUI%sInventoryPanel.java
 %\011Daedalus%sGUI%sMainGamePanel.java
@@ -61,7 +62,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!1681;
 %\011Daedalus%sZone%sZoneConstants.java
 %\011Daedalus%sZone%sZoneMap.java
 %\011Daedalus%sZone%sZoneTile.java
-!1681;f
+!1715;f
 %\011Daedalus%sAbility%sAbility.java
 %\011Daedalus%sAbility%sAbilityConstants.java
 %\011Daedalus%sAbility%sAttack.java
@@ -85,6 +86,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!1681;
 %\011Daedalus%sGUI%sDaeFrame.java
 %\011Daedalus%sGUI%sDaePanel.java
 %\011Daedalus%sGUI%sGUIConstants.java
+%\011Daedalus%sGUI%sGUITools.java
 %\011Daedalus%sGUI%sImageTile.java
 %\011Daedalus%sGUI%sInventoryPanel.java
 %\011Daedalus%sGUI%sMainGamePanel.java

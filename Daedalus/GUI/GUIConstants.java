@@ -50,4 +50,7 @@ public interface GUIConstants
    
    public static final int VIVID_YELLOW = new Color(255, 255, 0).getRGB();
    public static final int VIVID_RED = new Color(255, 0, 0).getRGB();
+   
+   public static final int SHIELD_COLOR = LIGHT_BLUE;
+   public static final int HEALTH_COLOR = RED;
 }

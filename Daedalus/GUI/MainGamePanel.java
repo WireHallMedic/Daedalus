@@ -8,6 +8,7 @@ import java.util.*;
 import Daedalus.AI.*;
 import Daedalus.Zone.*;
 import Daedalus.Item.*;
+import Daedalus.Actor.*;
 import Daedalus.Combat.*;
 import Daedalus.Ability.*;
 import Daedalus.Engine.*;
@@ -24,12 +25,21 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
    private static final int MESSAGE_PANEL_Y_START = 1;
    private static final int MESSAGE_PANEL_WIDTH = PANEL_WIDTH_TILES - MESSAGE_PANEL_X_START - 1;
    private static final int MESSAGE_PANEL_HEIGHT = 4;
+   private static final int SURROUNDINGS_PANEL_X_START = MESSAGE_PANEL_X_START;
+   private static final int SURROUNDINGS_PANEL_Y_START = MESSAGE_PANEL_Y_START + MESSAGE_PANEL_HEIGHT + 1;
+   private static final int SURROUNDINGS_PANEL_WIDTH = MESSAGE_PANEL_WIDTH;
+   private static final int SURROUNDINGS_PANEL_HEIGHT = BOARD_SIZE_TILES - MESSAGE_PANEL_HEIGHT - 1;
+   private static final int HUD_PANEL_X_START = 1;
+   private static final int HUD_PANEL_Y_START = BOARD_SIZE_TILES + 2;
+   private static final int HUD_PANEL_WIDTH = PANEL_WIDTH_TILES - 2;
+   private static final int HUD_PANEL_HEIGHT = PANEL_HEIGHT_TILES - BOARD_SIZE_TILES - 3;
    
    private BoardPanel boardPanel;
    private static String messagePanelMessage = "";
    private static int messageCount = 0;
    private static boolean dimMessage = false;
    private static boolean persistMessage = false;
+   private static boolean updateSurroundingsPanel = true;
    private int mode;
    private Coord cursorLoc;
    private Vector<Coord> affectedList;
@@ -49,8 +59,10 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
       cursorLoc = new Coord();
       affectedList = null;
       pendingAbility = null;
+      updateSurroundingsPanel = true;
       clearMessage();
    }
+
    
    public static void addMessage(String m, boolean waitingForPlayer)
    {
@@ -73,6 +85,11 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
       dimMessage = false;
       messagePanelMessage = "";
       messageCount = 0;
+   }
+   
+   public static void updateSurroundingsPanel()
+   {
+      updateSurroundingsPanel = true;
    }
    
    // messages dim the turn after they arrive. There's some finesse here
@@ -109,6 +126,9 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
          write(MESSAGE_PANEL_X_START, MESSAGE_PANEL_Y_START, messagePanelMessage, 
                messagePanelFGColor, UI_BG_COLOR, MESSAGE_PANEL_WIDTH, MESSAGE_PANEL_HEIGHT);
       }
+      
+      if(updateSurroundingsPanel)
+         setSurroundingsPanel();
    }
    
    
@@ -143,6 +163,27 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
       return borderArr;
    }
    
+   
+   private void setSurroundingsPanel()
+   {
+      write(SURROUNDINGS_PANEL_X_START, SURROUNDINGS_PANEL_Y_START, "", SURROUNDINGS_PANEL_WIDTH, SURROUNDINGS_PANEL_HEIGHT,
+            SURROUNDINGS_PANEL_WIDTH, SURROUNDINGS_PANEL_HEIGHT);
+      Vector<Actor> nearbyActors = getActorsForSurroundingsPanel();
+      for(int i = 0; i < nearbyActors.size() && i < SURROUNDINGS_PANEL_HEIGHT; i++)
+      {
+         Actor a = nearbyActors.elementAt(i);
+         int row = SURROUNDINGS_PANEL_Y_START + (i * 2);
+         setTile(SURROUNDINGS_PANEL_X_START + 1, row, a.getTileIndex(), a.getFGColor(), a.getBGColor());
+         write(SURROUNDINGS_PANEL_X_START + 3, row, "[      ]", HEALTH_COLOR, BLACK, 8, 1);
+         int[] barArr = GUITools.getBar(a.getCurHealth(), a.getMaxHealth(), 6);
+         for(int j = 0; j < barArr.length; j++)
+            setTileIndex(SURROUNDINGS_PANEL_X_START + 4 + j, row, barArr[j]);
+         write(SURROUNDINGS_PANEL_X_START + 12, row, a.getName(), WHITE, BLACK, SURROUNDINGS_PANEL_WIDTH - 12, 1);
+      }
+      updateSurroundingsPanel = false;
+   }
+
+
    private void actModeKeyPressed(KeyEvent ke)
    {
       // single-key actions need to set pendingTarget after seting pendingAction.
@@ -204,6 +245,7 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
                mode = TARGETING_MODE;
                setTargetingValues();
                clearMessage();
+               Game.getPlayer().getAI().setPendingAction(ActorAction.BASIC_ATTACK);
                MainGamePanel.addMessage("Select target.", true);
             }
             else
@@ -217,7 +259,7 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
 //             AnimationManager.setScreenRumble();
 //             AnimationScriptFactory.addTestEffect();
 
-            CombatManager.applyAttack(Game.getPlayer(), Game.getActorList().elementAt(1), Attack.getMock());
+ //           CombatManager.applyAttack(Game.getPlayer(), Game.getActorList().elementAt(1), Attack.getMock());
             break;
       }
    }
@@ -301,6 +343,11 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
             setNonTargetingValues();
             break;
          case KeyEvent.VK_ENTER:
+            if(Game.getPlayer().getAI().getPendingAction() == ActorAction.BASIC_ATTACK)
+            {
+               Game.getPlayer().getAI().setPendingTarget(cursorLoc);
+            }
+            // TODO: non-attack abilities
             mode = ACT_MODE;
             setNonTargetingValues();
             break;
@@ -322,7 +369,7 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
    
    private void setTargetingValues()
    {
-      pendingAbility = Game.getPlayer().getCurWeapon().getAttack();
+      pendingAbility = Game.getPlayer().getBasicAttack();
       affectedList = pendingAbility.getAffectedTiles(Game.getPlayer().getTileLoc(), cursorLoc);
    }
    
@@ -338,5 +385,21 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
    {
       pendingAbility = null;
       affectedList = null;
+   }
+   
+   private Vector<Actor> getActorsForSurroundingsPanel()
+   {
+      Vector<Actor> actorList = new Vector<Actor>();
+      if(Game.getActorList() != null)
+      {
+         for(int i = 0; i < Game.getActorList().size(); i++)
+         {
+            Actor a = Game.getActorList().elementAt(i);
+            if(a != Game.getPlayer() &&
+               Game.getPlayer().canSee(a))
+               actorList.add(a);
+         }
+      }
+      return actorList;
    }
 }

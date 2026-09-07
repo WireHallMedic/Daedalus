@@ -146,6 +146,7 @@ public class Game implements Runnable
                      curActor.act();
                      curActor.endOfTurn();
                      player.updateFoV();
+                     MainGamePanel.updateSurroundingsPanel();
                      if(curActor == player)
                         MainGamePanel.incrementMessagePanel();
                      cleanActorList();
