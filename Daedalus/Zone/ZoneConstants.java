@@ -81,6 +81,12 @@ public interface ZoneConstants
          return null;
       }
       
+      public static Direction getDirectionTo(Coord origin, Coord target)
+      {
+         Coord c = new Coord(target.x - origin.x, target.y - origin.y);
+         return getFromCoord(c);
+      }
+      
       // returns a random, non-origin direction
       public static Direction random()
       {
@@ -89,6 +95,8 @@ public interface ZoneConstants
       
       public Direction nextClockwise()
       {
+         if(this == ORIGIN)
+            return this;
          int index = this.ordinal() + 1;
          if(index == Direction.values().length)
             index = 1;
@@ -97,6 +105,8 @@ public interface ZoneConstants
       
       public Direction prevClockwise()
       {
+         if(this == ORIGIN)
+            return this;
          int index = this.ordinal() - 1;
          if(index == 0)
             index = Direction.values().length - 1;
@@ -109,7 +119,7 @@ public interface ZoneConstants
             return this;
          int index = this.ordinal() + 4;
          if(index >= Direction.values().length)
-            index -= 4;
+            index -= 8;
          return Direction.values()[index];
       }
    }

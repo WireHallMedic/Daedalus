@@ -94,7 +94,7 @@ public class Game implements Runnable
    private static void removeActorAt(int listIndex)
    {
       actorList.removeElementAt(listIndex);
-      if(listIndex >= initiativeIndex)
+      if(listIndex > initiativeIndex)
          initiativeIndex--;
    }
    
