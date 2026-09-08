@@ -97,7 +97,10 @@ public class AnimationManager implements GUIConstants
    
    // returns false is animation prevents actor from starting turn, else true
    public static boolean isClearToAct(Actor a)
-   {
+   {  
+      // slow down if player is dead
+      if(Game.getPlayer().isDead())
+         return !isSemiLocked();
       if(a == Game.getPlayer())
          return !isSemiLocked();
       return !isLocked();

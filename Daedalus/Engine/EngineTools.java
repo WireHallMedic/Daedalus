@@ -82,14 +82,21 @@ public class EngineTools implements AbilityConstants
    // return affected area of a cone.
    public static Vector<Coord> getAffectedCone(Coord origin, Coord target, int range)
    {
+      Vector<Coord> tileList = new Vector<Coord>();
+      if(origin.equals(target))
+      {
+         tileList.add(target.copy());
+         return tileList;
+      }
       double minAngle = origin.getAngleTo(target) - (CONE_ARC / 2);
       double maxAngle = origin.getAngleTo(target) + (CONE_ARC / 2);
+      System.out.println(minAngle);
+      System.out.println(maxAngle);
       Vect minVect = new Vect(minAngle, 20); // use an arbitrarily large number so we don't have
       Vect maxVect = new Vect(maxAngle, 20); // gaps near the end
       minVect.add(origin);
       maxVect.add(origin);
       Vector<Coord> endingLine = StraightLine.findLine(minVect.getAsCoord(), maxVect.getAsCoord());
-      Vector<Coord> tileList = new Vector<Coord>();
       for(Coord farTile: endingLine)
       {
          Vector<Coord> perpendicularLine = StraightLine.findLine(origin, farTile, StraightLine.REMOVE_ORIGIN);

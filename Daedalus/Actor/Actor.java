@@ -168,6 +168,17 @@ public class Actor extends UnboundTile implements ActorConstants
       curHealth = getMaxHealth();
    }
    
+   // shield
+   public int getCurShield()
+   {
+      return 0;
+   }
+   
+   public int getMaxShield()
+   {
+      return 0;
+   }
+   
    // returns the damage dealth
    public int applyDamage(Damage d)
    {

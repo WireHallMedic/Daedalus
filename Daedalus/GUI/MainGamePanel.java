@@ -39,7 +39,6 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
    private static int messageCount = 0;
    private static boolean dimMessage = false;
    private static boolean persistMessage = false;
-   private static boolean updateSurroundingsPanel = true;
    private int mode;
    private Coord cursorLoc;
    private Vector<Coord> affectedList;
@@ -59,7 +58,6 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
       cursorLoc = new Coord();
       affectedList = null;
       pendingAbility = null;
-      updateSurroundingsPanel = true;
       clearMessage();
    }
 
@@ -85,11 +83,6 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
       dimMessage = false;
       messagePanelMessage = "";
       messageCount = 0;
-   }
-   
-   public static void updateSurroundingsPanel()
-   {
-      updateSurroundingsPanel = true;
    }
    
    // messages dim the turn after they arrive. There's some finesse here
@@ -127,8 +120,8 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
                messagePanelFGColor, UI_BG_COLOR, MESSAGE_PANEL_WIDTH, MESSAGE_PANEL_HEIGHT);
       }
       
-      //if(updateSurroundingsPanel)
-         setSurroundingsPanel();
+      setSurroundingsPanel();
+      setHUDPanel();
    }
    
    
@@ -164,10 +157,11 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
    }
    
    
-   private void setSurroundingsPanel()
+   // surrounds panel
+   //////////////////////////////////////////////////////////////////
+   
+   public void setSurroundingsPanel()
    {
-      write(SURROUNDINGS_PANEL_X_START, SURROUNDINGS_PANEL_Y_START, "", SURROUNDINGS_PANEL_WIDTH, SURROUNDINGS_PANEL_HEIGHT,
-            SURROUNDINGS_PANEL_WIDTH, SURROUNDINGS_PANEL_HEIGHT);
       Vector<Actor> nearbyActors = getActorsForSurroundingsPanel();
       for(int i = 0; i < nearbyActors.size() && i < SURROUNDINGS_PANEL_HEIGHT; i++)
       {
@@ -179,10 +173,50 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
          for(int j = 0; j < barArr.length; j++)
             setTileIndex(SURROUNDINGS_PANEL_X_START + 4 + j, row, barArr[j]);
          write(SURROUNDINGS_PANEL_X_START + 12, row, a.getName(), WHITE, BLACK, SURROUNDINGS_PANEL_WIDTH - 12, 1);
+         write(SURROUNDINGS_PANEL_X_START, row + 1, "", WHITE, BLACK, SURROUNDINGS_PANEL_WIDTH, 1);
       }
-      updateSurroundingsPanel = false;
+   }
+   
+   
+   private Vector<Actor> getActorsForSurroundingsPanel()
+   {
+      Vector<Actor> actorList = new Vector<Actor>();
+      if(Game.getActorList() != null)
+      {
+         for(int i = 0; i < Game.getActorList().size(); i++)
+         {
+            Actor a = Game.getActorList().elementAt(i);
+            if(a != Game.getPlayer() &&
+               Game.getPlayer().canSee(a))
+               actorList.add(a);
+         }
+      }
+      return actorList;
+   }
+   
+   
+   // HUD panel
+   //////////////////////////////////////////////////////////////////
+   
+   public void setHUDPanel()
+   {
+      Actor a = Game.getPlayer();
+      int row = HUD_PANEL_Y_START;
+      setTile(HUD_PANEL_X_START + 1, row, a.getTileIndex(), a.getFGColor(), a.getBGColor());
+      write(HUD_PANEL_X_START + 3, row, "[      ]", HEALTH_COLOR, BLACK, 8, 1);
+      int[] barArr = GUITools.getBar(a.getCurHealth(), a.getMaxHealth(), 6);
+      for(int j = 0; j < barArr.length; j++)
+         setTileIndex(HUD_PANEL_X_START + 4 + j, row, barArr[j]);
+      write(HUD_PANEL_X_START + 12, row, a.getName(), WHITE, BLACK, HUD_PANEL_WIDTH - 12, 1);
+      
+      // fill rest empty
+      row++;
+      write(HUD_PANEL_X_START, row, "", WHITE, BLACK, HUD_PANEL_WIDTH, HUD_PANEL_HEIGHT - (row - HUD_PANEL_Y_START));
    }
 
+
+   // key input
+   //////////////////////////////////////////////////////
 
    private void actModeKeyPressed(KeyEvent ke)
    {
@@ -385,21 +419,5 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
    {
       pendingAbility = null;
       affectedList = null;
-   }
-   
-   private Vector<Actor> getActorsForSurroundingsPanel()
-   {
-      Vector<Actor> actorList = new Vector<Actor>();
-      if(Game.getActorList() != null)
-      {
-         for(int i = 0; i < Game.getActorList().size(); i++)
-         {
-            Actor a = Game.getActorList().elementAt(i);
-            if(a != Game.getPlayer() &&
-               Game.getPlayer().canSee(a))
-               actorList.add(a);
-         }
-      }
-      return actorList;
    }
 }
