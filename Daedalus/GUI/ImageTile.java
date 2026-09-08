@@ -24,10 +24,6 @@ public class ImageTile
 	public TilePalette getPalette(){return palette;}
 
 
-	public void setFGColor(int f){fgColor = f; dirty = true;}
-	public void setBGColor(int b){bgColor = b; dirty = true;}
-	public void setTileIndex(int t){tileIndex = t; dirty = true;}
-   public void setLowerTileIndex(int t){lowerTileIndex = t; dirty = true;}   // setting this makes a stacked tile
 	public void setDirty(boolean d){dirty = d;}
 	public void setPalette(TilePalette p){palette = p;}
 
@@ -52,18 +48,48 @@ public class ImageTile
       set(that);
    }
    
+   public void setFGColor(int f)
+   {
+      if(f != fgColor)
+         dirty = true;
+      fgColor = f; 
+   }
+   
+	public void setBGColor(int b)
+   {
+      if(b != bgColor)
+         dirty = true;
+      bgColor = b; 
+   }
+   
+	public void setTileIndex(int t)
+   {
+      if(t != tileIndex)
+         dirty = true;
+      tileIndex = t; 
+   }
+   
+   public void setLowerTileIndex(int t)   // setting this to not -1 makes a stacked tile
+   {
+      if(t != lowerTileIndex)
+         dirty = true;
+      lowerTileIndex = t; 
+   }
+   
+   
    public ImageTile copy()
    {
       return new ImageTile(this);
    }
    
-   public void set(int index, int fg, int bg)
+   public void set(int index, int fg, int bg, int lti)
    {
-      tileIndex = index;
-      fgColor = fg;
-      bgColor = bg;
-      dirty = true;
+      setTileIndex(index);
+      setFGColor(fg);
+      setBGColor(bg);
+      setLowerTileIndex(lti);
    }
+   public void set(int index, int fg, int bg){set(index, fg, bg, -1);}
    
    public void set(ImageTile that)
    {
@@ -77,10 +103,10 @@ public class ImageTile
    
    public void set(ZoneTile zoneTile)
    {
-      this.tileIndex = zoneTile.getTileIndex();
-      this.fgColor = zoneTile.getFGColor();
-      this.bgColor = zoneTile.getBGColor();
-      this.dirty = true;
+      setTileIndex(zoneTile.getTileIndex());
+      setFGColor(zoneTile.getFGColor());
+      setBGColor(zoneTile.getBGColor());
+      setLowerTileIndex(-1);
    }
    
    public boolean isStackedTile()
