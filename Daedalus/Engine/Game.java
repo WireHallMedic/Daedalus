@@ -94,8 +94,9 @@ public class Game implements Runnable
    private static void removeActorAt(int listIndex)
    {
       actorList.removeElementAt(listIndex);
-      if(listIndex > initiativeIndex)
+      if(listIndex <= initiativeIndex)
          initiativeIndex--;
+      
    }
    
    public static boolean isActorAt(int x, int y)
@@ -146,7 +147,7 @@ public class Game implements Runnable
                      curActor.act();
                      curActor.endOfTurn();
                      player.updateFoV();
-                     MainGamePanel.updateSurroundingsPanel();
+                     //MainGamePanel.updateSurroundingsPanel();
                      if(curActor == player)
                         MainGamePanel.incrementMessagePanel();
                      cleanActorList();

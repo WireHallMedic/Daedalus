@@ -127,7 +127,7 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
                messagePanelFGColor, UI_BG_COLOR, MESSAGE_PANEL_WIDTH, MESSAGE_PANEL_HEIGHT);
       }
       
-      if(updateSurroundingsPanel)
+      //if(updateSurroundingsPanel)
          setSurroundingsPanel();
    }
    
@@ -259,7 +259,7 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
 //             AnimationManager.setScreenRumble();
 //             AnimationScriptFactory.addTestEffect();
 
- //           CombatManager.applyAttack(Game.getPlayer(), Game.getActorList().elementAt(1), Attack.getMock());
+            Game.getPlayer().die();
             break;
       }
    }
