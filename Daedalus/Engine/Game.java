@@ -93,10 +93,11 @@ public class Game implements Runnable
    
    private static void removeActorAt(int listIndex)
    {
+      Actor a = actorList.elementAt(listIndex);
+      actorMap[a.getTileLoc().x][a.getTileLoc().y] = null;
       actorList.removeElementAt(listIndex);
       if(listIndex <= initiativeIndex)
          initiativeIndex--;
-      
    }
    
    public static boolean isActorAt(int x, int y)

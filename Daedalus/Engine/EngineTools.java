@@ -90,8 +90,6 @@ public class EngineTools implements AbilityConstants
       }
       double minAngle = origin.getAngleTo(target) - (CONE_ARC / 2);
       double maxAngle = origin.getAngleTo(target) + (CONE_ARC / 2);
-      System.out.println(minAngle);
-      System.out.println(maxAngle);
       Vect minVect = new Vect(minAngle, 20); // use an arbitrarily large number so we don't have
       Vect maxVect = new Vect(maxAngle, 20); // gaps near the end
       minVect.add(origin);

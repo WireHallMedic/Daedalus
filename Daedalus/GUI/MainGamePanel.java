@@ -163,10 +163,10 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
    public void setSurroundingsPanel()
    {
       Vector<Actor> nearbyActors = getActorsForSurroundingsPanel();
+      int row = SURROUNDINGS_PANEL_Y_START;
       for(int i = 0; i < nearbyActors.size() && i < SURROUNDINGS_PANEL_HEIGHT; i++)
       {
          Actor a = nearbyActors.elementAt(i);
-         int row = SURROUNDINGS_PANEL_Y_START + (i * 2);
          setTile(SURROUNDINGS_PANEL_X_START + 1, row, a.getTileIndex(), a.getFGColor(), a.getBGColor());
          write(SURROUNDINGS_PANEL_X_START + 3, row, "[      ]", HEALTH_COLOR, BLACK, 8, 1);
          int[] barArr = GUITools.getBar(a.getCurHealth(), a.getMaxHealth(), 6);
@@ -174,7 +174,14 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
             setTileIndex(SURROUNDINGS_PANEL_X_START + 4 + j, row, barArr[j]);
          write(SURROUNDINGS_PANEL_X_START + 12, row, a.getName(), WHITE, BLACK, SURROUNDINGS_PANEL_WIDTH - 12, 1);
          write(SURROUNDINGS_PANEL_X_START, row + 1, "", WHITE, BLACK, SURROUNDINGS_PANEL_WIDTH, 1);
+         row += 2;
       }
+      while(row < SURROUNDINGS_PANEL_Y_START + SURROUNDINGS_PANEL_HEIGHT)
+      {
+         write(SURROUNDINGS_PANEL_X_START, row, "", WHITE, BLACK, SURROUNDINGS_PANEL_WIDTH, 1);
+         row++;
+      }
+      
    }
    
    
@@ -201,13 +208,34 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
    public void setHUDPanel()
    {
       Actor a = Game.getPlayer();
+      if(a == null)
+         return;
+      int barWidth = 6;
       int row = HUD_PANEL_Y_START;
       setTile(HUD_PANEL_X_START + 1, row, a.getTileIndex(), a.getFGColor(), a.getBGColor());
-      write(HUD_PANEL_X_START + 3, row, "[      ]", HEALTH_COLOR, BLACK, 8, 1);
-      int[] barArr = GUITools.getBar(a.getCurHealth(), a.getMaxHealth(), 6);
-      for(int j = 0; j < barArr.length; j++)
-         setTileIndex(HUD_PANEL_X_START + 4 + j, row, barArr[j]);
-      write(HUD_PANEL_X_START + 12, row, a.getName(), WHITE, BLACK, HUD_PANEL_WIDTH - 12, 1);
+      for(int i = 0; i < barWidth + 2; i++)
+      {
+         setFGColor(HUD_PANEL_X_START + 3, row, HEALTH_COLOR);
+         setFGColor(HUD_PANEL_X_START + 5 + barWidth, row, SHIELD_COLOR);
+      }
+      int[] healthBarArr = GUITools.getBar(a.getCurHealth(), a.getMaxHealth(), barWidth);
+      int[] shieldBarArr = GUITools.getBar(a.getCurShield(), a.getMaxShield(), barWidth);
+      setTileIndex(HUD_PANEL_X_START + 3, row, '[');
+      setTileIndex(HUD_PANEL_X_START + 5 + barWidth, row, '[');
+      setTileIndex(HUD_PANEL_X_START + 4 + barWidth, row, ']');
+      setTileIndex(HUD_PANEL_X_START + 6 + barWidth + barWidth, row, ']');
+      setFGColor(HUD_PANEL_X_START + 3, row, HEALTH_COLOR);
+      setFGColor(HUD_PANEL_X_START + 5 + barWidth, row, SHIELD_COLOR);
+      setFGColor(HUD_PANEL_X_START + 4 + barWidth, row, HEALTH_COLOR);
+      setFGColor(HUD_PANEL_X_START + 6 + barWidth + barWidth, row, SHIELD_COLOR);
+      for(int j = 0; j < barWidth; j++)
+      {
+         setTileIndex(HUD_PANEL_X_START + 4 + j, row, healthBarArr[j]);
+         setFGColor(HUD_PANEL_X_START + 4 + j, row, HEALTH_COLOR);
+         setTileIndex(HUD_PANEL_X_START + 6 + barWidth + j, row, shieldBarArr[j]);
+         setFGColor(HUD_PANEL_X_START + 6 + barWidth + j, row, SHIELD_COLOR);
+      }
+      write(HUD_PANEL_X_START + 20, row, a.getName(), WHITE, BLACK, HUD_PANEL_WIDTH - 20, 1);
       
       // fill rest empty
       row++;
@@ -374,6 +402,7 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
             mode = ACT_MODE;
             clearMessage();
             MainGamePanel.addMessage("Attack Cancelled", true);
+            Game.getPlayer().getAI().clearPlan();
             setNonTargetingValues();
             break;
          case KeyEvent.VK_ENTER:

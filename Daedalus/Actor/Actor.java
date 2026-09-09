@@ -11,6 +11,7 @@ import WidlerSuite.Coord;
 import WidlerSuite.WSFontConstants;
 import WidlerSuite.ShadowFoV;
 import WidlerSuite.ShadowFoVRect;
+import java.util.*;
 
 public class Actor extends UnboundTile implements ActorConstants
 {
@@ -133,6 +134,11 @@ public class Actor extends UnboundTile implements ActorConstants
    
    public boolean canSee(int x, int y)
    {
+      if(fov == null)
+      {
+         fov = new ShadowFoVRect(curZone.getVisibilityMap());
+         updateFoV();
+      }
       return fov.isVisible(x, y);
    }
    public boolean canSee(Actor a){return canSee(a.getTileLoc());}
@@ -161,6 +167,8 @@ public class Actor extends UnboundTile implements ActorConstants
    public void die()
    {
       dead = true;
+      if(this != Game.getPlayer())
+         dropAllItems();
    }
    
    public void fullHeal()
@@ -199,6 +207,19 @@ public class Actor extends UnboundTile implements ActorConstants
    public void addToInventory(Item item)
    {
       inventory.add(item);
+   }
+   
+   public void dropAllItems()
+   {
+      Credits credits = inventory.getCredits();
+      while(inventory.size() > 0)
+         Game.getCurZone().dropItem(getInventory().takeItem(0), getTileLoc());
+      if(inventory.getCredits().getValue() > 0)
+      {
+         Game.getCurZone().dropItem(new Credits(inventory.getCredits()), getTileLoc());
+         inventory.getCredits().setValue(0);
+      }
+      
    }
    
    public Weapon getCurWeapon()

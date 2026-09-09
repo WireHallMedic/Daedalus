@@ -16,6 +16,7 @@ public class Main
       game.setCurZone(ZoneMap.getTestMap());
       
       Actor a = new Actor();
+      a.setName("Test Player");
       a.setAI(new PlayerAI(a));
       a.setTileLoc(2, 2);
       game.setPlayer(a);
@@ -33,6 +34,8 @@ public class Main
       WanderAI bAI = new WanderAI(b);
       bAI.setStepChance(1.0);
       b.setAI(bAI);
+      b.addToInventory(new Item("Test Item", '^'));
+      b.addToInventory(new Credits(10));
       game.addActor(b);
       
       b = new Actor();

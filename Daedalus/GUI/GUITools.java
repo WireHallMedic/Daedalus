@@ -11,7 +11,7 @@ public class GUITools implements GUIConstants, WSFontConstants
       cur = Math.min(cur, max);
       int[] iconArray = new int[length];
       // early exits to avoid int math imprecision
-      if(cur == max)
+      if(cur == max && max != 0)
       {
          for(int i = 0; i < length; i++)
             iconArray[i] = FULL_BLOCK_TILE;
