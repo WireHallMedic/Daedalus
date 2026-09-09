@@ -10,6 +10,9 @@ import WidlerSuite.Vect;
 
 public class AnimationScriptFactory implements ZoneConstants, GUIConstants
 {
+   private static final int MELEE_PHASE_DURATION = GUIConstants.FRAMES_PER_SECOND / 10;
+   public static final int MELEE_IMPACT_DELAY = MELEE_PHASE_DURATION * 2;
+   
    public static AnimationScript getStep(UnboundTile target, Direction dir)
    {
       AnimationScript script = new AnimationScript(target);
@@ -75,6 +78,40 @@ public class AnimationScriptFactory implements ZoneConstants, GUIConstants
    public static AnimationScript getRecoil(UnboundTile target, Direction dir)
    {
       return getImpact(target, dir);
+   }
+   
+   // direction is direction to target
+   public static AnimationScript getMeleeAttack(UnboundTile target, Direction dir)
+   {
+      AnimationScript script = new AnimationScript(target);
+      int phaseDuration = MELEE_PHASE_DURATION;
+      double xStep = (0.75 / phaseDuration) * dir.x / 3.0;
+      double yStep = (0.75 / phaseDuration) * dir.y / 3.0;
+      double[] xList = new double[phaseDuration * 3];
+      double[] yList = new double[phaseDuration * 3];
+      for(int i = 0; i < phaseDuration; i++)
+      {
+         xList[i] = -xStep;
+         yList[i] = -yStep;
+         xList[i + phaseDuration] = xStep * 3;
+         yList[i + phaseDuration] = yStep * 3;
+         xList[i + (2 * phaseDuration)] = -xStep;
+         yList[i + (2 * phaseDuration)] = -yStep;
+      }
+      script.setXMoveList(xList);
+      script.setYMoveList(yList);
+      script.setEndBehavior(AnimationScript.CENTER_TARGET);
+      script.setNonTrackingMovement(true);
+      return script;
+   }   
+   
+   // direction is direction to attacker
+   public static AnimationScript getMeleeImpact(UnboundTile target, Direction dir)
+   {
+      AnimationScript script = getImpact(target, dir);
+      script.setXMoveList(prepend(0.0, MELEE_IMPACT_DELAY, script.getXMoveList()));
+      script.setYMoveList(prepend(0.0, MELEE_IMPACT_DELAY, script.getYMoveList()));
+      return script;
    }
    
    public static AnimationScript getPickupEffect(UnboundTile target)
@@ -232,6 +269,16 @@ public class AnimationScriptFactory implements ZoneConstants, GUIConstants
          gradient[i] = new Color(startRed + (redStep * i), startGreen + (greenStep * i), startBlue + (blueStep * i)).getRGB();
       }
       return gradient;
+   }
+   
+   private static double[] prepend(double val, int count, double[] original)
+   {
+      double[] newArray = new double[count + original.length];
+      for(int i = 0; i < count; i++)
+         newArray[i] = val;
+      for(int i = 0; i < original.length; i++)
+         newArray[count + i] = original[i];
+      return newArray;
    }
    
    

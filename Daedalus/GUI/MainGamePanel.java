@@ -320,8 +320,11 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
 //             AnimationScriptFactory.addExplosion(Game.getPlayer().getTileLoc());
 //             AnimationManager.setScreenRumble();
 //             AnimationScriptFactory.addTestEffect();
-
-            Game.getPlayer().die();
+            AnimationScript as = AnimationScriptFactory.getMeleeAttack(Game.getPlayer(), Direction.EAST);
+            AnimationManager.addLocking(as);
+            as = AnimationScriptFactory.getMeleeImpact(Game.getActorList().elementAt(1), Direction.WEST);
+            AnimationManager.addLocking(as);
+            AnimationManager.setScreenRumble(AnimationScriptFactory.MELEE_IMPACT_DELAY);
             break;
       }
    }

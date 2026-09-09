@@ -21,6 +21,9 @@ public class AnimationManager implements GUIConstants
    private static boolean mediumBlink;
    private static boolean fastBlink;
    private static int blinkCounter;
+   private static int rumbleCountdown = 0;
+   private static int shakeCountdown = 0;
+   private static int violentShakeCountdown = 0;
    
    public static void setBoardPanel(BoardPanel bp){boardPanel = bp;}
    
@@ -50,6 +53,25 @@ public class AnimationManager implements GUIConstants
       updateList(lockingList);
       updateList(nonLockingList);
       updateList(semiLockingList);
+      
+      if(rumbleCountdown > 0)
+      {
+         rumbleCountdown--;
+         if(rumbleCountdown == 0)
+            setScreenRumble();
+      }
+      if(shakeCountdown > 0)
+      {
+         shakeCountdown--;
+         if(shakeCountdown == 0)
+            setScreenShake();
+      }
+      if(violentShakeCountdown > 0)
+      {
+         violentShakeCountdown--;
+         if(violentShakeCountdown == 0)
+            setViolentScreenShake();
+      }
       
       // increment blinking
       blinkCounter++;
@@ -143,14 +165,29 @@ public class AnimationManager implements GUIConstants
       setScreenShake(.15, GUIConstants.FRAMES_PER_SECOND / 6);
    }
    
+   public static void setScreenRumble(int delay)
+   {
+      rumbleCountdown = delay;
+   }
+   
    public static void setScreenShake()
    {
       setScreenShake(.5, GUIConstants.FRAMES_PER_SECOND / 3);
    }
    
+   public static void setScreenShake(int delay)
+   {
+      shakeCountdown = delay;
+   }
+   
    public static void setViolentScreenShake()
    {
       setScreenShake(1.0, GUIConstants.FRAMES_PER_SECOND / 2);
+   }
+   
+   public static void setViolentScreenShake(int delay)
+   {
+      violentShakeCountdown = delay;
    }
    
 }
