@@ -4,7 +4,7 @@ import Daedalus.GUI.*;
 import Daedalus.Ability.*;
 import Daedalus.Combat.*;
 
-public class Weapon extends Item implements ItemConstants, GUIConstants
+public class Weapon extends ChargeItem implements ItemConstants, GUIConstants
 {
 	private Attack attack;
 	private int rateOfFire;
@@ -20,7 +20,7 @@ public class Weapon extends Item implements ItemConstants, GUIConstants
 
    public Weapon(String name)
    {
-      super(name, ItemBase.WEAPON.tileIndex);
+      super(name, ItemBase.WEAPON);
       attack = new Attack("Unknown Attack");
       rateOfFire = 1;
    }

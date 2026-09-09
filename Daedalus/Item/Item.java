@@ -14,17 +14,17 @@ public class Item extends ImageTile implements ItemConstants, GUIConstants
 	public void setName(String n){name = n;}
 
 
-   public Item(String _name, int tileIndex, int fgColor)
+   public Item(String name, int tileIndex, int fgColor)
    {
       super(SQUARE_PALETTE);
-      setName(_name);
+      setName(name);
       setTileIndex(tileIndex);
       setFGColor(fgColor);
       setBGColor(TRANSPARENT);
    }
-   public Item(String _name, int tileIndex){this(_name, tileIndex, WHITE);}
-   public Item(String _name, ItemBase base){this(_name, base.tileIndex, WHITE);}
-   public Item(String _name, ItemBase base, int fgColor){this(_name, base.tileIndex, fgColor);}
+   public Item(String name, int tileIndex){this(name, tileIndex, WHITE);}
+   public Item(String name, ItemBase base){this(name, base.tileIndex, WHITE);}
+   public Item(String name, ItemBase base, int fgColor){this(name, base.tileIndex, fgColor);}
    
    
    public String getNameWithParticle()
