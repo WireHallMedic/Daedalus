@@ -114,8 +114,9 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!1785;
 %\011Daedalus%sZone%sZoneConstants.java
 %\011Daedalus%sZone%sZoneMap.java
 %\011Daedalus%sZone%sZoneTile.java
-!81;l
+!122;l
 %\011Daedalus%sActor%sActorTest.java
+%\011Daedalus%sItem%sChargeItemTest.java
 %\011Daedalus%sZone%sZoneConstantsTest.java
 !315;t
 jgrJUnit0xr	%\011Daedalus%sActor%sActor.java	1788626305269:P%\011ActorTest.java	%\011Daedalus%sZone%sZoneConstants.java	1788831740507:P%\011ZoneConstantsTest.java	%\011Daedalus%sZone%sZoneConstantsTest.java	1788831740507:P%\011ZoneConstants.java	%\011Daedalus%sActor%sActorTest.java	1788626305269:P%\011Actor.java	
