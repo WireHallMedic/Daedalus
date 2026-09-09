@@ -408,6 +408,7 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
             Game.getPlayer().getAI().clearPlan();
             setNonTargetingValues();
             break;
+         case KeyEvent.VK_F:
          case KeyEvent.VK_ENTER:
             if(Game.getPlayer().getAI().getPendingAction() == ActorAction.BASIC_ATTACK)
             {
