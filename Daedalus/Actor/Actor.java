@@ -207,7 +207,10 @@ public class Actor extends UnboundTile implements ActorConstants
    // returns the damage dealth
    public int applyDamage(Damage d)
    {
-      curHealth = Math.max(0, curHealth - d.getSum());
+      int curDamage = d.getSum();
+      if(hasShield())
+         curDamage = shield.applyDamage(curDamage);
+      curHealth = Math.max(0, curHealth - curDamage);
       
       if(curHealth == 0)
          die();
