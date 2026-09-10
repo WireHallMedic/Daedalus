@@ -1,8 +1,9 @@
 package Daedalus.Item;
 
 import Daedalus.GUI.*;
-import Daedalus.Ability.*;
+import Daedalus.Actor.*;
 import Daedalus.Combat.*;
+import Daedalus.Ability.*;
 
 public class Weapon extends ChargeItem implements ItemConstants, GUIConstants
 {
@@ -45,9 +46,9 @@ public class Weapon extends ChargeItem implements ItemConstants, GUIConstants
    }
    
    
-   public void setValues()
+   private void setValues()
    {
-      setMaxCharge(getMaxShots() * getChargeTimePerShot() * getChargePerTurn());
+      setMaxCharge(getMaxShots() * getChargeTimePerShot() * getChargeRate());
       chargePerShot = getMaxCharge() / getMaxShots();
    }
 
@@ -61,6 +62,18 @@ public class Weapon extends ChargeItem implements ItemConstants, GUIConstants
    public void discharge()
    {
       setCurCharge(getCurCharge() - chargePerShot);
+   }
+   
+   @Override
+   public void setMaxChargeTurns(int val)
+   {
+      throw new Error("setMaxChargeTurns() inappropriate for weapons, use setMaxShots() and setChargeTimePerShot() instead");
+   }
+   
+   
+   public void setChargeTimePerShotTurns(int ctps)
+   {
+      setChargeTimePerShot(ActorConstants.ActionSpeed.NORMAL.increments * ctps);
    }
    
    

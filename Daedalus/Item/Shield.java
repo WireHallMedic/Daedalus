@@ -32,12 +32,12 @@ public class Shield extends ChargeItem implements ItemConstants, GUIConstants
    {
       super(name, ItemBase.SHIELD);
       setMaxDamageCapacity(STANDARD_MAX_DAMAGE_CAPACITY);
-      setChargeDelayNormalTurns(STANDARD_CHARGE_DELAY_NORMAL_TURNS);
-      setMaxChargeNormalTurns(STANDARD_MAX_CHARGE_TIME_STANDARD_TURNS);
+      setChargeDelayTurns(STANDARD_CHARGE_DELAY_NORMAL_TURNS);
+      setMaxChargeTurns(STANDARD_MAX_CHARGE_TIME_STANDARD_TURNS);
       ticksSinceCharge = 0;
    }
    
-   public void setChargeDelayNormalTurns(int cd)
+   public void setChargeDelayTurns(int cd)
    {
       chargeDelay = ActorConstants.ActionSpeed.NORMAL.increments * cd;
    }
@@ -66,26 +66,19 @@ public class Shield extends ChargeItem implements ItemConstants, GUIConstants
    }
    
    @Override
-   public void setMaxChargeNormalTurns(int turns)
+   public void setMaxChargeTurns(int turns)
    {
-      super.setMaxChargeNormalTurns(turns);
+      super.setMaxChargeTurns(turns);
       setDamagePerCharge();
    }
    
-   // returns remaining damage
+   // returns damage absorbed
    public int applyDamage(int damageSum)
    {
       ticksSinceCharge = 0;
-      if(damageSum / damagePerCharge <= getCurCharge())
-      {
-         setCurCharge((int)(getCurCharge() - (damageSum / damagePerCharge)));
-         return 0;
-      }
-      else
-      {
-         damageSum -= getCurDamageCapacity();
-         setCurCharge(0);
-         return damageSum;
-      }
+      int damageAbsorbed = Math.min(damageSum, getCurDamageCapacity());
+      setCurCharge((int)(getCurCharge() - (damageAbsorbed / damagePerCharge)));
+      return damageAbsorbed;
    }
+   public int applyDamage(Damage damage){return applyDamage(damage.getSum());}
 }

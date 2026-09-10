@@ -6,7 +6,7 @@ import Daedalus.GUI.*;
 public interface ItemConstants
 {
    public static final int MAX_INVENTORY_SIZE = 20;
-   public static final int STANDARD_CHARGE_PER_TURN = 120;
+   public static final int STANDARD_CHARGE_PER_TURN = 60;
    
    public enum ItemBase
    {

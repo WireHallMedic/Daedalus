@@ -5,17 +5,17 @@ import Daedalus.Actor.*;
 
 public abstract class ChargeItem extends Item implements ItemConstants, GUIConstants
 {
-	private int chargePerTurn;
+	private int chargeRate;
 	private int maxCharge;
 	private int curCharge;
 
 
-	public int getChargePerTurn(){return chargePerTurn;}
+	public int getChargeRate(){return chargeRate;}
 	public int getMaxCharge(){return maxCharge;}
 	public int getCurCharge(){return curCharge;}
 
 
-	public void setChargePerTurn(int c){chargePerTurn = c;}
+	public void setChargeRate(int c){chargeRate = c;}
 	public void setMaxCharge(int m){maxCharge = m;}
 	public void setCurCharge(int c){curCharge = c;}
    
@@ -23,18 +23,20 @@ public abstract class ChargeItem extends Item implements ItemConstants, GUIConst
    public ChargeItem(String name, int tileIndex, int fgColor)
    {
       super(name, tileIndex, fgColor);
-      setChargePerTurn(STANDARD_CHARGE_PER_TURN);
-      setMaxChargeNormalTurns(10);
+      setChargeRate(STANDARD_CHARGE_PER_TURN);
+      setMaxCharge(10 * STANDARD_CHARGE_PER_TURN);
       fullyCharge();
    }
    public ChargeItem(String name, int tileIndex){this(name, tileIndex, WHITE);}
    public ChargeItem(String name, ItemBase base){this(name, base.tileIndex, WHITE);}
    public ChargeItem(String name, ItemBase base, int fgColor){this(name, base.tileIndex, fgColor);}
    
-   public void setMaxChargeNormalTurns(int t)
+   
+   public void setMaxChargeTurns(int t)
    {
-      setMaxCharge(ActorConstants.ActionSpeed.NORMAL.increments * t * getChargePerTurn());
+      setMaxCharge(t * getChargeRate() * ActorConstants.ActionSpeed.NORMAL.increments);
    }
+   
    
    public void fullyCharge()
    {
@@ -43,6 +45,6 @@ public abstract class ChargeItem extends Item implements ItemConstants, GUIConst
    
    public void charge()
    {
-      curCharge = Math.min(curCharge + (chargePerTurn / 2), maxCharge);
+      curCharge = Math.min(curCharge + chargeRate, maxCharge);
    }
 }

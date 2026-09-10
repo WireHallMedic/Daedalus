@@ -29,6 +29,7 @@ public class Actor extends UnboundTile implements ActorConstants
 	private Weapon weapon2;
 	private boolean weaponSelection;
    private Shield shield;
+   private Armor armor;
 
 
 	public String getName(){return name;}
@@ -43,6 +44,7 @@ public class Actor extends UnboundTile implements ActorConstants
 	public Weapon getWeapon2(){return weapon2;}
 	public boolean isWeaponSelection(){return weaponSelection;}
    public Shield getShield(){return shield;}
+   public Armor getArmor(){return armor;}
 
 
 	public void setName(String n){name = n;}
@@ -55,6 +57,7 @@ public class Actor extends UnboundTile implements ActorConstants
 	public void setWeapon2(Weapon w){weapon2 = w;}
 	public void setWeaponSelection(boolean w){weaponSelection = w;}
    public void setShield(Shield s){shield = s;}
+   public void setArmor(Armor a){armor = a;}
 
    
    public Actor()
@@ -74,6 +77,7 @@ public class Actor extends UnboundTile implements ActorConstants
    	weapon1 = null;
    	weapon2 = null;
       shield = null;
+      armor = null;
       
       baseStats.setMaxHealth(10);
       baseStats.setVisionRadius(10);
@@ -192,28 +196,10 @@ public class Actor extends UnboundTile implements ActorConstants
       curHealth = getMaxHealth();
    }
    
-   // shield
-   public boolean hasShield()
-   {
-      return shield != null;
-   }
-   
-   public int getCurShield()
-   {
-      if(hasShield())
-         return shield.getCurDamageCapacity();
-      return 0;
-   }
-   
-   public int getMaxShield()
-   {
-      if(hasShield())
-         return shield.getMaxDamageCapacity();
-      return 0;
-   }
    
    // returns the damage dealth
    public int applyDamage(Damage d)
+   
    {
       int curDamage = d.getSum();
       if(hasShield())
@@ -250,6 +236,25 @@ public class Actor extends UnboundTile implements ActorConstants
       
    }
    
+   public boolean hasShield()
+   {
+      return shield != null;
+   }
+   
+   public int getCurShield()
+   {
+      if(hasShield())
+         return shield.getCurDamageCapacity();
+      return 0;
+   }
+   
+   public int getMaxShield()
+   {
+      if(hasShield())
+         return shield.getMaxDamageCapacity();
+      return 0;
+   }
+   
    public Weapon getCurWeapon()
    {
       if(weaponSelection)
@@ -268,6 +273,11 @@ public class Actor extends UnboundTile implements ActorConstants
    public void swapWeapons()
    {
       weaponSelection = !weaponSelection;
+   }
+   
+   public boolean hasArmor()
+   {
+      return armor != null;
    }
    
    public Attack getBasicAttack()
