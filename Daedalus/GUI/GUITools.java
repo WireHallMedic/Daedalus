@@ -49,9 +49,38 @@ public class GUITools implements GUIConstants, WSFontConstants
    {
       int[] iconArr = new int[length + 2];
       int[] bar = getBar(cur, max, length);
-      iconArr[0] = 10 + (11 * 16);            // box-drawing char
-      iconArr[length + 1] = 10 + (11 * 16);   // box-drawing char
+      iconArr[0] = LEFT_BAR_BRACE;
+      iconArr[length + 1] = RIGHT_BAR_BRACE;
       for(int i = 0; i < length; i++)
+         iconArr[i + 1] = bar[i];
+      return iconArr;
+   }
+   
+
+   public static int[] getDotBar(int cur, int max)
+   {
+      cur = Math.max(cur, 0);
+      cur = Math.min(cur, max);
+      int[] iconArray = new int[max];
+
+      for(int i = 0; i < max; i++)
+      {
+         if(i < cur)
+            iconArray[i] = DOT_TILE;
+         else
+            iconArray[i] = RING_TILE;
+      }
+      return iconArray;
+   }
+   
+   
+   public static int[] getDotBarWithBraces(int cur, int max)
+   {
+      int[] iconArr = new int[max + 2];
+      int[] bar = getDotBar(cur, max);
+      iconArr[0] = LEFT_BAR_BRACE;
+      iconArr[max + 1] = RIGHT_BAR_BRACE;
+      for(int i = 0; i < max; i++)
          iconArr[i + 1] = bar[i];
       return iconArr;
    }

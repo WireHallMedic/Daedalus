@@ -94,6 +94,12 @@ public class Actor extends UnboundTile implements ActorConstants
    {
       if(charge < FULLY_CHARGED)
          charge++;
+      if(weapon1 != null)
+         weapon1.charge();
+      if(weapon2 != null)
+         weapon2.charge();
+      if(hasShield())
+         shield.charge();
    }
    
    public boolean isCharged()
@@ -142,6 +148,8 @@ public class Actor extends UnboundTile implements ActorConstants
    
    public boolean canSee(int x, int y)
    {
+      if(curZone == null)
+         return false;
       if(fov == null)
       {
          fov = new ShadowFoVRect(curZone.getVisibilityMap());

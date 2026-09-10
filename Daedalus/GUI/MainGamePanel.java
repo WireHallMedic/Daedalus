@@ -221,9 +221,22 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
       int row = HUD_PANEL_Y_START;
       setTile(HUD_PANEL_X_START + 1, row, a.getTileIndex(), a.getFGColor(), a.getBGColor());
       
-      drawBar(HUD_PANEL_X_START + 3, row, a.getCurHealth(), a.getMaxHealth(), barWidth, HEALTH_COLOR);
-      drawBar(HUD_PANEL_X_START + barWidth + 5, row, a.getCurShield(), a.getMaxShield(), barWidth, SHIELD_COLOR);
-      write(HUD_PANEL_X_START + 20, row, a.getName(), WHITE, BLACK, HUD_PANEL_WIDTH - 20, 1);
+      if(a.hasShield())
+         drawBar(HUD_PANEL_X_START + 3, row, a.getCurShield(), a.getMaxShield(), barWidth, SHIELD_COLOR);
+      else
+         write(HUD_PANEL_X_START + 3, row, "", SHIELD_COLOR, BLACK, barWidth + 2, 1);
+      drawBar(HUD_PANEL_X_START + barWidth + 6, row, a.getCurHealth(), a.getMaxHealth(), barWidth, HEALTH_COLOR);
+      write(HUD_PANEL_X_START + 21, row, a.getName(), WHITE, BLACK, HUD_PANEL_WIDTH - 21, 1);
+      row++;
+      write(HUD_PANEL_X_START, row, "", WHITE, BLACK, HUD_PANEL_WIDTH, HUD_PANEL_HEIGHT - (row - HUD_PANEL_Y_START));
+      row++;
+      if(a.getCurWeapon() != null)
+      {
+         Weapon w = a.getCurWeapon();
+         write(HUD_PANEL_X_START + 2, row, a.getCurWeapon().getName(), WHITE, BLACK, a.getCurWeapon().getName().length(), 1);
+         drawDotBar(HUD_PANEL_X_START + 2, row + 1, w.getChargedShots(), w.getMaxShots(), WHITE);
+         row += 2;
+      }
       
       // fill rest empty
       row++;
@@ -235,6 +248,17 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
    {
       int[] barArray = GUITools.getBarWithBraces(curVal, maxVal, barWidth);
       for(int i = 0; i < barWidth + 2; i++)
+      {
+         setFGColor(xStart + i, yStart, fgColor);
+         setTileIndex(xStart + i, yStart, barArray[i]);
+      }
+   }
+   
+   
+   private void drawDotBar(int xStart, int yStart, int curVal, int maxVal, int fgColor)
+   {
+      int[] barArray = GUITools.getDotBarWithBraces(curVal, maxVal);
+      for(int i = 0; i < barArray.length; i++)
       {
          setFGColor(xStart + i, yStart, fgColor);
          setTileIndex(xStart + i, yStart, barArray[i]);
@@ -302,12 +326,20 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
          case KeyEvent.VK_F:
             if(Game.getPlayer().getCurWeapon() != null)
             {
-               cursorLoc = Game.getPlayer().getTileLoc().copy();
-               mode = TARGETING_MODE;
-               setTargetingValues();
-               clearMessage();
-               Game.getPlayer().getAI().setPendingAction(ActorAction.BASIC_ATTACK);
-               MainGamePanel.addMessage("Select target.", true);
+               if(Game.getPlayer().getCurWeapon().getChargedShots() > 0)
+               {
+                  cursorLoc = Game.getPlayer().getTileLoc().copy();
+                  mode = TARGETING_MODE;
+                  setTargetingValues();
+                  clearMessage();
+                  Game.getPlayer().getAI().setPendingAction(ActorAction.BASIC_ATTACK);
+                  MainGamePanel.addMessage("Select target.", true);
+               }
+               else
+               {
+                  clearMessage();
+                  MainGamePanel.addMessage("That weapon is out of ammo.", true);
+               }
             }
             else
             {
@@ -319,11 +351,7 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
 //             AnimationScriptFactory.addExplosion(Game.getPlayer().getTileLoc());
 //             AnimationManager.setScreenRumble();
 //             AnimationScriptFactory.addTestEffect();
-            AnimationScript as = AnimationScriptFactory.getMeleeAttack(Game.getPlayer(), Direction.EAST);
-            AnimationManager.addLocking(as);
-            as = AnimationScriptFactory.getMeleeImpact(Game.getActorList().elementAt(1), Direction.WEST);
-            AnimationManager.addLocking(as);
-            AnimationManager.setScreenRumble(AnimationScriptFactory.MELEE_IMPACT_DELAY);
+            Game.getPlayer().getCurWeapon().setCurCharge(0);
             break;
       }
    }

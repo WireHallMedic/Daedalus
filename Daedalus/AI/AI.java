@@ -192,6 +192,7 @@ public class AI implements AIConstants, ZoneConstants
    {
       CombatManager.resolveAttack(self, self.getBasicAttack(), pendingTarget);
       self.discharge(self.getAttackSpeed());
+      self.getCurWeapon().discharge();
    }
    
 }

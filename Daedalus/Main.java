@@ -26,6 +26,7 @@ public class Main
          a.getInventory().add(new Item("Test Item", '*'));
       }
       a.setCurWeapon(Weapon.getMock());
+      a.setShield(new Shield("Test Shield"));
       
       Actor b = new Actor();
       b.setName("NPC");
