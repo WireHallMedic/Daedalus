@@ -93,12 +93,15 @@ public class ImageTile
    
    public void set(ImageTile that)
    {
-      this.palette = that.palette;
-      this.tileIndex = that.tileIndex;
-      this.lowerTileIndex = that.lowerTileIndex;
-      this.fgColor = that.fgColor;
-      this.bgColor = that.bgColor;
-      this.dirty = true;
+      if(this.palette != that.palette)
+      {
+         this.palette = that.palette;
+         dirty = true;
+      }
+      setTileIndex(that.tileIndex);
+      setLowerTileIndex(that.lowerTileIndex);
+      setFGColor(that.fgColor);
+      setBGColor(that.bgColor);
    }
    
    public void set(ZoneTile zoneTile)
