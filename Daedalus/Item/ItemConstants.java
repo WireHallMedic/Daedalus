@@ -13,7 +13,8 @@ public interface ItemConstants
       CREDITS     (WSFontConstants.CENT_TILE, WSFontConstants.CENT_TILE),
       WEAPON      ('}', '{'),
       SHIELD      (')', '('),
-      MOD         (']', '['),
+      ARMOR       (']', '['),
+      MOD         ('"', '"'),
       GADGET      ('&', '&'),
       CONSUMABLE  ('*', '*');
       

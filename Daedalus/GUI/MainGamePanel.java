@@ -164,14 +164,13 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
    {
       Vector<Actor> nearbyActors = getActorsForSurroundingsPanel();
       int row = SURROUNDINGS_PANEL_Y_START;
+      int barWidth = 6;
       for(int i = 0; i < nearbyActors.size() && i < SURROUNDINGS_PANEL_HEIGHT; i++)
       {
          Actor a = nearbyActors.elementAt(i);
          setTile(SURROUNDINGS_PANEL_X_START + 1, row, a.getTileIndex(), a.getFGColor(), a.getBGColor());
-         write(SURROUNDINGS_PANEL_X_START + 3, row, "[      ]", HEALTH_COLOR, BLACK, 8, 1);
-         int[] barArr = GUITools.getBar(a.getCurHealth(), a.getMaxHealth(), 6);
-         for(int j = 0; j < barArr.length; j++)
-            setTileIndex(SURROUNDINGS_PANEL_X_START + 4 + j, row, barArr[j]);
+         drawBar(SURROUNDINGS_PANEL_X_START + 3, row, a.getCurHealth(), a.getMaxHealth(), barWidth, HEALTH_COLOR);
+
          write(SURROUNDINGS_PANEL_X_START + 12, row, a.getName(), WHITE, BLACK, SURROUNDINGS_PANEL_WIDTH - 12, 1);
          write(SURROUNDINGS_PANEL_X_START, row + 1, "", WHITE, BLACK, SURROUNDINGS_PANEL_WIDTH, 1);
          row += 2;
@@ -213,33 +212,25 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
       int barWidth = 6;
       int row = HUD_PANEL_Y_START;
       setTile(HUD_PANEL_X_START + 1, row, a.getTileIndex(), a.getFGColor(), a.getBGColor());
-      for(int i = 0; i < barWidth + 2; i++)
-      {
-         setFGColor(HUD_PANEL_X_START + 3, row, HEALTH_COLOR);
-         setFGColor(HUD_PANEL_X_START + 5 + barWidth, row, SHIELD_COLOR);
-      }
-      int[] healthBarArr = GUITools.getBar(a.getCurHealth(), a.getMaxHealth(), barWidth);
-      int[] shieldBarArr = GUITools.getBar(a.getCurShield(), a.getMaxShield(), barWidth);
-      setTileIndex(HUD_PANEL_X_START + 3, row, '[');
-      setTileIndex(HUD_PANEL_X_START + 5 + barWidth, row, '[');
-      setTileIndex(HUD_PANEL_X_START + 4 + barWidth, row, ']');
-      setTileIndex(HUD_PANEL_X_START + 6 + barWidth + barWidth, row, ']');
-      setFGColor(HUD_PANEL_X_START + 3, row, HEALTH_COLOR);
-      setFGColor(HUD_PANEL_X_START + 5 + barWidth, row, SHIELD_COLOR);
-      setFGColor(HUD_PANEL_X_START + 4 + barWidth, row, HEALTH_COLOR);
-      setFGColor(HUD_PANEL_X_START + 6 + barWidth + barWidth, row, SHIELD_COLOR);
-      for(int j = 0; j < barWidth; j++)
-      {
-         setTileIndex(HUD_PANEL_X_START + 4 + j, row, healthBarArr[j]);
-         setFGColor(HUD_PANEL_X_START + 4 + j, row, HEALTH_COLOR);
-         setTileIndex(HUD_PANEL_X_START + 6 + barWidth + j, row, shieldBarArr[j]);
-         setFGColor(HUD_PANEL_X_START + 6 + barWidth + j, row, SHIELD_COLOR);
-      }
+      
+      drawBar(HUD_PANEL_X_START + 3, row, a.getCurHealth(), a.getMaxHealth(), barWidth, HEALTH_COLOR);
+      drawBar(HUD_PANEL_X_START + barWidth + 5, row, a.getCurShield(), a.getMaxShield(), barWidth, SHIELD_COLOR);
       write(HUD_PANEL_X_START + 20, row, a.getName(), WHITE, BLACK, HUD_PANEL_WIDTH - 20, 1);
       
       // fill rest empty
       row++;
       write(HUD_PANEL_X_START, row, "", WHITE, BLACK, HUD_PANEL_WIDTH, HUD_PANEL_HEIGHT - (row - HUD_PANEL_Y_START));
+   }
+   
+   
+   private void drawBar(int xStart, int yStart, int curVal, int maxVal, int barWidth, int fgColor)
+   {
+      int[] barArray = GUITools.getBarWithBraces(curVal, maxVal, barWidth);
+      for(int i = 0; i < barWidth + 2; i++)
+      {
+         setFGColor(xStart + i, yStart, fgColor);
+         setTileIndex(xStart + i, yStart, barArray[i]);
+      }
    }
 
 

@@ -43,6 +43,18 @@ public class GUITools implements GUIConstants, WSFontConstants
       }
       return iconArray;
    }
+   
+   
+   public static int[] getBarWithBraces(int cur, int max, int length)
+   {
+      int[] iconArr = new int[length + 2];
+      int[] bar = getBar(cur, max, length);
+      iconArr[0] = 10 + (11 * 16);            // box-drawing char
+      iconArr[length + 1] = 10 + (11 * 16);   // box-drawing char
+      for(int i = 0; i < length; i++)
+         iconArr[i + 1] = bar[i];
+      return iconArr;
+   }
 
    public static String getPercentageString(int cur, int max)
    {

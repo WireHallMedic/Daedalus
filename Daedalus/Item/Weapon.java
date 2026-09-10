@@ -43,7 +43,10 @@ public class Weapon extends ChargeItem implements ItemConstants, GUIConstants
    
    public void setChargePerShot()
    {
-      chargePerShot = getMaxCharge() / getMaxShotCapacity();
+      if(getMaxShotCapacity() > 0)
+         chargePerShot = getMaxCharge() / getMaxShotCapacity();
+      else
+         chargePerShot = -1;
    }
    
    
