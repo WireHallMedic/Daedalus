@@ -7,6 +7,10 @@ import Daedalus.Combat.*;
 
 public class Shield extends ChargeItem implements ItemConstants, GUIConstants
 {
+   public static final int STANDARD_MAX_DAMAGE_CAPACITY = 10;
+   public static final int STANDARD_CHARGE_DELAY_NORMAL_TURNS = 5;
+   public static final int STANDARD_MAX_CHARGE_TIME_STANDARD_TURNS = 10;
+   
 	private int maxDamageCapacity;
 	private int chargeDelay;
    private int ticksSinceCharge;
@@ -27,12 +31,13 @@ public class Shield extends ChargeItem implements ItemConstants, GUIConstants
    public Shield(String name)
    {
       super(name, ItemBase.SHIELD);
-      setMaxDamageCapacity(10);
-      setChargeDelayStandardTurns(5);
+      setMaxDamageCapacity(STANDARD_MAX_DAMAGE_CAPACITY);
+      setChargeDelayNormalTurns(STANDARD_CHARGE_DELAY_NORMAL_TURNS);
+      setMaxChargeNormalTurns(STANDARD_MAX_CHARGE_TIME_STANDARD_TURNS);
       ticksSinceCharge = 0;
    }
    
-   public void setChargeDelayStandardTurns(int cd)
+   public void setChargeDelayNormalTurns(int cd)
    {
       chargeDelay = ActorConstants.ActionSpeed.NORMAL.increments * cd;
    }
@@ -58,6 +63,13 @@ public class Shield extends ChargeItem implements ItemConstants, GUIConstants
       super.setMaxCharge(m);
       setDamagePerCharge();
       fullyCharge();
+   }
+   
+   @Override
+   public void setMaxChargeNormalTurns(int turns)
+   {
+      super.setMaxChargeNormalTurns(turns);
+      setDamagePerCharge();
    }
    
    // returns remaining damage

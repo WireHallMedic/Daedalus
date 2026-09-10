@@ -24,14 +24,14 @@ public abstract class ChargeItem extends Item implements ItemConstants, GUIConst
    {
       super(name, tileIndex, fgColor);
       setChargePerTurn(STANDARD_CHARGE_PER_TURN);
-      setMaxChargeStandardTurns(10);
+      setMaxChargeNormalTurns(10);
       fullyCharge();
    }
    public ChargeItem(String name, int tileIndex){this(name, tileIndex, WHITE);}
    public ChargeItem(String name, ItemBase base){this(name, base.tileIndex, WHITE);}
    public ChargeItem(String name, ItemBase base, int fgColor){this(name, base.tileIndex, fgColor);}
    
-   public void setMaxChargeStandardTurns(int t)
+   public void setMaxChargeNormalTurns(int t)
    {
       setMaxCharge(ActorConstants.ActionSpeed.NORMAL.increments * t * getChargePerTurn());
    }
