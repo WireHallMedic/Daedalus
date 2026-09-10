@@ -46,6 +46,7 @@ public class Main
       bAI.setStepChance(1.0);
       b.setAI(bAI);
       game.addActor(b);
+      b.setShield(new Shield("Test Shield"));
       
       game.play();
    }

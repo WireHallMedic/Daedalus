@@ -28,6 +28,7 @@ public class Actor extends UnboundTile implements ActorConstants
 	private Weapon weapon1;
 	private Weapon weapon2;
 	private boolean weaponSelection;
+   private Shield shield;
 
 
 	public String getName(){return name;}
@@ -41,6 +42,7 @@ public class Actor extends UnboundTile implements ActorConstants
 	public Weapon getWeapon1(){return weapon1;}
 	public Weapon getWeapon2(){return weapon2;}
 	public boolean isWeaponSelection(){return weaponSelection;}
+   public Shield getShield(){return shield;}
 
 
 	public void setName(String n){name = n;}
@@ -52,6 +54,7 @@ public class Actor extends UnboundTile implements ActorConstants
 	public void setWeapon1(Weapon w){weapon1 = w;}
 	public void setWeapon2(Weapon w){weapon2 = w;}
 	public void setWeaponSelection(boolean w){weaponSelection = w;}
+   public void setShield(Shield s){shield = s;}
 
    
    public Actor()
@@ -66,6 +69,11 @@ public class Actor extends UnboundTile implements ActorConstants
       ShadowFoV fov = null;
       curZone = null;
       turnHasStarted = false;
+      
+      // items
+   	weapon1 = null;
+   	weapon2 = null;
+      shield = null;
       
       baseStats.setMaxHealth(10);
       baseStats.setVisionRadius(10);
@@ -177,13 +185,22 @@ public class Actor extends UnboundTile implements ActorConstants
    }
    
    // shield
+   public boolean hasShield()
+   {
+      return shield != null;
+   }
+   
    public int getCurShield()
    {
+      if(hasShield())
+         return shield.getCurDamageCapacity();
       return 0;
    }
    
    public int getMaxShield()
    {
+      if(hasShield())
+         return shield.getMaxDamageCapacity();
       return 0;
    }
    
