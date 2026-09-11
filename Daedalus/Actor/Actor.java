@@ -82,6 +82,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    	weapon2 = null;
       shield = null;
       armor = null;
+      weaponSelection = true;
       
       baseStats.setMaxHealth(10);
       baseStats.setVisionRadius(10);
@@ -201,7 +202,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    }
    
    
-   // returns the damage taken
+   // returns the damage taken, including shield damage
    // initial damage is absorbed by shield, then reduced by armor. We have to move things around 
    // a little because armor cares about damage subtypes and shields don't.
    public int applyDamage(Damage damage)
@@ -221,7 +222,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
       
       if(curHealth == 0)
          die();
-      return healthDamage;
+      return healthDamage + ablatedDamage;
    }
    
    // AI stuff

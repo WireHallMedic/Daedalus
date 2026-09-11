@@ -26,9 +26,8 @@ public class Main
       {
          a.getInventory().add(new Item("Test Item", '*'));
       }
-      a.setCurWeapon(Weapon.getMock());
-      a.swapWeapons();
-      a.setCurWeapon(Weapon.getBasicMelee(5));
+      a.setWeapon1(Weapon.getMock());
+      a.setWeapon2(Weapon.getBasicMelee(5));
       a.setShield(new Shield("Test Shield"));
       
       Actor b = new Actor();

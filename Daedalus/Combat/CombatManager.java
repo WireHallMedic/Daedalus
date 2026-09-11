@@ -10,12 +10,13 @@ import java.util.*;
 
 public class CombatManager implements CombatConstants, AbilityConstants, ZoneConstants
 {
-   private static void applyAttack(Actor attacker, Actor defender, Attack attack)
+   private static int applyAttack(Actor attacker, Actor defender, Attack attack)
    {
       int damageDealt = defender.applyDamage(attack.getDamage());
+      return damageDealt;
    }
    
-   public static void resolveAttack(Actor attacker, Attack attack, Coord targetLoc)
+   public static void resolveAttack(Actor attacker, Attack attack, Coord targetLoc, int rateOfFire)
    {
       Vector<Coord> affectedList = attack.getAffectedTiles(attacker.getTileLoc(), targetLoc);
       Vector<Actor> defenderList = new Vector<Actor>();
@@ -40,10 +41,17 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
          AnimationManager.addLocking(as);
          AnimationManager.setScreenRumble();
       }
+      MainGamePanel.clearMessage();
       for(int i = 0; i < defenderList.size(); i++)
       {
          Actor defender = defenderList.elementAt(i);
-         applyAttack(attacker, defender, attack);
+         int damageCount = 0;
+         for(int j = 0; j < rateOfFire; j++)
+            damageCount += applyAttack(attacker, defender, attack);
+         String damageMessage = String.format("%s hits %s for %d damage! ", attacker.getName(), defender.getName(), damageCount);
+         if(defender.isDead())
+            damageMessage += defender.getName() + " is dead! ";
+         MainGamePanel.addMessage(damageMessage);
          dir = Direction.getDirectionTo(defender.getTileLoc(), attacker.getTileLoc());
          if(attack.isMelee())
          {
