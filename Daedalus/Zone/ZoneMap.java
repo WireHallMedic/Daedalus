@@ -282,7 +282,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    
    public static ZoneMap getTestMap()
    {
-      int diameter = 12;
+      int diameter = 20;
       ZoneMap z = new ZoneMap(diameter, diameter);
       z.setTile(6, 3, new Door());
       z.setTile(6, 4, new ZoneTile(TileBase.BARS));

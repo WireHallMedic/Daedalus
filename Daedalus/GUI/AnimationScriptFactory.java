@@ -4,9 +4,11 @@ import java.awt.*;
 import java.util.*;
 import Daedalus.Zone.*;
 import Daedalus.Item.*;
+import Daedalus.Actor.*;
 import Daedalus.Engine.*;
 import WidlerSuite.Coord;
 import WidlerSuite.Vect;
+import WidlerSuite.WSFontConstants;
 
 public class AnimationScriptFactory implements ZoneConstants, GUIConstants
 {
@@ -138,6 +140,25 @@ public class AnimationScriptFactory implements ZoneConstants, GUIConstants
       return script;
    }
    
+   public static AnimationScript getShieldParticleScript(UnboundTile target)
+   {
+      AnimationScript script = new AnimationScript(target);
+      int duration = (int)((GUIConstants.FRAMES_PER_SECOND / 4) * (1.0 + RNG.nextDouble()));
+      double[] xList = new double[duration];
+      double[] yList = new double[duration];
+      double yStep = (((RNG.nextDouble() * 2.0) - 1.0) / GUIConstants.FRAMES_PER_SECOND) * 4;
+      double xStep = (((RNG.nextDouble() * 2.0) - 1.0) / GUIConstants.FRAMES_PER_SECOND) * 4;
+      for(int i = 0; i < duration; i++)
+      {
+         xList[i] = xStep;
+         yList[i] = yStep;
+      }
+      script.setXMoveList(xList);
+      script.setYMoveList(yList);
+      script.setEndBehavior(AnimationScript.EXPIRE_TARGET);
+      return script;
+   }
+   
    // adders. Create and add to boardpanel and animationmanager
    ///////////////////////////////////////////////////////////////////////////////
    
@@ -181,9 +202,20 @@ public class AnimationScriptFactory implements ZoneConstants, GUIConstants
       AnimationManager.addNonLocking(as);
       AnimationManager.addToBoardPanel(floatStr);
    }
-   public static void getFloatStringEffect(String str, int x, int y, int fgColor){addFloatString(str, new Coord(x, y), fgColor);}
+   public static void addFloatStringEffect(String str, int x, int y, int fgColor){addFloatString(str, new Coord(x, y), fgColor);}
    
-   
+   public static void addShieldParticles(Coord loc)
+   {
+      for(int i = 0; i < 12; i++)
+      {
+         UnboundTile ut = new UnboundTile(SQUARE_PALETTE, WSFontConstants.SMALL_BULLET_TILE, SHIELD_COLOR, TRANSPARENT);         
+         ut.setTileLoc(loc);
+         AnimationScript as = AnimationScriptFactory.getShieldParticleScript(ut);
+         AnimationManager.addToBoardPanel(ut);
+         AnimationManager.addNonLocking(as);
+      }
+   }
+   public static void addShieldParticles(Actor a){addShieldParticles(a.getTileLoc());}
    
    // private methods
    /////////////////////////////////////////////////////////////

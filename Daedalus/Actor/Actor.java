@@ -207,6 +207,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    // a little because armor cares about damage subtypes and shields don't.
    public int applyDamage(Damage damage)
    {
+      boolean checkShieldBreak = getCurShield() > 0;
       int ablatedDamage = 0;
       int healthDamage = 0;
       // note how much blocked by shield
@@ -220,6 +221,9 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
       
       curHealth = Math.max(0, curHealth - healthDamage);
       
+      if(checkShieldBreak && getCurShield() == 0)
+         AnimationScriptFactory.addShieldParticles(this);
+         
       if(curHealth == 0)
          die();
       return healthDamage + ablatedDamage;

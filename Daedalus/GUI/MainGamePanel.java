@@ -366,7 +366,7 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
 //             AnimationScriptFactory.addExplosion(Game.getPlayer().getTileLoc());
 //             AnimationManager.setScreenRumble();
 //             AnimationScriptFactory.addTestEffect();
-            Game.getPlayer().setKnockback(3, Direction.EAST);
+            AnimationScriptFactory.addShieldParticles(Game.getPlayer());
             break;
       }
    }
