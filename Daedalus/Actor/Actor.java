@@ -341,6 +341,8 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
       else
       {
          knockbackDistance = 0;
+         if(this == Game.getPlayer())
+            AnimationManager.setScreenShake();
       }
    }
 }
