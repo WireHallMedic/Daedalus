@@ -220,7 +220,7 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
       int barWidth = 6;
       int row = HUD_PANEL_Y_START;
       setTile(HUD_PANEL_X_START + 1, row, a.getTileIndex(), a.getFGColor(), a.getBGColor());
-      
+
       if(a.hasShield())
          drawBar(HUD_PANEL_X_START + 3, row, a.getCurShield(), a.getMaxShield(), barWidth, SHIELD_COLOR);
       else
@@ -228,14 +228,25 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
       drawBar(HUD_PANEL_X_START + barWidth + 6, row, a.getCurHealth(), a.getMaxHealth(), barWidth, HEALTH_COLOR);
       write(HUD_PANEL_X_START + 21, row, a.getName(), WHITE, BLACK, HUD_PANEL_WIDTH - 21, 1);
       row++;
-      write(HUD_PANEL_X_START, row, "", WHITE, BLACK, HUD_PANEL_WIDTH, HUD_PANEL_HEIGHT - (row - HUD_PANEL_Y_START));
+      write(HUD_PANEL_X_START, row, "", WHITE, BLACK, HUD_PANEL_WIDTH, 1);
       row++;
+      
       if(a.getCurWeapon() != null)
       {
          Weapon w = a.getCurWeapon();
-         write(HUD_PANEL_X_START + 2, row, a.getCurWeapon().getName(), WHITE, BLACK, a.getCurWeapon().getName().length(), 1);
+         write(HUD_PANEL_X_START + 2, row, w.getName(), WHITE, BLACK, 20, 1);
          drawDotBar(HUD_PANEL_X_START + 2, row + 1, w.getChargedShots(), w.getMaxShots(), WHITE);
-         row += 2;
+         write(HUD_PANEL_X_START + w.getMaxShots() + 4, row + 1, "", WHITE, BLACK, 20 - (w.getMaxShots() + 2), 1);
+         row += 3;
+      }
+      
+      if(a.getOffWeapon() != null)
+      {
+         Weapon w = a.getOffWeapon();
+         write(HUD_PANEL_X_START + 2, row, w.getName(), WHITE, BLACK, 20, 1);
+         drawDotBar(HUD_PANEL_X_START + 2, row + 1, w.getChargedShots(), w.getMaxShots(), WHITE);
+         write(HUD_PANEL_X_START + w.getMaxShots() + 4, row + 1, "", WHITE, BLACK, 20 - (w.getMaxShots() + 2), 1);
+         row += 3;
       }
       
       // fill rest empty

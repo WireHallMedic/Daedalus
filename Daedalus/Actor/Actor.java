@@ -271,6 +271,13 @@ public class Actor extends UnboundTile implements ActorConstants
       return weapon2;
    }
    
+   public Weapon getOffWeapon()
+   {
+      if(weaponSelection)
+         return weapon2;
+      return weapon1;
+   }
+   
    public void setCurWeapon(Weapon w)
    {
       if(weaponSelection)
