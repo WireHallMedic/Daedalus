@@ -28,4 +28,11 @@ public class Armor extends Item implements ItemConstants, GUIConstants
    {
       damageProtection.setValue(type, value);
    }
+   
+   public Damage absorbDamage(Damage d)
+   {
+      d = d.copy();
+      d.subtract(getDamageProtection());
+      return d;
+   }
 }

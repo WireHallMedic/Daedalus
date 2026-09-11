@@ -197,18 +197,27 @@ public class Actor extends UnboundTile implements ActorConstants
    }
    
    
-   // returns the damage dealth
-   public int applyDamage(Damage d)
-   
+   // returns the damage taken
+   // initial damage is absorbed by shield, then reduced by armor. We have to move things around 
+   // a little because armor cares about damage subtypes and shields don't.
+   public int applyDamage(Damage damage)
    {
-      int curDamage = d.getSum();
+      int ablatedDamage = 0;
+      int healthDamage = 0;
+      // note how much blocked by shield
       if(hasShield())
-         curDamage = shield.applyDamage(curDamage);
-      curHealth = Math.max(0, curHealth - curDamage);
+         ablatedDamage = getShield().applyDamage(damage.getSum());
+      // reduce by armor
+      if(hasArmor())
+         damage = getArmor().absorbDamage(damage);
+      // apply shield ablation and apply to health
+      healthDamage = Math.max(0, damage.getSum() - ablatedDamage);
+      
+      curHealth = Math.max(0, curHealth - healthDamage);
       
       if(curHealth == 0)
          die();
-      return d.getSum();
+      return healthDamage;
    }
    
    // AI stuff
