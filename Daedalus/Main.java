@@ -19,7 +19,7 @@ public class Main
       Actor a = new Actor();
       a.setName("Test Player");
       a.setAI(new PlayerAI(a));
-      a.setTileLoc(2, 2);
+      a.setTileLoc(2, 5);
       game.setPlayer(a);
       game.addActor(a);
       for(int i = 0; i < ItemConstants.MAX_INVENTORY_SIZE - 1; i++)

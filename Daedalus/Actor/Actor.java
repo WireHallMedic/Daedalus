@@ -13,7 +13,7 @@ import WidlerSuite.ShadowFoV;
 import WidlerSuite.ShadowFoVRect;
 import java.util.*;
 
-public class Actor extends UnboundTile implements ActorConstants
+public class Actor extends UnboundTile implements ActorConstants, ScriptListener, ZoneConstants
 {
 	private String name;
 	private AI ai;
@@ -30,6 +30,8 @@ public class Actor extends UnboundTile implements ActorConstants
 	private boolean weaponSelection;
    private Shield shield;
    private Armor armor;
+   private int knockbackDistance;
+   private Direction knockbackDirection;
 
 
 	public String getName(){return name;}
@@ -72,6 +74,8 @@ public class Actor extends UnboundTile implements ActorConstants
       ShadowFoV fov = null;
       curZone = null;
       turnHasStarted = false;
+      knockbackDistance = 0;
+      knockbackDirection = null;
       
       // items
    	weapon1 = null;
@@ -301,5 +305,42 @@ public class Actor extends UnboundTile implements ActorConstants
       if(getCurWeapon() == null)
          return null;
       return getCurWeapon().getAttack();
+   }
+   
+   
+   // knockback
+   public void setKnockback(int distance, Direction dir)
+   {
+      knockbackDistance = distance;
+      knockbackDirection = dir;
+      resolveKnockbackStep();
+   }
+   
+   public void scriptExpiring(AnimationScript source)
+   {
+      if(knockbackDistance > 0)
+      {
+         resolveKnockbackStep();
+      }
+   }
+   
+   private void resolveKnockbackStep()
+   {
+      Coord targetTile = getTileLoc();
+      targetTile.add(knockbackDirection.getAsCoord());
+      knockbackDistance--;
+      if(Game.canStep(this, targetTile))
+      {
+         setTileLoc(targetTile);
+         setXOffset(0.0 - knockbackDirection.x);
+         setYOffset(0.0 - knockbackDirection.y);
+         AnimationScript as = AnimationScriptFactory.getKnockback(this, knockbackDirection);
+         as.addScriptListener(this);
+         AnimationManager.addLocking(as);
+      }
+      else
+      {
+         knockbackDistance = 0;
+      }
    }
 }

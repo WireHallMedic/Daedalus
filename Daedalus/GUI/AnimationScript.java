@@ -22,6 +22,7 @@ public class AnimationScript
 	private double[] yMoveList;
 	private double[] scaleList;
    private UnboundTile originalTile;
+   private Vector<ScriptListener> scriptListenerList;
 
 
 	public UnboundTile getTarget(){return target;}
@@ -35,6 +36,7 @@ public class AnimationScript
 	public double[] getXMoveList(){return xMoveList;}
 	public double[] getYMoveList(){return yMoveList;}
 	public double[] getScaleList(){return scaleList;}
+   public Vector<ScriptListener> getScriptListenerList(){return scriptListenerList;}
 
 
 	public void setTarget(UnboundTile t){target = t;}
@@ -48,6 +50,7 @@ public class AnimationScript
 	public void setXMoveList(double[] x){xMoveList = x;}
 	public void setYMoveList(double[] y){yMoveList = y;}
 	public void setScaleList(double[] s){scaleList = s;}
+   public void setScriptListenerList(Vector<ScriptListener> sll){scriptListenerList = sll;}
 
 
    public AnimationScript(UnboundTile _target)
@@ -63,7 +66,13 @@ public class AnimationScript
    	xMoveList = null;
    	yMoveList = null;
    	scaleList = null;
+      scriptListenerList = new Vector<ScriptListener>();
       originalTile = target.copy();
+   }
+   
+   public void addScriptListener(ScriptListener sl)
+   {
+      scriptListenerList.add(sl);
    }
    
    public int getLifespan()
@@ -158,6 +167,9 @@ public class AnimationScript
             target.setYOffset(0.0);
          }
       }
+      
+      for(ScriptListener listener: scriptListenerList)
+         listener.scriptExpiring(this);
    }
 }
 

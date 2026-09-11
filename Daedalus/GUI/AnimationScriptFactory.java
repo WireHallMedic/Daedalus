@@ -13,24 +13,18 @@ public class AnimationScriptFactory implements ZoneConstants, GUIConstants
    private static final int MELEE_PHASE_DURATION = GUIConstants.FRAMES_PER_SECOND / 10;
    public static final int MELEE_IMPACT_DELAY = MELEE_PHASE_DURATION * 2;
    
+   
    public static AnimationScript getStep(UnboundTile target, Direction dir)
    {
-      AnimationScript script = new AnimationScript(target);
-      int scriptDuration = GUIConstants.FRAMES_PER_SECOND / 4;
-      double xStep = (1.0 / scriptDuration) * dir.x;
-      double yStep = (1.0 / scriptDuration) * dir.y;
-      double[] xList = new double[scriptDuration];
-      double[] yList = new double[scriptDuration];
-      for(int i = 0; i < scriptDuration; i++)
-      {
-         xList[i] = xStep;
-         yList[i] = yStep;
-      }
-      script.setXMoveList(xList);
-      script.setYMoveList(yList);
-      script.setEndBehavior(AnimationScript.CENTER_TARGET);
-      return script;
+      return getOneTileMove(target, dir, GUIConstants.FRAMES_PER_SECOND / 4);
    }
+   
+   
+   public static AnimationScript getKnockback(UnboundTile target, Direction dir)
+   {
+      return getOneTileMove(target, dir, GUIConstants.FRAMES_PER_SECOND / 10);
+   }
+   
    
    public static AnimationScript getFloat(UnboundTile target)
    {  
@@ -279,6 +273,24 @@ public class AnimationScriptFactory implements ZoneConstants, GUIConstants
       for(int i = 0; i < original.length; i++)
          newArray[count + i] = original[i];
       return newArray;
+   }
+   
+   public static AnimationScript getOneTileMove(UnboundTile target, Direction dir, int duration)
+   {
+      AnimationScript script = new AnimationScript(target);
+      double xStep = (1.0 / duration) * dir.x;
+      double yStep = (1.0 / duration) * dir.y;
+      double[] xList = new double[duration];
+      double[] yList = new double[duration];
+      for(int i = 0; i < duration; i++)
+      {
+         xList[i] = xStep;
+         yList[i] = yStep;
+      }
+      script.setXMoveList(xList);
+      script.setYMoveList(yList);
+      script.setEndBehavior(AnimationScript.CENTER_TARGET);
+      return script;
    }
    
    
