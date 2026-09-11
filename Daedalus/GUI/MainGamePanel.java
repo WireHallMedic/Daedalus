@@ -447,6 +447,14 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
             break;
       }
       updateAffectedList();
+      
+      // if the pending ability has a range of 1, don't wait for the enter key
+      if(pendingAbility.getRange() == 1 && !Game.getPlayer().getTileLoc().equals(cursorLoc))
+      {
+         Game.getPlayer().getAI().setPendingTarget(cursorLoc);
+         mode = ACT_MODE;
+         setNonTargetingValues();
+      }
    }
       
    public void keyPressed(KeyEvent ke)

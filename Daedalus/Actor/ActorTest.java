@@ -102,5 +102,9 @@ public class ActorTest implements ActorConstants
       a.applyDamage(damage);
       Assert.assertEquals("Armor fully applies to overflow damage", 9, a.getCurHealth());
       Assert.assertEquals("Armor fully applies to overflow damage", 0, a.getCurShield());
+      
+      a.applyDamage(damage);
+      Assert.assertEquals("Armor fully applies when no shield", 7, a.getCurHealth());
+      Assert.assertEquals("Armor fully applies when no shield", 0, a.getCurShield());
    }
 }

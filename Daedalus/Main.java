@@ -4,6 +4,7 @@ import Daedalus.AI.*;
 import Daedalus.GUI.*;
 import Daedalus.Item.*;
 import Daedalus.Engine.*;
+import Daedalus.Ability.*;
 import Daedalus.Actor.*;
 import Daedalus.Zone.*;
 
@@ -26,6 +27,13 @@ public class Main
          a.getInventory().add(new Item("Test Item", '*'));
       }
       a.setCurWeapon(Weapon.getMock());
+      a.swapWeapons();
+      Weapon w = new Weapon("Melee");
+      Attack atk = Attack.getMock();
+      atk.setRange(1);
+      atk.setMelee(true);
+      w.setAttack(atk);
+      a.setCurWeapon(w);
       a.setShield(new Shield("Test Shield"));
       
       Actor b = new Actor();

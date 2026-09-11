@@ -25,16 +25,34 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
             defenderList.add(Game.getActorAt(affectedList.elementAt(i)));
       }
       Direction dir = Direction.getDirectionTo(attacker.getTileLoc(), targetLoc);
-      AnimationScript as = AnimationScriptFactory.getRecoil(attacker, dir);
-      AnimationManager.addLocking(as);
-      AnimationManager.setScreenRumble();
+      AnimationScript as;
+      if(attack.isMelee())
+      {
+         as = AnimationScriptFactory.getMeleeAttack(attacker, dir);
+         AnimationManager.addLocking(as);
+         AnimationManager.setScreenShake(AnimationScriptFactory.MELEE_IMPACT_DELAY);
+      }
+      else
+      {
+         as = AnimationScriptFactory.getRecoil(attacker, dir);
+         AnimationManager.addLocking(as);
+         AnimationManager.setScreenRumble();
+      }
       for(int i = 0; i < defenderList.size(); i++)
       {
          Actor defender = defenderList.elementAt(i);
          applyAttack(attacker, defender, attack);
          dir = Direction.getDirectionTo(defender.getTileLoc(), attacker.getTileLoc());
-         as = AnimationScriptFactory.getRecoil(defender, dir);
-         AnimationManager.addLocking(as);
+         if(attack.isMelee())
+         {
+            as = AnimationScriptFactory.getMeleeImpact(defender, dir);
+            AnimationManager.addLocking(as);
+         }
+         else
+         {
+            as = AnimationScriptFactory.getRecoil(defender, dir);
+            AnimationManager.addLocking(as);
+         }
       }
    }
 }
