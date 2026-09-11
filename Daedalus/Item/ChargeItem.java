@@ -8,16 +8,19 @@ public abstract class ChargeItem extends Item implements ItemConstants, GUIConst
 	private int chargeRate;
 	private int maxCharge;
 	private int curCharge;
+   private boolean alwaysCharged;
 
 
 	public int getChargeRate(){return chargeRate;}
 	public int getMaxCharge(){return maxCharge;}
 	public int getCurCharge(){return curCharge;}
+   public boolean isAlwaysCharged(){return alwaysCharged;}
 
 
 	public void setChargeRate(int c){chargeRate = c;}
 	public void setMaxCharge(int m){maxCharge = m;}
 	public void setCurCharge(int c){curCharge = c;}
+   public void setAlwaysCharged(boolean a){alwaysCharged = a;}
    
    
    public ChargeItem(String name, int tileIndex, int fgColor)
@@ -25,6 +28,7 @@ public abstract class ChargeItem extends Item implements ItemConstants, GUIConst
       super(name, tileIndex, fgColor);
       setChargeRate(STANDARD_CHARGE_PER_TURN);
       setMaxCharge(10 * STANDARD_CHARGE_PER_TURN);
+      alwaysCharged = false;
       fullyCharge();
    }
    public ChargeItem(String name, int tileIndex){this(name, tileIndex, WHITE);}
@@ -46,5 +50,11 @@ public abstract class ChargeItem extends Item implements ItemConstants, GUIConst
    public void charge()
    {
       curCharge = Math.min(curCharge + chargeRate, maxCharge);
+   }
+   
+   public void discharge(int amt)
+   {
+      if(!alwaysCharged)
+         setCurCharge(getCurCharge() - amt);
    }
 }

@@ -30,7 +30,9 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
       {
          as = AnimationScriptFactory.getMeleeAttack(attacker, dir);
          AnimationManager.addLocking(as);
-         AnimationManager.setScreenShake(AnimationScriptFactory.MELEE_IMPACT_DELAY);
+         // only do screenshake if you hit something
+         if(defenderList.size() > 0)
+            AnimationManager.setScreenShake(AnimationScriptFactory.MELEE_IMPACT_DELAY);
       }
       else
       {

@@ -61,7 +61,7 @@ public class Weapon extends ChargeItem implements ItemConstants, GUIConstants
    
    public void discharge()
    {
-      setCurCharge(getCurCharge() - chargePerShot);
+      super.discharge(chargePerShot);
    }
    
    @Override
@@ -77,10 +77,34 @@ public class Weapon extends ChargeItem implements ItemConstants, GUIConstants
    }
    
    
+   public void setAlwaysCharged(boolean a)
+   {
+      if(a)
+      {
+         setMaxShots(1);
+      }
+      super.setAlwaysCharged(a);
+   }
+   
+   
    public static Weapon getMock()
    {
       Weapon w = new Weapon("Test Weapon", Attack.getMock());
       w.fullyCharge();
       return w;
    }
+   
+   
+   public static Weapon getBasicMelee(int damage)
+   {
+      Attack atk = new Attack("Punch");
+      atk.setMelee(true);
+      atk.setRange(1);
+      atk.setDamage(new Damage(CombatConstants.DamageType.CONCUSSION, damage));
+      Weapon w = new Weapon("Unarmed", atk);
+      w.setAlwaysCharged(true);
+      w.fullyCharge();
+      return w;
+   }
+   public static Weapon getBasicMelee(){return getBasicMelee(3);}
 }

@@ -77,7 +77,8 @@ public class Shield extends ChargeItem implements ItemConstants, GUIConstants
    {
       ticksSinceCharge = 0;
       int damageAbsorbed = Math.min(damageSum, getCurDamageCapacity());
-      setCurCharge((int)(getCurCharge() - (damageAbsorbed / damagePerCharge)));
+      //setCurCharge((int)(getCurCharge() - (damageAbsorbed / damagePerCharge)));
+      discharge((int)(damageAbsorbed / damagePerCharge));
       return damageAbsorbed;
    }
    public int applyDamage(Damage damage){return applyDamage(damage.getSum());}

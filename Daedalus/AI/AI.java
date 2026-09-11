@@ -135,6 +135,9 @@ public class AI implements AIConstants, ZoneConstants
          case ActorAction.BASIC_ATTACK :
             doBasicAttack();
             break;
+         case ActorAction.SWAP_WEAPONS :
+            doWeaponSwap();
+            break;
       }
       clearPlan();
    }
@@ -185,6 +188,12 @@ public class AI implements AIConstants, ZoneConstants
    {
       Item item = self.getInventory().takeItem(pendingIndex);
       Game.getCurZone().dropItem(item, pendingTarget);
+      self.discharge(self.getInteractSpeed());
+   }
+   
+   protected void doWeaponSwap()
+   {
+      self.swapWeapons();
       self.discharge(self.getInteractSpeed());
    }
    

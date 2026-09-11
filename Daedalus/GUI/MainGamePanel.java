@@ -316,6 +316,10 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
             Game.getPlayer().getAI().setPendingAction(ActorAction.PICK_UP);
             Game.getPlayer().getAI().setPendingTarget(Direction.ORIGIN);
             break;
+         case KeyEvent.VK_W:
+            Game.getPlayer().getAI().setPendingAction(ActorAction.SWAP_WEAPONS);
+            Game.getPlayer().getAI().setPendingTarget(Direction.ORIGIN);
+            break;
          case KeyEvent.VK_I:
             DaeFrame.setActivePanel(InventoryPanel.class);
             break;
@@ -449,7 +453,9 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
       updateAffectedList();
       
       // if the pending ability has a range of 1, don't wait for the enter key
-      if(pendingAbility.getRange() == 1 && !Game.getPlayer().getTileLoc().equals(cursorLoc))
+      if(pendingAbility != null && 
+         pendingAbility.getRange() == 1 && 
+         !Game.getPlayer().getTileLoc().equals(cursorLoc))
       {
          Game.getPlayer().getAI().setPendingTarget(cursorLoc);
          mode = ACT_MODE;

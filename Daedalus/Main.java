@@ -28,12 +28,7 @@ public class Main
       }
       a.setCurWeapon(Weapon.getMock());
       a.swapWeapons();
-      Weapon w = new Weapon("Melee");
-      Attack atk = Attack.getMock();
-      atk.setRange(1);
-      atk.setMelee(true);
-      w.setAttack(atk);
-      a.setCurWeapon(w);
+      a.setCurWeapon(Weapon.getBasicMelee(5));
       a.setShield(new Shield("Test Shield"));
       
       Actor b = new Actor();
