@@ -7,7 +7,7 @@ import Daedalus.Ability.*;
 
 public class Weapon extends ChargeItem implements ItemConstants, GUIConstants, CombatConstants
 {
-   private static final int STANDARD_CHARGE_TIME_PER_SHOT = 3;
+   private static final int STANDARD_CHARGE_TIME_PER_SHOT = 6;
 
    public enum BaseType
    {

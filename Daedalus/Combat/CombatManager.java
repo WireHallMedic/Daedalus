@@ -28,7 +28,8 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
       Vector<Actor> defenderList = new Vector<Actor>();
       Coord attackOrigin = attacker.getTileLoc();
       if(attack.getTargetingType() == TargetingType.BLAST)
-         attackOrigin = targetLoc;
+         attackOrigin = EngineTools.getBlastOrigin(attacker.getTileLoc(), targetLoc, attack.getRange());
+
       for(int i = 0; i < affectedList.size(); i++)
       {
          if(Game.isActorAt(affectedList.elementAt(i)))
@@ -51,6 +52,10 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
          AnimationManager.setScreenRumble();
       }
       MainGamePanel.clearMessage();
+      if(attack.getTargetingType() == TargetingType.BLAST)
+      {
+         AnimationScriptFactory.addExplosion(attackOrigin);
+      }
       for(int i = 0; i < defenderList.size(); i++)
       {
          Actor defender = defenderList.elementAt(i);

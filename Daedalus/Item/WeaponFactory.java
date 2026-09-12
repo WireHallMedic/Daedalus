@@ -16,6 +16,7 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
       a.setRandomDamage(new Damage(DamageType.PIERCE, DEFAULT_RANDOM_SHOT_DAMAGE));
       a.setTargetingType(AbilityConstants.TargetingType.POINT);
       a.setRange(10);
+      w.setMaxShots(6);
       w.fullyCharge();
       return w;
    }
@@ -30,6 +31,7 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
       a.setTargetingType(AbilityConstants.TargetingType.CONE);
       a.setDamageDropoff(true);
       a.setRange(7);
+      w.setMaxShots(4);
       w.fullyCharge();
       return w;
    }
@@ -44,6 +46,7 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
       a.setTargetingType(AbilityConstants.TargetingType.POINT);
       a.setRange(7);
       w.setRateOfFire(3);
+      w.setMaxShots(4);
       w.fullyCharge();
       return w;
    }
@@ -57,6 +60,8 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
       a.setRandomDamage(new Damage(DamageType.CONCUSSION, DEFAULT_RANDOM_SHOT_DAMAGE * 2));
       a.setTargetingType(AbilityConstants.TargetingType.BLAST);
       a.setRange(7);
+      w.setMaxShots(1);
+      w.setChargeTimePerShot(10);
       w.fullyCharge();
       return w;
    }
@@ -69,6 +74,8 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
       a.setRandomDamage(new Damage(DamageType.CONCUSSION, DEFAULT_RANDOM_SHOT_DAMAGE));
       w.getAttack().setTargetingType(AbilityConstants.TargetingType.BEAM);
       w.getAttack().setRange(5);
+      w.setMaxShots(2);
+      w.setChargeTimePerShot(10);
       w.fullyCharge();
       return w;
    }

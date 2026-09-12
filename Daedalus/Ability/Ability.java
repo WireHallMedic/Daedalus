@@ -29,6 +29,14 @@ public class Ability implements AbilityConstants
       range = 10;
    }
    
+   // origin for visual effects and knockback
+   public Coord getEffectOrigin(Coord origin, Coord target, int range)
+   {
+      if(targetingType == TargetingType.BLAST)
+         return EngineTools.getBlastOrigin(origin, target, getRange());
+      return origin;
+   }
+   
    public Vector<Coord> getAffectedTiles(Coord origin, Coord target)
    {
       Vector<Coord> tileList = new Vector<Coord>();

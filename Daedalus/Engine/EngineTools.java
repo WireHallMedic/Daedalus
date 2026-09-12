@@ -21,6 +21,25 @@ public class EngineTools implements AbilityConstants
    }
    public static int getAngbandDistance(Coord c1, Coord c2){return getAngbandDistance(c1.x, c1.y, c2.x, c2.y);}
    
+   
+   // returns origin for visual effects and knockback
+   public static Coord getBlastOrigin(Coord origin, Coord target, int range)
+   {
+      Coord blastOrigin = target.copy();
+      Vector<Coord> lineList = StraightLine.findLine(origin, target, StraightLine.REMOVE_ORIGIN);
+      for(int i = 0; i < lineList.size() - 1; i++)
+      {
+         if(!Game.getCurZone().getTile(lineList.elementAt(i + 1)).isHighPassable() ||
+            Game.isActorAt(lineList.elementAt(i)) ||
+            range <= getAngbandDistance(origin, lineList.elementAt(i)))
+         {
+            blastOrigin = lineList.elementAt(i);
+            break;
+         }
+      }
+      return blastOrigin;
+   }
+   
    // stop if hits actor or wall
    public static Coord getAffectedPoint(Coord origin, Coord target, int range)
    {
@@ -45,18 +64,8 @@ public class EngineTools implements AbilityConstants
    // stop if hits actor or one short of wall, returns 3x3 area
    public static Vector<Coord> getAffectedBlast(Coord origin, Coord target, int range)
    {
-      Coord blastCenter = target.copy();
-      Vector<Coord> lineList = StraightLine.findLine(origin, target, StraightLine.REMOVE_ORIGIN);
-      for(int i = 0; i < lineList.size() - 1; i++)
-      {
-         if(!Game.getCurZone().getTile(lineList.elementAt(i + 1)).isHighPassable() ||
-            Game.isActorAt(lineList.elementAt(i)) ||
-            range <= getAngbandDistance(origin, lineList.elementAt(i)))
-         {
-            blastCenter = lineList.elementAt(i);
-            break;
-         }
-      }
+      Coord blastCenter = getBlastOrigin(origin, target, range);
+
       Vector<Coord> blastArea = new Vector<Coord>();
       for(int x = -1; x < 2; x++)
       for(int y = -1; y < 2; y++)
