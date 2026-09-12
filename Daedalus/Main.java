@@ -19,14 +19,14 @@ public class Main
       Actor a = new Actor();
       a.setName("Test Player");
       a.setAI(new PlayerAI(a));
-      a.setTileLoc(2, 5);
+      a.setTileLoc(3, 5);
       game.setPlayer(a);
       game.addActor(a);
       for(int i = 0; i < ItemConstants.MAX_INVENTORY_SIZE - 1; i++)
       {
          a.getInventory().add(new Item("Test Item", '*'));
       }
-      a.setWeapon1(Weapon.getMock());
+      a.setWeapon1(Weapon.getBeamCannon());
       a.setWeapon2(Weapon.getBasicMelee(5));
       a.setShield(new Shield("Test Shield"));
       
@@ -44,7 +44,7 @@ public class Main
       b = new Actor();
       b.setName("NPC");
       b.setTileIndex('X');
-      b.setTileLoc(4, 1);
+      b.setTileLoc(3, 1);
       bAI = new WanderAI(b);
       bAI.setStepChance(1.0);
       b.setAI(bAI);

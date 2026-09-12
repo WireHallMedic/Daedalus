@@ -17,12 +17,13 @@ public class Weapon extends ChargeItem implements ItemConstants, GUIConstants
       EJECTOR;
    }
    
-   public enum FireMode
+   public enum BaseType
    {
-      SINGLE,     // "Bolt" for guns
-      SCATTER,    // spread
-      AUTO,       // rapid-fire
-      BLAST;      // aoe
+      BOLTGUN,          // single projectile
+      SHOTGUN,          // spread
+      AUTOGUN,          // rapid-fire
+      PLASMA_LAUNCHER,  // exploding projectile
+      BEAM_CANNON;      // line
       
    }
    
@@ -107,6 +108,16 @@ public class Weapon extends ChargeItem implements ItemConstants, GUIConstants
    public static Weapon getMock()
    {
       Weapon w = new Weapon("Test Weapon", Attack.getMock());
+      w.fullyCharge();
+      return w;
+   }
+   
+   
+   public static Weapon getBeamCannon()
+   {
+      Weapon w = new Weapon("Beam Cannon", Attack.getMock());
+      w.getAttack().setTargetingType(AbilityConstants.TargetingType.BEAM);
+      w.getAttack().setRange(5);
       w.fullyCharge();
       return w;
    }

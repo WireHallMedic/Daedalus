@@ -110,6 +110,29 @@ public class EngineTools implements AbilityConstants
       return tileList;
    }
    
+   // return affected area of a cone.
+   public static Vector<Coord> getAffectedBeam(Coord origin, Coord target, int range)
+   {
+      Vector<Coord> tileList = new Vector<Coord>();
+      if(origin.equals(target))
+      {
+         tileList.add(target.copy());
+         return tileList;
+      }
+      double fireAngle = origin.getAngleTo(target);
+      target = new Coord(new Vect(fireAngle, (double)range));
+      target.add(origin);
+      Vector<Coord> line = StraightLine.findLine(origin, target, StraightLine.REMOVE_ORIGIN);
+
+      for(Coord curTile: line)
+      {
+         tileList.add(curTile);
+         if(!Game.getCurZone().getTile(curTile).isHighPassable())
+            break;
+      }
+      return tileList;
+   }
+   
    // use shadowcasting to get area affected by blast, ring, etc
    private static Vector<Coord> getEmination(Coord origin, int radius)
    {
