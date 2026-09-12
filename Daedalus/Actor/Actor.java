@@ -205,19 +205,19 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    // returns the damage taken, including shield damage
    // initial damage is absorbed by shield, then reduced by armor. We have to move things around 
    // a little because armor cares about damage subtypes and shields don't.
-   public int applyDamage(Damage damage)
+   public int applyDamage(Damage damage, double damageMultiplier)
    {
       boolean checkShieldBreak = getCurShield() > 0;
       int ablatedDamage = 0;
       int healthDamage = 0;
       // note how much blocked by shield
       if(hasShield())
-         ablatedDamage = getShield().applyDamage(damage.getSum());
+         ablatedDamage = getShield().applyDamage((int)(damage.getSum() * damageMultiplier));
       // reduce by armor
       if(hasArmor())
          damage = getArmor().absorbDamage(damage);
       // apply shield ablation and apply to health
-      healthDamage = Math.max(0, damage.getSum() - ablatedDamage);
+      healthDamage = Math.max(0, (int)(damage.getSum() * damageMultiplier) - ablatedDamage);
       
       curHealth = Math.max(0, curHealth - healthDamage);
       
@@ -228,6 +228,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
          die();
       return healthDamage + ablatedDamage;
    }
+   public int applyDamage(Damage damage){return applyDamage(damage, 1.0);}
    
    // AI stuff
    public boolean hasPlan(){return ai.hasPlan();}

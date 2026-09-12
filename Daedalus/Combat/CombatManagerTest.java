@@ -16,7 +16,6 @@ public class CombatManagerTest {
    }
 
 
-   /** A test that always fails. **/
    @Test public void testDamageDropoff() 
    {
       Attack atk = new Attack("Test No Dropoff");
