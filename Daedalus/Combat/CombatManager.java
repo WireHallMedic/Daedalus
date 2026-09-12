@@ -12,7 +12,7 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
 {
    private static int applyAttack(Actor attacker, Actor defender, Attack attack)
    {
-      int damageDealt = defender.applyDamage(attack.getDamage());
+      int damageDealt = defender.applyDamage(attack.rollDamage());
       return damageDealt;
    }
    

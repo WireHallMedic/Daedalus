@@ -9,6 +9,23 @@ public class Weapon extends ChargeItem implements ItemConstants, GUIConstants
 {
    private static final int STANDARD_CHARGE_TIME_PER_SHOT = 3;
    
+   public enum Frame
+   {
+      PISTOL,
+      CARBINE,
+      RIFLE,
+      EJECTOR;
+   }
+   
+   public enum FireMode
+   {
+      SINGLE,     // "Bolt" for guns
+      SCATTER,    // spread
+      AUTO,       // rapid-fire
+      BLAST;      // aoe
+      
+   }
+   
 	private Attack attack;
 	private int rateOfFire;
    private int maxShots;
@@ -100,7 +117,8 @@ public class Weapon extends ChargeItem implements ItemConstants, GUIConstants
       Attack atk = new Attack("Punch");
       atk.setMelee(true);
       atk.setRange(1);
-      atk.setDamage(new Damage(CombatConstants.DamageType.CONCUSSION, damage));
+      atk.setBaseDamage(new Damage(CombatConstants.DamageType.CONCUSSION, Math.max(0, damage - 2)));
+      atk.setRandomDamage(new Damage(CombatConstants.DamageType.CONCUSSION, 2));
       Weapon w = new Weapon("Unarmed", atk);
       w.setAlwaysCharged(true);
       w.fullyCharge();

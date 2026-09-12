@@ -52,5 +52,6 @@ public class Main
       b.setShield(new Shield("Test Shield"));
       
       game.play();
+
    }
 }

@@ -26,10 +26,20 @@ public class Damage implements CombatConstants
       return d;
    }
    
+   public void add(DamageType type, int val)
+   {
+      setValue(type, getValue(type) + val);
+   }
+   
    public void add(Damage that)
    {
       for(int i = 0; i < DamageType.values().length; i++)
          values[i] += that.values[i];
+   }
+   
+   public void subtract(DamageType type, int val)
+   {
+      setValue(type, Math.max(0, getValue(type) - val));
    }
    
    public void subtract(Damage that)
