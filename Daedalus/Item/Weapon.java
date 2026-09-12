@@ -5,18 +5,10 @@ import Daedalus.Actor.*;
 import Daedalus.Combat.*;
 import Daedalus.Ability.*;
 
-public class Weapon extends ChargeItem implements ItemConstants, GUIConstants
+public class Weapon extends ChargeItem implements ItemConstants, GUIConstants, CombatConstants
 {
    private static final int STANDARD_CHARGE_TIME_PER_SHOT = 3;
-   
-   public enum Frame
-   {
-      PISTOL,
-      CARBINE,
-      RIFLE,
-      EJECTOR;
-   }
-   
+
    public enum BaseType
    {
       BOLTGUN,          // single projectile
@@ -118,6 +110,20 @@ public class Weapon extends ChargeItem implements ItemConstants, GUIConstants
       Weapon w = new Weapon("Beam Cannon", Attack.getMock());
       w.getAttack().setTargetingType(AbilityConstants.TargetingType.BEAM);
       w.getAttack().setRange(5);
+      w.fullyCharge();
+      return w;
+   }
+   
+   
+   public static Weapon getShotgun()
+   {
+      Weapon w = new Weapon("Shotgun");
+      Attack a = w.getAttack();
+      a.setBaseDamage(new Damage(CombatConstants.DamageType.CONCUSSION, DEFAULT_BASE_SHOT_DAMAGE * 2));
+      a.setRandomDamage(new Damage(CombatConstants.DamageType.CONCUSSION, DEFAULT_RANDOM_SHOT_DAMAGE));
+      a.setTargetingType(AbilityConstants.TargetingType.CONE);
+      a.setDamageDropoff(true);
+      a.setRange(7);
       w.fullyCharge();
       return w;
    }

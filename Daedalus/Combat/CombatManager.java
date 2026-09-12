@@ -65,4 +65,22 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
          }
       }
    }
+   
+   
+   // get the damage dropoff by range
+   // multiplier is 1.0 at a distiance of 1, scaling down linearly to 0.5 at max range
+   // dist 0 returns 1.0
+   public static double getDamageDropoffMultiplier(Attack a, Coord origin, Coord target)
+   {
+      if(!a.hasDamageDropoff() || origin.equals(target))
+         return 1.0;
+      int dist = EngineTools.getAngbandDistance(origin, target);
+      double numerator = (2 * (a.getRange() - 1)) - (dist - 1);
+      double denominator = 2 * (double)(a.getRange() - 1);
+      return numerator / denominator;
+   }
+   public static double getDamageDropoffMultiplier(Attack a, Actor attacker, Actor defender)
+   {
+      return getDamageDropoffMultiplier(a, attacker.getTileLoc(), defender.getTileLoc());
+   }
 }
