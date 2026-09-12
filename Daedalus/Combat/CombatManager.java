@@ -10,9 +10,15 @@ import java.util.*;
 
 public class CombatManager implements CombatConstants, AbilityConstants, ZoneConstants
 {
-   private static int applyAttack(Actor attacker, Actor defender, Attack attack)
+   private static int applyAttack(Actor attacker, Actor defender, Attack attack, Coord attackOrigin)
    {
+      Damage rolledDamage = attack.rollDamage();
       int damageDealt = defender.applyDamage(attack.rollDamage(), getDamageDropoffMultiplier(attack, attacker, defender));
+      int knockback = rolledDamage.getKnockback();
+      if(knockback > 0)
+      {
+         defender.setKnockback(knockback, Direction.getDirectionTo(attackOrigin, defender.getTileLoc()));
+      }
       return damageDealt;
    }
    
@@ -20,6 +26,9 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
    {
       Vector<Coord> affectedList = attack.getAffectedTiles(attacker.getTileLoc(), targetLoc);
       Vector<Actor> defenderList = new Vector<Actor>();
+      Coord attackOrigin = attacker.getTileLoc();
+      if(attack.getTargetingType() == TargetingType.BLAST)
+         attackOrigin = targetLoc;
       for(int i = 0; i < affectedList.size(); i++)
       {
          if(Game.isActorAt(affectedList.elementAt(i)))
@@ -47,7 +56,7 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
          Actor defender = defenderList.elementAt(i);
          int damageCount = 0;
          for(int j = 0; j < rateOfFire; j++)
-            damageCount += applyAttack(attacker, defender, attack);
+            damageCount += applyAttack(attacker, defender, attack, attackOrigin);
          String damageMessage = String.format("%s hits %s for %d damage! ", attacker.getName(), defender.getName(), damageCount);
          if(defender.isDead())
             damageMessage += defender.getName() + " is dead! ";
@@ -70,6 +79,7 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
    // get the damage dropoff by range
    // multiplier is 1.0 at a distiance of 1, scaling down linearly to 0.5 at max range
    // dist 0 returns 1.0
+   // formula is [ (2 * (range - 1) ) - (distance - 1) ] / [ 2 * (range - 1) ]
    public static double getDamageDropoffMultiplier(Attack a, Coord origin, Coord target)
    {
       if(!a.hasDamageDropoff() || origin.equals(target))

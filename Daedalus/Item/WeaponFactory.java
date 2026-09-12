@@ -49,9 +49,9 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
    }
    
    
-   public static Weapon getPlasmaLauncher()
+   public static Weapon getPlasmaCannon()
    {
-      Weapon w = new Weapon("Plasma Launcher");
+      Weapon w = new Weapon("Plasma Cannon");
       Attack a = w.getAttack();
       a.setBaseDamage(new Damage(DamageType.CONCUSSION, DEFAULT_BASE_SHOT_DAMAGE * 3));
       a.setRandomDamage(new Damage(DamageType.CONCUSSION, DEFAULT_RANDOM_SHOT_DAMAGE * 2));
@@ -87,5 +87,11 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
       return w;
    }
    public static Weapon getBasicMelee(){return getBasicMelee(3);}
-
+   
+   
+   public static Weapon getTestWeapon()
+   {
+      Weapon w = getShotgun();
+      return w;
+   }
 }

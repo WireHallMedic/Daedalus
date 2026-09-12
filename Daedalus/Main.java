@@ -26,14 +26,16 @@ public class Main
       {
          a.getInventory().add(new Item("Test Item", '*'));
       }
-      a.setWeapon1(Weapon.getBeamCannon());
-      a.setWeapon2(Weapon.getBasicMelee(5));
+      a.setWeapon1(WeaponFactory.getTestWeapon());
+      a.setWeapon2(WeaponFactory.getPlasmaCannon());
       a.setShield(new Shield("Test Shield"));
       
       Actor b = new Actor();
       b.setName("NPC");
       b.setTileIndex('X');
       b.setTileLoc(3, 2);
+      b.getBaseStats().setMaxHealth(100);
+      b.fullHeal();
       WanderAI bAI = new WanderAI(b);
       bAI.setStepChance(1.0);
       b.setAI(bAI);

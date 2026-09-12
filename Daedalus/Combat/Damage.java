@@ -55,4 +55,15 @@ public class Damage implements CombatConstants
          sum += values[i];
       return sum;
    }
+   
+   // called on the result of rollDamage()
+   public int getKnockback()
+   {
+      double kbDamageCount = 0.0;
+      for(DamageType type : DamageType.values())
+      {
+         kbDamageCount += getValue(type) * type.knockbackMultiplier;
+      }
+      return (int)(kbDamageCount / KNOCKBACK_THRESHOLD);
+   }
 }
