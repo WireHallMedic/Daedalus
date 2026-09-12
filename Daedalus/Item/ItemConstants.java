@@ -8,6 +8,9 @@ public interface ItemConstants
    public static final int MAX_INVENTORY_SIZE = 20;
    public static final int STANDARD_CHARGE_PER_TURN = 60;
    
+   public static final int DEFAULT_BASE_SHOT_DAMAGE = 4;
+   public static final int DEFAULT_RANDOM_SHOT_DAMAGE = 2;
+   
    public enum ItemBase
    {
       CREDITS     (WSFontConstants.CENT_TILE, WSFontConstants.CENT_TILE),

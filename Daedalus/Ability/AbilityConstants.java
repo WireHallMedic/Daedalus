@@ -6,11 +6,11 @@ public interface AbilityConstants
    
    public enum TargetingType
    {
-      POINT,
-      CONE,
-      BEAM,
-      BLAST,
-      RING;
+      POINT,   // single point in rainge
+      CONE,    // 30-degree cone eminating from origin
+      BEAM,    // all tiles in line from origin to target
+      BLAST,   // radius around and including target
+      RING;    // radius around origin
    }
    
    

@@ -3,8 +3,6 @@ package Daedalus.Combat;
 public interface CombatConstants
 {
    public static final int KNOCKBACK_THRESHOLD = 10;
-   public static final int DEFAULT_BASE_SHOT_DAMAGE = 4;
-   public static final int DEFAULT_RANDOM_SHOT_DAMAGE = 2;
    
    public enum DamageType
    {

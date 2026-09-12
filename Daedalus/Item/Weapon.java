@@ -105,41 +105,4 @@ public class Weapon extends ChargeItem implements ItemConstants, GUIConstants, C
    }
    
    
-   public static Weapon getBeamCannon()
-   {
-      Weapon w = new Weapon("Beam Cannon", Attack.getMock());
-      w.getAttack().setTargetingType(AbilityConstants.TargetingType.BEAM);
-      w.getAttack().setRange(5);
-      w.fullyCharge();
-      return w;
-   }
-   
-   
-   public static Weapon getShotgun()
-   {
-      Weapon w = new Weapon("Shotgun");
-      Attack a = w.getAttack();
-      a.setBaseDamage(new Damage(CombatConstants.DamageType.CONCUSSION, DEFAULT_BASE_SHOT_DAMAGE * 2));
-      a.setRandomDamage(new Damage(CombatConstants.DamageType.CONCUSSION, DEFAULT_RANDOM_SHOT_DAMAGE));
-      a.setTargetingType(AbilityConstants.TargetingType.CONE);
-      a.setDamageDropoff(true);
-      a.setRange(7);
-      w.fullyCharge();
-      return w;
-   }
-   
-   
-   public static Weapon getBasicMelee(int damage)
-   {
-      Attack atk = new Attack("Punch");
-      atk.setMelee(true);
-      atk.setRange(1);
-      atk.setBaseDamage(new Damage(CombatConstants.DamageType.CONCUSSION, Math.max(0, damage - 2)));
-      atk.setRandomDamage(new Damage(CombatConstants.DamageType.CONCUSSION, 2));
-      Weapon w = new Weapon("Unarmed", atk);
-      w.setAlwaysCharged(true);
-      w.fullyCharge();
-      return w;
-   }
-   public static Weapon getBasicMelee(){return getBasicMelee(3);}
 }
