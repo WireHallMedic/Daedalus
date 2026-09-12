@@ -14,7 +14,7 @@ s#k0
 s#j0
 s#l0
 !74;u
-a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!1857;g
+a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!2009;g
 %\011Daedalus%sAbility%sAbility.java
 %\011Daedalus%sAbility%sAbilityConstants.java
 %\011Daedalus%sAbility%sAttack.java
@@ -48,13 +48,17 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!1857;
 %\011Daedalus%sGUI%sUnboundString.java
 %\011Daedalus%sGUI%sUnboundTile.java
 %\011Daedalus%sItem%sArmor.java
+%\011Daedalus%sItem%sArmorFactory.java
 %\011Daedalus%sItem%sChargeItem.java
 %\011Daedalus%sItem%sCredits.java
+%\011Daedalus%sItem%sGadget.java
 %\011Daedalus%sItem%sInventory.java
 %\011Daedalus%sItem%sItem.java
 %\011Daedalus%sItem%sItemConstants.java
 %\011Daedalus%sItem%sShield.java
+%\011Daedalus%sItem%sShieldFactory.java
 %\011Daedalus%sItem%sWeapon.java
+%\011Daedalus%sItem%sWeaponFactory.java
 %\011Daedalus%sMain.java
 %\011Daedalus%sres%simg%sWSFont_16x16.png
 %\011Daedalus%sres%simg%sWSFont_8x16.png
@@ -66,7 +70,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!1857;
 %\011Daedalus%sZone%sZoneConstants.java
 %\011Daedalus%sZone%sZoneMap.java
 %\011Daedalus%sZone%sZoneTile.java
-!1857;f
+!2009;f
 %\011Daedalus%sAbility%sAbility.java
 %\011Daedalus%sAbility%sAbilityConstants.java
 %\011Daedalus%sAbility%sAttack.java
@@ -100,13 +104,17 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!1857;
 %\011Daedalus%sGUI%sUnboundString.java
 %\011Daedalus%sGUI%sUnboundTile.java
 %\011Daedalus%sItem%sArmor.java
+%\011Daedalus%sItem%sArmorFactory.java
 %\011Daedalus%sItem%sChargeItem.java
 %\011Daedalus%sItem%sCredits.java
+%\011Daedalus%sItem%sGadget.java
 %\011Daedalus%sItem%sInventory.java
 %\011Daedalus%sItem%sItem.java
 %\011Daedalus%sItem%sItemConstants.java
 %\011Daedalus%sItem%sShield.java
+%\011Daedalus%sItem%sShieldFactory.java
 %\011Daedalus%sItem%sWeapon.java
+%\011Daedalus%sItem%sWeaponFactory.java
 %\011Daedalus%sMain.java
 %\011Daedalus%sres%simg%sWSFont_16x16.png
 %\011Daedalus%sres%simg%sWSFont_8x16.png
@@ -123,7 +131,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!1857;
 %\011Daedalus%sCombat%sCombatManagerTest.java
 %\011Daedalus%sItem%sChargeItemTest.java
 %\011Daedalus%sZone%sZoneConstantsTest.java
-!469;t
-jgrJUnit0xr	%\011Daedalus%sItem%sChargeItemTest.java	1789134664555:P%\011ChargeItem.java	%\011Daedalus%sItem%sChargeItem.java	1789134664555:P%\011ChargeItemTest.java	%\011Daedalus%sActor%sActor.java	1789134664555:P%\011ActorTest.java	%\011Daedalus%sZone%sZoneConstants.java	1789134664555:P%\011ZoneConstantsTest.java	%\011Daedalus%sZone%sZoneConstantsTest.java	1789134664555:P%\011ZoneConstants.java	%\011Daedalus%sActor%sActorTest.java	1789134664555:P%\011Actor.java	
+!639;t
+jgrJUnit0xr	%\011Daedalus%sItem%sChargeItemTest.java	1789233858492:P%\011ChargeItem.java	%\011Daedalus%sItem%sChargeItem.java	1789233858492:P%\011ChargeItemTest.java	%\011Daedalus%sActor%sActor.java	1789233858492:P%\011ActorTest.java	%\011Daedalus%sCombat%sCombatManager.java	1789233858492:P%\011CombatManagerTest.java	%\011Daedalus%sZone%sZoneConstants.java	1789233858492:P%\011ZoneConstantsTest.java	%\011Daedalus%sZone%sZoneConstantsTest.java	1789233858492:P%\011ZoneConstants.java	%\011Daedalus%sCombat%sCombatManagerTest.java	1789233858492:P%\011CombatManager.java	%\011Daedalus%sActor%sActorTest.java	1789233858492:P%\011Actor.java	
 !24;m
 RunSelect	Daedalus.Main

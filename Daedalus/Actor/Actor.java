@@ -109,6 +109,8 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
          weapon2.charge();
       if(hasShield())
          shield.charge();
+      if(hasArmor())
+         armor.charge();
    }
    
    public boolean isCharged()
