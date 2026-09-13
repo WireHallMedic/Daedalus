@@ -16,8 +16,7 @@ public class Main
       Game game = new Game();
       game.setCurZone(ZoneMap.getTestMap());
       
-      Actor a = new Actor();
-      a.setName("Test Player");
+      Actor a = new Actor("Test Player");
       a.setAI(new PlayerAI(a));
       a.setTileLoc(3, 5);
       game.setPlayer(a);
@@ -30,9 +29,8 @@ public class Main
       a.setWeapon2(WeaponFactory.getPlasmaCannon());
       a.setShield(new Shield("Test Shield"));
       
-      Actor b = new Actor();
+      Actor b = new Actor("NPC");
       b.setAI(new ZombieAI(b));
-      b.setName("NPC");
       b.setTileIndex('X');
       b.setTileLoc(3, 11);
       b.addToInventory(new Item("Test Item", '^'));
@@ -40,9 +38,8 @@ public class Main
       b.setCurWeapon(WeaponFactory.getBasicMelee());
       game.addActor(b);
       
-      b = new Actor();
+      b = new Actor("NPC");
       b.setAI(new ZombieAI(b));
-      b.setName("NPC");
       b.setTileIndex('X');
       b.setTileLoc(4, 11);
       game.addActor(b);
