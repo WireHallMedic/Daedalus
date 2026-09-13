@@ -110,6 +110,25 @@ public class AI implements AIConstants, ZoneConstants
       pendingAction = null;
    }
    
+   public Coord getDumbstepToward(Coord target)
+   {
+      Direction dir = Direction.getDirectionTo(self.getTileLoc(), target);
+      Coord targetTile = self.getTileLoc();
+      targetTile.add(dir.getAsCoord());
+      if(Game.canStep(self, targetTile))
+         return targetTile;
+      targetTile = self.getTileLoc();
+      targetTile.add(dir.nextClockwise().getAsCoord());
+      if(Game.canStep(self, targetTile))
+         return targetTile;
+      targetTile = self.getTileLoc();
+      targetTile.add(dir.prevClockwise().getAsCoord());
+      if(Game.canStep(self, targetTile))
+         return targetTile;
+      return null;
+   }
+   public Coord getDumbstepToward(Actor target){return getDumbstepToward(target.getTileLoc());}
+   
    // acting
    //////////////////////////////////////////////////
    

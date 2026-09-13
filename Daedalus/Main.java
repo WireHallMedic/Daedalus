@@ -33,9 +33,7 @@ public class Main
       Actor b = new Actor();
       b.setName("NPC");
       b.setTileIndex('X');
-      b.setTileLoc(3, 2);
-      b.getBaseStats().setMaxHealth(100);
-      b.fullHeal();
+      b.setTileLoc(3, 11);
       WanderAI bAI = new WanderAI(b);
       bAI.setStepChance(1.0);
       b.setAI(bAI);
@@ -46,7 +44,7 @@ public class Main
       b = new Actor();
       b.setName("NPC");
       b.setTileIndex('X');
-      b.setTileLoc(3, 1);
+      b.setTileLoc(4, 11);
       bAI = new WanderAI(b);
       bAI.setStepChance(1.0);
       b.setAI(bAI);
