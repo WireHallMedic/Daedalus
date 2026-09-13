@@ -304,7 +304,14 @@ public class ZoneMap implements ZoneConstants, GUIConstants
       
       
       for(int i = 0; i < 4; i++)
+      {
          z.setTile(2 + i, 10, new ZoneTile(TileBase.LOW_WALL));
+         
+         z.setTile(8 + i, 6, new ZoneTile(TileBase.LOW_WALL));
+         z.setTile(8 + i, 9, new ZoneTile(TileBase.LOW_WALL));
+         z.setTile(8, 6 + i, new ZoneTile(TileBase.LOW_WALL));
+         z.setTile(11, 6 + i, new ZoneTile(TileBase.LOW_WALL));
+      }
       
       z.setItemAt(WeaponFactory.getBoltgun(), 1, 5);
       z.setItemAt(WeaponFactory.getAutogun(), 1, 6);

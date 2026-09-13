@@ -30,19 +30,26 @@ public class Main
       a.setWeapon2(WeaponFactory.getPlasmaCannon());
       a.setShield(new Shield("Test Shield"));
       
-      Actor b = new Actor("NPC");
+      Actor b = new Actor("Zombie");
       b.setAI(new ZombieAI(b));
-      b.setTileIndex('X');
+      b.setTileIndex('z');
       b.setTileLoc(3, 11);
       b.addToInventory(new Item("Test Item", '^'));
       b.addToInventory(new Credits(10));
       b.setCurWeapon(WeaponFactory.getBasicMelee());
       game.addActor(b);
       
-      b = new Actor("NPC");
-      b.setAI(new ZombieAI(b));
-      b.setTileIndex('X');
+      b = new Actor("Wolf");
+      b.setAI(new WolfAI(b));
+      b.setTileIndex('w');
       b.setTileLoc(4, 11);
+      game.addActor(b);
+      b.setShield(new Shield("Test Shield"));
+      
+      b = new Actor("Wolf");
+      b.setAI(new WolfAI(b));
+      b.setTileIndex('w');
+      b.setTileLoc(10, 7);
       game.addActor(b);
       b.setShield(new Shield("Test Shield"));
       

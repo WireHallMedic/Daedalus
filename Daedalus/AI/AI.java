@@ -7,6 +7,8 @@ import Daedalus.Actor.*;
 import Daedalus.Combat.*;
 import Daedalus.Engine.*;
 import WidlerSuite.Coord;
+import WidlerSuite.AStar;
+import java.util.*;
 
 public class AI implements AIConstants, ZoneConstants
 {
@@ -114,7 +116,7 @@ public class AI implements AIConstants, ZoneConstants
       pendingAction = null;
    }
    
-   public Coord getDumbstepToward(Coord target)
+   public Coord getDumbstepTowards(Coord target)
    {
       Direction dir = Direction.getDirectionTo(self.getTileLoc(), target);
       Coord targetTile = self.getTileLoc();
@@ -131,7 +133,16 @@ public class AI implements AIConstants, ZoneConstants
          return targetTile;
       return null;
    }
-   public Coord getDumbstepToward(Actor target){return getDumbstepToward(target.getTileLoc());}
+   public Coord getDumbstepTowards(Actor target){return getDumbstepTowards(target.getTileLoc());}
+   
+   public Coord getStepTowards(Coord target)
+   {
+      Vector<Coord> path = getPathTo(target);
+      if(path.size() > 0)
+         return path.elementAt(0);
+      return null;
+   }
+   public Coord getStepTowards(Actor target){return getStepTowards(target.getTileLoc());}
    
    
    public boolean isEnemy(Actor that)
@@ -166,6 +177,7 @@ public class AI implements AIConstants, ZoneConstants
             break;
          case ActorAction.SWAP_WEAPONS :
             doWeaponSwap();
+            break;
          case ActorAction.EQUIP :
             doEquip();
             break;
@@ -277,4 +289,46 @@ public class AI implements AIConstants, ZoneConstants
       
       return curActor;
    }
+   
+   protected Vector<Coord> getPathTo(Coord target)
+   {
+      AStar aStar = new AStar();
+      int searchRadius = PATHING_SEARCH_DIAMETER / 2;
+      Coord cornerLoc = new Coord(self.getTileLoc().x - searchRadius, self.getTileLoc().y - searchRadius);
+      boolean[][] passMap = new boolean[PATHING_SEARCH_DIAMETER][PATHING_SEARCH_DIAMETER];
+      for(int x = 0; x < PATHING_SEARCH_DIAMETER; x++)
+      for(int y = 0; y < PATHING_SEARCH_DIAMETER; y++)
+      {
+         passMap[x][y] = Game.getCurZone().canStep(self, x + cornerLoc.x, y + cornerLoc.y);
+      }
+      for(int i = 0; i < Game.getActorList().size(); i++)
+      {
+         Actor a = Game.getActorList().elementAt(i);
+         if(isInPathSearchArea(self.getTileLoc(), a, searchRadius) &&
+            a != self)
+         {
+            passMap[a.getTileLoc().x - cornerLoc.x][a.getTileLoc().y - cornerLoc.y] = false;
+         }
+      }
+      // set target as passable
+      if(isInPathSearchArea(self.getTileLoc(), target, searchRadius))
+         passMap[target.x - cornerLoc.x][target.y - cornerLoc.y] = true;
+      
+      Coord origin = self.getTileLoc();
+      target = target.copy();
+      origin.subtract(cornerLoc);
+      target.subtract(cornerLoc);
+      Vector<Coord> path = aStar.path(passMap, origin, target);
+      for(int i = 0; i < path.size(); i++)
+         path.elementAt(i).add(cornerLoc);
+      return path;
+   }
+   
+   private boolean isInPathSearchArea(Coord center, Coord prospect, int searchRadius)
+   {
+      return Math.abs(center.x - prospect.x) <= searchRadius &&
+             Math.abs(center.y - prospect.y) <= searchRadius;
+   }
+   private boolean isInPathSearchArea(Coord center, Actor prospect, int searchRadius){return isInPathSearchArea(center, prospect.getTileLoc(), searchRadius);}
+   
 }

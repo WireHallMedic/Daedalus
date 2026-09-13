@@ -28,7 +28,7 @@ public class ZombieAI extends AI
             return;
          }
          // not adjacent, try to step
-         Coord targetTile = getDumbstepToward(targetActor);
+         Coord targetTile = getDumbstepTowards(targetActor);
          if(targetTile != null)
          {
             setPendingAction(ActorAction.STEP);
