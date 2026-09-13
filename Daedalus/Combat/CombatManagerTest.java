@@ -1,6 +1,8 @@
 package Daedalus.Combat;
 
 import WidlerSuite.Coord;
+import Daedalus.Item.*;
+import Daedalus.Actor.*;
 import Daedalus.Ability.*;
 import org.junit.Assert;
 import static org.junit.Assert.*;
@@ -8,7 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-public class CombatManagerTest {
+public class CombatManagerTest implements CombatConstants, ItemConstants
+{
 
 
    /** Fixture initialization (common initialization for all tests). **/
@@ -39,5 +42,41 @@ public class CombatManagerTest {
       Assert.assertEquals("Dropoff deals three quarters damage at range *max - 1) / 2", 0.75, dropoff, .01);
       dropoff = CombatManager.getDamageDropoffMultiplier(atk, origin, new Coord(7, 0));
       Assert.assertEquals("Dropoff deals half damage at max range", 0.5, dropoff, .01);
+   }
+   
+   @Test public void knockbackDamageDropoff() 
+   {
+      Actor attacker = new Actor("Attacker");
+      attacker.setTileLoc(0, 0);
+      Actor defender = new Actor("Defender");
+      defender.setTileLoc(5, 0);
+      Weapon weapon = new Weapon("Test Weapon");
+      Attack attack = weapon.getAttack();
+      attack.setBaseDamage(new Damage(DamageType.PIERCE, 10));
+      attack.setTargetingType(AbilityConstants.TargetingType.POINT);
+      attack.setRange(10);
+
+      Damage rolledDamage = attack.rollDamage();
+      double dropoffMultiplier = CombatManager.getDamageDropoffMultiplier(attack, attacker, defender);
+      int knockback = rolledDamage.getKnockback(dropoffMultiplier);
+      Assert.assertEquals("No dropoff, damage = threshold, type multiplier 1.0, half range", 1, knockback);
+      
+      attack.setBaseDamage(new Damage(DamageType.PIERCE, 8));
+      rolledDamage = attack.rollDamage();
+      dropoffMultiplier = CombatManager.getDamageDropoffMultiplier(attack, attacker, defender);
+      knockback = rolledDamage.getKnockback(dropoffMultiplier);
+      Assert.assertEquals("No dropoff, damage < threshold, type multiplier 1.0, half range", 0, knockback);
+      
+      attack.setBaseDamage(new Damage(DamageType.CONCUSSION, 8));
+      rolledDamage = attack.rollDamage();
+      dropoffMultiplier = CombatManager.getDamageDropoffMultiplier(attack, attacker, defender);
+      knockback = rolledDamage.getKnockback(dropoffMultiplier);
+      Assert.assertEquals("No dropoff, damage < threshold, type multiplier 1.5, half range", 1, knockback);
+      
+      attack.setDamageDropoff(true);
+      rolledDamage = attack.rollDamage();
+      dropoffMultiplier = CombatManager.getDamageDropoffMultiplier(attack, attacker, defender);
+      knockback = rolledDamage.getKnockback(dropoffMultiplier);
+      Assert.assertEquals("Dropoff, damage < threshold, type multiplier 1.5, half range", 0, knockback);
    }
 }

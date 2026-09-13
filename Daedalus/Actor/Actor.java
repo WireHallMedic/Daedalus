@@ -92,6 +92,12 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
       baseStats.setVisionRadius(10);
       fullHeal();
    }
+   
+   public Actor(String n)
+   {
+      this();
+      setName(n);
+   }
       
    @Override
 	public void setTileLoc(int x, int y)
@@ -327,7 +333,8 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    {
       knockbackDistance = distance;
       knockbackDirection = dir;
-      resolveKnockbackStep();
+      if(knockbackDistance > 0)
+         resolveKnockbackStep();
    }
    
    public void scriptExpiring(AnimationScript source)

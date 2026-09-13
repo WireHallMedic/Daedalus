@@ -6,12 +6,12 @@ public interface CombatConstants
    
    public enum DamageType
    {
-      CONCUSSION  ("Concussion", 2.0),
+      CONCUSSION  ("Concussion", 1.5),
       PIERCE      ("Pierce", 1.0),
-      FIRE        ("Thermal", 0.5),
-      COLD        ("Cryo", 0.5),
+      FIRE        ("Thermal", 0.25),
+      COLD        ("Cryo", 0.25),
       CORROSION   ("Corrosion", 0.5),
-      ELECTRIC    ("Electric", 0.5);
+      ELECTRIC    ("Electric", 1.0);
       
       public String name;
       public double knockbackMultiplier;

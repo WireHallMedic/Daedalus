@@ -13,8 +13,9 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
    private static int applyAttack(Actor attacker, Actor defender, Attack attack, Coord attackOrigin)
    {
       Damage rolledDamage = attack.rollDamage();
-      int damageDealt = defender.applyDamage(attack.rollDamage(), getDamageDropoffMultiplier(attack, attacker, defender));
-      int knockback = rolledDamage.getKnockback();
+      double dropoffMultiplier = getDamageDropoffMultiplier(attack, attacker, defender);
+      int damageDealt = defender.applyDamage(attack.rollDamage(), dropoffMultiplier);
+      int knockback = rolledDamage.getKnockback(dropoffMultiplier);
       if(knockback > 0)
       {
          if(attack.getTargetingType() == TargetingType.BLAST &&

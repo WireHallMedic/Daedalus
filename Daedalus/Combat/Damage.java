@@ -57,13 +57,14 @@ public class Damage implements CombatConstants
    }
    
    // called on the result of rollDamage()
-   public int getKnockback()
+   public int getKnockback(double dropoffMultiplier)
    {
       double kbDamageCount = 0.0;
       for(DamageType type : DamageType.values())
       {
-         kbDamageCount += getValue(type) * type.knockbackMultiplier;
+         kbDamageCount += getValue(type) * type.knockbackMultiplier * dropoffMultiplier;
       }
       return (int)(kbDamageCount / KNOCKBACK_THRESHOLD);
    }
+   public int getKnockback(){return getKnockback(1.0);}
 }
