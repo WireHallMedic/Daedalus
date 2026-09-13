@@ -17,6 +17,7 @@ public class Main
       game.setCurZone(ZoneMap.getTestMap());
       
       Actor a = new Actor("Test Player");
+      a.setTileIndex('@');
       a.setAI(new PlayerAI(a));
       a.setTileLoc(3, 5);
       game.setPlayer(a);
