@@ -17,6 +17,11 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
       int knockback = rolledDamage.getKnockback();
       if(knockback > 0)
       {
+         if(attack.getTargetingType() == TargetingType.BLAST &&
+            defender.getTileLoc().equals(attackOrigin))
+         {
+            attackOrigin = attacker.getTileLoc();
+         }
          defender.setKnockback(knockback, Direction.getDirectionTo(attackOrigin, defender.getTileLoc()));
       }
       return damageDealt;
