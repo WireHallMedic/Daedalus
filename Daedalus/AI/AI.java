@@ -14,12 +14,14 @@ public class AI implements AIConstants, ZoneConstants
 	protected Coord pendingTarget;
 	protected ActorAction pendingAction;
    protected int pendingIndex;            // used for supplementary information
+   protected Team team;
 
 
 	public Actor getSelf(){return self;}
 	public Coord getPendingTarget(){return new Coord(pendingTarget);}
 	public ActorAction getPendingAction(){return pendingAction;}
    public int getPendingIndex(){return pendingIndex;}
+   public Team getTeam(){return team;}
 
 
 	public void setSelf(Actor s){self = s;}
@@ -27,10 +29,12 @@ public class AI implements AIConstants, ZoneConstants
 	public void setPendingTarget(int x, int y){pendingTarget = new Coord(x, y);}
 	public void setPendingAction(ActorAction p){pendingAction = p;}
    public void setPendingIndex(int p){pendingIndex = p;}
+   public void setTeam(Team t){team = t;}
 
    public AI(Actor a)
    {
       self = a;
+      team = Team.EVIL;
       clearPlan();
    }
    
@@ -128,6 +132,12 @@ public class AI implements AIConstants, ZoneConstants
       return null;
    }
    public Coord getDumbstepToward(Actor target){return getDumbstepToward(target.getTileLoc());}
+   
+   
+   public boolean isEnemy(Actor that)
+   {
+      return team.isEnemy(that.getAI().getTeam()) && that != self;
+   }
    
    // acting
    //////////////////////////////////////////////////
@@ -249,4 +259,22 @@ public class AI implements AIConstants, ZoneConstants
       self.discharge(self.getInteractSpeed());
    }
    
+   protected Actor getClosestEnemy()
+   {
+      int curDist = 1000000;
+      Actor curActor = null;
+      for(int i = 0; i < Game.getActorList().size(); i++)
+      {
+         Actor a = Game.getActorList().elementAt(i);
+         if(isEnemy(a) &&
+            EngineTools.getAngbandDistance(self.getTileLoc(), a.getTileLoc()) < curDist &&
+            self.canSee(a))
+         {
+            curActor = a;
+            curDist = EngineTools.getAngbandDistance(self.getTileLoc(), a.getTileLoc());
+         }
+      }
+      
+      return curActor;
+   }
 }

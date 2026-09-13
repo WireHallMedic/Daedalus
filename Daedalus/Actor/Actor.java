@@ -27,6 +27,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    private int curHealth;
 	private Weapon weapon1;
 	private Weapon weapon2;
+   private Weapon naturalWeapon;
 	private boolean weaponSelection;
    private Shield shield;
    private Armor armor;
@@ -44,6 +45,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    public int getCurHealth(){return curHealth;}
 	public Weapon getWeapon1(){return weapon1;}
 	public Weapon getWeapon2(){return weapon2;}
+   public Weapon getNaturalWeapon(){return naturalWeapon;}
 	public boolean isWeaponSelection(){return weaponSelection;}
    public Shield getShield(){return shield;}
    public Armor getArmor(){return armor;}
@@ -57,6 +59,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    public void setCurHealth(int ch){curHealth = ch;}
 	public void setWeapon1(Weapon w){weapon1 = w;}
 	public void setWeapon2(Weapon w){weapon2 = w;}
+   public void setNaturalWeapon(Weapon w){naturalWeapon = w;}
 	public void setWeaponSelection(boolean w){weaponSelection = w;}
    public void setShield(Shield s){shield = s;}
    public void setArmor(Armor a){armor = a;}
@@ -80,6 +83,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
       // items
    	weapon1 = null;
    	weapon2 = null;
+      naturalWeapon = WeaponFactory.getBasicMelee();
       shield = null;
       armor = null;
       weaponSelection = true;
@@ -278,9 +282,11 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    
    public Weapon getCurWeapon()
    {
-      if(weaponSelection)
+      if(weaponSelection && weapon1 != null)
          return weapon1;
-      return weapon2;
+      if(weapon2 != null)
+         return weapon2;
+      return naturalWeapon;
    }
    
    public Weapon getOffWeapon()

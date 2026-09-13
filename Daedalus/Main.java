@@ -31,23 +31,20 @@ public class Main
       a.setShield(new Shield("Test Shield"));
       
       Actor b = new Actor();
+      b.setAI(new ZombieAI(b));
       b.setName("NPC");
       b.setTileIndex('X');
       b.setTileLoc(3, 11);
-      WanderAI bAI = new WanderAI(b);
-      bAI.setStepChance(1.0);
-      b.setAI(bAI);
       b.addToInventory(new Item("Test Item", '^'));
       b.addToInventory(new Credits(10));
+      b.setCurWeapon(WeaponFactory.getBasicMelee());
       game.addActor(b);
       
       b = new Actor();
+      b.setAI(new ZombieAI(b));
       b.setName("NPC");
       b.setTileIndex('X');
       b.setTileLoc(4, 11);
-      bAI = new WanderAI(b);
-      bAI.setStepChance(1.0);
-      b.setAI(bAI);
       game.addActor(b);
       b.setShield(new Shield("Test Shield"));
       

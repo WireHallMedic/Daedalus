@@ -11,6 +11,7 @@ public class PlayerAI extends AI implements AIConstants, ZoneConstants
    public PlayerAI(Actor a)
    {
       super(a);
+      setTeam(Team.PLAYER);
    }
    
    // resolve contextual plan, or wait for player
