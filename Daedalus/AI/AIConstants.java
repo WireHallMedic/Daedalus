@@ -10,7 +10,7 @@ public interface AIConstants
    public enum ActorAction
    {
       DELAY,
-      INTERACT, PICK_UP, DROP, USE, SWAP_WEAPONS,
+      INTERACT, PICK_UP, DROP, USE, EQUIP, SWAP_WEAPONS,
       STEP,
       BASIC_ATTACK, ABILITY, CHARGE,
       CONTEXTUAL;

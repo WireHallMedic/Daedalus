@@ -302,9 +302,10 @@ public class ZoneMap implements ZoneConstants, GUIConstants
          z.setTile(diameter - 1, y, new ZoneTile(TileBase.WALL));
       }
       
-      z.setItemAt(new Item("Test Item", '"'), 1, 5);
-      z.setItemAt(new Item("Enticing Item", '"'), 1, 6);
+      z.setItemAt(WeaponFactory.getBoltgun(), 1, 5);
+      z.setItemAt(WeaponFactory.getAutogun(), 1, 6);
       z.setItemAt(new Credits(10), 1, 7);
+      z.setItemAt(ShieldFactory.getBasicShield(), 1, 8);
       
       z.updateSubmaps();
       return z;

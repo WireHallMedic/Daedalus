@@ -22,7 +22,7 @@ public class InventoryPanel extends SelectionPanel implements ActionListener, GU
       super();
       inventory = null;
       setHeader("Inventory");
-      setFooter("[D]rop or [ESC] to exit");
+      setFooter("[D]rop, [ENTER] to Equip or Use, [ESC] to exit");
    }
    
    @Override
@@ -78,6 +78,20 @@ public class InventoryPanel extends SelectionPanel implements ActionListener, GU
                Game.getPlayer().getAI().setPendingIndex(curIndex);
                Game.getPlayer().getAI().setPendingTarget(ZoneConstants.Direction.ORIGIN);
                DaeFrame.setActivePanel(MainGamePanel.class);
+            }
+            break;
+         case KeyEvent.VK_ENTER:
+            if(inventory.getItemList().size() > 0)
+            {
+               if(inventory.getItem(curIndex) instanceof Equippable)
+               {
+                  Game.getPlayer().getAI().setPendingAction(AIConstants.ActorAction.EQUIP);
+                  Game.getPlayer().getAI().setPendingIndex(curIndex);
+                  Game.getPlayer().getAI().setPendingTarget(ZoneConstants.Direction.ORIGIN);
+                  DaeFrame.setActivePanel(MainGamePanel.class);
+               }
+               else
+                  System.out.println("Non-equippable item.");
             }
             break;
          default :

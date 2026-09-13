@@ -137,6 +137,8 @@ public class AI implements AIConstants, ZoneConstants
             break;
          case ActorAction.SWAP_WEAPONS :
             doWeaponSwap();
+         case ActorAction.EQUIP :
+            doEquip();
             break;
       }
       clearPlan();
@@ -200,8 +202,32 @@ public class AI implements AIConstants, ZoneConstants
    protected void doBasicAttack()
    {
       CombatManager.resolveAttack(self, self.getBasicAttack(), pendingTarget, self.getCurWeapon().getRateOfFire());
-      self.discharge(self.getAttackSpeed());
       self.getCurWeapon().discharge();
+      self.discharge(self.getAttackSpeed());
+   }
+   
+   protected void doEquip()
+   {
+      Item item = self.getInventory().takeItem(pendingIndex);
+      if(item instanceof Weapon)
+      {
+         if(self.getCurWeapon() != null)
+            self.getInventory().add(self.getCurWeapon());
+         self.setCurWeapon((Weapon)item);
+      }
+      if(item instanceof Shield)
+      {
+         if(self.getShield() != null)
+            self.getInventory().add(self.getShield());
+         self.setShield((Shield)item);
+      }
+      if(item instanceof Armor)
+      {
+         if(self.getArmor() != null)
+            self.getInventory().add(self.getArmor());
+         self.setArmor((Armor)item);
+      }
+      self.discharge(self.getInteractSpeed());
    }
    
 }

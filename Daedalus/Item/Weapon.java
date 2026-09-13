@@ -5,7 +5,7 @@ import Daedalus.Actor.*;
 import Daedalus.Combat.*;
 import Daedalus.Ability.*;
 
-public class Weapon extends ChargeItem implements ItemConstants, GUIConstants, CombatConstants
+public class Weapon extends ChargeItem implements Equippable, ItemConstants, GUIConstants, CombatConstants
 {
    private static final int STANDARD_CHARGE_TIME_PER_SHOT = 6;
 
@@ -94,6 +94,17 @@ public class Weapon extends ChargeItem implements ItemConstants, GUIConstants, C
          setMaxShots(1);
       }
       super.setAlwaysCharged(a);
+   }
+   
+   // equippable
+   public String getSummaryString()
+   {
+      return "Weapon Description";
+   }
+   
+   public String getComparisonString(Equippable that)
+   {
+      return "Weapon Comparison";
    }
    
    

@@ -3,7 +3,7 @@ package Daedalus.Item;
 import Daedalus.GUI.*;
 import Daedalus.Combat.*;
 
-public class Armor extends ChargeItem implements ItemConstants, GUIConstants
+public class Armor extends ChargeItem implements Equippable, ItemConstants, GUIConstants
 {
    public static final int DEFAULT_GADGET_SLOTS = 3;
    
@@ -86,5 +86,16 @@ public class Armor extends ChargeItem implements ItemConstants, GUIConstants
          if(gadgetList[i] != null)
             gadgetList[i].charge();
       }
+   }
+   
+   // equippable
+   public String getSummaryString()
+   {
+      return "Armor Description";
+   }
+   
+   public String getComparisonString(Equippable that)
+   {
+      return "Armor Comparison";
    }
 }

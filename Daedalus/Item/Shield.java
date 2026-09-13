@@ -5,7 +5,7 @@ import Daedalus.Actor.*;
 import Daedalus.Ability.*;
 import Daedalus.Combat.*;
 
-public class Shield extends ChargeItem implements ItemConstants, GUIConstants
+public class Shield extends ChargeItem implements Equippable, ItemConstants, GUIConstants
 {
    public static final int STANDARD_MAX_DAMAGE_CAPACITY = 10;
    public static final int STANDARD_CHARGE_DELAY_NORMAL_TURNS = 5;
@@ -82,4 +82,15 @@ public class Shield extends ChargeItem implements ItemConstants, GUIConstants
       return damageAbsorbed;
    }
    public int applyDamage(Damage damage){return applyDamage(damage.getSum());}
+   
+   // equippable
+   public String getSummaryString()
+   {
+      return "Shield Description";
+   }
+   
+   public String getComparisonString(Equippable that)
+   {
+      return "Shield Comparison";
+   }
 }
