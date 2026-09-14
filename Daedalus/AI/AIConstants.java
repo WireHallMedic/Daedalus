@@ -12,7 +12,7 @@ public interface AIConstants
       DELAY,
       INTERACT, PICK_UP, DROP, USE, EQUIP, SWAP_WEAPONS,
       STEP,
-      BASIC_ATTACK, ABILITY, CHARGE,
+      BASIC_ATTACK, ABILITY, CHARGE, NATURAL_ATTACK,
       CONTEXTUAL;
    }
    

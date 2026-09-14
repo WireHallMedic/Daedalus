@@ -322,9 +322,12 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    
    public Attack getBasicAttack()
    {
-      if(getCurWeapon() == null)
-         return null;
       return getCurWeapon().getAttack();
+   }
+   
+   public Attack getNaturalAttack()
+   {
+      return getNaturalWeapon().getAttack();
    }
    
    

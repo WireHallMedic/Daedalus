@@ -8,6 +8,7 @@ import Daedalus.Combat.*;
 import Daedalus.Engine.*;
 import WidlerSuite.Coord;
 import WidlerSuite.AStar;
+import WidlerSuite.StraightLine;
 import java.util.*;
 
 public class AI implements AIConstants, ZoneConstants
@@ -176,6 +177,9 @@ public class AI implements AIConstants, ZoneConstants
          case ActorAction.BASIC_ATTACK :
             doBasicAttack();
             break;
+         case ActorAction.NATURAL_ATTACK :
+            doNaturalAttack();
+            break;
          case ActorAction.SWAP_WEAPONS :
             doWeaponSwap();
             break;
@@ -243,8 +247,18 @@ public class AI implements AIConstants, ZoneConstants
    
    protected void doBasicAttack()
    {
-      CombatManager.resolveAttack(self, self.getBasicAttack(), pendingTarget, self.getCurWeapon().getRateOfFire());
-      self.getCurWeapon().discharge();
+      doWeaponAttack(self.getCurWeapon());
+   }
+   
+   protected void doNaturalAttack()
+   {
+      doWeaponAttack(self.getNaturalWeapon());
+   }
+   
+   protected void doWeaponAttack(Weapon w)
+   {
+      CombatManager.resolveAttack(self, w.getAttack(), pendingTarget, w.getRateOfFire());
+      w.discharge();
       self.discharge(self.getAttackSpeed());
    }
    
@@ -303,6 +317,23 @@ public class AI implements AIConstants, ZoneConstants
       for(int i = 0; i < path.size(); i++)
          path.elementAt(i).add(cornerLoc);
       return path;
+   }
+   
+   // you need to set the passmap before calling this; it is not done within the function
+   // because it may be called many times on the same map
+   private boolean hasLoS(Coord origin, Coord target)
+   {
+      origin = new Coord(origin.x - cornerLoc.x, origin.y - cornerLoc.y);
+      target = new Coord(target.x - cornerLoc.x, target.y - cornerLoc.y);
+      
+      Vector<Coord> sightLine = StraightLine.findLine(origin, target, StraightLine.REMOVE_ORIGIN_AND_TARGET);
+      for(int i = 0; i < sightLine.size(); i++)
+      {
+         if(!passMap[sightLine.elementAt(i).x][sightLine.elementAt(i).y])
+            return false;
+      }
+      
+      return true;
    }
    
    private void setPassMap(Coord target)
