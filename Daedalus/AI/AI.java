@@ -258,7 +258,8 @@ public class AI implements AIConstants, ZoneConstants
    protected void doWeaponAttack(Weapon w)
    {
       CombatManager.resolveAttack(self, w.getAttack(), pendingTarget, w.getRateOfFire());
-      w.discharge();
+      if(w != self.getNaturalWeapon())
+         w.discharge();
       self.discharge(self.getAttackSpeed());
    }
    
