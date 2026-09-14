@@ -321,7 +321,7 @@ public class AI implements AIConstants, ZoneConstants
    
    // you need to set the passmap before calling this; it is not done within the function
    // because it may be called many times on the same map
-   private boolean hasLoS(Coord origin, Coord target)
+   private boolean hasLineOfEffect(Coord origin, Coord target)
    {
       origin = new Coord(origin.x - cornerLoc.x, origin.y - cornerLoc.y);
       target = new Coord(target.x - cornerLoc.x, target.y - cornerLoc.y);

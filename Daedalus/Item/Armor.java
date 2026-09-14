@@ -71,11 +71,12 @@ public class Armor extends ChargeItem implements Equippable, ItemConstants, GUIC
    @Override
    public void fullyCharge()
    {
-      for(int i = 0; i < getGadgetListSize(); i++)
-      {
-         if(gadgetList[i] != null)
-            gadgetList[i].fullyCharge();
-      }
+      if(gadgetList != null)
+         for(int i = 0; i < getGadgetListSize(); i++)
+         {
+            if(gadgetList[i] != null)
+               gadgetList[i].fullyCharge();
+         }
    }
    
    @Override
