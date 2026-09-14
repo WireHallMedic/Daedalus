@@ -20,12 +20,14 @@ public class AI implements AIConstants, ZoneConstants
    protected Team team;
    private static boolean[][] passMap = null;    // we only need one pathing map, since actors never access it concurrently
    private static Coord cornerLoc = null;
+   private Memory memory;
 
 	public Actor getSelf(){return self;}
 	public Coord getPendingTarget(){return new Coord(pendingTarget);}
 	public ActorAction getPendingAction(){return pendingAction;}
    public int getPendingIndex(){return pendingIndex;}
    public Team getTeam(){return team;}
+   public Memory getMemory(){return memory;}
 
 
 	public void setSelf(Actor s){self = s;}
@@ -34,11 +36,13 @@ public class AI implements AIConstants, ZoneConstants
 	public void setPendingAction(ActorAction p){pendingAction = p;}
    public void setPendingIndex(int p){pendingIndex = p;}
    public void setTeam(Team t){team = t;}
+   public void setMemory(Memory m){memory = m;}
 
    public AI(Actor a)
    {
       self = a;
       team = Team.EVIL;
+      memory = new Memory(self);
       clearPlan();
    }
    
@@ -287,25 +291,6 @@ public class AI implements AIConstants, ZoneConstants
       self.discharge(self.getInteractSpeed());
    }
    
-   protected Actor getClosestEnemy()
-   {
-      int curDist = 1000000;
-      Actor curActor = null;
-      for(int i = 0; i < Game.getActorList().size(); i++)
-      {
-         Actor a = Game.getActorList().elementAt(i);
-         if(isEnemy(a) &&
-            EngineTools.getAngbandDistance(self.getTileLoc(), a.getTileLoc()) < curDist &&
-            self.canSee(a))
-         {
-            curActor = a;
-            curDist = EngineTools.getAngbandDistance(self.getTileLoc(), a.getTileLoc());
-         }
-      }
-      
-      return curActor;
-   }
-   
    protected Vector<Coord> getPathTo(Coord target)
    {
       AStar aStar = new AStar();
@@ -369,4 +354,49 @@ public class AI implements AIConstants, ZoneConstants
    }
    private boolean isInPathSearchArea(Coord center, Actor prospect, int searchRadius){return isInPathSearchArea(center, prospect.getTileLoc(), searchRadius);}
    
+   
+   // memory
+   //////////////////////////////////////////////////
+   
+   protected Actor getClosestEnemy()
+   {
+      int curDist = 1000000;
+      Actor curActor = null;
+      Vector<Actor> enemyList = memory.getEnemyList();
+      for(int i = 0; i < enemyList.size(); i++)
+      {
+         Actor a = enemyList.elementAt(i);
+         if(EngineTools.getAngbandDistance(self.getTileLoc(), a.getTileLoc()) < curDist)
+         {
+            curActor = a;
+            curDist = EngineTools.getAngbandDistance(self.getTileLoc(), a.getTileLoc());
+         }
+      }
+      return curActor;
+   }
+   
+   public void updateMemory()
+   {
+      int searchRadius = FOV_SEARCH_DIAMETER / 2;
+      int xOrigin = self.getTileLoc().x - searchRadius;
+      int yOrigin = self.getTileLoc().y - searchRadius;
+      Actor a = null;
+      for(int x = 0; x < FOV_SEARCH_DIAMETER; x++)
+      for(int y = 0; y < FOV_SEARCH_DIAMETER; y++)
+      {
+         a = Game.getActorAt(xOrigin + x, yOrigin + y);
+         if(a != null && self.canSee(xOrigin + x, yOrigin + y) && a != self)
+            memory.notice(a);
+      }
+   }
+   
+   public void incrementMemory()
+   {
+      memory.increment();
+   }
+   
+   public void cleanMemory()
+   {
+      memory.cleanLists();
+   }
 }

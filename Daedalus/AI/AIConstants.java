@@ -6,6 +6,7 @@ public interface AIConstants
 {
    public static final int PATHING_SEARCH_DIAMETER = GUIConstants.BOARD_SIZE_TILES;
    public static final int FOV_SEARCH_DIAMETER = GUIConstants.BOARD_SIZE_TILES;
+   public static final int STANDARD_MEMORY_DURATION = 14;
    
    public enum ActorAction
    {

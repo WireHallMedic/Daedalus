@@ -151,11 +151,15 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
          }
          turnHasStarted = true;
          updateFoV();
+         ai.incrementMemory();
+         ai.updateMemory();
+         ai.cleanMemory();
       }
    }
    
    public void endOfTurn()
    {
+      ai.updateMemory();
       turnHasStarted = false;
    }
    
