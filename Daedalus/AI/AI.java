@@ -17,7 +17,8 @@ public class AI implements AIConstants, ZoneConstants
 	protected ActorAction pendingAction;
    protected int pendingIndex;            // used for supplementary information
    protected Team team;
-
+   private static boolean[][] passMap = null;    // we only need one pathing map, since actors never access it concurrently
+   private static Coord cornerLoc = null;
 
 	public Actor getSelf(){return self;}
 	public Coord getPendingTarget(){return new Coord(pendingTarget);}
@@ -293,9 +294,23 @@ public class AI implements AIConstants, ZoneConstants
    protected Vector<Coord> getPathTo(Coord target)
    {
       AStar aStar = new AStar();
+      setPassMap(target);
+      Coord origin = self.getTileLoc();
+      target = target.copy();
+      origin.subtract(cornerLoc);
+      target.subtract(cornerLoc);
+      Vector<Coord> path = aStar.path(passMap, origin, target);
+      for(int i = 0; i < path.size(); i++)
+         path.elementAt(i).add(cornerLoc);
+      return path;
+   }
+   
+   private void setPassMap(Coord target)
+   {
+      if(passMap == null)
+         passMap = new boolean[PATHING_SEARCH_DIAMETER][PATHING_SEARCH_DIAMETER];
       int searchRadius = PATHING_SEARCH_DIAMETER / 2;
-      Coord cornerLoc = new Coord(self.getTileLoc().x - searchRadius, self.getTileLoc().y - searchRadius);
-      boolean[][] passMap = new boolean[PATHING_SEARCH_DIAMETER][PATHING_SEARCH_DIAMETER];
+      cornerLoc = new Coord(self.getTileLoc().x - searchRadius, self.getTileLoc().y - searchRadius);
       for(int x = 0; x < PATHING_SEARCH_DIAMETER; x++)
       for(int y = 0; y < PATHING_SEARCH_DIAMETER; y++)
       {
@@ -313,15 +328,6 @@ public class AI implements AIConstants, ZoneConstants
       // set target as passable
       if(isInPathSearchArea(self.getTileLoc(), target, searchRadius))
          passMap[target.x - cornerLoc.x][target.y - cornerLoc.y] = true;
-      
-      Coord origin = self.getTileLoc();
-      target = target.copy();
-      origin.subtract(cornerLoc);
-      target.subtract(cornerLoc);
-      Vector<Coord> path = aStar.path(passMap, origin, target);
-      for(int i = 0; i < path.size(); i++)
-         path.elementAt(i).add(cornerLoc);
-      return path;
    }
    
    private boolean isInPathSearchArea(Coord center, Coord prospect, int searchRadius)
