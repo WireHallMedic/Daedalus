@@ -32,10 +32,14 @@ public class Memory implements AIConstants
          teamList[i] = new MemoryList();
    }
       
-   public void notice(Actor a)
+   public void notice(Actor a, boolean alertFriends)
    {
       teamList[a.getAI().getTeam().ordinal()].notice(a);
+      if(self.getAI().isEnemy(a) && alertFriends)
+         alertFriends(a);
    }
+   public void notice(Actor a){notice(a, true);}
+   
    
    public void cleanLists()
    {
@@ -61,6 +65,16 @@ public class Memory implements AIConstants
          }
       }
       return enemyList;
+   }
+   
+   public void alertFriends(Actor a)
+   {
+      MemoryList friendList = teamList[self.getAI().getTeam().ordinal()];
+      for(int i = 0; i < friendList.size(); i++)
+      {
+         if(self.canSee(friendList.getActorAt(i)))
+            friendList.getActorAt(i).notice(a, false);
+      }
    }
    
    

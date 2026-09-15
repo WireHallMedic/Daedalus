@@ -51,7 +51,12 @@ public class Main
       b.setTileIndex('w');
       b.setTileLoc(10, 7);
       game.addActor(b);
-      b.setShield(new Shield("Test Shield"));
+      
+      b = new Actor("Wolf");
+      b.setAI(new WolfAI(b));
+      b.setTileIndex('w');
+      b.setTileLoc(6, 6);
+      game.addActor(b);
       
       game.play();
 
