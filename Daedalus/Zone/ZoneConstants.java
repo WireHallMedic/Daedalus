@@ -24,8 +24,7 @@ public interface ZoneConstants
       OPEN_CHEST     ("Open Chest", false, true, true, WSFontConstants.INVERTED_QUESTION_TILE),
       ROUGH          ("Rough", true, true, true, ','),
       TERMINAL       ("Terminal", false, true, true, WSFontConstants.CAPITAL_OMEGA_TILE),
-      EXIT           ("Exit", true, true, true, '>'),
-      SPECIAL_EXIT   ("Special Exit", true, true, true, '<');
+      EXIT           ("Exit", true, true, true, WSFontConstants.INTERSECTION_TILE);
       
       public String name;
       public boolean lowPassable;

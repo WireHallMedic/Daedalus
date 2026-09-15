@@ -14,7 +14,7 @@ public interface ItemConstants
    public enum ItemBase
    {
       CREDITS     (WSFontConstants.CENT_TILE, WSFontConstants.CENT_TILE),
-      WEAPON      ('}', '{'),
+      WEAPON      ('>', '<'),
       SHIELD      (')', '('),
       ARMOR       (']', '['),
       MOD         ('"', '"'),

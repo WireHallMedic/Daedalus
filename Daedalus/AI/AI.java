@@ -399,4 +399,9 @@ public class AI implements AIConstants, ZoneConstants
    {
       memory.cleanLists();
    }
+   
+   public void notice(Actor a)
+   {
+      memory.notice(a);
+   }
 }

@@ -23,7 +23,7 @@ public class ZombieAI extends AI
          // adjacent, attack
          if(EngineTools.getAngbandDistance(self.getTileLoc(), targetActor.getTileLoc()) == 1)
          {
-            setPendingAction(ActorAction.BASIC_ATTACK);
+            setPendingAction(ActorAction.NATURAL_ATTACK);
             setPendingTarget(targetActor.getTileLoc());
             return;
          }

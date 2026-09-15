@@ -252,6 +252,11 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    public void clearPlan(){ai.clearPlan();}
    public void act(){ai.act();}
    
+   public void notice(Actor a)
+   {
+      ai.notice(a);
+   }
+   
    // items
    public void addToInventory(Item item)
    {
