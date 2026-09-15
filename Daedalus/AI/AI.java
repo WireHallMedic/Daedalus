@@ -307,7 +307,7 @@ public class AI implements AIConstants, ZoneConstants
    
    // you need to set the passmap before calling this; it is not done within the function
    // because it may be called many times on the same map
-   private boolean hasLineOfEffect(Coord origin, Coord target)
+   protected boolean hasLineOfEffect(Coord origin, Coord target)
    {
       origin = new Coord(origin.x - cornerLoc.x, origin.y - cornerLoc.y);
       target = new Coord(target.x - cornerLoc.x, target.y - cornerLoc.y);
@@ -321,8 +321,9 @@ public class AI implements AIConstants, ZoneConstants
       
       return true;
    }
+   protected boolean hasLineOfEffect(Actor origin, Actor target){return hasLineOfEffect(origin.getTileLoc(), target.getTileLoc());}
    
-   private void setPassMap(Coord target)
+   protected void setPassMap(Coord target)
    {
       if(passMap == null)
          passMap = new boolean[PATHING_SEARCH_DIAMETER][PATHING_SEARCH_DIAMETER];
@@ -346,6 +347,7 @@ public class AI implements AIConstants, ZoneConstants
       if(isInPathSearchArea(self.getTileLoc(), target, searchRadius))
          passMap[target.x - cornerLoc.x][target.y - cornerLoc.y] = true;
    }
+   protected void setPassMap(Actor target){setPassMap(target.getTileLoc());}
    
    private boolean isInPathSearchArea(Coord center, Coord prospect, int searchRadius)
    {

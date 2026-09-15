@@ -12,7 +12,7 @@ public class WolfAI extends WanderAI implements AIConstants, ZoneConstants
    public WolfAI(Actor s)
    {
       super(s);
-      setStepChance(.25);
+      setWanderChance(.25);
    }
    
    public void plan()

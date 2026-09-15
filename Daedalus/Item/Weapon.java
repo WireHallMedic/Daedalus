@@ -68,6 +68,11 @@ public class Weapon extends ChargeItem implements Equippable, ItemConstants, GUI
       return getCurCharge() / chargePerShot;
    }
    
+   public boolean canFire()
+   {
+      return getChargedShots() > 0;
+   }
+   
    
    public void discharge()
    {

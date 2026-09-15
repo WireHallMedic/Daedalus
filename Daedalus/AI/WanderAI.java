@@ -9,23 +9,24 @@ import java.util.*;
 
 public class WanderAI extends AI implements AIConstants, ZoneConstants
 {
-	private double stepChance;
+	private double wanderChance;
 
 
-	public double getStepChance(){return stepChance;}
+	public double getWanderChance(){return wanderChance;}
 
 
-	public void setStepChance(double s){stepChance = s;}
+	public void setWanderChance(double w){wanderChance = w;}
+
 
    public WanderAI(Actor a)
    {
       super(a);
-      stepChance = .5;
+      wanderChance = .5;
    }
    
    public void plan()
    {
-      if(RNG.nextDouble() <= stepChance)
+      if(RNG.nextDouble() <= wanderChance)
       {
          Vector<Coord> tileList = new Vector<Coord>();
          for(int i = 1; i < Direction.values().length; i++)
