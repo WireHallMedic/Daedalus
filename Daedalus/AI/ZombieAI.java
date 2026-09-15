@@ -13,6 +13,7 @@ public class ZombieAI extends AI
    public ZombieAI(Actor a)
    {
       super(a);
+      memory.setMemoryDuration(STANDARD_MEMORY_DURATION / 2);
    }
    
    public void plan()

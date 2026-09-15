@@ -18,9 +18,9 @@ public class AI implements AIConstants, ZoneConstants
 	protected ActorAction pendingAction;
    protected int pendingIndex;            // used for supplementary information
    protected Team team;
-   private static boolean[][] passMap = null;    // we only need one pathing map, since actors never access it concurrently
-   private static Coord cornerLoc = null;
-   private Memory memory;
+   protected static boolean[][] passMap = null;    // we only need one pathing map, since actors never access it concurrently
+   protected static Coord cornerLoc = null;
+   protected Memory memory;
 
 	public Actor getSelf(){return self;}
 	public Coord getPendingTarget(){return new Coord(pendingTarget);}
