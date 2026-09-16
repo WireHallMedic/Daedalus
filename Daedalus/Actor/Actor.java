@@ -203,6 +203,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
 	public ActionSpeed getMoveSpeed(){return baseStats.getMoveSpeed();}
 	public ActionSpeed getAttackSpeed(){return baseStats.getAttackSpeed();}
 	public ActionSpeed getInteractSpeed(){return baseStats.getInteractSpeed();}
+   public boolean isFlying(){return baseStats.isFlying();}
    
    // health
    public void die()

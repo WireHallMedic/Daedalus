@@ -28,7 +28,7 @@ public class AnimationScriptFactory implements ZoneConstants, GUIConstants
    }
    
    
-   public static AnimationScript getFloat(UnboundTile target)
+   public static AnimationScript getFlying(UnboundTile target)
    {  
       AnimationScript script = new AnimationScript(target);
       int halfDuration = GUIConstants.FRAMES_PER_SECOND;

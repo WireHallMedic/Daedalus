@@ -182,6 +182,8 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    
    public boolean canStep(Actor a, int x, int y)
    {
+      if(a.isFlying())
+         return isInBounds(x, y) && tileMap[x][y].isHighPassable();
       return isInBounds(x, y) && tileMap[x][y].isLowPassable();
    }
    public boolean canStep(Actor a, Coord c){return canStep(a, c.x, c.y);}

@@ -8,6 +8,7 @@ public class StatBlock implements ActorConstants
 	protected int moveSpeed;      // tracked internally as ints for stacking
 	protected int attackSpeed;    // tracked internally as ints for stacking
 	protected int interactSpeed;  // tracked internally as ints for stacking
+   protected boolean flying;
 
 
 	public int getMaxHealth(){return maxHealth;}
@@ -15,6 +16,7 @@ public class StatBlock implements ActorConstants
 	public ActionSpeed getMoveSpeed(){return ActionSpeed.getByModifier(moveSpeed);}
 	public ActionSpeed getAttackSpeed(){return ActionSpeed.getByModifier(attackSpeed);}
 	public ActionSpeed getInteractSpeed(){return ActionSpeed.getByModifier(interactSpeed);}
+   public boolean isFlying(){return flying;}
 
 
 	public void setMaxHealth(int m){maxHealth = m;}
@@ -22,6 +24,7 @@ public class StatBlock implements ActorConstants
 	public void setMoveSpeed(ActionSpeed m){moveSpeed = m.modifier;}
 	public void setAttackSpeed(ActionSpeed a){attackSpeed = a.modifier;}
 	public void setInteractSpeed(ActionSpeed i){interactSpeed = i.modifier;}
+   public void setFlying(boolean f){flying = f;}
 
    public StatBlock()
    {
@@ -30,6 +33,7 @@ public class StatBlock implements ActorConstants
       moveSpeed = ActionSpeed.NORMAL.modifier;
       attackSpeed = ActionSpeed.NORMAL.modifier;
       interactSpeed = ActionSpeed.NORMAL.modifier;
+      flying = false;
    }
    
    public void set(StatBlock that)
@@ -39,6 +43,7 @@ public class StatBlock implements ActorConstants
       this.moveSpeed = that.moveSpeed;
       this.attackSpeed = that.attackSpeed;
       this.interactSpeed = that.interactSpeed;
+      this.flying = that.flying;
    }
    
    public void add(StatBlock that)
@@ -63,5 +68,7 @@ public class StatBlock implements ActorConstants
          this.interactSpeed = ActionSpeed.INSTANTANEOUS.modifier;
       else
          this.interactSpeed += that.interactSpeed;
+      
+      this.flying = this.flying || that.flying;
    }
 }
