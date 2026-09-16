@@ -33,6 +33,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    private Armor armor;
    private int knockbackDistance;
    private Direction knockbackDirection;
+   private ActorPack pack;
 
 
 	public String getName(){return name;}
@@ -49,6 +50,8 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
 	public boolean isWeaponSelection(){return weaponSelection;}
    public Shield getShield(){return shield;}
    public Armor getArmor(){return armor;}
+   public ActorPack getPack(){return pack;}
+   public boolean hasPack(){return pack != null;}
 
 
 	public void setName(String n){name = n;}
@@ -63,6 +66,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
 	public void setWeaponSelection(boolean w){weaponSelection = w;}
    public void setShield(Shield s){shield = s;}
    public void setArmor(Armor a){armor = a;}
+   public void setPack(ActorPack p){pack = p;}
 
    
    public Actor()
@@ -79,6 +83,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
       turnHasStarted = false;
       knockbackDistance = 0;
       knockbackDirection = null;
+      pack = null;
       
       // items
    	weapon1 = null;
@@ -211,6 +216,8 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
       dead = true;
       if(this != Game.getPlayer())
          dropAllItems();
+      if(hasPack())
+         pack.removeMember(this);
    }
    
    public void fullHeal()
