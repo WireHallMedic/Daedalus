@@ -65,6 +65,22 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    public boolean isInBounds(Actor a){return isInBounds(a.getTileLoc());}
    
    
+   public boolean isHighPassable(int x, int y)
+   {
+      if(isInBounds(x, y))
+         return tileMap[x][y].isHighPassable();
+      return false;
+   }
+   
+   
+   public boolean isLowPassable(int x, int y)
+   {
+      if(isInBounds(x, y))
+         return tileMap[x][y].isLowPassable();
+      return false;
+   }
+   
+   
    public void updateSubmaps(int x, int y)
    {
       visibilityMap[x][y] = getTile(x, y).isTransparent();

@@ -294,7 +294,7 @@ public class AI implements AIConstants, ZoneConstants
    protected Vector<Coord> getPathTo(Coord target)
    {
       AStar aStar = new AStar();
-      setPassMap(target);
+      setPassMap(target, true);
       Coord origin = self.getTileLoc();
       target = target.copy();
       origin.subtract(cornerLoc);
@@ -323,7 +323,10 @@ public class AI implements AIConstants, ZoneConstants
    }
    protected boolean hasLineOfEffect(Actor origin, Actor target){return hasLineOfEffect(origin.getTileLoc(), target.getTileLoc());}
    
-   protected void setPassMap(Coord target)
+   
+   // if traversalMap is true, will use high or low pass map as appropriate for movement type
+   // if traversalMap is false, will use high pass map (for targeting)
+   protected void setPassMap(Coord target, boolean traversalMap)
    {
       if(passMap == null)
          passMap = new boolean[PATHING_SEARCH_DIAMETER][PATHING_SEARCH_DIAMETER];
@@ -332,7 +335,10 @@ public class AI implements AIConstants, ZoneConstants
       for(int x = 0; x < PATHING_SEARCH_DIAMETER; x++)
       for(int y = 0; y < PATHING_SEARCH_DIAMETER; y++)
       {
-         passMap[x][y] = Game.getCurZone().canStep(self, x + cornerLoc.x, y + cornerLoc.y);
+         if(traversalMap)
+            passMap[x][y] = Game.getCurZone().canStep(self, x + cornerLoc.x, y + cornerLoc.y);
+         else
+            passMap[x][y] = Game.getCurZone().isHighPassable(x + cornerLoc.x, y + cornerLoc.y);
       }
       for(int i = 0; i < Game.getActorList().size(); i++)
       {
@@ -347,7 +353,8 @@ public class AI implements AIConstants, ZoneConstants
       if(isInPathSearchArea(self.getTileLoc(), target, searchRadius))
          passMap[target.x - cornerLoc.x][target.y - cornerLoc.y] = true;
    }
-   protected void setPassMap(Actor target){setPassMap(target.getTileLoc());}
+   protected void setPassMap(Actor target, boolean traversalMap){setPassMap(target.getTileLoc(), traversalMap);}
+   
    
    private boolean isInPathSearchArea(Coord center, Coord prospect, int searchRadius)
    {

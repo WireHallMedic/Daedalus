@@ -11,4 +11,16 @@ public class ShieldFactory implements ItemConstants, GUIConstants, CombatConstan
    {
       return new Shield("Basic Shield");
    }
+   
+   
+   // enemy shields
+   /////////////////////////////////////////
+   public static Shield getDroneShield()
+   {
+      Shield s = new Shield("Drone Shield");
+      s.setMaxDamageCapacity(Shield.STANDARD_MAX_DAMAGE_CAPACITY / 2);
+      s.setMaxChargeTurns(Shield.STANDARD_MAX_CHARGE_TIME_STANDARD_TURNS / 2);
+      s.fullyCharge();
+      return s;
+   }
 }

@@ -96,6 +96,23 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
    public static Weapon getBasicMelee(){return getBasicMelee(3);}
    
    
+   // enemy weapons
+   ////////////////////////////////////////////////////
+   public static Weapon getDroneGun()
+   {
+      Weapon w = new Weapon("Drone Gun");
+      Attack a = w.getAttack();
+      a.setBaseDamage(new Damage(DamageType.PIERCE, DEFAULT_BASE_SHOT_DAMAGE));
+      a.setRandomDamage(new Damage(DamageType.PIERCE, DEFAULT_RANDOM_SHOT_DAMAGE));
+      a.setTargetingType(AbilityConstants.TargetingType.POINT);
+      a.setRange(5);
+      w.setMaxShots(1);
+      w.setChargeTimePerShotTurns(2);
+      w.fullyCharge();
+      return w;
+   }
+   
+   
    public static Weapon getTestWeapon()
    {
       Weapon w = getShotgun();

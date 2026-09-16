@@ -4,6 +4,7 @@ package Daedalus.Actor;
 public interface ActorConstants
 {
    public static final int FULLY_CHARGED = 10;
+   public static final int BASE_NPC_HEALTH = 10;
    
    public enum ActionSpeed
    {

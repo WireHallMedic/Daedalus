@@ -39,22 +39,25 @@ public class Main
       b.setCurWeapon(WeaponFactory.getBasicMelee());
       game.addActor(b);
       
-      b = new Actor("Wolf");
-      b.setAI(new WolfAI(b));
-      b.setTileIndex('w');
+//       b = new Actor("Wolf");
+//       b.setAI(new WolfAI(b));
+//       b.setTileIndex('w');
+//       b.setShield(new Shield("Test Shield"));
+      b = ActorFactory.getDrone();
       b.setTileLoc(4, 11);
       game.addActor(b);
-      b.setShield(new Shield("Test Shield"));
       
-      b = new Actor("Wolf");
-      b.setAI(new WolfAI(b));
-      b.setTileIndex('w');
+//       b = new Actor("Wolf");
+//       b.setAI(new WolfAI(b));
+//       b.setTileIndex('w');
+      b = ActorFactory.getDrone();
       b.setTileLoc(10, 7);
       game.addActor(b);
       
-      b = new Actor("Wolf");
-      b.setAI(new WolfAI(b));
-      b.setTileIndex('w');
+//       b = new Actor("Wolf");
+//       b.setAI(new WolfAI(b));
+//       b.setTileIndex('w');
+      b = ActorFactory.getDrone();
       b.setTileLoc(6, 6);
       game.addActor(b);
       
