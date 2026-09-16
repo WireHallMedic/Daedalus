@@ -16,19 +16,10 @@ public class Main
       Game game = new Game();
       game.setCurZone(ZoneMap.getTestMap());
       
-      Actor a = new Actor("Test Player");
-      a.setTileIndex('@');
-      a.setAI(new PlayerAI(a));
+      Actor a = ActorFactory.getPlayer();
       a.setTileLoc(3, 5);
       game.setPlayer(a);
       game.addActor(a);
-      for(int i = 0; i < ItemConstants.MAX_INVENTORY_SIZE - 1; i++)
-      {
-         a.getInventory().add(new Item("Test Item", '*'));
-      }
-      a.setWeapon1(WeaponFactory.getTestWeapon());
-      a.setWeapon2(WeaponFactory.getPlasmaCannon());
-      a.setShield(new Shield("Test Shield"));
       
       Actor b = new Actor("Zombie");
       b.setAI(new ZombieAI(b));
