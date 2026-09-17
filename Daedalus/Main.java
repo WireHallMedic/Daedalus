@@ -21,13 +21,8 @@ public class Main
       game.setPlayer(a);
       game.addActor(a);
       
-      Actor b = new Actor("Zombie");
-      b.setAI(new ZombieAI(b));
-      b.setTileIndex('z');
+      Actor b = ActorFactory.getJackal();
       b.setTileLoc(3, 11);
-      b.addToInventory(new Item("Test Item", '^'));
-      b.addToInventory(new Credits(10));
-      b.setCurWeapon(WeaponFactory.getBasicMelee());
       game.addActor(b);
       
 //       b = new Actor("Wolf");

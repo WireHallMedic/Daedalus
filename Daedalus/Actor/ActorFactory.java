@@ -41,4 +41,18 @@ public class ActorFactory implements ActorConstants, GUIConstants
       a.fullHeal();
       return a;
    }
+   
+   public static Actor getJackal()
+   {
+      Actor a = new Actor("Jackal");
+      a.setTileIndex('j');
+      a.setBGColor(BROWN);
+      a.setFGColor(ORANGE);
+      a.getBaseStats().setMaxHealth(BASE_NPC_HEALTH);
+      a.setAI(new WolfAI(a));
+      a.setNaturalWeapon(WeaponFactory.getJackalJaws());
+      a.getBaseStats().setMoveSpeed(ActionSpeed.FAST);
+      a.fullHeal();
+      return a;
+   }
 }

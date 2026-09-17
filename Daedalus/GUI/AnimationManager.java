@@ -1,12 +1,13 @@
 package Daedalus.GUI;
 
 import java.util.*;
+import Daedalus.AI.*;
 import Daedalus.Item.*;
 import Daedalus.Actor.*;
 import Daedalus.Engine.*;
 import WidlerSuite.Coord;
 
-public class AnimationManager implements GUIConstants
+public class AnimationManager implements GUIConstants, AIConstants
 {
    private static Vector<AnimationScript> lockingList = new Vector<AnimationScript>();
    private static Vector<AnimationScript> nonLockingList = new Vector<AnimationScript>();
@@ -117,13 +118,31 @@ public class AnimationManager implements GUIConstants
       semiLockingList = new Vector<AnimationScript>();
    }
    
+   public static boolean isOnSemiLockingList(Actor a)
+   {
+      for(int i = 0; i < semiLockingList.size(); i++)
+      {
+         if(semiLockingList.elementAt(i).getTarget() == a)
+            return true;
+      }
+      return false;
+   }
+   
    // returns false is animation prevents actor from starting turn, else true
    public static boolean isClearToAct(Actor a)
    {  
       // slow down if player is dead
       if(Game.getPlayer().isDead())
          return !isSemiLocked();
+      // player must wait for semi-locked
       if(a == Game.getPlayer())
+         return !isSemiLocked();
+      // actors doing something other than delaying or stepping must wait for semi-locked
+      if(!(a.getAI().getPendingAction() == ActorAction.DELAY ||
+          a.getAI().getPendingAction() == ActorAction.STEP))
+         return !isSemiLocked();
+      // actors already on the semilocking list must wait
+      if(isOnSemiLockingList(a))
          return !isSemiLocked();
       return !isLocked();
    }

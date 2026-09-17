@@ -113,9 +113,30 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
    }
    
    
+   public static Weapon getJackalJaws()
+   {
+      Attack atk = new Attack("Bite");
+      atk.setMelee(true);
+      atk.setRange(1);
+      atk.setBaseDamage(new Damage(CombatConstants.DamageType.PIERCE, DEFAULT_BASE_SHOT_DAMAGE / 2));
+      atk.setRandomDamage(new Damage(CombatConstants.DamageType.PIERCE, 2));
+      Weapon w = new Weapon("Jaws", atk);
+      w.setAlwaysCharged(true);
+      w.fullyCharge();
+      return w;
+   }
+   
+   
    public static Weapon getTestWeapon()
    {
-      Weapon w = getShotgun();
+      Attack atk = new Attack("Bite");
+      atk.setMelee(true);
+      atk.setRange(1);
+      atk.setBaseDamage(new Damage(CombatConstants.DamageType.PIERCE, DEFAULT_BASE_SHOT_DAMAGE / 2));
+      atk.setRandomDamage(new Damage(CombatConstants.DamageType.PIERCE, 2));
+      Weapon w = new Weapon("Jaws", atk);
+      w.setAlwaysCharged(true);
+      w.fullyCharge();
       return w;
    }
 }
