@@ -20,37 +20,38 @@ public interface AIConstants
    public enum Team
    {
       PLAYER,
-      GOOD,
-      NEUTRAL,
-      EVIL;
+      FAUNA,
+      ENEMY;
       
       public boolean isEnemy(Team that)
       {
          if(this == that)
             return false;
             
-         if(this == PLAYER || this == GOOD)
+         if(this == PLAYER)
          {
             switch(that)
             {
-               case GOOD :    return false;
-               case NEUTRAL : return false;
-               case EVIL :    return true;
+               case FAUNA :   return true;
+               case ENEMY :   return true;
             }
          }
             
-         if(this == NEUTRAL)
-         {
-            return false;
-         }
-            
-         if(this == EVIL)
+         if(this == FAUNA)
          {
             switch(that)
             {
-               case GOOD :    return true;
-               case NEUTRAL : return false;
                case PLAYER :  return true;
+               case ENEMY :   return true;
+            }
+         }
+            
+         if(this == ENEMY)
+         {
+            switch(that)
+            {
+               case PLAYER :  return true;
+               case FAUNA :   return true;
             }
          }
          return false;

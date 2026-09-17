@@ -41,7 +41,7 @@ public class AI implements AIConstants, ZoneConstants
    public AI(Actor a)
    {
       self = a;
-      team = Team.EVIL;
+      team = Team.ENEMY;
       memory = new Memory(self);
       clearPlan();
    }
