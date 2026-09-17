@@ -30,6 +30,7 @@ public class Attack extends Ability implements AbilityConstants, CombatConstants
       randomDamage = new Damage();
       melee = false;
       damageDropoff = false;
+      setHitVerb("strikes");
    }
    
    public Damage rollDamage()

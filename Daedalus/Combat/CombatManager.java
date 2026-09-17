@@ -69,7 +69,8 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
          for(int j = 0; j < rateOfFire; j++)
             damageCount += applyAttack(attacker, defender, attack, attackOrigin);
          defender.notice(attacker);
-         String damageMessage = String.format("%s hits %s for %d damage! ", attacker.getName(), defender.getName(), damageCount);
+         String damageMessage = String.format("%s %s %s for %d damage! ", attacker.getName(), attack.getHitVerb(), 
+                                              defender.getName(), damageCount);
          if(defender.isDead())
             damageMessage += defender.getName() + " is dead! ";
          MainGamePanel.addMessage(damageMessage);

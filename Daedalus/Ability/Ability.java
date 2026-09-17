@@ -11,22 +11,26 @@ public class Ability implements AbilityConstants
 	private String name;
 	private TargetingType targetingType;
 	private int range;
+   private String hitVerb;
 
 
 	public String getName(){return name;}
 	public TargetingType getTargetingType(){return targetingType;}
 	public int getRange(){return range;}
+   public String getHitVerb(){return hitVerb;}
 
 
 	public void setName(String n){name = n;}
 	public void setTargetingType(TargetingType t){targetingType = t;}
 	public void setRange(int r){range = r;}
+   public void setHitVerb(String h){hitVerb = h;}
 
    public Ability(String n)
    {
       name = n;
       targetingType = TargetingType.POINT;
       range = 10;
+      hitVerb = "affects";
    }
    
    // origin for visual effects and knockback
