@@ -7,15 +7,20 @@ import WidlerSuite.WSFontConstants;
 public class Exit extends ZoneTile implements ZoneConstants, GUIConstants
 {
 	private char exitDirection;
+   private Exit mate;
 
 
 	public char getExitDirection(){return exitDirection;}
+   public Exit getMate(){return mate;}
+   
+   public void setMage(Exit e){mate = e;}
 
 
    public Exit()
    {
       super(TileBase.EXIT);
       setExitDirection('N');
+      mate = null;
    }
 
    
@@ -23,11 +28,26 @@ public class Exit extends ZoneTile implements ZoneConstants, GUIConstants
    {
       super(that);
       this.exitDirection = that.exitDirection;
+      this.mate = that.mate;
    }
    
    public Exit copy()
    {
       return new Exit(this);
+   }
+   
+   public static Exit getComplement(Exit that)
+   {
+      Exit exit = new Exit();
+      exit.setExitDirectionFromOpposite(that.getExitDirection());
+      exit.pair(that);
+      return exit;
+   }
+   
+   public void pair(Exit that)
+   {
+      this.mate = that;
+      that.mate = this;
    }
 
 
@@ -47,6 +67,27 @@ public class Exit extends ZoneTile implements ZoneConstants, GUIConstants
          case 'U':   setTileIndex(WSFontConstants.UP_ARROW_TILE);
                      break;
          case 'D':   setTileIndex(WSFontConstants.DOWN_ARROW_TILE);
+                     break;
+         default :   throw new Error("Invalid direction for exit: " + exitDirection);
+      }
+   }
+
+
+	public void setExitDirectionFromOpposite(char e)
+   {
+      switch(e)
+      {
+         case 'N':   setExitDirection('S');
+                     break;
+         case 'E':   setExitDirection('W');
+                     break;
+         case 'S':   setExitDirection('N');
+                     break;
+         case 'W':   setExitDirection('E');
+                     break;
+         case 'U':   setExitDirection('D');
+                     break;
+         case 'D':   setExitDirection('U');
                      break;
          default :   throw new Error("Invalid direction for exit: " + exitDirection);
       }
