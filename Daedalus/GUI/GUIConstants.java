@@ -42,7 +42,7 @@ public interface GUIConstants
    
    public static final int UI_FG_COLOR = CYAN;
    public static final int UI_BG_COLOR = BLACK;
-   public static final int CURSOR_ICON_INDEX = WSFontConstants.RIGHT_TRIANGE_TILE;
+   public static final int CURSOR_ICON_INDEX = WSFontConstants.RIGHT_TRIANGLE_TILE;
    public static final int MENU_CURSOR_COLOR = CYAN;
    public static final int LOOK_CURSOR_COLOR = WHITE;
    public static final int TARGETING_CURSOR_COLOR = ORANGE;

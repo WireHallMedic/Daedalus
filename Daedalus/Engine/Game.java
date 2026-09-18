@@ -9,12 +9,14 @@ import java.awt.event.*;
 
 public class Game implements Runnable
 {
+   private static Zone curZone = null;
 	private static ZoneMap curMap = null;
 	private static Actor player = null;
    private static Vector<Actor> actorList = null;
    private static int initiativeIndex;
    private static boolean continueF;
    private static boolean playF;
+   private static boolean mainLoopRunning = false;
 	private static Actor[][] actorMap;      // used to make isActorAt() and getActorAt() O(1)
 
 
@@ -41,13 +43,14 @@ public class Game implements Runnable
    
    private static void setActorMap()
    {
-      if(curMap != null)
+      if(curMap != null || curMap.getWidth() != actorMap.length || curMap.getHeight() != actorMap[0].length)
       {
          actorMap = new Actor[curMap.getWidth()][curMap.getHeight()];
-         for(int x = 0; x < curMap.getWidth(); x++)
-         for(int y = 0; y < curMap.getHeight(); y++)
-            actorMap[x][y] = null;
       }
+      for(int x = 0; x < curMap.getWidth(); x++)
+      for(int y = 0; y < curMap.getHeight(); y++)
+         actorMap[x][y] = null;
+      
       if(actorList != null)
       {
          for(Actor a: actorList)
@@ -124,6 +127,8 @@ public class Game implements Runnable
    {
       while(continueF)
       {
+         if(playF)
+            mainLoopRunning = true;
          while(playF)
          {
             if(actorList != null && actorList.size() > 0)
@@ -161,6 +166,7 @@ public class Game implements Runnable
                }
             }
          }
+         mainLoopRunning = false;
          Thread.yield();
       }
    }
@@ -182,4 +188,21 @@ public class Game implements Runnable
    
    public static void play(){playF = true;}
    public static void pause(){playF = false;}
+   
+   
+   public void setZone(Zone z, Coord playerLoc)
+   {
+      playF = false;
+      // get out of main loop so we don't try an access info while changing it
+      while(mainLoopRunning)
+         Thread.yield();
+      if(actorList != null)
+         actorList.remove(player);
+      actorList = z.getActorList();
+      actorList.add(player);
+      player.setTileLoc(playerLoc);
+      curMap = z.getMap();
+      setActorMap();
+      playF = true;
+   }
 }
