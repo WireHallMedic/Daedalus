@@ -9,7 +9,7 @@ import java.awt.event.*;
 
 public class Game implements Runnable
 {
-	private static ZoneMap curZone = null;
+	private static ZoneMap curMap = null;
 	private static Actor player = null;
    private static Vector<Actor> actorList = null;
    private static int initiativeIndex;
@@ -18,18 +18,18 @@ public class Game implements Runnable
 	private static Actor[][] actorMap;      // used to make isActorAt() and getActorAt() O(1)
 
 
-	public static ZoneMap getCurZone(){return curZone;}
+	public static ZoneMap getCurMap(){return curMap;}
 	public static Actor getPlayer(){return player;}
    public static Vector<Actor> getActorList(){return actorList;}
 
 
-	public static void setCurZone(ZoneMap c){curZone = c; setActorMap();}
+	public static void setCurMap(ZoneMap c){curMap = c; setActorMap();}
 	public static void setPlayer(Actor p){player = p;}
    public static void setActorList(Vector<Actor> al){actorList = al; setActorMap();}
 
    public Game()
    {
-      curZone = null;
+      curMap = null;
       actorMap = null;
 	   player = null;
       actorList = null;
@@ -41,11 +41,11 @@ public class Game implements Runnable
    
    private static void setActorMap()
    {
-      if(curZone != null)
+      if(curMap != null)
       {
-         actorMap = new Actor[curZone.getWidth()][curZone.getHeight()];
-         for(int x = 0; x < curZone.getWidth(); x++)
-         for(int y = 0; y < curZone.getHeight(); y++)
+         actorMap = new Actor[curMap.getWidth()][curMap.getHeight()];
+         for(int x = 0; x < curMap.getWidth(); x++)
+         for(int y = 0; y < curMap.getHeight(); y++)
             actorMap[x][y] = null;
       }
       if(actorList != null)
@@ -60,11 +60,11 @@ public class Game implements Runnable
    // update actor location
    public static void setPlayerPosition(Actor a, Coord lastPos)
    {
-      if(curZone == null || actorMap == null)
+      if(curMap == null || actorMap == null)
          return;
-      if(lastPos != null && curZone.isInBounds(lastPos))
+      if(lastPos != null && curMap.isInBounds(lastPos))
          actorMap[lastPos.x][lastPos.y] = null;
-      if(curZone.isInBounds(a))
+      if(curMap.isInBounds(a))
       {
          // throw error if tile already contains someone else
          if(actorMap[a.getTileLoc().x][a.getTileLoc().y] != null &&
@@ -102,13 +102,13 @@ public class Game implements Runnable
    
    public static boolean isActorAt(int x, int y)
    {
-      return curZone.isInBounds(x, y) && actorMap[x][y] != null;
+      return curMap.isInBounds(x, y) && actorMap[x][y] != null;
    }
    public static boolean isActorAt(Coord c){return isActorAt(c.x, c.y);}
    
    public static Actor getActorAt(int x, int y)
    {
-      if(isActorAt(x, y) && curZone.isInBounds(x, y))
+      if(isActorAt(x, y) && curMap.isInBounds(x, y))
          return actorMap[x][y];
       return null;
    }
@@ -116,7 +116,7 @@ public class Game implements Runnable
    
    public static boolean canStep(Actor a, int x, int y)
    {
-      return !isActorAt(x, y) && curZone.canStep(a, x, y);
+      return !isActorAt(x, y) && curMap.canStep(a, x, y);
    }
    public static boolean canStep(Actor a, Coord c){return canStep(a, c.x, c.y);}
    

@@ -22,7 +22,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    private Inventory inventory;
    private StatBlock baseStats;
    private ShadowFoV fov;
-   private ZoneMap curZone;      // used to know when stuff needs to be updated
+   private ZoneMap curMap;      // used to know when stuff needs to be updated
    private boolean turnHasStarted;
    private int curHealth;
 	private Weapon weapon1;
@@ -79,7 +79,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
       inventory = new Inventory(this);
       baseStats = new StatBlock();
       ShadowFoV fov = null;
-      curZone = null;
+      curMap = null;
       turnHasStarted = false;
       knockbackDistance = 0;
       knockbackDirection = null;
@@ -149,10 +149,10 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
       if(!turnHasStarted)
       {
          // do stuff if we're on a new map
-         if(curZone != Game.getCurZone())
+         if(curMap != Game.getCurMap())
          {
-            curZone = Game.getCurZone();
-            fov = new ShadowFoVRect(curZone.getVisibilityMap());
+            curMap = Game.getCurMap();
+            fov = new ShadowFoVRect(curMap.getVisibilityMap());
          }
          turnHasStarted = true;
          updateFoV();
@@ -178,11 +178,11 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    
    public boolean canSee(int x, int y)
    {
-      if(curZone == null)
+      if(curMap == null)
          return false;
       if(fov == null)
       {
-         fov = new ShadowFoVRect(curZone.getVisibilityMap());
+         fov = new ShadowFoVRect(curMap.getVisibilityMap());
          updateFoV();
       }
       return fov.isVisible(x, y);
@@ -197,7 +197,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
       {
          if(canSee(x, y))
          {
-            curZone.setLastSeen(x, y);
+            curMap.setLastSeen(x, y);
          }
       }
    }
@@ -277,10 +277,10 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    {
       Credits credits = inventory.getCredits();
       while(inventory.size() > 0)
-         Game.getCurZone().dropItem(getInventory().takeItem(0), getTileLoc());
+         Game.getCurMap().dropItem(getInventory().takeItem(0), getTileLoc());
       if(inventory.getCredits().getValue() > 0)
       {
-         Game.getCurZone().dropItem(new Credits(inventory.getCredits()), getTileLoc());
+         Game.getCurMap().dropItem(new Credits(inventory.getCredits()), getTileLoc());
          inventory.getCredits().setValue(0);
       }
       

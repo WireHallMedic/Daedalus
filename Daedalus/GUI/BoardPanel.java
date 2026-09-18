@@ -65,12 +65,12 @@ public class BoardPanel extends DaePanel implements GUIConstants
          xInset = Game.getPlayer().getXOffset();
          yInset = Game.getPlayer().getYOffset();
       }
-      ZoneMap map = Game.getCurZone();
+      ZoneMap map = Game.getCurMap();
       BufferedImage curTileImage = null;
       for(int x = 0; x < tilesWide; x++)
       for(int y = 0; y < tilesTall; y++)
       {
-         curTileImage = Game.getCurZone().getImage(x + cornerLoc.x, y + cornerLoc.y);
+         curTileImage = Game.getCurMap().getImage(x + cornerLoc.x, y + cornerLoc.y);
          g2dUnscaled.drawImage(curTileImage, xStep * x, yStep * y, null);
       }
       
@@ -83,7 +83,7 @@ public class BoardPanel extends DaePanel implements GUIConstants
             for(int i = 0; i < affectedList.size(); i++)
             {
                Coord c = affectedList.elementAt(i);
-               ZoneTile zt = Game.getCurZone().getTile(c);
+               ZoneTile zt = Game.getCurMap().getTile(c);
                ImageTile it = new ImageTile(SQUARE_PALETTE, zt.getTileIndex(), zt.getFGColor(), TARGETING_BG_COLOR);
                g2dUnscaled.drawImage(it.getImage(), xStep * (c.x - cornerLoc.x), yStep * (c.y - cornerLoc.y), null);
             }
@@ -109,7 +109,7 @@ public class BoardPanel extends DaePanel implements GUIConstants
       for(int y = 0; y < tilesTall; y++)
       {
          if(!Game.getPlayer().canSee(x + cornerLoc.x, y + cornerLoc.y))
-            g2dUnscaled.drawImage(Game.getCurZone().getLastSeen(x + cornerLoc.x, y + cornerLoc.y), 
+            g2dUnscaled.drawImage(Game.getCurMap().getLastSeen(x + cornerLoc.x, y + cornerLoc.y), 
                                   palette.getTileWidth() * x, palette.getTileHeight() * y, null);
       }
       

@@ -26,7 +26,7 @@ public class PlayerAI extends AI implements AIConstants, ZoneConstants
             pendingAction = ActorAction.STEP;
          }
          // toggle tile
-         else if(Game.getCurZone().getTile(pendingTarget) instanceof ToggleTile)
+         else if(Game.getCurMap().getTile(pendingTarget) instanceof ToggleTile)
          {
             pendingAction = ActorAction.INTERACT;
          }

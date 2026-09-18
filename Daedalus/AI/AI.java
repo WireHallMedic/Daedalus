@@ -56,7 +56,7 @@ public class AI implements AIConstants, ZoneConstants
       // check validity if interacting
       if(pendingAction == ActorAction.INTERACT)
       {
-         if(Game.getCurZone().getTile(loc) instanceof ToggleTile)
+         if(Game.getCurMap().getTile(loc) instanceof ToggleTile)
             pendingTarget = loc;
          else
          {
@@ -69,10 +69,10 @@ public class AI implements AIConstants, ZoneConstants
       // check validity if picking up
       if(pendingAction == ActorAction.PICK_UP)
       {
-         if(Game.getCurZone().isItemAt(loc))
+         if(Game.getCurMap().isItemAt(loc))
          {
             // item is credits, or actor has room
-            if(Game.getCurZone().getItemAt(loc) instanceof Credits || !self.getInventory().isFull())
+            if(Game.getCurMap().getItemAt(loc) instanceof Credits || !self.getInventory().isFull())
                pendingTarget = loc;
             // no room
             else
@@ -209,23 +209,23 @@ public class AI implements AIConstants, ZoneConstants
       AnimationScript as = AnimationScriptFactory.getStep(self, stepDir);
       AnimationManager.addSemiLocking(as);
       self.discharge(self.getMoveSpeed());
-      if(self == Game.getPlayer() && Game.getCurZone().isItemAt(self.getTileLoc()))
+      if(self == Game.getPlayer() && Game.getCurMap().isItemAt(self.getTileLoc()))
       {
          MainGamePanel.clearMessage();
-         String itemName = Game.getCurZone().getItemAt(self.getTileLoc()).getNameWithParticle();
+         String itemName = Game.getCurMap().getItemAt(self.getTileLoc()).getNameWithParticle();
          MainGamePanel.addMessage("You are standing on " + itemName + ".");
       }
    }
    
    protected void doInteract()
    {
-      Game.getCurZone().toggle(pendingTarget);
+      Game.getCurMap().toggle(pendingTarget);
       self.discharge(self.getInteractSpeed());
    }
    
    protected void doPickUp()
    {
-      Item item = Game.getCurZone().takeItemAt(pendingTarget);
+      Item item = Game.getCurMap().takeItemAt(pendingTarget);
       self.addToInventory(item);
       self.discharge(self.getInteractSpeed());
       if(self == Game.getPlayer())
@@ -239,7 +239,7 @@ public class AI implements AIConstants, ZoneConstants
    protected void doDrop()
    {
       Item item = self.getInventory().takeItem(pendingIndex);
-      Game.getCurZone().dropItem(item, pendingTarget);
+      Game.getCurMap().dropItem(item, pendingTarget);
       self.discharge(self.getInteractSpeed());
    }
    
@@ -336,9 +336,9 @@ public class AI implements AIConstants, ZoneConstants
       for(int y = 0; y < PATHING_SEARCH_DIAMETER; y++)
       {
          if(traversalMap)
-            passMap[x][y] = Game.getCurZone().canStep(self, x + cornerLoc.x, y + cornerLoc.y);
+            passMap[x][y] = Game.getCurMap().canStep(self, x + cornerLoc.x, y + cornerLoc.y);
          else
-            passMap[x][y] = Game.getCurZone().isHighPassable(x + cornerLoc.x, y + cornerLoc.y);
+            passMap[x][y] = Game.getCurMap().isHighPassable(x + cornerLoc.x, y + cornerLoc.y);
       }
       for(int i = 0; i < Game.getActorList().size(); i++)
       {

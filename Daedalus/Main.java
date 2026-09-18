@@ -14,7 +14,7 @@ public class Main
    {
       DaeFrame frame = new DaeFrame();
       Game game = new Game();
-      game.setCurZone(ZoneMap.getTestMap());
+      game.setCurMap(ZoneMap.getTestMap());
       
       Actor a = ActorFactory.getPlayer();
       a.setTileLoc(3, 5);

@@ -29,7 +29,7 @@ public class EngineTools implements AbilityConstants
       Vector<Coord> lineList = StraightLine.findLine(origin, target, StraightLine.REMOVE_ORIGIN);
       for(int i = 0; i < lineList.size() - 1; i++)
       {
-         if(!Game.getCurZone().getTile(lineList.elementAt(i + 1)).isHighPassable() ||
+         if(!Game.getCurMap().getTile(lineList.elementAt(i + 1)).isHighPassable() ||
             Game.isActorAt(lineList.elementAt(i)) ||
             range <= getAngbandDistance(origin, lineList.elementAt(i)))
          {
@@ -49,7 +49,7 @@ public class EngineTools implements AbilityConstants
       Vector<Coord> lineList = StraightLine.findLine(origin, target, StraightLine.REMOVE_ORIGIN);
       for(int i = 0; i < lineList.size(); i++)
       {
-         if(!Game.getCurZone().getTile(lineList.elementAt(i)).isHighPassable() ||
+         if(!Game.getCurMap().getTile(lineList.elementAt(i)).isHighPassable() ||
             Game.isActorAt(lineList.elementAt(i)) ||
             range <= getAngbandDistance(origin, lineList.elementAt(i)))
          {
@@ -112,7 +112,7 @@ public class EngineTools implements AbilityConstants
             if(getAngbandDistance(curTile, origin) <= range)
                if(!containsDuplicate(tileList, curTile))
                   tileList.add(curTile);
-            if(!Game.getCurZone().getTile(curTile).isHighPassable())
+            if(!Game.getCurMap().getTile(curTile).isHighPassable())
                break;
          }
       }
@@ -136,7 +136,7 @@ public class EngineTools implements AbilityConstants
       for(Coord curTile: line)
       {
          tileList.add(curTile);
-         if(!Game.getCurZone().getTile(curTile).isHighPassable())
+         if(!Game.getCurMap().getTile(curTile).isHighPassable())
             break;
       }
       return tileList;
@@ -153,7 +153,7 @@ public class EngineTools implements AbilityConstants
       for(int x = 0; x < diameter; x++)
       for(int y = 0; y < diameter; y++)
       {
-         blockingMap[x][y] = Game.getCurZone().getTile(xStart + x, yStart + y).isHighPassable();
+         blockingMap[x][y] = Game.getCurMap().getTile(xStart + x, yStart + y).isHighPassable();
       }
       ShadowFoVRect fov = new ShadowFoVRect(blockingMap);
       fov.calcFoV(radius, radius, radius + 1);
@@ -181,13 +181,13 @@ public class EngineTools implements AbilityConstants
 //    public static Vector<Coord> getAffectedRing(Coord origin, int radius)
 //    {
 //       
-//       fov = new ShadowFoVRect(curZone.getVisibilityMap());
+//       fov = new ShadowFoVRect(curMap.getVisibilityMap());
 //       fov.calcFoV(getTileLoc().x, getTileLoc().y, getVisionRadius());
 //       Coord blastCenter = target.copy();
 //       Vector<Coord> lineList = StraightLine.findLine(origin, target, StraightLine.REMOVE_ORIGIN);
 //       for(int i = 0; i < lineList.size() - 1; i++)
 //       {
-//          if(!Game.getCurZone().getTile(lineList.elementAt(i + 1)).isHighPassable() ||
+//          if(!Game.getCurMap().getTile(lineList.elementAt(i + 1)).isHighPassable() ||
 //             Game.isActorAt(lineList.elementAt(i)))
 //          {
 //             blastCenter = lineList.elementAt(i);
