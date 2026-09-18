@@ -16,8 +16,9 @@ public class Game implements Runnable
    private static int initiativeIndex;
    private static boolean continueF;
    private static boolean playF;
-   private static boolean mainLoopRunning = false;
 	private static Actor[][] actorMap;      // used to make isActorAt() and getActorAt() O(1)
+   private static Zone nextZone = null;
+   private static Coord nextZonePlayerLoc = null;
 
 
 	public static ZoneMap getCurMap(){return curMap;}
@@ -55,13 +56,13 @@ public class Game implements Runnable
       {
          for(Actor a: actorList)
          {
-            setPlayerPosition(a, null);
+            setActorPosition(a, null);
          }
       }
    }
    
    // update actor location
-   public static void setPlayerPosition(Actor a, Coord lastPos)
+   public static void setActorPosition(Actor a, Coord lastPos)
    {
       if(curMap == null || actorMap == null)
          return;
@@ -123,12 +124,11 @@ public class Game implements Runnable
    }
    public static boolean canStep(Actor a, Coord c){return canStep(a, c.x, c.y);}
    
+   
    public void run()
    {
       while(continueF)
       {
-         if(playF)
-            mainLoopRunning = true;
          while(playF)
          {
             if(actorList != null && actorList.size() > 0)
@@ -165,8 +165,10 @@ public class Game implements Runnable
                   incrementInitiativeIndex();
                }
             }
+            if(nextZone != null)
+               transitionZone();
+            Thread.yield();
          }
-         mainLoopRunning = false;
          Thread.yield();
       }
    }
@@ -183,7 +185,7 @@ public class Game implements Runnable
       if(actorList == null)
          actorList = new Vector<Actor>();
       actorList.add(a);
-      setPlayerPosition(a, null);
+      setActorPosition(a, null);
    }
    
    public static void play(){playF = true;}
@@ -192,17 +194,23 @@ public class Game implements Runnable
    
    public void setZone(Zone z, Coord playerLoc)
    {
-      playF = false;
-      // get out of main loop so we don't try an access info while changing it
-      while(mainLoopRunning)
-         Thread.yield();
+      nextZone = z;
+      nextZonePlayerLoc = playerLoc;
+      if(curZone == null)
+         transitionZone();
+   }
+   
+   public void transitionZone()
+   {
       if(actorList != null)
          actorList.remove(player);
-      actorList = z.getActorList();
+      curZone = nextZone;
+      curMap = curZone.getMap();
+      actorList = curZone.getActorList();
       actorList.add(player);
-      player.setTileLoc(playerLoc);
-      curMap = z.getMap();
+      player.setTileLoc(nextZonePlayerLoc);
       setActorMap();
-      playF = true;
+      nextZone = null;
+      nextZonePlayerLoc = null;
    }
 }
