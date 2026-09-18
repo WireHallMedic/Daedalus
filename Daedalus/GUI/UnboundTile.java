@@ -1,5 +1,6 @@
 package Daedalus.GUI;
 
+import Daedalus.Actor.*;
 import WidlerSuite.WSFontConstants;
 import WidlerSuite.Coord;
 import java.awt.*;
@@ -99,9 +100,16 @@ public class UnboundTile extends ImageTile
       // set base location
       int xInset = (tileLoc.x - offsetTilesX) * panelPalette.getTileWidth();
       int yInset = (tileLoc.y - offsetTilesY) * panelPalette.getTileHeight();
-      // adjust for offset
+      // adjust for offset, including flying actors
+      double xFloat = 0.0;
+      if(this instanceof Actor)
+      {
+         Actor a = (Actor)this;
+         if(a.isFlying())
+            xFloat = AnimationManager.getSlowPulse() * .25;
+      }
       xInset += (int)((xOffset + nonTrackingXOffset) * panelPalette.getTileWidth());
-      yInset += (int)((yOffset + nonTrackingYOffset) * panelPalette.getTileHeight());
+      yInset += (int)((yOffset + nonTrackingYOffset - xFloat) * panelPalette.getTileHeight());
       // adjust for size
       xInset += (panelPalette.getTileWidth() - getImage().getWidth()) / 2;
       yInset += (panelPalette.getTileHeight() - getImage().getHeight()) / 2;

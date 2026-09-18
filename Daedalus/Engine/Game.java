@@ -213,6 +213,5 @@ public class Game implements Runnable
       nextZone = null;
       nextZonePlayerLoc = null;
       AnimationManager.clear();
-      AnimationManager.setPersistentAnimations(actorList);
    }
 }

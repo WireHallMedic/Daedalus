@@ -33,8 +33,6 @@ public class ActorFactory implements ActorConstants, GUIConstants
       a.setFGColor(WHITE);
       a.getBaseStats().setMaxHealth(BASE_NPC_HEALTH);
       a.getBaseStats().setFlying(true);
-      AnimationScript as = AnimationScriptFactory.getFlying(a);
-      AnimationManager.addNonLocking(as);
       a.setAI(new DroneAI(a));
       a.setCurWeapon(WeaponFactory.getDroneGun());
       a.setShield(ShieldFactory.getDroneShield());

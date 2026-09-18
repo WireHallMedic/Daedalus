@@ -21,6 +21,9 @@ public class AnimationManager implements GUIConstants, AIConstants
    private static boolean slowBlink;
    private static boolean mediumBlink;
    private static boolean fastBlink;
+   private static double slowPulse;
+   private static double mediumPulse;
+   private static double fastPulse;
    private static int blinkCounter;
    private static int rumbleCountdown = 0;
    private static int shakeCountdown = 0;
@@ -38,6 +41,9 @@ public class AnimationManager implements GUIConstants, AIConstants
    public static boolean getSlowBlink(){return slowBlink;}
    public static boolean getMediumBlink(){return mediumBlink;}
    public static boolean getFastBlink(){return fastBlink;}
+   public static double getSlowPulse(){return slowPulse;}
+   public static double getMediumPulse(){return mediumPulse;}
+   public static double getFastPulse(){return fastPulse;}
    
    public static boolean isLocked()
    {
@@ -78,12 +84,27 @@ public class AnimationManager implements GUIConstants, AIConstants
       blinkCounter++;
       if(blinkCounter == FRAMES_PER_SECOND)
          blinkCounter = 0;
+      // slow blink and pulse
       if(blinkCounter % SLOW_BLINK_SPEED == 0)
          slowBlink = !slowBlink;
+      if(slowBlink)
+         slowPulse = SLOW_PULSE_STEP * (blinkCounter % SLOW_BLINK_SPEED);
+      else
+         slowPulse = 1.0 - (SLOW_PULSE_STEP * (blinkCounter % SLOW_BLINK_SPEED));
+      // medium blink and pulse
       if(blinkCounter % MEDIUM_BLINK_SPEED == 0)
          mediumBlink = !mediumBlink;
+      if(mediumBlink)
+         mediumPulse = MEDIUM_PULSE_STEP * (blinkCounter % MEDIUM_BLINK_SPEED);
+      else
+         mediumPulse = 1.0 - (MEDIUM_PULSE_STEP * (blinkCounter % MEDIUM_BLINK_SPEED));
+      // fast blink and pulse
       if(blinkCounter % FAST_BLINK_SPEED == 0)
          fastBlink = !fastBlink;
+      if(fastBlink)
+         fastPulse = FAST_PULSE_STEP * (blinkCounter % FAST_BLINK_SPEED);
+      else
+         fastPulse = 1.0 - (FAST_PULSE_STEP * (blinkCounter % FAST_BLINK_SPEED));
       
       if(isShakingScreen())
       {
@@ -124,15 +145,6 @@ public class AnimationManager implements GUIConstants, AIConstants
       violentShakeCountdown = 0;
    }
    
-   public static void setPersistentAnimations(Vector<Actor> actorList)
-   {
-      for(int i = 0; i < actorList.size(); i++)
-      {
-         Actor a = actorList.elementAt(i);
-         if(a.isFlying())
-            addNonLocking(AnimationScriptFactory.getFlying(a));
-      }
-   }
    
    public static boolean isOnSemiLockingList(Actor a)
    {

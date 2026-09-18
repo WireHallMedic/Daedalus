@@ -17,6 +17,9 @@ public interface GUIConstants
    public static final int SLOW_BLINK_SPEED = FRAMES_PER_SECOND;
    public static final int MEDIUM_BLINK_SPEED = FRAMES_PER_SECOND / 2;
    public static final int FAST_BLINK_SPEED = FRAMES_PER_SECOND / 4;
+   public static final double SLOW_PULSE_STEP = 1.0 / SLOW_BLINK_SPEED;
+   public static final double MEDIUM_PULSE_STEP = 1.0 / MEDIUM_BLINK_SPEED;
+   public static final double FAST_PULSE_STEP = 1.0 / FAST_BLINK_SPEED;
    
    public static final int BLACK = Color.BLACK.getRGB();
    public static final int GREY = new Color(87, 87, 87).getRGB();
