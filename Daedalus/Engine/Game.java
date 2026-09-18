@@ -131,7 +131,7 @@ public class Game implements Runnable
       {
          while(playF)
          {
-            if(actorList != null && actorList.size() > 0)
+            if(actorList != null && actorList.size() > 0 && curMap != null)
             {
                // select actor
                Actor curActor = actorList.elementAt(initiativeIndex);
@@ -192,7 +192,7 @@ public class Game implements Runnable
    public static void pause(){playF = false;}
    
    
-   public void setZone(Zone z, Coord playerLoc)
+   public static void setZone(Zone z, Coord playerLoc)
    {
       nextZone = z;
       nextZonePlayerLoc = playerLoc;
@@ -200,7 +200,7 @@ public class Game implements Runnable
          transitionZone();
    }
    
-   public void transitionZone()
+   public static void transitionZone()
    {
       if(actorList != null)
          actorList.remove(player);
@@ -212,5 +212,7 @@ public class Game implements Runnable
       setActorMap();
       nextZone = null;
       nextZonePlayerLoc = null;
+      AnimationManager.clear();
+      AnimationManager.setPersistentAnimations(actorList);
    }
 }

@@ -7,6 +7,8 @@ import Daedalus.Engine.*;
 import Daedalus.Ability.*;
 import Daedalus.Actor.*;
 import Daedalus.Zone.*;
+import WidlerSuite.Coord;
+import java.util.*;
 
 public class Main
 {
@@ -14,39 +16,44 @@ public class Main
    {
       DaeFrame frame = new DaeFrame();
       Game game = new Game();
-      game.setCurMap(ZoneMap.getTestMap());
+      
+      
+      Vector<Actor> actorList = new Vector<Actor>();
+      Zone zone = new Zone();
+      zone.setMap(ZoneMap.getTestMap());
+      zone.setActorList(actorList);
+//      game.setCurMap(ZoneMap.getTestMap());
       
       Actor a = ActorFactory.getPlayer();
       a.setTileLoc(3, 5);
       game.setPlayer(a);
-      game.addActor(a);
+//      game.addActor(a);
       
       Actor b = ActorFactory.getJackal();
       b.setTileLoc(3, 11);
-      game.addActor(b);
+      actorList.add(b);
+//      game.addActor(b);
       
-//       b = new Actor("Wolf");
-//       b.setAI(new WolfAI(b));
-//       b.setTileIndex('w');
-//       b.setShield(new Shield("Test Shield"));
+
       b = ActorFactory.getDrone();
       b.setTileLoc(4, 11);
-      game.addActor(b);
+      actorList.add(b);
+//      game.addActor(b);
       
-//       b = new Actor("Wolf");
-//       b.setAI(new WolfAI(b));
-//       b.setTileIndex('w');
+
       b = ActorFactory.getDrone();
       b.setTileLoc(10, 7);
-      game.addActor(b);
+      actorList.add(b);
+ //     game.addActor(b);
       
-//       b = new Actor("Wolf");
-//       b.setAI(new WolfAI(b));
-//       b.setTileIndex('w');
+
       b = ActorFactory.getDrone();
       b.setTileLoc(6, 6);
-      game.addActor(b);
+      actorList.add(b);
+ //     game.addActor(b);
       
+      
+      game.setZone(zone, new Coord(3, 5));
       game.play();
 
    }

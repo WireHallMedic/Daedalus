@@ -67,6 +67,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    public void setShield(Shield s){shield = s;}
    public void setArmor(Armor a){armor = a;}
    public void setPack(ActorPack p){pack = p;}
+   public void setCurMap(ZoneMap map){curMap = map;}
 
    
    public Actor()
@@ -171,6 +172,11 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    // vision
    public void updateFoV()
    {
+      if(fov == null)
+      {
+         curMap = Game.getCurMap();
+         fov = new ShadowFoVRect(curMap.getVisibilityMap());
+      }
       fov.calcFoV(getTileLoc().x, getTileLoc().y, getVisionRadius());
       if(this == Game.getPlayer())
          updateLastSeenMap();

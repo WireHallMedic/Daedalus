@@ -116,6 +116,22 @@ public class AnimationManager implements GUIConstants, AIConstants
       lockingList = new Vector<AnimationScript>();
       nonLockingList = new Vector<AnimationScript>();
       semiLockingList = new Vector<AnimationScript>();
+      screenShakeX = 0.0;
+      screenShakeY = 0.0;
+      screenShakeDuration = 0;
+      rumbleCountdown = 0;
+      shakeCountdown = 0;
+      violentShakeCountdown = 0;
+   }
+   
+   public static void setPersistentAnimations(Vector<Actor> actorList)
+   {
+      for(int i = 0; i < actorList.size(); i++)
+      {
+         Actor a = actorList.elementAt(i);
+         if(a.isFlying())
+            addNonLocking(AnimationScriptFactory.getFlying(a));
+      }
    }
    
    public static boolean isOnSemiLockingList(Actor a)
