@@ -2,6 +2,7 @@ package Daedalus.Zone;
 
 import java.awt.*;
 import java.awt.image.*;
+import java.util.*;
 import Daedalus.AI.*;
 import Daedalus.GUI.*;
 import Daedalus.Item.*;
@@ -18,6 +19,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
 	private Item[][] itemMap;
 	private boolean[][] visibilityMap;
 	private BufferedImage[][] lastSeenMap;
+   private Vector<Coord> exitList;
    private static final BufferedImage BLACK_SQUARE = SQUARE_PALETTE.getTile(' ');
 
 
@@ -54,6 +56,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
          visibilityMap[x][y] = false;
          lastSeenMap[x][y] = BLACK_SQUARE;
       }
+      exitList = null;
    }
    
    
@@ -174,6 +177,25 @@ public class ZoneMap implements ZoneConstants, GUIConstants
          lastSeenMap[x][y] = SQUARE_PALETTE.getTile(itemMap[x][y].getTileIndex(), GREY, BLACK);
       else 
          lastSeenMap[x][y] = SQUARE_PALETTE.getTile(tileMap[x][y].getTileIndex(), GREY, BLACK);
+   }
+   
+   
+   public Vector<Coord> getExitList()
+   {
+      if(exitList == null)
+         setExitList();
+      return exitList;
+   }
+   
+   public void setExitList()
+   {
+      exitList = new Vector<Coord>();
+      for(int x = 0; x < width; x++)
+      for(int y = 0; y < height; y++)
+      {
+         if(tileMap[x][y] instanceof Exit)
+            exitList.add(new Coord(x, y));
+      }
    }
    
    
