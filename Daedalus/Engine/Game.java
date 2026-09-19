@@ -19,16 +19,19 @@ public class Game implements Runnable
 	private static Actor[][] actorMap;      // used to make isActorAt() and getActorAt() O(1)
    private static Zone nextZone = null;
    private static Coord nextZonePlayerLoc = null;
+   private static Vector<Zone> zoneList;
 
 
 	public static ZoneMap getCurMap(){return curMap;}
 	public static Actor getPlayer(){return player;}
    public static Vector<Actor> getActorList(){return actorList;}
+   public static Vector<Zone> getZoneList(){return zoneList;}
 
 
 	public static void setCurMap(ZoneMap c){curMap = c; setActorMap();}
 	public static void setPlayer(Actor p){player = p;}
    public static void setActorList(Vector<Actor> al){actorList = al; setActorMap();}
+   public static void setZoneList(Vector<Zone> zl){zoneList = zl;}
 
    public Game()
    {
@@ -39,6 +42,7 @@ public class Game implements Runnable
       initiativeIndex = 0;
       continueF = true;
       playF = false;
+      zoneList = new Vector<Zone>();
       new Thread(this).start();
    }
    
@@ -213,5 +217,20 @@ public class Game implements Runnable
       nextZone = null;
       nextZonePlayerLoc = null;
       AnimationManager.clear();
+   }
+   
+   public static void useExit(Coord exitLoc)
+   {
+      Exit exit = (Exit)curMap.getTile(exitLoc);
+      for(int i = 0; i < zoneList.size(); i++)
+      {
+         Coord entranceLoc = zoneList.elementAt(i).getEntranceLoc(exit.getMate());
+         if(entranceLoc != null)
+         {
+            setZone(zoneList.elementAt(i), entranceLoc);
+            return;
+         }
+      }
+      System.out.println("No matching exit found.");
    }
 }

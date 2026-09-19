@@ -22,6 +22,12 @@ public class Exit extends ZoneTile implements ZoneConstants, GUIConstants
       setExitDirection('N');
       mate = null;
    }
+   
+   public Exit(char ed)
+   {
+      this();
+      setExitDirection(ed);
+   }
 
    
    public Exit(Exit that)

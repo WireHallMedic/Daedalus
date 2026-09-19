@@ -362,6 +362,10 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
                MainGamePanel.addMessage("You are unarmed.", true);
             }
             break;
+         case KeyEvent.VK_X:
+            Game.getPlayer().getAI().setPendingAction(ActorAction.INTERACT);
+            Game.getPlayer().getAI().setPendingTarget(Direction.ORIGIN);
+            break;
          case KeyEvent.VK_SPACE:
 //             AnimationScriptFactory.addExplosion(Game.getPlayer().getTileLoc());
 //             AnimationManager.setScreenRumble();

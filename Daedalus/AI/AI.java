@@ -56,7 +56,8 @@ public class AI implements AIConstants, ZoneConstants
       // check validity if interacting
       if(pendingAction == ActorAction.INTERACT)
       {
-         if(Game.getCurMap().getTile(loc) instanceof ToggleTile)
+         if(Game.getCurMap().getTile(loc) instanceof ToggleTile ||
+            Game.getCurMap().getTile(loc) instanceof Exit)
             pendingTarget = loc;
          else
          {
@@ -219,8 +220,16 @@ public class AI implements AIConstants, ZoneConstants
    
    protected void doInteract()
    {
-      Game.getCurMap().toggle(pendingTarget);
-      self.discharge(self.getInteractSpeed());
+      if(Game.getCurMap().getTile(pendingTarget) instanceof Exit)
+      {
+         Game.useExit(pendingTarget);
+         self.discharge(self.getInteractSpeed());
+      }
+      if(Game.getCurMap().getTile(pendingTarget) instanceof ToggleTile)
+      {
+         Game.getCurMap().toggle(pendingTarget);
+         self.discharge(self.getInteractSpeed());
+      }
    }
    
    protected void doPickUp()

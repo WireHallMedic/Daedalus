@@ -76,7 +76,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
       setLowerTileIndex(WSFontConstants.CIRCLE_TILE);
       ai = new AI(this);
       name = "Unknown Actor";
-      charge = 0;
+      charge = STARTING_CHARGE;
       inventory = new Inventory(this);
       baseStats = new StatBlock();
       ShadowFoV fov = null;
