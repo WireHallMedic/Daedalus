@@ -30,13 +30,28 @@ public class ZoneViewer extends DaePanel implements KeyListener, GUIConstants
       }
    }
    
+   public void printToConsole()
+   {
+      
+      for(int y = 0; y < zoneMap.getHeight(); y++)
+      {
+         for(int x = 0; x < zoneMap.getWidth(); x++)
+         {
+            System.out.print((char)zoneMap.getTile(x, y).getTileIndex() + "");
+         }
+         System.out.println();
+      }
+   }
+   
    public static void main(String[] args)
    {
       JFrame frame = new JFrame();
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       frame.setSize(1000, 800);
-      
-      ZoneViewer zv = new ZoneViewer(ZoneMap.getTestMap());
+      ZoneMap zm = new ZoneMap(30, 30);
+      MapFactory.setJaggedBorder(zm, 5, new ZoneTile(ZoneConstants.TileBase.WALL));
+      MapFactory.fillUnreachable(zm, 7, 7, new ZoneTile(ZoneConstants.TileBase.WALL));
+      ZoneViewer zv = new ZoneViewer(zm);
       zv.update();
       frame.add(zv);
       frame.setVisible(true);

@@ -24,6 +24,7 @@ public interface ZoneConstants
       OPEN_CHEST     ("Open Chest", false, true, true, WSFontConstants.INVERTED_QUESTION_TILE),
       ROUGH          ("Rough", true, true, true, ','),
       TERMINAL       ("Terminal", false, true, true, WSFontConstants.CAPITAL_OMEGA_TILE),
+      SIGN           ("Sign", false, true, true, WSFontConstants.IDENTICAL_TO_TILE),
       EXIT           ("Exit", true, true, true, WSFontConstants.INTERSECTION_TILE);
       
       public String name;
@@ -122,4 +123,47 @@ public interface ZoneConstants
          return Direction.values()[index];
       }
    }
+   
+   public enum ExitDirection
+   {
+      NORTH ('N', WSFontConstants.UP_TRIANGLE_TILE),
+      EAST  ('E', WSFontConstants.RIGHT_TRIANGLE_TILE),
+      SOUTH ('S', WSFontConstants.DOWN_TRIANGLE_TILE),
+      WEST  ('W', WSFontConstants.LEFT_TRIANGLE_TILE),
+      UP    ('U', WSFontConstants.UP_ARROW_TILE),
+      DOWN  ('D', WSFontConstants.DOWN_ARROW_TILE);
+      
+      public char character;
+      public int tileIndex;
+      
+      private ExitDirection(char ch, int ti)
+      {
+         character = ch;
+         tileIndex = ti;
+      }
+      
+      public static ExitDirection getByChar(char ch)
+      {
+         ch = Character.toUpperCase(ch);
+         for(ExitDirection dir : ExitDirection.values())
+            if(dir.character == ch)
+               return dir;
+         throw new Error("Invalid direction for exit: " + ch);
+      }
+      
+      public ExitDirection getOpposite()
+      {
+         switch(this)
+         {
+            case NORTH  :  return SOUTH;
+            case EAST   :  return WEST;
+            case SOUTH  :  return NORTH;
+            case WEST   :  return EAST;
+            case UP     :  return DOWN;
+            case DOWN   :  return UP;
+         }
+         return null;
+      }
+   }
+
 }

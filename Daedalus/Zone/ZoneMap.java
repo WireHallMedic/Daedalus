@@ -198,6 +198,18 @@ public class ZoneMap implements ZoneConstants, GUIConstants
       }
    }
    
+   public Exit getExitByDirection(ExitDirection dir)
+   {
+      Exit curExit = null;
+      for(int i = 0; i < exitList.size(); i++)
+      {
+         curExit = (Exit)getTile(exitList.elementAt(i));
+         if(curExit.getExitDirection() == dir)
+            break;
+      }
+      return curExit;
+   }
+   
    
    // actor stuff
    ////////////////////////////////////////////

@@ -155,12 +155,15 @@ public class Game implements Runnable
                   if(curActor.hasPlan() && AnimationManager.isClearToAct(curActor))
                   {
                      curActor.act();
-                     curActor.endOfTurn();
                      player.updateFoV();
+                     cleanActorList();
                      if(curActor == player)
                         MainGamePanel.incrementMessagePanel();
-                     cleanActorList();
-                     incrementInitiativeIndex();
+                     if(!curActor.isCharged())
+                     {
+                        curActor.endOfTurn();
+                        incrementInitiativeIndex();
+                     }
                   }
                }
                // cur actor not done charging, increment
@@ -210,6 +213,7 @@ public class Game implements Runnable
          actorList.remove(player);
       curZone = nextZone;
       curMap = curZone.getMap();
+      curMap.updateSubmaps();
       actorList = curZone.getActorList();
       actorList.add(player);
       player.setTileLoc(nextZonePlayerLoc);

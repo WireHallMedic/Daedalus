@@ -30,10 +30,17 @@ public class PlayerAI extends AI implements AIConstants, ZoneConstants
          {
             pendingAction = ActorAction.INTERACT;
          }
+         // read sign
+         else if(Game.getCurMap().getTile(pendingTarget) instanceof Sign)
+         {
+            pendingAction = ActorAction.INTERACT;
+         }
+         // occupied
          else if(Game.isActorAt(pendingTarget) && isEnemy(Game.getActorAt(pendingTarget)))
          {
             pendingAction = ActorAction.NATURAL_ATTACK;
          }
+         // invalid
          else
          {
             MainGamePanel.addMessage("You can't move there.", true);

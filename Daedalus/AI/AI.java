@@ -57,6 +57,7 @@ public class AI implements AIConstants, ZoneConstants
       if(pendingAction == ActorAction.INTERACT)
       {
          if(Game.getCurMap().getTile(loc) instanceof ToggleTile ||
+            Game.getCurMap().getTile(loc) instanceof Sign ||
             Game.getCurMap().getTile(loc) instanceof Exit)
             pendingTarget = loc;
          else
@@ -212,8 +213,8 @@ public class AI implements AIConstants, ZoneConstants
       self.discharge(self.getMoveSpeed());
       if(self == Game.getPlayer() && Game.getCurMap().isItemAt(self.getTileLoc()))
       {
-         MainGamePanel.clearMessage();
          String itemName = Game.getCurMap().getItemAt(self.getTileLoc()).getNameWithParticle();
+         MainGamePanel.clearMessage();
          MainGamePanel.addMessage("You are standing on " + itemName + ".");
       }
    }
@@ -229,6 +230,12 @@ public class AI implements AIConstants, ZoneConstants
       {
          Game.getCurMap().toggle(pendingTarget);
          self.discharge(self.getInteractSpeed());
+      }
+      if(Game.getCurMap().getTile(pendingTarget) instanceof Sign)
+      {
+         Sign sign = (Sign)Game.getCurMap().getTile(pendingTarget);
+         MainGamePanel.clearMessage();
+         MainGamePanel.addMessage(String.format("The sign reads \"%s\"", sign.getText()));
       }
    }
    
