@@ -9,14 +9,15 @@ import java.awt.event.*;
 import java.util.*;
 
 
-public class ZoneViewer extends DaePanel implements KeyListener, GUIConstants
+public class ZoneViewer extends DaePanel implements MouseListener, GUIConstants
 {
    private ZoneMap zoneMap;
    
-   public ZoneViewer(ZoneMap map)
+   public ZoneViewer()
    {
       super(75, 50, SQUARE_PALETTE);
-      zoneMap = map;
+      generateMap();
+      addMouseListener(this);
    }
    
    public void update()
@@ -43,16 +44,31 @@ public class ZoneViewer extends DaePanel implements KeyListener, GUIConstants
       }
    }
    
+   private void generateMap()
+   {
+      zoneMap = new ZoneMap(30, 30);
+      MapFactory.setJaggedBorder(zoneMap, 3, new ZoneTile(ZoneConstants.TileBase.WALL));
+      MapFactory.fillUnreachable(zoneMap, 7, 7, new ZoneTile(ZoneConstants.TileBase.WALL));
+      MapFactory.addScatter(zoneMap, 10, 10, 5, 5, .33, new ZoneTile(ZoneConstants.TileBase.WALL));
+      update();
+      this.repaint();
+   }
+   
+   public void mousePressed(MouseEvent me){}
+   public void mouseReleased(MouseEvent me){}
+   public void mouseEntered(MouseEvent me){}
+   public void mouseExited(MouseEvent me){}
+   public void mouseClicked(MouseEvent me)
+   {
+      generateMap();
+   }
+   
    public static void main(String[] args)
    {
       JFrame frame = new JFrame();
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       frame.setSize(1000, 800);
-      ZoneMap zm = new ZoneMap(30, 30);
-      MapFactory.setJaggedBorder(zm, 5, new ZoneTile(ZoneConstants.TileBase.WALL));
-      MapFactory.fillUnreachable(zm, 7, 7, new ZoneTile(ZoneConstants.TileBase.WALL));
-      ZoneViewer zv = new ZoneViewer(zm);
-      zv.update();
+      ZoneViewer zv = new ZoneViewer();
       frame.add(zv);
       frame.setVisible(true);
    }
