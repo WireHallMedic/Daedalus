@@ -20,6 +20,7 @@ public class Exit extends ZoneTile implements ZoneConstants, GUIConstants
    {
       super(TileBase.EXIT);
       setExitDirection('N');
+      setFGColor(EXIT_COLOR);
       mate = null;
    }
    

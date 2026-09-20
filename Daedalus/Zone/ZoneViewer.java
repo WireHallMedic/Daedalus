@@ -25,15 +25,26 @@ public class ZoneViewer extends DaePanel implements MouseListener, GUIConstants
       for(int x = 0; x < tilesWide; x++)
       for(int y = 0; y < tilesTall; y++)
       {
-         setTileIndex(x, y, zoneMap.getTile(x, y).getTileIndex());
-         setFGColor(x, y, zoneMap.getTile(x, y).getFGColor());
-         setBGColor(x, y, zoneMap.getTile(x, y).getBGColor());
+         if(zoneMap != null &&
+            x < zoneMap.getWidth() &&
+            y < zoneMap.getHeight())
+         {
+            setTileIndex(x, y, zoneMap.getTile(x, y).getTileIndex());
+            setFGColor(x, y, zoneMap.getTile(x, y).getFGColor());
+            setBGColor(x, y, zoneMap.getTile(x, y).getBGColor());
+         }
+         else
+         {
+            setTileIndex(x, y, ' ');
+            setFGColor(x, y, WHITE);
+            setBGColor(x, y, BLACK);
+         }
       }
    }
    
    public void printToConsole()
    {
-      
+      System.out.println();
       for(int y = 0; y < zoneMap.getHeight(); y++)
       {
          for(int x = 0; x < zoneMap.getWidth(); x++)
@@ -46,10 +57,8 @@ public class ZoneViewer extends DaePanel implements MouseListener, GUIConstants
    
    private void generateMap()
    {
-      zoneMap = new ZoneMap(30, 30);
-      MapFactory.setJaggedBorder(zoneMap, 3, new ZoneTile(ZoneConstants.TileBase.WALL));
-      MapFactory.fillUnreachable(zoneMap, 7, 7, new ZoneTile(ZoneConstants.TileBase.WALL));
-      MapFactory.addScatter(zoneMap, 10, 10, 5, 5, .33, new ZoneTile(ZoneConstants.TileBase.WALL));
+      zoneMap = WastelandMapFactory.getBasicMap();
+      MapFactory.addRandomExit(zoneMap, 'W');
       update();
       this.repaint();
    }
@@ -61,6 +70,7 @@ public class ZoneViewer extends DaePanel implements MouseListener, GUIConstants
    public void mouseClicked(MouseEvent me)
    {
       generateMap();
+      //printToConsole();
    }
    
    public static void main(String[] args)

@@ -52,4 +52,10 @@ public class ZoneTile extends ImageTile implements ZoneConstants, GUIConstants
       highPassable = base.highPassable;
       transparent = base.transparent;
    }
+   
+   public boolean isPathable()
+   {
+      return isLowPassable() || this instanceof Door;
+   }
+
 }
