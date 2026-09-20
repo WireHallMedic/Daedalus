@@ -14,7 +14,7 @@ s#k0
 s#j0
 s#l0
 !74;u
-a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!2546;g
+a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!2581;g
 %\011Daedalus%sAbility%sAbility.java
 %\011Daedalus%sAbility%sAbilityConstants.java
 %\011Daedalus%sAbility%sAttack.java
@@ -28,6 +28,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!2546;
 %\011Daedalus%sAI%sDroneAI.java
 %\011Daedalus%sAI%sMemory.java
 %\011Daedalus%sAI%sPlayerAI.java
+%\011Daedalus%sAI%sStandardAI.java
 %\011Daedalus%sAI%sWanderAI.java
 %\011Daedalus%sAI%sWolfAI.java
 %\011Daedalus%sAI%sZombieAI.java
@@ -85,7 +86,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!2546;
 %\011Daedalus%sZone%sZoneMap.java
 %\011Daedalus%sZone%sZoneTile.java
 %\011Daedalus%sZone%sZoneViewer.java
-!2546;f
+!2581;f
 %\011Daedalus%sAbility%sAbility.java
 %\011Daedalus%sAbility%sAbilityConstants.java
 %\011Daedalus%sAbility%sAttack.java
@@ -99,6 +100,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!2546;
 %\011Daedalus%sAI%sDroneAI.java
 %\011Daedalus%sAI%sMemory.java
 %\011Daedalus%sAI%sPlayerAI.java
+%\011Daedalus%sAI%sStandardAI.java
 %\011Daedalus%sAI%sWanderAI.java
 %\011Daedalus%sAI%sWolfAI.java
 %\011Daedalus%sAI%sZombieAI.java

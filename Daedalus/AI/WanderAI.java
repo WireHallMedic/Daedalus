@@ -28,21 +28,26 @@ public class WanderAI extends AI implements AIConstants, ZoneConstants
    {
       if(RNG.nextDouble() <= wanderChance)
       {
-         Vector<Coord> tileList = new Vector<Coord>();
-         for(int i = 1; i < Direction.values().length; i++)
-         {
-            Coord c = Direction.values()[i].getAsCoord();
-            c.add(self.getTileLoc());
-            if(Game.canStep(self, c))
-               tileList.add(c);
-         }
-         if(tileList.size() > 0)
-         {
-            setPendingTarget(tileList.elementAt(RNG.nextInt(tileList.size())));
-            setPendingAction(ActorAction.STEP);
-         }
-         else
-            super.plan();
+         setWanderPlan();
+      }
+      else
+         super.plan();
+   }
+   
+   public void setWanderPlan()
+   {
+      Vector<Coord> tileList = new Vector<Coord>();
+      for(int i = 1; i < Direction.values().length; i++)
+      {
+         Coord c = Direction.values()[i].getAsCoord();
+         c.add(self.getTileLoc());
+         if(Game.canStep(self, c))
+            tileList.add(c);
+      }
+      if(tileList.size() > 0)
+      {
+         setPendingTarget(tileList.elementAt(RNG.nextInt(tileList.size())));
+         setPendingAction(ActorAction.STEP);
       }
       else
          super.plan();

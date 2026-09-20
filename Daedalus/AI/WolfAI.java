@@ -12,6 +12,7 @@ public class WolfAI extends WanderAI implements AIConstants, ZoneConstants
    public WolfAI(Actor s)
    {
       super(s);
+      setTeam(Team.FAUNA);
       setWanderChance(.25);
    }
    

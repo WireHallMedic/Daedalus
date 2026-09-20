@@ -46,10 +46,29 @@ public class ActorFactory implements ActorConstants, GUIConstants
       a.setTileIndex('j');
       a.setBGColor(BROWN);
       a.setFGColor(ORANGE);
-      a.getBaseStats().setMaxHealth(BASE_NPC_HEALTH);
+      a.getBaseStats().setMaxHealth(BASE_NPC_HEALTH / 2);
       a.setAI(new WolfAI(a));
       a.setNaturalWeapon(WeaponFactory.getJackalJaws());
       a.getBaseStats().setMoveSpeed(ActionSpeed.FAST);
+      a.fullHeal();
+      return a;
+   }
+   
+   public static Actor getBandit()
+   {
+      Actor a = new Actor("Bandit");
+      a.setTileIndex('b');
+      a.setBGColor(BLACK);
+      a.setFGColor(WHITE);
+      a.getBaseStats().setMaxHealth(BASE_NPC_HEALTH / 2);
+      a.setAI(new StandardAI(a));
+      switch(RNG.nextInt(5))
+      {
+         case 0   : a.setCurWeapon(WeaponFactory.getShotgun()); break;
+         case 1   : a.setCurWeapon(WeaponFactory.getAutogun()); break;
+         default  : a.setCurWeapon(WeaponFactory.getBoltgun()); break;
+      }
+      a.setShield(ShieldFactory.getDroneShield());
       a.fullHeal();
       return a;
    }

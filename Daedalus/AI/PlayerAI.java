@@ -33,7 +33,11 @@ public class PlayerAI extends AI implements AIConstants, ZoneConstants
             {
                pendingAction = ActorAction.INTERACT;
             }
-            
+            // invalid
+            else
+            {
+               clearPlan();
+            }
          }
          // target is not origin
          else
