@@ -105,14 +105,17 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
       setName(n);
    }
       
-   @Override
-	public void setTileLoc(int x, int y)
+   
+	public void setTileLoc(int x, int y, boolean updateActorMap)
    {
       Coord prevLoc = getTileLoc();
       super.setTileLoc(x, y);
-      Game.setActorPosition(this, prevLoc);
+      if(updateActorMap)
+         Game.setActorPosition(this, prevLoc);
    }
-   @Override public void setTileLoc(Coord c){setTileLoc(c.x, c.y);}
+   @Override public void setTileLoc(Coord c){setTileLoc(c.x, c.y, true);}
+   @Override public void setTileLoc(int x, int y){setTileLoc(x, y, true);}
+   public void setTileLoc(Coord c, boolean updateActorMap){setTileLoc(c.x, c.y, updateActorMap);}
    
    
    // initiative
@@ -289,6 +292,26 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
       {
          Game.getCurMap().dropItem(new Credits(inventory.getCredits()), getTileLoc());
          inventory.getCredits().setValue(0);
+      }
+      if(weapon1 != null)
+      {
+         Game.getCurMap().dropItem(weapon1, getTileLoc());
+         weapon1 = null;
+      }
+      if(weapon2 != null)
+      {
+         Game.getCurMap().dropItem(weapon2, getTileLoc());
+         weapon2 = null;
+      }
+      if(shield != null)
+      {
+         Game.getCurMap().dropItem(shield, getTileLoc());
+         shield = null;
+      }
+      if(armor != null)
+      {
+         Game.getCurMap().dropItem(armor, getTileLoc());
+         armor = null;
       }
       
    }

@@ -4,8 +4,8 @@ import java.awt.*;
 import java.awt.image.*;
 import java.util.*;
 import Daedalus.GUI.*;
+import Daedalus.Actor.*;
 import Daedalus.Engine.*;
-import MazeBuilder.*;
 import WidlerSuite.Coord;
 
 public class RegionBuilder implements ZoneConstants, GUIConstants
@@ -55,6 +55,25 @@ public class RegionBuilder implements ZoneConstants, GUIConstants
             overlandArr[x][y].getExitByDirection(ExitDirection.EAST).pair(overlandArr[x][y].getExitByDirection(ExitDirection.WEST));
          MapPainter.paintWastelandOverworld(overlandArr[x][y]);
          zoneList.add(new Zone(overlandArr[x][y]));
+      }
+      
+      // add actors
+      for(int i = 1; i < zoneList.size(); i++)
+      {
+         ZoneMap map = zoneList.elementAt(i).getMap();
+         for(int x = map.getWidth() / 4; x < map.getWidth() * 3 / 4; x++)
+         for(int y = map.getHeight() / 4; y < map.getHeight() * 3 / 4; y++)
+         {
+            if(map.getTile(x, y).isLowPassable())
+            {
+               Coord c = new Coord(x, y);
+               Actor a = ActorFactory.getBandit();
+               a.setTileLoc(c, false);
+               zoneList.elementAt(i).getActorList().add(a);
+               x = map.getWidth();
+               y = map.getHeight();
+            }
+         }
       }
       
       return zoneList;
