@@ -9,7 +9,7 @@ import java.awt.event.*;
 import java.util.*;
 
 
-public class ZoneViewer extends DaePanel implements MouseListener, GUIConstants
+public class ZoneViewer extends DaePanel implements MouseListener, GUIConstants, ZoneConstants
 {
    private ZoneMap zoneMap;
    
@@ -58,8 +58,12 @@ public class ZoneViewer extends DaePanel implements MouseListener, GUIConstants
    private void generateMap()
    {
       zoneMap = WastelandMapFactory.getBasicMap();
-      MapFactory.addRandomExit(zoneMap, 'W');
-      MapPainter.paintWastelandOverworld(zoneMap);
+      
+      // add hideout entrance along south wall of south zone
+      MapFactory.addRandomExit(zoneMap, 'S');
+      Exit hideoutEntrance = zoneMap.getExitByDirection(ExitDirection.SOUTH);
+      hideoutEntrance.setExitDirection('D');
+      zoneMap.setExitList();
       update();
       this.repaint();
    }

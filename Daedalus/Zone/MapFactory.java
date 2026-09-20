@@ -63,24 +63,6 @@ public class MapFactory implements ZoneConstants, GUIConstants
    }
    
    
-//    public static void fillUnreachable(ZoneMap map, int xFillStart, int yFillStart, ZoneTile fillTile)
-//    {
-//       boolean[][] passableArr = new boolean[map.getWidth()][map.getHeight()];
-//       for(int x = 0; x < map.getWidth(); x++)
-//       for(int y = 0; y < map.getHeight(); y++)
-//       {
-//          passableArr[x][y] = map.getTile(x, y).isLowPassable();
-//       }
-//       boolean[][] reachableArr = FloodFill.fill(passableArr, xFillStart, yFillStart);
-//       for(int x = 0; x < map.getWidth(); x++)
-//       for(int y = 0; y < map.getHeight(); y++)
-//       {
-//          if(!reachableArr[x][y])
-//             map.setTile(x, y, fillTile.copy());
-//       }
-//    }
-   
-   
    public static void fillUnreachable(ZoneMap map, ZoneTile fillTile)
    {
       // create passable map
@@ -240,6 +222,7 @@ public class MapFactory implements ZoneConstants, GUIConstants
          x += xStep;
          y += yStep;
       }
+      map.setExitList();
    }
 
    public static ZoneMap getTestMap1()

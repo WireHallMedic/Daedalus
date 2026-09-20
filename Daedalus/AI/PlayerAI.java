@@ -20,31 +20,50 @@ public class PlayerAI extends AI implements AIConstants, ZoneConstants
    {
       if(pendingAction == ActorAction.CONTEXTUAL && pendingTarget != null)
       {
-         // empty tile
-         if(Game.canStep(self, pendingTarget))
+         // target is origin
+         if(pendingTarget.equals(self.getTileLoc()))
          {
-            pendingAction = ActorAction.STEP;
+            // standing on item
+            if(Game.getCurMap().isItemAt(pendingTarget))
+            {
+               pendingAction = ActorAction.PICK_UP;
+            }
+            // standing on exit
+            else if(Game.getCurMap().getTile(pendingTarget) instanceof Exit)
+            {
+               pendingAction = ActorAction.INTERACT;
+            }
+            
          }
-         // toggle tile
-         else if(Game.getCurMap().getTile(pendingTarget) instanceof ToggleTile)
-         {
-            pendingAction = ActorAction.INTERACT;
-         }
-         // read sign
-         else if(Game.getCurMap().getTile(pendingTarget) instanceof Sign)
-         {
-            pendingAction = ActorAction.INTERACT;
-         }
-         // occupied
-         else if(Game.isActorAt(pendingTarget) && isEnemy(Game.getActorAt(pendingTarget)))
-         {
-            pendingAction = ActorAction.NATURAL_ATTACK;
-         }
-         // invalid
+         // target is not origin
          else
          {
-            MainGamePanel.addMessage("You can't move there.", true);
-            clearPlan();
+            // empty tile
+            if(Game.canStep(self, pendingTarget))
+            {
+               pendingAction = ActorAction.STEP;
+            }
+            // toggle tile
+            else if(Game.getCurMap().getTile(pendingTarget) instanceof ToggleTile)
+            {
+               pendingAction = ActorAction.INTERACT;
+            }
+            // read sign
+            else if(Game.getCurMap().getTile(pendingTarget) instanceof Sign)
+            {
+               pendingAction = ActorAction.INTERACT;
+            }
+            // occupied
+            else if(Game.isActorAt(pendingTarget) && isEnemy(Game.getActorAt(pendingTarget)))
+            {
+               pendingAction = ActorAction.NATURAL_ATTACK;
+            }
+            // invalid
+            else
+            {
+               MainGamePanel.addMessage("You can't move there.", true);
+               clearPlan();
+            }
          }
       }
    }

@@ -31,6 +31,7 @@ public class InventoryPanel extends SelectionPanel implements ActionListener, GU
       if(v)
       {
          setList();
+         curIndex = 0;
       }
       super.setVisible(v);
    }

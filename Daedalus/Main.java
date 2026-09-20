@@ -17,19 +17,8 @@ public class Main
       DaeFrame frame = new DaeFrame();
       Game game = new Game();
       
-      Vector<Zone> zoneList = new Vector<Zone>();
-      
-      Zone zone = new Zone();
-      zone.setMap(MapFactory.getTestMap1());
-      Exit exit1 = (Exit)zone.getMap().getTile(zone.getMap().getExitList().elementAt(0));
-      zoneList.add(zone);
-      
-      zone = new Zone();
-      zone.setMap(MapFactory.getTestMap2());
-      Exit exit2 = (Exit)zone.getMap().getTile(zone.getMap().getExitList().elementAt(0));
-      zoneList.add(zone);
-      
-      exit1.pair(exit2);
+      Vector<Zone> zoneList = RegionBuilder.buildWasteland();
+
       
       
 //       Vector<Actor> actorList = new Vector<Actor>();

@@ -338,6 +338,10 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
             cursorLoc = Game.getPlayer().getTileLoc().copy();
             mode = LOOK_MODE;
             break;
+         case KeyEvent.VK_ENTER:
+            Game.getPlayer().getAI().setPendingAction(ActorAction.CONTEXTUAL);
+            Game.getPlayer().getAI().setPendingTarget(Direction.ORIGIN);
+            break;
          case KeyEvent.VK_F:
             if(Game.getPlayer().getCurWeapon() != null)
             {

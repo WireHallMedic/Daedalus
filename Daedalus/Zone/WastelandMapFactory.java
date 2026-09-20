@@ -77,5 +77,15 @@ public class WastelandMapFactory extends MapFactory implements ZoneConstants, GU
       // not painted as we want to add exits first
       return map;
    }
+   
+   public static ZoneMap getHideout()
+   {
+      ZoneMap map = new ZoneMap(10, 10);
+      setBorder(map, new ZoneTile(ZoneConstants.TileBase.WALL));
+      map.setTile(1, 1, new Exit('U'));
+      map.setExitList();
+      
+      return map;
+   }
 
 }

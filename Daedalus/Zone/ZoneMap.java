@@ -200,6 +200,8 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    
    public Exit getExitByDirection(ExitDirection dir)
    {
+      if(exitList == null)
+         setExitList();
       Exit curExit = null;
       for(int i = 0; i < exitList.size(); i++)
       {

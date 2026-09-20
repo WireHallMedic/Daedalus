@@ -112,6 +112,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
       super.setTileLoc(x, y);
       Game.setActorPosition(this, prevLoc);
    }
+   @Override public void setTileLoc(Coord c){setTileLoc(c.x, c.y);}
    
    
    // initiative
