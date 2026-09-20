@@ -74,6 +74,7 @@ public class WastelandMapFactory extends MapFactory implements ZoneConstants, GU
       }
       
       fillUnreachable(map, new ZoneTile(ZoneConstants.TileBase.WALL));
+      // not painted as we want to add exits first
       return map;
    }
 

@@ -59,6 +59,7 @@ public class ZoneViewer extends DaePanel implements MouseListener, GUIConstants
    {
       zoneMap = WastelandMapFactory.getBasicMap();
       MapFactory.addRandomExit(zoneMap, 'W');
+      MapPainter.paintWastelandOverworld(zoneMap);
       update();
       this.repaint();
    }

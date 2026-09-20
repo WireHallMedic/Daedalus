@@ -60,4 +60,8 @@ public interface GUIConstants
    
    public static final int LEFT_BAR_BRACE = 10 + (11 * 16);    // box-drawing char, two vertical lines
    public static final int RIGHT_BAR_BRACE = 10 + (11 * 16);   // box-drawing char, two vertical lines
+   
+   public static final int WASTELAND_GROUND_BG = BROWN;
+   public static final int WASTELAND_GROUND_FG = BEIGE;
+   public static final int STONE = new Color(200, 200, 200).getRGB();
 }

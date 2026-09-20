@@ -11,6 +11,7 @@ public interface ZoneConstants
    public enum TileBase
    {
       CLEAR          ("Clear", true, true, true, WSFontConstants.SMALL_BULLET_TILE),
+      PATH           ("Path", true, true, true, WSFontConstants.BULLET_TILE),
       WALL           ("Wall", false, false, false, '#'),
       LOW_WALL       ("Low Wall", false, true, true, '='),
       BARS           ("Bars", false, false, true, ':'),
@@ -40,6 +41,16 @@ public interface ZoneConstants
          highPassable = hp;
          transparent = t;
          tileIndex = ti;
+      }
+      
+      public static TileBase getByTileIndex(int tileIndex)
+      {
+         for(TileBase base: TileBase.values())
+         {
+            if(tileIndex == base.tileIndex)
+               return base;
+         }
+         return null;
       }
    }
    

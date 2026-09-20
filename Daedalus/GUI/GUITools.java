@@ -1,5 +1,6 @@
 package Daedalus.GUI;
 
+import java.awt.*;
 import WidlerSuite.Coord;
 import WidlerSuite.WSFontConstants;
 
@@ -107,5 +108,19 @@ public class GUITools implements GUIConstants, WSFontConstants
       if(i > 0)
          return "+" + i;
       return "" + i;
+   }
+   
+   // dim color, usually by noise
+   public static int dimColor(int color, double adjustment)
+   {
+      int red = new Color(color).getRed();
+      int green = new Color(color).getGreen();
+      int blue = new Color(color).getBlue();
+      
+      red = (int)(red * (1.0 - adjustment));
+      green = (int)(green * (1.0 - adjustment));
+      blue = (int)(blue * (1.0 - adjustment));
+      
+      return new Color(red, green, blue).getRGB();
    }
 }
