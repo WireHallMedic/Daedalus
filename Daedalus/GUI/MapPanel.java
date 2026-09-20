@@ -18,8 +18,8 @@ public class MapPanel extends SelectionPanel implements ActionListener, GUIConst
    private ZoneMap map;
    private BufferedImage mapImage;
    private BufferedImage[] playerImage;
-   private static final int mapHeight = 50;
-   private static final int mapWidth = 75;
+   private static final int mapHeight = 70;
+   private static final int mapWidth = 100;
    
    public MapPanel()
    {
