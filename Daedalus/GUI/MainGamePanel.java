@@ -334,6 +334,9 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
          case KeyEvent.VK_I:
             DaeFrame.setActivePanel(InventoryPanel.class);
             break;
+         case KeyEvent.VK_M:
+            DaeFrame.setActivePanel(MapPanel.class);
+            break;
          case KeyEvent.VK_L:
             cursorLoc = Game.getPlayer().getTileLoc().copy();
             mode = LOOK_MODE;

@@ -19,6 +19,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
 	private Item[][] itemMap;
 	private boolean[][] visibilityMap;
 	private BufferedImage[][] lastSeenMap;
+	private BufferedImage[][] exploredMap;
    private Vector<Coord> exitList;
    private static final BufferedImage BLACK_SQUARE = SQUARE_PALETTE.getTile(' ');
 
@@ -48,6 +49,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
       itemMap = new Item[width][height];
       visibilityMap = new boolean[width][height];
       lastSeenMap = new BufferedImage[width][height];
+      exploredMap = new BufferedImage[width][height];
       for(int x = 0; x < width; x++)
       for(int y = 0; y < height; y++)
       {
@@ -55,6 +57,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
          itemMap[x][y] = null;
          visibilityMap[x][y] = false;
          lastSeenMap[x][y] = BLACK_SQUARE;
+         exploredMap[x][y] = BLACK_SQUARE;
       }
       exitList = null;
    }
@@ -155,10 +158,10 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    public BufferedImage getImage(Coord c){return getImage(c.x, c.y);}
    
    
-   public void updateLastSeen(int x, int y, int tileIndex)
-   {
-      lastSeenMap[x][y] = SQUARE_PALETTE.getTile(tileIndex);
-   }
+//    public void updateLastSeen(int x, int y, int tileIndex)
+//    {
+//       lastSeenMap[x][y] = SQUARE_PALETTE.getTile(tileIndex);
+//    }
    
    
    public BufferedImage getLastSeen(int x, int y)
@@ -171,13 +174,24 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    
    public void setLastSeen(int x, int y)
    {
-      if(!isInBounds(x, y))
-         lastSeenMap[x][y] = SQUARE_PALETTE.getTile(oobTile.getTileIndex(), GREY, BLACK);
-      else if(isItemAt(x, y))
+      if(isItemAt(x, y))
+      {
          lastSeenMap[x][y] = SQUARE_PALETTE.getTile(itemMap[x][y].getTileIndex(), GREY, BLACK);
+      }
       else 
+      {
          lastSeenMap[x][y] = SQUARE_PALETTE.getTile(tileMap[x][y].getTileIndex(), GREY, BLACK);
+      }
+      exploredMap[x][y] = SQUARE_PALETTE.getTile(tileMap[x][y].getTileIndex(), tileMap[x][y].getFGColor(), tileMap[x][y].getBGColor());
    }
+   
+   public BufferedImage getExplored(int x, int y)
+   {
+      if(isInBounds(x, y))
+         return exploredMap[x][y];
+      return BLACK_SQUARE;
+   }
+   public BufferedImage getExplored(Coord c){return getExplored(c.x, c.y);}
    
    
    public Vector<Coord> getExitList()

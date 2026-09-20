@@ -16,6 +16,7 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
    private JPanel innerPanel;
    private MainGamePanel mainGamePanel;
    private InventoryPanel inventoryPanel;
+   private MapPanel mapPanel;
    private static Class pendingPanelClass = null;
    
    
@@ -44,6 +45,10 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
       inventoryPanel = new InventoryPanel();
       innerPanel.add(inventoryPanel);
       panelList.add(inventoryPanel);
+      
+      mapPanel = new MapPanel();
+      innerPanel.add(mapPanel);
+      panelList.add(mapPanel);
       
       arrangePanels();
       curPanel = mainGamePanel;

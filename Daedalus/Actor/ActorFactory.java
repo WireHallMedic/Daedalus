@@ -15,7 +15,7 @@ public class ActorFactory implements ActorConstants, GUIConstants
       Actor a = new Actor("Test Player");
       a.setTileIndex('@');
       a.setAI(new PlayerAI(a));
-      a.setWeapon1(WeaponFactory.getAutogun());
+      a.setWeapon1(WeaponFactory.getBoltgun());
       a.setWeapon2(WeaponFactory.getShotgun());
       a.setShield(new Shield("Test Shield"));
       return a;
@@ -64,6 +64,7 @@ public class ActorFactory implements ActorConstants, GUIConstants
          case 1   : a.setCurWeapon(WeaponFactory.getAutogun()); break;
          default  : a.setCurWeapon(WeaponFactory.getBoltgun()); break;
       }
+      WeaponFactory.setLowQuality(a.getCurWeapon());
       a.setShield(ShieldFactory.getDroneShield());
       a.fullHeal();
       return a;

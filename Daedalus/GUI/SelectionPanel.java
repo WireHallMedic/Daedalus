@@ -47,7 +47,10 @@ public class SelectionPanel extends DaePanel implements ActionListener, GUIConst
    public void setVisible(boolean v)
    {
       if(v)
+      {
+         curIndex = 0;
          setTiles();
+      }
       super.setVisible(v);
    }
    

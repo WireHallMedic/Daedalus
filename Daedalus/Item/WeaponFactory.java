@@ -7,7 +7,20 @@ import Daedalus.Ability.*;
 
 public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstants
 {
-
+   public static void setLowQuality(Weapon w)
+   {
+      w.setName("Low-Quality " + w.getName());
+      Attack a = w.getAttack();
+      Damage base = a.getBaseDamage();
+      Damage random = a.getRandomDamage();
+      for(int i = 0; i < DamageType.values().length; i++)
+      {
+         DamageType type = DamageType.values()[i];
+         base.setValue(type, base.getValue(type) / 2);
+         random.setValue(type, random.getValue(type) / 2);
+      }
+   }
+   
    public static Weapon getBoltgun()
    {
       Weapon w = new Weapon("Boltgun");
