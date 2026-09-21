@@ -57,10 +57,15 @@ public class PlayerAI extends AI implements AIConstants, ZoneConstants
             {
                pendingAction = ActorAction.INTERACT;
             }
-            // occupied
+            // occupied by enemy
             else if(Game.isActorAt(pendingTarget) && isEnemy(Game.getActorAt(pendingTarget)))
             {
                pendingAction = ActorAction.NATURAL_ATTACK;
+            }
+            // occupied by pet
+            else if(Game.isActorAt(pendingTarget) && Game.getActorAt(pendingTarget) instanceof Pet)
+            {
+               pendingAction = ActorAction.INTERACT;
             }
             // invalid
             else

@@ -8,7 +8,7 @@ import Daedalus.Combat.*;
 import Daedalus.Engine.*;
 import Daedalus.Ability.*;
 
-public class ActorFactory implements ActorConstants, GUIConstants
+public class ActorFactory implements ActorConstants, GUIConstants, AIConstants
 {
    public static Actor getPlayer()
    {
@@ -20,6 +20,19 @@ public class ActorFactory implements ActorConstants, GUIConstants
       a.setShield(new Shield("Test Shield"));
       return a;
    }
+   
+   public static Actor getDog(String name)
+   {
+      Pet p = new Pet(name);
+      p.setTileIndex('d');
+      p.setBGColor(BROWN);
+      p.setFGColor(WHITE);
+      p.getBaseStats().setMaxHealth(BASE_NPC_HEALTH / 2);
+      p.setNaturalWeapon(WeaponFactory.getJackalJaws());
+      p.fullHeal();
+      return p;
+   }
+   public static Actor getDog(){return getDog("Dog");}
    
    public static Actor getDrone()
    {

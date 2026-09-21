@@ -20,6 +20,9 @@ public class RegionBuilder implements ZoneConstants, GUIConstants
       
       ZoneMap hideout = WastelandMapFactory.getHideout();
       zoneList.add(new Zone(hideout));
+      Actor a = ActorFactory.getDog("Euclid");
+      a.setTileLoc(3, 6);
+      zoneList.elementAt(0).getActorList().add(a);
       
       // add exits
       for(int x = 0; x < regionWidth; x++)
@@ -67,7 +70,7 @@ public class RegionBuilder implements ZoneConstants, GUIConstants
             if(map.getTile(x, y).isLowPassable())
             {
                Coord c = new Coord(x, y);
-               Actor a = ActorFactory.getBandit();
+               a = ActorFactory.getBandit();
                a.setTileLoc(c, false);
                zoneList.elementAt(i).getActorList().add(a);
                x = map.getWidth();

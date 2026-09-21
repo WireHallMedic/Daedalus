@@ -58,7 +58,8 @@ public class AI implements AIConstants, ZoneConstants
       {
          if(Game.getCurMap().getTile(loc) instanceof ToggleTile ||
             Game.getCurMap().getTile(loc) instanceof Sign ||
-            Game.getCurMap().getTile(loc) instanceof Exit)
+            Game.getCurMap().getTile(loc) instanceof Exit ||
+            Game.getActorAt(loc) instanceof Pet)
             pendingTarget = loc;
          else
          {
@@ -236,6 +237,12 @@ public class AI implements AIConstants, ZoneConstants
          Sign sign = (Sign)Game.getCurMap().getTile(pendingTarget);
          MainGamePanel.clearMessage();
          MainGamePanel.addMessage(String.format("The sign reads \"%s\"", sign.getText()));
+      }
+      if(Game.getActorAt(pendingTarget) instanceof Pet)
+      {
+         Pet p = (Pet)Game.getActorAt(pendingTarget);
+         p.pet();
+         self.discharge(self.getInteractSpeed());
       }
    }
    
