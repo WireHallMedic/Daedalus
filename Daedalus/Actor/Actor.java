@@ -34,6 +34,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    private int knockbackDistance;
    private Direction knockbackDirection;
    private ActorPack pack;
+   private Vector<StatusEffect> statusEffectList;
 
 
 	public String getName(){return name;}
@@ -52,6 +53,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    public Armor getArmor(){return armor;}
    public ActorPack getPack(){return pack;}
    public boolean hasPack(){return pack != null;}
+   public Vector<StatusEffect> getStatusEffectList(){return statusEffectList;}
 
 
 	public void setName(String n){name = n;}
@@ -68,6 +70,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    public void setArmor(Armor a){armor = a;}
    public void setPack(ActorPack p){pack = p;}
    public void setCurMap(ZoneMap map){curMap = map;}
+   public void setStatusEffectList(Vector<StatusEffect> list){statusEffectList = list;}
 
    
    public Actor()
@@ -94,8 +97,12 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
       armor = null;
       weaponSelection = true;
       
+      //stats and status effects
       baseStats.setMaxHealth(10);
       baseStats.setVisionRadius(10);
+      
+      statusEffectList = new Vector<StatusEffect>();
+      
       fullHeal();
    }
    
@@ -131,6 +138,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
          shield.charge();
       if(hasArmor())
          armor.charge();
+      incrementStatusEffects();
    }
    
    public boolean isCharged()
@@ -220,6 +228,32 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
 	public ActionSpeed getInteractSpeed(){return baseStats.getInteractSpeed();}
    public boolean isFlying(){return baseStats.isFlying();}
    
+   
+   // status effects
+   private void incrementStatusEffects()
+   {
+      for(int i = 0; i < statusEffectList.size(); i++)
+      {
+         statusEffectList.elementAt(i).increment();
+         if(statusEffectList.elementAt(i).isExpired())
+         {
+            if(this == Game.getPlayer())
+               MainGamePanel.addMessage("You are no longer " + statusEffectList.elementAt(i).getName() + ". ");
+            statusEffectList.removeElementAt(i);
+            i--;
+         }
+         else
+         {
+            statusEffectList.elementAt(i).applyTags(this);
+         }
+      }
+   }
+   
+   public void add(StatusEffect se)
+   {
+      statusEffectList.add(se);
+   }
+   
    // health
    public void die()
    {
@@ -233,6 +267,11 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    public void fullHeal()
    {
       curHealth = getMaxHealth();
+   }
+   
+   public void heal(int val)
+   {
+      curHealth = Math.min(getMaxHealth(), curHealth + val);
    }
    
    

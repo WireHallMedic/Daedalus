@@ -13,5 +13,8 @@ public interface AbilityConstants
       RING;    // radius around origin
    }
    
-   
+   public enum StatusEffectTag
+   {
+      HEALING;
+   }
 }

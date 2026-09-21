@@ -241,7 +241,7 @@ public class AI implements AIConstants, ZoneConstants
       if(Game.getActorAt(pendingTarget) instanceof Pet)
       {
          Pet p = (Pet)Game.getActorAt(pendingTarget);
-         p.pet();
+         p.pet(self);
          self.discharge(self.getInteractSpeed());
       }
    }

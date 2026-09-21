@@ -14,10 +14,11 @@ s#k0
 s#j0
 s#l0
 !74;u
-a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!2646;g
+a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!2688;g
 %\011Daedalus%sAbility%sAbility.java
 %\011Daedalus%sAbility%sAbilityConstants.java
 %\011Daedalus%sAbility%sAttack.java
+%\011Daedalus%sAbility%sStatusEffect.java
 %\011Daedalus%sActor%sActor.java
 %\011Daedalus%sActor%sActorConstants.java
 %\011Daedalus%sActor%sActorFactory.java
@@ -88,10 +89,11 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!2646;
 %\011Daedalus%sZone%sZoneMap.java
 %\011Daedalus%sZone%sZoneTile.java
 %\011Daedalus%sZone%sZoneViewer.java
-!2646;f
+!2688;f
 %\011Daedalus%sAbility%sAbility.java
 %\011Daedalus%sAbility%sAbilityConstants.java
 %\011Daedalus%sAbility%sAttack.java
+%\011Daedalus%sAbility%sStatusEffect.java
 %\011Daedalus%sActor%sActor.java
 %\011Daedalus%sActor%sActorConstants.java
 %\011Daedalus%sActor%sActorFactory.java

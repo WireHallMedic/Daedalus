@@ -31,14 +31,31 @@ public class Pet extends Actor
       setName(n);
    }
    
-   public void pet()
+   public void pet(Actor a)
    {
       if(!hasBeenPet)
       {
          
       }
-      MainGamePanel.clearMessage();
-      MainGamePanel.addMessage("You pet " + getName() + ".");
-      hasBeenPet = true;
+      if(a == Game.getPlayer())
+      {
+         MainGamePanel.clearMessage();
+         MainGamePanel.addMessage("You pet " + getName() + ". ");
+         hasBeenPet = true;
+      }
+      
+      int damageAmt = a.getMaxHealth() - a.getCurHealth();
+      if(damageAmt > 0)
+      {
+         StatusEffect se = new StatusEffect("Healing");
+         se.addTag(AbilityConstants.StatusEffectTag.HEALING);
+         se.setMaxDuration(damageAmt + 1);
+         a.add(se);
+         
+         if(a == Game.getPlayer())
+         {
+            MainGamePanel.addMessage("You begin to feel better. ");
+         }
+      }
    }
 }

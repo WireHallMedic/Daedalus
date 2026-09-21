@@ -20,7 +20,6 @@ public class Game implements Runnable
    private static Zone nextZone = null;
    private static Coord nextZonePlayerLoc = null;
    private static Vector<Zone> zoneList;
-   private static boolean transitioningZones = true;
 
 
 	public static ZoneMap getCurMap(){return curMap;}
@@ -69,9 +68,6 @@ public class Game implements Runnable
    // update actor location
    public static void setActorPosition(Actor a, Coord lastPos)
    {
-      if(transitioningZones)
-         return;
-         
       if(curMap == null || actorMap == null)
          return;
       if(lastPos != null && curMap.isInBounds(lastPos))
@@ -213,7 +209,6 @@ public class Game implements Runnable
    
    public static void transitionZone()
    {
-      transitioningZones = true;
       if(actorList != null)
          actorList.remove(player);
       curZone = nextZone;
@@ -221,12 +216,11 @@ public class Game implements Runnable
       curMap.updateSubmaps();
       actorList = curZone.getActorList();
       actorList.add(player);
-      player.setTileLoc(nextZonePlayerLoc);
+      player.setTileLoc(nextZonePlayerLoc, false);
       setActorMap();
       nextZone = null;
       nextZonePlayerLoc = null;
       AnimationManager.clear();
-      transitioningZones = false;
    }
    
    public static void useExit(Coord exitLoc)
