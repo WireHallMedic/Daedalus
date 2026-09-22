@@ -14,7 +14,7 @@ s#k0
 s#j0
 s#l0
 !74;u
-a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!2688;g
+a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!2726;g
 %\011Daedalus%sAbility%sAbility.java
 %\011Daedalus%sAbility%sAbilityConstants.java
 %\011Daedalus%sAbility%sAttack.java
@@ -40,6 +40,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!2688;
 %\011Daedalus%sEngine%sEngineTools.java
 %\011Daedalus%sEngine%sGame.java
 %\011Daedalus%sEngine%sRNG.java
+%\011Daedalus%sEngine%sTableItem.java
 %\011Daedalus%sGUI%sAnimationManager.java
 %\011Daedalus%sGUI%sAnimationScript.java
 %\011Daedalus%sGUI%sAnimationScriptFactory.java
@@ -89,7 +90,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!2688;
 %\011Daedalus%sZone%sZoneMap.java
 %\011Daedalus%sZone%sZoneTile.java
 %\011Daedalus%sZone%sZoneViewer.java
-!2688;f
+!2726;f
 %\011Daedalus%sAbility%sAbility.java
 %\011Daedalus%sAbility%sAbilityConstants.java
 %\011Daedalus%sAbility%sAttack.java
@@ -115,6 +116,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!2688;
 %\011Daedalus%sEngine%sEngineTools.java
 %\011Daedalus%sEngine%sGame.java
 %\011Daedalus%sEngine%sRNG.java
+%\011Daedalus%sEngine%sTableItem.java
 %\011Daedalus%sGUI%sAnimationManager.java
 %\011Daedalus%sGUI%sAnimationScript.java
 %\011Daedalus%sGUI%sAnimationScriptFactory.java
