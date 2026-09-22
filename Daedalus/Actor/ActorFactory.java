@@ -19,6 +19,7 @@ public class ActorFactory implements ActorConstants, GUIConstants, AIConstants
       a.setWeapon1(WeaponFactory.getBoltgun());
       a.setWeapon2(WeaponFactory.getShotgun());
       a.setShield(new Shield("Test Shield"));
+      a.getAI().setAlertness(Alertness.ALERT);
       a.fullHeal();
       return a;
    }

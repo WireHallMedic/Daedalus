@@ -125,7 +125,7 @@ public class AnimationScriptFactory implements ZoneConstants, GUIConstants
       return script;
    }
    
-   public static AnimationScript getFloatStringEffect(UnboundTile target)
+   public static AnimationScript getFloatEffect(UnboundTile target)
    {
       AnimationScript script = new AnimationScript(target);
       int duration = GUIConstants.FRAMES_PER_SECOND;
@@ -198,11 +198,25 @@ public class AnimationScriptFactory implements ZoneConstants, GUIConstants
       floatStr.setYOffset(-.5);
       floatStr.setFGColor(fgColor);
       
-      AnimationScript as = getFloatStringEffect(floatStr);
+      AnimationScript as = getFloatEffect(floatStr);
       AnimationManager.addNonLocking(as);
       AnimationManager.addToBoardPanel(floatStr);
    }
-   public static void addFloatStringEffect(String str, int x, int y, int fgColor){addFloatString(str, new Coord(x, y), fgColor);}
+   public static void addFloatString(String str, int x, int y, int fgColor){addFloatString(str, new Coord(x, y), fgColor);}
+   
+   
+   public static void addFloatEffect(int tileIndex, Coord loc, int fgColor)
+   {  
+      UnboundTile floatEff = new UnboundTile(SQUARE_PALETTE, tileIndex, fgColor, TRANSPARENT);
+      floatEff.setTileLoc(loc);
+      floatEff.setYOffset(-.5);
+      
+      AnimationScript as = getFloatEffect(floatEff);
+      AnimationManager.addNonLocking(as);
+      AnimationManager.addToBoardPanel(floatEff);
+   }
+   public static void addFloatEffect(int tileIdex, int x, int y, int fgColor){addFloatEffect(tileIdex, new Coord(x, y), fgColor);}
+   
    
    public static void addShieldParticles(Coord loc)
    {

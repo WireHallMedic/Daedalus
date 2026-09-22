@@ -21,6 +21,7 @@ public class AI implements AIConstants, ZoneConstants
    protected static boolean[][] passMap = null;    // we only need one pathing map, since actors never access it concurrently
    protected static Coord cornerLoc = null;
    protected Memory memory;
+   protected Alertness alertness;
 
 	public Actor getSelf(){return self;}
 	public Coord getPendingTarget(){return new Coord(pendingTarget);}
@@ -28,6 +29,7 @@ public class AI implements AIConstants, ZoneConstants
    public int getPendingIndex(){return pendingIndex;}
    public Team getTeam(){return team;}
    public Memory getMemory(){return memory;}
+   public Alertness getAlertness(){return alertness;}
 
 
 	public void setSelf(Actor s){self = s;}
@@ -37,12 +39,14 @@ public class AI implements AIConstants, ZoneConstants
    public void setPendingIndex(int p){pendingIndex = p;}
    public void setTeam(Team t){team = t;}
    public void setMemory(Memory m){memory = m;}
+   public void setAlertness(Alertness a){alertness = a;}
 
    public AI(Actor a)
    {
       self = a;
       team = Team.ENEMY;
       memory = new Memory(self);
+      alertness = Alertness.RELAXED;
       clearPlan();
    }
    
@@ -387,10 +391,43 @@ public class AI implements AIConstants, ZoneConstants
    private boolean isInPathSearchArea(Coord center, Actor prospect, int searchRadius){return isInPathSearchArea(center, prospect.getTileLoc(), searchRadius);}
    
    
+   // alertness
+   //////////////////////////////////////////////////
+   public void manageAlertness()
+   {
+      // inert or relaxed npcs that are aware of an enemy become surprised and delay their turn
+      if(alertness == Alertness.INERT || alertness == Alertness.RELAXED)
+      {
+         if(memory.getEnemyList().size() > 0)
+         {
+            alertness = Alertness.SURPRISED;
+            AnimationScriptFactory.addFloatEffect('!', self.getTileLoc(), GUIConstants.WHITE);
+            setPendingAction(ActorAction.DELAY);
+            setPendingTarget(Direction.ORIGIN);
+         }
+         else
+         {
+            // inert npcs with no enemies always delay without planning
+            if(alertness == Alertness.INERT)
+            {
+               setPendingAction(ActorAction.DELAY);
+               setPendingTarget(Direction.ORIGIN);
+            }
+         }
+      }
+      // surprised npcs move to alert
+      else if(alertness == Alertness.SURPRISED)
+      {
+         alertness = Alertness.ALERT;
+      }
+   }
+   
+   
+   
    // memory
    //////////////////////////////////////////////////
    
-   protected Actor getClosestEnemy()
+   public Actor getClosestEnemy(boolean visibleOnly)
    {
       int curDist = 1000000;
       Actor curActor = null;
@@ -400,12 +437,16 @@ public class AI implements AIConstants, ZoneConstants
          Actor a = enemyList.elementAt(i);
          if(EngineTools.getAngbandDistance(self.getTileLoc(), a.getTileLoc()) < curDist)
          {
-            curActor = a;
-            curDist = EngineTools.getAngbandDistance(self.getTileLoc(), a.getTileLoc());
+            if(!visibleOnly || self.canSee(a))
+            {
+               curActor = a;
+               curDist = EngineTools.getAngbandDistance(self.getTileLoc(), a.getTileLoc());
+            }
          }
       }
       return curActor;
    }
+   public Actor getClosestEnemy(){return getClosestEnemy(false);}
    
    public void updateMemory()
    {

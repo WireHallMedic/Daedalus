@@ -17,6 +17,15 @@ public interface AIConstants
       CONTEXTUAL;
    }
    
+   
+   public enum Alertness
+   {
+      INERT,      // cannot act and reduced vision range
+      RELAXED,    // be stunned for 1 turn first time sees enemey
+      SURPRISED,  // can't act this turn
+      ALERT;      // acting normally
+   }
+   
    public enum Team
    {
       PLAYER,
