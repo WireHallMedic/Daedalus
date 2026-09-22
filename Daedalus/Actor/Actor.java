@@ -172,7 +172,8 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
          ai.incrementMemory();
          ai.updateMemory();
          ai.cleanMemory();
-         ai.manageAlertness();
+         if(!(ai instanceof PlayerAI))
+            ai.manageAlertness();
       }
    }
    

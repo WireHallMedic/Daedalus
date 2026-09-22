@@ -1,5 +1,7 @@
 package Daedalus.Actor;
 
+import Daedalus.Engine.*;
+
 
 public interface ActorConstants
 {
@@ -41,4 +43,28 @@ public interface ActorConstants
    }
    
    
+   public enum ActorFamily implements TableItem
+   {
+      JACKAL   (1, 100, TableItem.BASE_WEIGHT),
+      BANDIT   (1, 100, TableItem.BASE_WEIGHT);
+      
+      private ActorFamily(int min, int max, int wei)
+      {
+         minLevel = min;
+         maxLevel = max;
+         weight = wei;
+      }
+      
+   	private int minLevel;
+   	private int maxLevel;
+   	private int weight;
+   
+   	public int getMinLevel(){return minLevel;}
+   	public int getMaxLevel(){return maxLevel;}
+   	public int getWeight(){return weight;}
+   
+   	public void setMinLevel(int m){minLevel = m;}
+   	public void setMaxLevel(int m){maxLevel = m;}
+   	public void setWeight(int w){weight = w;}
+   }
 }
