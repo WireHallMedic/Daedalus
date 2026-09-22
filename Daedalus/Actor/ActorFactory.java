@@ -14,10 +14,12 @@ public class ActorFactory implements ActorConstants, GUIConstants, AIConstants
    {
       Actor a = new Actor("Test Player");
       a.setTileIndex('@');
+      a.getBaseStats().setMaxHealth(BASE_PLAYER_HEALTH);
       a.setAI(new PlayerAI(a));
       a.setWeapon1(WeaponFactory.getBoltgun());
       a.setWeapon2(WeaponFactory.getShotgun());
       a.setShield(new Shield("Test Shield"));
+      a.fullHeal();
       return a;
    }
    

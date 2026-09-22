@@ -12,6 +12,7 @@ import WidlerSuite.SpiralSearch;
 
 public class ZoneMap implements ZoneConstants, GUIConstants
 {
+   private String name;
 	private int width;
 	private int height;
 	private ZoneTile oobTile;
@@ -24,6 +25,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    private static final BufferedImage BLACK_SQUARE = SQUARE_PALETTE.getTile(' ');
 
 
+   public String getName(){return name;}
 	public int getWidth(){return width;}
 	public int getHeight(){return height;}
 	public ZoneTile getOOBTile(){return oobTile;}
@@ -33,6 +35,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    public BufferedImage[][] getLastSeenMap(){return lastSeenMap;}
 
 
+   public void setName(String n){name = n;}
 	public void setWidth(int w){width = w;}
 	public void setHeight(int h){height = h;}
 	public void setOOBTile(ZoneTile o){oobTile = o;}
@@ -42,6 +45,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
 
    public ZoneMap(int w, int h)
    {
+      name = "Unknown Map";
       width = w;
       height = h;
       oobTile = new ZoneTile(TileBase.WALL);

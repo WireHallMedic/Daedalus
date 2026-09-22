@@ -36,7 +36,10 @@ public class MapPanel extends SelectionPanel implements ActionListener, GUIConst
    public void setVisible(boolean v)
    {
       if(v)
+      {
+         setHeader(Game.getCurMap().getName());
          createMapImage();
+      }
       super.setVisible(v);
    }
    

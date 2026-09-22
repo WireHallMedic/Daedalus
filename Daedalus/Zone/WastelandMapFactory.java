@@ -20,6 +20,7 @@ public class WastelandMapFactory extends MapFactory implements ZoneConstants, GU
    public static ZoneMap getBasicMap()
    {
       ZoneMap map = new ZoneMap(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+      map.setName("Wasteland");
       setJaggedBorder(map, 3, new ZoneTile(ZoneConstants.TileBase.WALL));
       
       for(int x = 0; x < 3; x++)
@@ -81,6 +82,7 @@ public class WastelandMapFactory extends MapFactory implements ZoneConstants, GU
    public static ZoneMap getHideout()
    {
       ZoneMap map = new ZoneMap(10, 10);
+      map.setName("Hideout");
       setBorder(map, new ZoneTile(ZoneConstants.TileBase.WALL));
       map.setTile(1, 1, new Exit('U'));
       map.setExitList();

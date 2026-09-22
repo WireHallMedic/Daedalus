@@ -6,6 +6,7 @@ public interface ActorConstants
    public static final int FULLY_CHARGED = 10;
    public static final int STARTING_CHARGE = 7;
    public static final int BASE_NPC_HEALTH = 10;
+   public static final int BASE_PLAYER_HEALTH = 20;
    
    public enum ActionSpeed
    {
