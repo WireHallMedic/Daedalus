@@ -23,14 +23,6 @@ public class RegionBuilder implements ZoneConstants, GUIConstants
       Actor a = ActorFactory.getDog("Euclid");
       zoneList.elementAt(0).getMap().dropActor(a, 5, 6, zoneList.elementAt(0).getActorList());
       zoneList.elementAt(0).getActorList().add(a);
-      a = ActorFactory.getDog("Euclid2");
-      zoneList.elementAt(0).getMap().dropActor(a, 5, 6, zoneList.elementAt(0).getActorList());
-      zoneList.elementAt(0).getActorList().add(a);
-      a = ActorFactory.getDog("Euclid3");
-      zoneList.elementAt(0).getMap().dropActor(a, 5, 6, zoneList.elementAt(0).getActorList());
-      zoneList.elementAt(0).getActorList().add(a);
-//       a.setTileLoc(3, 6);
-//       zoneList.elementAt(0).getActorList().add(a);
       
       // add exits
       for(int x = 0; x < regionWidth; x++)

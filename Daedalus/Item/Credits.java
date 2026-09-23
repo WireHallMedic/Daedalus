@@ -15,7 +15,7 @@ public class Credits extends Item implements ItemConstants, GUIConstants
 
    public Credits(int val)
    {
-      super("Credits", ItemBase.CREDITS, YELLOW);
+      super("Credits", ItemBase.CREDITS, CREDIT_COLOR);
       value = val;
    }
 

@@ -20,6 +20,7 @@ public class ActorFactory implements ActorConstants, GUIConstants, AIConstants
       a.setWeapon2(WeaponFactory.getShotgun());
       a.setShield(new Shield("Test Shield"));
       a.getAI().setAlertness(Alertness.ALERT);
+      a.setThreat(0);
       a.fullHeal();
       return a;
    }
@@ -32,6 +33,7 @@ public class ActorFactory implements ActorConstants, GUIConstants, AIConstants
       p.setFGColor(WHITE);
       p.getBaseStats().setMaxHealth(BASE_NPC_HEALTH / 2);
       p.setNaturalWeapon(WeaponFactory.getJackalJaws());
+      p.setThreat(0);
       p.fullHeal();
       return p;
    }
@@ -48,6 +50,7 @@ public class ActorFactory implements ActorConstants, GUIConstants, AIConstants
       a.setAI(new DroneAI(a));
       a.setCurWeapon(WeaponFactory.getDroneGun());
       a.setShield(ShieldFactory.getDroneShield());
+      a.setThreat(1);
       a.fullHeal();
       return a;
    }
@@ -62,6 +65,7 @@ public class ActorFactory implements ActorConstants, GUIConstants, AIConstants
       a.setAI(new WolfAI(a));
       a.setNaturalWeapon(WeaponFactory.getJackalJaws());
       a.getBaseStats().setMoveSpeed(ActionSpeed.FAST);
+      a.setThreat(1);
       a.fullHeal();
       return a;
    }
@@ -72,16 +76,24 @@ public class ActorFactory implements ActorConstants, GUIConstants, AIConstants
       a.setTileIndex('b');
       a.setBGColor(BLACK);
       a.setFGColor(WHITE);
-      a.getBaseStats().setMaxHealth(BASE_NPC_HEALTH / 2);
+      a.getBaseStats().setMaxHealth(BASE_NPC_HEALTH);
       a.setAI(new StandardAI(a));
       switch(RNG.nextInt(5))
       {
-         case 0   : a.setCurWeapon(WeaponFactory.getShotgun()); break;
-         case 1   : a.setCurWeapon(WeaponFactory.getAutogun()); break;
-         default  : a.setCurWeapon(WeaponFactory.getBoltgun()); break;
+         case 0   :  a.setCurWeapon(WeaponFactory.getShotgun());
+                     a.setThreat(2);
+                     break;
+         case 1   :  a.setCurWeapon(WeaponFactory.getBoltgun());;
+                     a.setThreat(3);
+                     break;
+         default  :  a.setCurWeapon(WeaponFactory.getAutogun());;
+                     a.setThreat(2);
+                     break;
       }
       WeaponFactory.setLowQuality(a.getCurWeapon());
-      a.setShield(ShieldFactory.getDroneShield());
+      Shield s = ShieldFactory.getBasicShield();
+      ShieldFactory.setLowQuality(s);
+      a.setShield(s);
       a.fullHeal();
       return a;
    }

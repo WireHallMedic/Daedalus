@@ -10,6 +10,7 @@ import java.util.*;
 public class SelectionPanel extends DaePanel implements ActionListener, GUIConstants, KeyListener
 {
    protected Vector<String> itemList;
+   protected Vector<Integer> fgColorList;
    protected int curIndex;
    protected int listStartX;
    protected int listStartY;
@@ -21,6 +22,7 @@ public class SelectionPanel extends DaePanel implements ActionListener, GUIConst
       super(PANEL_WIDTH_TILES, PANEL_HEIGHT_TILES, RECT_PALETTE);
       curIndex = 0;
       itemList = new Vector<String>();
+      fgColorList = new Vector<Integer>();
       listStartX = 4;
       listStartY = 4;
       maxListLen = 20;
@@ -94,9 +96,12 @@ public class SelectionPanel extends DaePanel implements ActionListener, GUIConst
       for(int i = 0; i < maxListLen; i++)
       {
          str = "";
+         int fgColor = UI_FG_COLOR;
          if(i < itemList.size())
             str = itemList.elementAt(i);
-         write(listStartX, listStartY + i, str, UI_FG_COLOR, UI_BG_COLOR, maxStringWidth, 1);
+         if(i < itemList.size())
+            fgColor = fgColorList.elementAt(i);
+         write(listStartX, listStartY + i, str, fgColor, UI_BG_COLOR, maxStringWidth, 1);
       }
       setCursor();
    }

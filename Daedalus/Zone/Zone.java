@@ -41,4 +41,12 @@ public class Zone
       }
       return null;
    }
+   
+   public int calculateThreat()
+   {
+      int totalThreat = 0;
+      for(Actor a: actorList)
+         totalThreat += a.getThreat();
+      return totalThreat;
+   }
 }

@@ -43,9 +43,11 @@ public class InventoryPanel extends SelectionPanel implements ActionListener, GU
       if(inventory != null)
       {
          itemList.clear();
+         fgColorList.clear();
          for(Item item : inventory.getItemList())
          {
             itemList.add("  " + item.getName());
+            fgColorList.add(item.getFGColor());
          }
       }
    }
@@ -107,7 +109,7 @@ public class InventoryPanel extends SelectionPanel implements ActionListener, GU
       if(inventory != null)
       {
          String str = ((char)WSFontConstants.CENT_TILE) + " " + inventory.getCredits().getValue();
-         write(listStartX, listStartY - 2, str, UI_FG_COLOR, UI_BG_COLOR, 12, 1);
+         write(listStartX, listStartY - 2, str, CREDIT_COLOR, UI_BG_COLOR, 12, 1);
       }
    }
 }

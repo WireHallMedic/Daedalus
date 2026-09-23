@@ -21,6 +21,9 @@ public class Main
       
       Actor a = ActorFactory.getPlayer();
       a.setTileLoc(3, 5);
+      Weapon w = WeaponFactory.getShotgun();
+      WeaponFactory.setLowQuality(w);
+      a.addToInventory(w);
       game.setPlayer(a);
 
       Actor b = ActorFactory.getDrone();

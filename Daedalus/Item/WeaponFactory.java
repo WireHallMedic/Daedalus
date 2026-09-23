@@ -10,6 +10,7 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
    public static void setLowQuality(Weapon w)
    {
       w.setName("Low-Quality " + w.getName());
+      w.setFGColor(LOW_QUALITY_COLOR);
       Attack a = w.getAttack();
       Damage base = a.getBaseDamage();
       Damage random = a.getRandomDamage();

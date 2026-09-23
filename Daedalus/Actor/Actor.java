@@ -35,6 +35,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    private Direction knockbackDirection;
    private ActorPack pack;
    private Vector<StatusEffect> statusEffectList;
+   private int threat;
 
 
 	public String getName(){return name;}
@@ -54,6 +55,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    public ActorPack getPack(){return pack;}
    public boolean hasPack(){return pack != null;}
    public Vector<StatusEffect> getStatusEffectList(){return statusEffectList;}
+   public int getThreat(){return threat;}
 
 
 	public void setName(String n){name = n;}
@@ -71,6 +73,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    public void setPack(ActorPack p){pack = p;}
    public void setCurMap(ZoneMap map){curMap = map;}
    public void setStatusEffectList(Vector<StatusEffect> list){statusEffectList = list;}
+   public void setThreat(int t){threat = t;}
 
    
    public Actor()
@@ -102,6 +105,8 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
       baseStats.setVisionRadius(10);
       
       statusEffectList = new Vector<StatusEffect>();
+      
+      threat = 0;
       
       fullHeal();
    }

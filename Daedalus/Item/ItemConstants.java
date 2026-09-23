@@ -11,6 +11,9 @@ public interface ItemConstants
    public static final int DEFAULT_BASE_SHOT_DAMAGE = 4;
    public static final int DEFAULT_RANDOM_SHOT_DAMAGE = 2;
    
+   public static final int LOW_QUALITY_COLOR = GUIConstants.LIGHT_GREY;
+   
+   
    public enum ItemBase
    {
       CREDITS     (WSFontConstants.CENT_TILE, WSFontConstants.CENT_TILE),
