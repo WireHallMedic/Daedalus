@@ -7,6 +7,7 @@ import Daedalus.AI.*;
 import Daedalus.GUI.*;
 import Daedalus.Item.*;
 import Daedalus.Actor.*;
+import Daedalus.Engine.*;
 import WidlerSuite.Coord;
 import WidlerSuite.SpiralSearch;
 
@@ -162,11 +163,6 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    public BufferedImage getImage(Coord c){return getImage(c.x, c.y);}
    
    
-//    public void updateLastSeen(int x, int y, int tileIndex)
-//    {
-//       lastSeenMap[x][y] = SQUARE_PALETTE.getTile(tileIndex);
-//    }
-   
    
    public BufferedImage getLastSeen(int x, int y)
    {
@@ -241,6 +237,49 @@ public class ZoneMap implements ZoneConstants, GUIConstants
       return isInBounds(x, y) && tileMap[x][y].isLowPassable();
    }
    public boolean canStep(Actor a, Coord c){return canStep(a, c.x, c.y);}
+   
+   
+   public void dropActor(Actor a, Coord loc, Vector<Actor> actorList)
+   {
+      if(actorList == null)
+         actorList = Game.getActorList();
+      Coord dropLoc = getActorDropLocation(loc, actorList);
+      if(dropLoc != null)
+         a.setTileLoc(dropLoc, actorList == Game.getActorList());
+   }
+   public void dropActor(Actor a, int x, int y, Vector<Actor> actorList){dropActor(a, new Coord(x, y), actorList);}
+   
+
+   public Coord getActorDropLocation(int originX, int originY, Vector<Actor> actorList)
+   {
+      int xInset = originX - (ITEM_SEARCH_DIAMETER / 2);
+      int yInset = originY - (ITEM_SEARCH_DIAMETER / 2);
+      boolean[][] searchMap = getItemDroppableMap(originX, originY);
+      SpiralSearch search = new SpiralSearch(searchMap, ITEM_SEARCH_DIAMETER / 2, ITEM_SEARCH_DIAMETER / 2);
+      Coord prospect = search.getNext();
+      while(prospect != null)
+      {
+         prospect.x += xInset;
+         prospect.y += yInset;
+         boolean actorAt = false;
+         for(Actor a: actorList)
+         {
+            if(a.getTileLoc().equals(prospect))
+            {
+               actorAt = true;
+               break;
+            }
+         }
+         if(!actorAt)
+         {
+            return prospect;
+         }
+         prospect = search.getNext();
+      }
+      System.out.println("No place to drop actor.");
+      return null;
+   }
+   public Coord getActorDropLocation(Coord origin, Vector<Actor> actorList){return getActorDropLocation(origin.x, origin.y, actorList);}
    
    
    
