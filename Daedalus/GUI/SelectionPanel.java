@@ -101,6 +101,8 @@ public class SelectionPanel extends DaePanel implements ActionListener, GUIConst
             str = itemList.elementAt(i);
          if(i < itemList.size())
             fgColor = fgColorList.elementAt(i);
+         else
+            fgColor = UI_FG_COLOR;
          write(listStartX, listStartY + i, str, fgColor, UI_BG_COLOR, maxStringWidth, 1);
       }
       setCursor();

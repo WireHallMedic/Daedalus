@@ -49,4 +49,9 @@ public class Zone
          totalThreat += a.getThreat();
       return totalThreat;
    }
+   
+   public boolean shouldRepopulate()
+   {
+      if(calculateThreat <= map.get
+   }
 }
