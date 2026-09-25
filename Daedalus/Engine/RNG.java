@@ -12,28 +12,35 @@ public class RNG
    public static double nextDouble(){return rng.nextDouble();}
    public static boolean nextBoolean(){return rng.nextBoolean();}
    
-   public static TableItem roll(TableItem[] itemList)
+   public static TableItem roll(TableItem[] itemList, int level)
    {
       int maxRoll = 0;
       for(TableItem curItem: itemList)
-         maxRoll += curItem.getWeight();
+         if(curItem.getMinLevel() <= level && curItem.getMaxLevel() >= level)
+            maxRoll += curItem.getWeight();
       int roll = nextInt(maxRoll);
       for(TableItem curItem: itemList)
       {
-         if(curItem.getWeight() > roll)
-            return curItem;
+         if(curItem.getMinLevel() <= level && curItem.getMaxLevel() >= level)
+         {
+            if(curItem.getWeight() > roll)
+               return curItem;
+            else
+               roll -= curItem.getWeight();
+         }
          else
-            roll -= curItem.getWeight();
+            continue;
       }
       return null;
    }
    
    // hand-roll the array because lists of interfaces are weird
-   public static TableItem roll(Vector<? extends TableItem> itemList)
+   public static TableItem roll(Vector<? extends TableItem> itemList, int level)
    {
       TableItem[] itemArr = new TableItem[itemList.size()];
       for(int i = 0; i < itemList.size(); i++)
          itemArr[i] = itemList.elementAt(i);
-      return roll(itemArr);
+      return roll(itemArr, level);
    }
+   
 }

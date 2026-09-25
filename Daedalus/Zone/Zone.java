@@ -59,20 +59,20 @@ public class Zone
    
    public void populate()
    {
-      int threatBudget = calculateThreat() - map.getMinThreatLevel();
+      int threatBudget = calculateThreat() - map.getMinThreat();
       if(!initiallyPopulated)
       {
-         threatBudget = map.getMaxThreatLevel();
+         threatBudget = map.getMaxThreat();
          initiallyPopulated = true;
       }
-      if(threatBudget <= 0)
+      if(threatBudget <= 0 || map.getLevel() == 0)
          return;
       
       int newThreat = 0;
       Vector<Actor> newActorList = new Vector<Actor>();
       while(newThreat < threatBudget)
       {
-         TableItemWrapper tiw = (TableItemWrapper)RNG.roll(randomEncounterTable);
+         TableItemWrapper tiw = (TableItemWrapper)RNG.roll(randomEncounterTable, map.getLevel());
          ActorConstants.ActorFamily family = (ActorConstants.ActorFamily)tiw.getObject();
          Actor newActor = ActorFactory.getActor(family);
          newThreat += newActor.getThreat();
@@ -92,7 +92,7 @@ public class Zone
    
    public boolean shouldRepopulate()
    {
-      return calculateThreat() < map.getMinThreatLevel();
+      return calculateThreat() < map.getMinThreat();
    }
    
    // places an actor away from existing actors, and not in the player's vision if they are present
