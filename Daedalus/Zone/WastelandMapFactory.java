@@ -89,7 +89,7 @@ public class WastelandMapFactory extends MapFactory implements ZoneConstants, GU
       map.setTile(1, 1, new Exit('U'));
       map.setExitList();
       map.setMaxThreatLevel(0);
-      map.setMinThreatLevel(-1);
+      map.setMinThreatLevel(0);
       
       return map;
    }
