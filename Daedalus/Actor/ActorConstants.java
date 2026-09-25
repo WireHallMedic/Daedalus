@@ -46,6 +46,7 @@ public interface ActorConstants
    public enum ActorFamily implements TableItem
    {
       JACKAL   (1, 100, TableItem.BASE_WEIGHT),
+      ROACH    (1, 100, TableItem.BASE_WEIGHT),
       DRONE    (1, 100, TableItem.BASE_WEIGHT),
       BANDIT   (1, 100, TableItem.BASE_WEIGHT);
       

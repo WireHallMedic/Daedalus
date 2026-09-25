@@ -70,6 +70,22 @@ public class ActorFactory implements ActorConstants, GUIConstants, AIConstants
       return a;
    }
    
+   public static Actor getRoach()
+   {
+      Actor a = new Actor("Skyroach");
+      a.setTileIndex('r');
+      a.setBGColor(BROWN);
+      a.setFGColor(ORANGE);
+      a.getBaseStats().setMaxHealth(BASE_NPC_HEALTH / 2);
+      a.getBaseStats().setFlying(true);
+      a.setAI(new WolfAI(a));
+      a.setNaturalWeapon(WeaponFactory.getJackalJaws());
+      a.getBaseStats().setMoveSpeed(ActionSpeed.FAST);
+      a.setThreat(1);
+      a.fullHeal();
+      return a;
+   }
+   
    public static Actor getBandit()
    {
       Actor a = new Actor("Bandit");
@@ -103,6 +119,7 @@ public class ActorFactory implements ActorConstants, GUIConstants, AIConstants
       switch(family)
       {
          case JACKAL :  return getJackal();
+         case ROACH :   return getRoach();
          case DRONE :   return getDrone();
          case BANDIT :  return getBandit();
          default :      throw new Error("ActorFamily " + family + " does not have a case in ActorFactory.getActor().");
