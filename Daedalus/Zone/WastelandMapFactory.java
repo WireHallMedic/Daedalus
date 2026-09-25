@@ -75,7 +75,8 @@ public class WastelandMapFactory extends MapFactory implements ZoneConstants, GU
       }
       
       fillUnreachable(map, new ZoneTile(ZoneConstants.TileBase.WALL));
-      map.setThreatLevel(5);
+      map.setMaxThreatLevel(9);
+      map.setMinThreatLevel(3);
       // not painted as we want to add exits first
       return map;
    }
@@ -87,7 +88,8 @@ public class WastelandMapFactory extends MapFactory implements ZoneConstants, GU
       setBorder(map, new ZoneTile(ZoneConstants.TileBase.WALL));
       map.setTile(1, 1, new Exit('U'));
       map.setExitList();
-      map.setThreatLevel(0);
+      map.setMaxThreatLevel(0);
+      map.setMinThreatLevel(-1);
       
       return map;
    }

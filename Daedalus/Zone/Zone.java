@@ -52,6 +52,6 @@ public class Zone
    
    public boolean shouldRepopulate()
    {
-      if(calculateThreat <= map.get
+      return calculateThreat() < map.getMinThreatLevel();
    }
 }

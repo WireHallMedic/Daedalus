@@ -25,6 +25,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    private Vector<Coord> exitList;
    private static final BufferedImage BLACK_SQUARE = SQUARE_PALETTE.getTile(' ');
    private int maxThreatLevel;
+   private int minThreatLevel;
 
 
    public String getName(){return name;}
@@ -36,6 +37,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    public boolean[][] getVisibilityMap(){return visibilityMap;}
    public BufferedImage[][] getLastSeenMap(){return lastSeenMap;}
    public int getMaxThreatLevel(){return maxThreatLevel;}
+   public int getMinThreatLevel(){return minThreatLevel;}
 
 
    public void setName(String n){name = n;}
@@ -45,6 +47,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
 	public void setTileMap(ZoneTile[][] t){tileMap = t; updateSubmaps();}
    public void setItemMap(Item[][] im){itemMap = im;}
    public void setMaxThreatLevel(int t){maxThreatLevel = t;}
+   public void setMinThreatLevel(int t){minThreatLevel = t;}
 
 
    public ZoneMap(int w, int h)
@@ -69,6 +72,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
       }
       exitList = null;
       maxThreatLevel = 0;
+      minThreatLevel = 0;
    }
    
    

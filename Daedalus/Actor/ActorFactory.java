@@ -29,8 +29,8 @@ public class ActorFactory implements ActorConstants, GUIConstants, AIConstants
    {
       Pet p = new Pet(name);
       p.setTileIndex('d');
-      p.setBGColor(BROWN);
-      p.setFGColor(WHITE);
+      p.setBGColor(WHITE);
+      p.setFGColor(RED);
       p.getBaseStats().setMaxHealth(BASE_NPC_HEALTH / 2);
       p.setNaturalWeapon(WeaponFactory.getJackalJaws());
       p.setThreat(0);
@@ -96,5 +96,16 @@ public class ActorFactory implements ActorConstants, GUIConstants, AIConstants
       a.setShield(s);
       a.fullHeal();
       return a;
+   }
+   
+   public static Actor getActor(ActorFamily family)
+   {
+      switch(family)
+      {
+         case JACKAL :  return getJackal();
+         case DRONE :   return getDrone();
+         case BANDIT :  return getBandit();
+         default :      throw new Error("ActorFamily " + family + " does not have a case in ActorFactory.getActor().");
+      }
    }
 }
