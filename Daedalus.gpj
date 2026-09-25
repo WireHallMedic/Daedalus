@@ -170,10 +170,11 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!2811;
 %\011Daedalus%sZone%sZoneMap.java
 %\011Daedalus%sZone%sZoneTile.java
 %\011Daedalus%sZone%sZoneViewer.java
-!168;l
+!203;l
 %\011Daedalus%sActor%sActorTest.java
 %\011Daedalus%sCombat%sCombatManagerTest.java
 %\011Daedalus%sItem%sChargeItemTest.java
+%\011Daedalus%sItem%sItemTest.java
 %\011Daedalus%sZone%sZoneConstantsTest.java
 !639;t
 jgrJUnit0xr	%\011Daedalus%sItem%sChargeItemTest.java	1790181631119:P%\011ChargeItem.java	%\011Daedalus%sItem%sChargeItem.java	1790181631119:P%\011ChargeItemTest.java	%\011Daedalus%sActor%sActor.java	1790300942781:P%\011ActorTest.java	%\011Daedalus%sCombat%sCombatManager.java	1790181631119:P%\011CombatManagerTest.java	%\011Daedalus%sZone%sZoneConstants.java	1790181631119:P%\011ZoneConstantsTest.java	%\011Daedalus%sZone%sZoneConstantsTest.java	1790181631119:P%\011ZoneConstants.java	%\011Daedalus%sCombat%sCombatManagerTest.java	1790181631119:P%\011CombatManager.java	%\011Daedalus%sActor%sActorTest.java	1790300942781:P%\011Actor.java	
