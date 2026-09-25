@@ -9,25 +9,40 @@ public class Zone
 {
 	private ZoneMap map;
 	private Vector<Actor> actorList;
+   private Vector<TableItemWrapper> randomEncounterTable;
+   private boolean initiallyPopulated;
 
 
 	public ZoneMap getMap(){return map;}
 	public Vector<Actor> getActorList(){return actorList;}
+   public Vector<TableItemWrapper> getRandomEncounterTable(){return randomEncounterTable;}
 
 
 	public void setMap(ZoneMap m){map = m;}
 	public void setActorList(Vector<Actor> a){actorList = a;}
+   public void setRandomEncounterTable(Vector<TableItemWrapper> r){randomEncounterTable = r;}
 
    
    public Zone(ZoneMap zMap)
    {
       map = zMap;
       actorList = new Vector<Actor>();
+      randomEncounterTable = new Vector<TableItemWrapper>();
+      initiallyPopulated = false;
    }
    
    public Zone()
    {
       this(null);
+   }
+   
+   
+   public void zoneTurn()
+   {
+      if(shouldRepopulate())
+      {
+         populate();
+      }
    }
    
    
@@ -40,6 +55,29 @@ public class Zone
             return new Coord(c);
       }
       return null;
+   }
+   
+   public void populate()
+   {
+      int threatBudget = calculateThreat() - map.getMinThreatLevel();
+      if(!initiallyPopulated)
+      {
+         threatBudget = map.getMaxThreatLevel();
+         initiallyPopulated = true;
+      }
+      
+      int newThreat = 0;
+      Vector<Actor> newActorList = new Vector<Actor>();
+      while(newThreat < threatBudget)
+      {
+         TableItemWrapper tiw = (TableItemWrapper)RNG.roll(randomEncounterTable);
+         ActorConstants.ActorFamily family = (ActorConstants.ActorFamily)tiw.getObject();
+         Actor newActor = ActorFactory.getActor(family);
+         newThreat += newActor.getThreat();
+         newActorList.add(newActor);
+      }
+      if(newActorList.size() > 0)
+         randomlyPlaceActors(newActorList);
    }
    
    public int calculateThreat()
@@ -56,7 +94,7 @@ public class Zone
    }
    
    // places an actor away from existing actors, and not in the player's vision if they are present
-   public void randomlyPlaceActors(Vector<Actor> newActorList, boolean activeZone)
+   public void randomlyPlaceActors(Vector<Actor> newActorList)
    {
       boolean[][] placeMap = new boolean[map.getWidth()][map.getHeight()];
       boolean playerPresent = actorList.contains(Game.getPlayer());
@@ -97,17 +135,17 @@ public class Zone
             }
          }
          Coord actorLoc = locList.elementAt(RNG.nextInt(locList.size()));
-         a.setTileLoc(actorLoc, activeZone);
+         a.setTileLoc(actorLoc, playerPresent);
          dropMap.addGoal(actorLoc);
          if(!actorList.contains(a))
             actorList.add(a);
       }
    }
    
-      public void randomlyPlaceActor(Actor actor, boolean activeZone)
+      public void randomlyPlaceActor(Actor actor)
       {
          Vector<Actor> actorList = new Vector<Actor>();
          actorList.add(actor);
-         randomlyPlaceActors(actorList, activeZone);
+         randomlyPlaceActors(actorList);
       }
 }

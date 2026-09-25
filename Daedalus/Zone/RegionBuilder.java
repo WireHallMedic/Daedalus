@@ -8,7 +8,7 @@ import Daedalus.Actor.*;
 import Daedalus.Engine.*;
 import WidlerSuite.Coord;
 
-public class RegionBuilder implements ZoneConstants, GUIConstants
+public class RegionBuilder implements ZoneConstants, GUIConstants, ActorConstants
 {
    public static Vector<Zone> buildWasteland()
    {
@@ -60,24 +60,14 @@ public class RegionBuilder implements ZoneConstants, GUIConstants
          zoneList.add(new Zone(overlandArr[x][y]));
       }
       
-      // add actors
+      // set random encounter tables
       for(int i = 1; i < zoneList.size(); i++)
       {
-         ZoneMap map = zoneList.elementAt(i).getMap();
-         int enemyCount = RNG.nextInt(4) + 5;
-         Vector<Actor> enemyList = new Vector<Actor>();
-         for(int j = 0; j < enemyCount; j++)
-         {
-            switch(RNG.nextInt(5))
-            {
-               case 0 :
-               case 1 : enemyList.add(ActorFactory.getRoach()); break;
-               case 2 :
-               case 3 : enemyList.add(ActorFactory.getJackal()); break;
-               case 4 : enemyList.add(ActorFactory.getBandit()); break;
-            } 
-         }
-         zoneList.elementAt(i).randomlyPlaceActors(enemyList, false);
+         Vector<TableItemWrapper> randEncTab = new Vector<TableItemWrapper>();
+         randEncTab.add(new TableItemWrapper(ActorFamily.JACKAL, 1, 100, TableItem.BASE_WEIGHT * 2));
+         randEncTab.add(new TableItemWrapper(ActorFamily.ROACH, 1, 100, TableItem.BASE_WEIGHT * 2));
+         randEncTab.add(new TableItemWrapper(ActorFamily.BANDIT, 1, 100, TableItem.BASE_WEIGHT));
+         zoneList.elementAt(i).setRandomEncounterTable(randEncTab);
       }
       
       return zoneList;

@@ -20,7 +20,7 @@ public class RNG
       int roll = nextInt(maxRoll);
       for(TableItem curItem: itemList)
       {
-         if(curItem.getWeight() < roll)
+         if(curItem.getWeight() > roll)
             return curItem;
          else
             roll -= curItem.getWeight();
@@ -28,5 +28,12 @@ public class RNG
       return null;
    }
    
-   public static TableItem roll(Vector<TableItem> itemList){return roll((TableItem[])itemList.toArray());}
+   // hand-roll the array because lists of interfaces are weird
+   public static TableItem roll(Vector<? extends TableItem> itemList)
+   {
+      TableItem[] itemArr = new TableItem[itemList.size()];
+      for(int i = 0; i < itemList.size(); i++)
+         itemArr[i] = itemList.elementAt(i);
+      return roll(itemArr);
+   }
 }

@@ -180,11 +180,16 @@ public class Game implements Runnable
       }
    }
    
+   // zone takes turn after all actors
    private void incrementInitiativeIndex()
    {
       initiativeIndex++;
       if(initiativeIndex == actorList.size())
+      {
          initiativeIndex = 0;
+         if(curZone != null)
+            curZone.zoneTurn();
+      }
    }
    
    public void addActor(Actor a)
@@ -211,6 +216,7 @@ public class Game implements Runnable
    {
       if(actorList != null)
          actorList.remove(player);
+      nextZone.populate();
       curZone = nextZone;
       curMap = curZone.getMap();
       curMap.updateSubmaps();
