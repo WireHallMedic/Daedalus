@@ -107,4 +107,14 @@ public class ActorTest implements ActorConstants
       Assert.assertEquals("Armor fully applies when no shield", 7, a.getCurHealth());
       Assert.assertEquals("Armor fully applies when no shield", 0, a.getCurShield());
    }
+   
+   
+   @Test public void testGeneratingEnemies()
+   {
+      for(ActorFamily family: ActorFamily.values())
+      {
+         Actor a = ActorFactory.getActor(family);
+         Assert.assertNotEquals("Generate " + family + " by enum.", null, a);
+      }
+   }
 }
