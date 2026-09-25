@@ -28,6 +28,7 @@ public class AnimationManager implements GUIConstants, AIConstants
    private static int rumbleCountdown = 0;
    private static int shakeCountdown = 0;
    private static int violentShakeCountdown = 0;
+   private static boolean updateLocked = false;
    
    public static void setBoardPanel(BoardPanel bp){boardPanel = bp;}
    
@@ -44,6 +45,7 @@ public class AnimationManager implements GUIConstants, AIConstants
    public static double getSlowPulse(){return slowPulse;}
    public static double getMediumPulse(){return mediumPulse;}
    public static double getFastPulse(){return fastPulse;}
+   public static boolean isUpdateLocked(){return updateLocked;}
    
    public static boolean isLocked()
    {
@@ -55,11 +57,14 @@ public class AnimationManager implements GUIConstants, AIConstants
       return isLocked() || semiLockingList.size() > 0;
    }
    
+   
    public static void update()
    {
+      updateLocked = true;
       updateList(lockingList);
       updateList(nonLockingList);
       updateList(semiLockingList);
+      updateLocked = false;
       
       if(rumbleCountdown > 0)
       {
@@ -159,6 +164,8 @@ public class AnimationManager implements GUIConstants, AIConstants
    // returns false is animation prevents actor from starting turn, else true
    public static boolean isClearToAct(Actor a)
    {  
+      if(updateLocked)
+         return false;
       // slow down if player is dead
       if(Game.getPlayer().isDead())
          return !isSemiLocked();

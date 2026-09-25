@@ -64,19 +64,20 @@ public class RegionBuilder implements ZoneConstants, GUIConstants
       for(int i = 1; i < zoneList.size(); i++)
       {
          ZoneMap map = zoneList.elementAt(i).getMap();
-         for(int x = map.getWidth() / 4; x < map.getWidth() * 3 / 4; x++)
-         for(int y = map.getHeight() / 4; y < map.getHeight() * 3 / 4; y++)
+         int enemyCount = RNG.nextInt(4) + 5;
+         Vector<Actor> enemyList = new Vector<Actor>();
+         for(int j = 0; j < enemyCount; j++)
          {
-            if(map.getTile(x, y).isLowPassable())
+            switch(RNG.nextInt(5))
             {
-               Coord c = new Coord(x, y);
-               a = ActorFactory.getBandit();
-               a.setTileLoc(c, false);
-               zoneList.elementAt(i).getActorList().add(a);
-               x = map.getWidth();
-               y = map.getHeight();
-            }
+               case 0 :
+               case 1 : enemyList.add(ActorFactory.getRoach()); break;
+               case 2 :
+               case 3 : enemyList.add(ActorFactory.getJackal()); break;
+               case 4 : enemyList.add(ActorFactory.getBandit()); break;
+            } 
          }
+         zoneList.elementAt(i).randomlyPlaceActors(enemyList, false);
       }
       
       return zoneList;

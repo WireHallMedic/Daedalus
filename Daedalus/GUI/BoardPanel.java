@@ -66,6 +66,8 @@ public class BoardPanel extends DaePanel implements GUIConstants
          yInset = Game.getPlayer().getYOffset();
       }
       ZoneMap map = Game.getCurMap();
+      if(map == null)
+         return;
       BufferedImage curTileImage = null;
       for(int x = 0; x < tilesWide; x++)
       for(int y = 0; y < tilesTall; y++)
@@ -94,6 +96,8 @@ public class BoardPanel extends DaePanel implements GUIConstants
    @Override
    protected void drawUnboundTiles(Graphics2D g2dUnscaled)
    {
+      if(Game.getCurMap() == null)
+         return;
       Vector<Actor> actorList = Game.getActorList();
       if(actorList != null)
       {

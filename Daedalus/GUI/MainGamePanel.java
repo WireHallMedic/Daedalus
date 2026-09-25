@@ -130,7 +130,8 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
    {
       BufferedImage unscaledImage = super.getUnscaledImage();
       Graphics2D g2dUnscaled = (Graphics2D)(unscaledImage.getGraphics());
-      g2dUnscaled.drawImage(boardPanel.getUnscaledImage(), palette.getTileWidth(), palette.getTileHeight(), null);
+      if(boardPanel != null)
+         g2dUnscaled.drawImage(boardPanel.getUnscaledImage(), palette.getTileWidth(), palette.getTileHeight(), null);
       return unscaledImage;
    }
    
