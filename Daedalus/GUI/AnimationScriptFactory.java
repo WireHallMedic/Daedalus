@@ -18,7 +18,7 @@ public class AnimationScriptFactory implements ZoneConstants, GUIConstants
    
    public static AnimationScript getStep(UnboundTile target, Direction dir)
    {
-      return getOneTileMove(target, dir, GUIConstants.FRAMES_PER_SECOND / 4);
+      return getOneTileMove(target, dir, GUIConstants.FRAMES_PER_SECOND / 5);
    }
    
    

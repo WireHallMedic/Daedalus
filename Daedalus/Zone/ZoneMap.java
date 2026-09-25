@@ -229,9 +229,9 @@ public class ZoneMap implements ZoneConstants, GUIConstants
       {
          curExit = (Exit)getTile(exitList.elementAt(i));
          if(curExit.getExitDirection() == dir)
-            break;
+            return curExit;
       }
-      return curExit;
+      return null;
    }
    
    

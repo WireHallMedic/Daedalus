@@ -65,6 +65,8 @@ public class Zone
          threatBudget = map.getMaxThreatLevel();
          initiallyPopulated = true;
       }
+      if(threatBudget == 0)
+         return;
       
       int newThreat = 0;
       Vector<Actor> newActorList = new Vector<Actor>();

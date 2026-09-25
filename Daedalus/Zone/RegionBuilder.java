@@ -30,14 +30,23 @@ public class RegionBuilder implements ZoneConstants, GUIConstants, ActorConstant
       {
          overlandArr[x][y] = WastelandMapFactory.getBasicMap();
          if(maze.exitsNorth(x, y))
+         {
             MapFactory.addRandomExit(overlandArr[x][y], 'N');
+         }
          if(maze.exitsEast(x, y))
+         {
             MapFactory.addRandomExit(overlandArr[x][y], 'E');
+         }
          if(maze.exitsSouth(x, y))
+         {
             MapFactory.addRandomExit(overlandArr[x][y], 'S');
+         }
          if(maze.exitsWest(x, y))
+         {
             MapFactory.addRandomExit(overlandArr[x][y], 'W');
+         }
          overlandArr[x][y].setExitList();
+         System.out.println();
       }
       
       // add hideout entrance along south wall of south zone
@@ -53,9 +62,13 @@ public class RegionBuilder implements ZoneConstants, GUIConstants, ActorConstant
       for(int y = 0; y < regionHeight; y++)
       {
          if(overlandArr[x][y].getExitByDirection(ExitDirection.SOUTH) != null)
-            overlandArr[x][y].getExitByDirection(ExitDirection.SOUTH).pair(overlandArr[x][y].getExitByDirection(ExitDirection.NORTH));
+         {
+            overlandArr[x][y].getExitByDirection(ExitDirection.SOUTH).pair(overlandArr[x][y+1].getExitByDirection(ExitDirection.NORTH));
+         }
          if(overlandArr[x][y].getExitByDirection(ExitDirection.EAST) != null)
-            overlandArr[x][y].getExitByDirection(ExitDirection.EAST).pair(overlandArr[x][y].getExitByDirection(ExitDirection.WEST));
+         {
+            overlandArr[x][y].getExitByDirection(ExitDirection.EAST).pair(overlandArr[x+1][y].getExitByDirection(ExitDirection.WEST));
+         }
          MapPainter.paintWastelandOverworld(overlandArr[x][y]);
          zoneList.add(new Zone(overlandArr[x][y]));
       }
