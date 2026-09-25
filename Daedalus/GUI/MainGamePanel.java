@@ -351,7 +351,10 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
             {
                if(Game.getPlayer().getCurWeapon().getChargedShots() > 0)
                {
-                  cursorLoc = Game.getPlayer().getTileLoc().copy();
+                  if(Game.getPlayer().getAI().getClosestEnemy() != null)
+                     cursorLoc = Game.getPlayer().getAI().getClosestEnemy().getTileLoc();
+                  else
+                     cursorLoc = Game.getPlayer().getTileLoc();
                   mode = TARGETING_MODE;
                   setTargetingValues();
                   clearMessage();
