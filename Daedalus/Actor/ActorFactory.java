@@ -49,7 +49,9 @@ public class ActorFactory implements ActorConstants, GUIConstants, AIConstants
       a.getBaseStats().setFlying(true);
       a.setAI(new DroneAI(a));
       a.setCurWeapon(WeaponFactory.getDroneGun());
+      a.getCurWeapon().setDroppable(false);
       a.setShield(ShieldFactory.getDroneShield());
+      a.getShield().setDroppable(false);
       a.setThreat(1);
       a.fullHeal();
       return a;
@@ -86,6 +88,21 @@ public class ActorFactory implements ActorConstants, GUIConstants, AIConstants
       return a;
    }
    
+   public static Actor getLouse()
+   {
+      Actor a = new Actor("Horklouse");
+      a.setTileIndex('l');
+      a.setBGColor(BROWN);
+      a.setFGColor(ORANGE);
+      a.getBaseStats().setMaxHealth(BASE_NPC_HEALTH);
+      a.setAI(new StandardAI(a));
+      a.setNaturalWeapon(WeaponFactory.getJackalJaws());
+      a.getBaseStats().setMoveSpeed(ActionSpeed.SLOW);
+      a.setThreat(1);
+      a.fullHeal();
+      return a;
+   }
+   
    public static Actor getBandit()
    {
       Actor a = new Actor("Bandit");
@@ -114,15 +131,16 @@ public class ActorFactory implements ActorConstants, GUIConstants, AIConstants
       return a;
    }
    
-   public static Actor getActor(ActorFamily family)
+   public static Actor getActor(EnemyBase base)
    {
-      switch(family)
+      switch(base)
       {
          case JACKAL :  return getJackal();
          case ROACH :   return getRoach();
+         case LOUSE :   return getLouse();
          case DRONE :   return getDrone();
          case BANDIT :  return getBandit();
-         default :      throw new Error("ActorFamily " + family + " does not have a case in ActorFactory.getActor().");
+         default :      throw new Error("EnemyBase " + base + " does not have a case in ActorFactory.getActor().");
       }
    }
 }

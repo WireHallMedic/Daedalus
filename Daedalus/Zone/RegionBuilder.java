@@ -46,7 +46,6 @@ public class RegionBuilder implements ZoneConstants, GUIConstants, ActorConstant
             MapFactory.addRandomExit(overlandArr[x][y], 'W');
          }
          overlandArr[x][y].setExitList();
-         System.out.println();
       }
       
       // add hideout entrance along south wall of south zone
@@ -77,9 +76,9 @@ public class RegionBuilder implements ZoneConstants, GUIConstants, ActorConstant
       for(int i = 1; i < zoneList.size(); i++)
       {
          Vector<TableItemWrapper> randEncTab = new Vector<TableItemWrapper>();
-         randEncTab.add(new TableItemWrapper(ActorFamily.JACKAL, 1, 100, TableItem.BASE_WEIGHT * 2));
-         randEncTab.add(new TableItemWrapper(ActorFamily.ROACH, 1, 100, TableItem.BASE_WEIGHT * 2));
-         randEncTab.add(new TableItemWrapper(ActorFamily.BANDIT, 1, 100, TableItem.BASE_WEIGHT));
+         randEncTab.add(new TableItemWrapper(EnemyBase.JACKAL, 1, 100, TableItem.BASE_WEIGHT * 2));
+         randEncTab.add(new TableItemWrapper(EnemyBase.ROACH, 1, 100, TableItem.BASE_WEIGHT * 2));
+         randEncTab.add(new TableItemWrapper(EnemyBase.BANDIT, 1, 100, TableItem.BASE_WEIGHT));
          zoneList.elementAt(i).setRandomEncounterTable(randEncTab);
       }
       

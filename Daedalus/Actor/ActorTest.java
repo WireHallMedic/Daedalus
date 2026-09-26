@@ -111,10 +111,10 @@ public class ActorTest implements ActorConstants
    
    @Test public void testGeneratingEnemies()
    {
-      for(ActorFamily family: ActorFamily.values())
+      for(EnemyBase base: EnemyBase.values())
       {
-         Actor a = ActorFactory.getActor(family);
-         Assert.assertNotEquals("Generate " + family + " by enum.", null, a);
+         Actor a = ActorFactory.getActor(base);
+         Assert.assertNotEquals("Generate " + base + " by enum.", null, a);
       }
    }
 }

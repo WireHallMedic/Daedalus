@@ -58,9 +58,19 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
          AnimationManager.setScreenRumble();
       }
       MainGamePanel.clearMessage();
-      if(attack.getTargetingType() == TargetingType.BLAST)
+      if(attack.getImpactEffect() != null)
       {
-         AnimationScriptFactory.addExplosion(attackOrigin);
+         Coord impactLoc = targetLoc;
+         if(attack.getTargetingType() == TargetingType.BLAST)
+            impactLoc = attackOrigin;
+         if(attack.getImpactEffect() == ImpactEffect.EXPLOSION)
+         {
+            AnimationScriptFactory.addExplosion(impactLoc);
+         }
+         if(attack.getImpactEffect() == ImpactEffect.SPLASH)
+         {
+            AnimationScriptFactory.addSplash(impactLoc, GUIConstants.LIGHT_GREEN);
+         }
       }
       for(int i = 0; i < defenderList.size(); i++)
       {

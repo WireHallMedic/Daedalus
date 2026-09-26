@@ -17,4 +17,11 @@ public interface AbilityConstants
    {
       HEALING;
    }
+   
+   public enum ImpactEffect
+   {
+      EXPLOSION,
+      BEAM,
+      SPLASH;
+   }
 }

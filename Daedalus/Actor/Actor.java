@@ -339,22 +339,22 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
          Game.getCurMap().dropItem(new Credits(inventory.getCredits()), getTileLoc());
          inventory.getCredits().setValue(0);
       }
-      if(weapon1 != null)
+      if(weapon1 != null && weapon1.isDroppable())
       {
          Game.getCurMap().dropItem(weapon1, getTileLoc());
          weapon1 = null;
       }
-      if(weapon2 != null)
+      if(weapon2 != null && weapon2.isDroppable())
       {
          Game.getCurMap().dropItem(weapon2, getTileLoc());
          weapon2 = null;
       }
-      if(shield != null)
+      if(shield != null && shield.isDroppable())
       {
          Game.getCurMap().dropItem(shield, getTileLoc());
          shield = null;
       }
-      if(armor != null)
+      if(armor != null && armor.isDroppable())
       {
          Game.getCurMap().dropItem(armor, getTileLoc());
          armor = null;

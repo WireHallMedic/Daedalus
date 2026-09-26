@@ -179,7 +179,7 @@ public class AnimationScriptFactory implements ZoneConstants, GUIConstants
       double baseDist = 1.0;
       for(int i = 0; i < 16; i++)
       {
-         if(i == 8)
+         if(i >= 8)
             baseDist /= 2.0;
          UnboundTile ut = new UnboundTile(SQUARE_PALETTE, '*', VIVID_YELLOW, TRANSPARENT);
          ut.setTileLoc(loc);
@@ -189,6 +189,24 @@ public class AnimationScriptFactory implements ZoneConstants, GUIConstants
       }
    }
    public static void addExplosion(int x, int y){addExplosion(new Coord(x, y));}
+   
+   
+   public static void addSplash(Coord loc, int color)
+   {
+      double baseDist = .5;
+      for(int i = 0; i < 16; i++)
+      {
+         if(i >= 8)
+            baseDist /= 2.0;
+         UnboundTile ut = new UnboundTile(SQUARE_PALETTE, '*', color, TRANSPARENT);
+         ut.setTileLoc(loc);
+         AnimationScript as = AnimationScriptFactory.getExplosionParticleAnimation(ut, i, baseDist);
+         as.setFGColorList(null);
+         AnimationManager.addToBoardPanel(ut);
+         AnimationManager.addNonLocking(as);
+      }
+   }
+   public static void addSplash(int x, int y, int color){addSplash(new Coord(x, y), color);}
    
    
    public static void addFloatString(String str, Coord loc, int fgColor)

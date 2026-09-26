@@ -31,6 +31,7 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
       a.setTargetingType(AbilityConstants.TargetingType.POINT);
       a.setRange(10);
       a.setHitVerb("shoots");
+      a.setImpactEffect(AbilityConstants.ImpactEffect.SPLASH);
       w.setMaxShots(6);
       w.fullyCharge();
       return w;
@@ -78,6 +79,7 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
       a.setTargetingType(AbilityConstants.TargetingType.BLAST);
       a.setRange(7);
       a.setHitVerb("blasts");
+      a.setImpactEffect(AbilityConstants.ImpactEffect.EXPLOSION);
       w.setMaxShots(1);
       w.setChargeTimePerShot(10);
       w.fullyCharge();
@@ -91,6 +93,7 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
       a.setBaseDamage(new Damage(DamageType.CONCUSSION, DEFAULT_BASE_SHOT_DAMAGE * 2));
       a.setRandomDamage(new Damage(DamageType.CONCUSSION, DEFAULT_RANDOM_SHOT_DAMAGE));
       a.setHitVerb("blasts");
+      a.setImpactEffect(AbilityConstants.ImpactEffect.BEAM);
       w.getAttack().setTargetingType(AbilityConstants.TargetingType.BEAM);
       w.getAttack().setRange(5);
       w.setMaxShots(2);

@@ -73,7 +73,7 @@ public class Zone
       while(newThreat < threatBudget)
       {
          TableItemWrapper tiw = (TableItemWrapper)RNG.roll(randomEncounterTable, map.getLevel());
-         ActorConstants.ActorFamily family = (ActorConstants.ActorFamily)tiw.getObject();
+         ActorConstants.EnemyBase family = (ActorConstants.EnemyBase)tiw.getObject();
          Actor newActor = ActorFactory.getActor(family);
          newThreat += newActor.getThreat();
          newActorList.add(newActor);
