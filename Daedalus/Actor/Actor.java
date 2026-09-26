@@ -191,7 +191,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    // vision
    public void updateFoV()
    {
-      if(fov == null)
+      if(fov == null || curMap != Game.getCurMap())
       {
          curMap = Game.getCurMap();
          fov = new ShadowFoVRect(curMap.getVisibilityMap());

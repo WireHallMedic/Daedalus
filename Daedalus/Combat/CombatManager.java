@@ -60,7 +60,7 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
       MainGamePanel.clearMessage();
       if(attack.getImpactEffect() != null)
       {
-         Coord impactLoc = targetLoc;
+         Coord impactLoc = affectedList.elementAt(0);
          if(attack.getTargetingType() == TargetingType.BLAST)
             impactLoc = attackOrigin;
          if(attack.getImpactEffect() == ImpactEffect.EXPLOSION)

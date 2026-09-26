@@ -223,6 +223,7 @@ public class Game implements Runnable
       actorList = curZone.getActorList();
       actorList.add(player);
       player.setTileLoc(nextZonePlayerLoc, false);
+      
       setActorMap();
       nextZone = null;
       nextZonePlayerLoc = null;
