@@ -9,8 +9,6 @@ import Daedalus.Engine.*;
 import Daedalus.Ability.*;
 import WidlerSuite.Coord;
 import WidlerSuite.WSFontConstants;
-import WidlerSuite.ShadowFoV;
-import WidlerSuite.ShadowFoVRect;
 import java.util.*;
 
 public class Actor extends UnboundTile implements ActorConstants, ScriptListener, ZoneConstants
@@ -170,7 +168,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
          if(curMap != Game.getCurMap())
          {
             curMap = Game.getCurMap();
-            fov = new ShadowFoVRect(curMap.getVisibilityMap());
+            fov = new ShadowFoV(curMap.getVisibilityMap());
          }
          turnHasStarted = true;
          updateFoV();
@@ -194,7 +192,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
       if(fov == null || curMap != Game.getCurMap())
       {
          curMap = Game.getCurMap();
-         fov = new ShadowFoVRect(curMap.getVisibilityMap());
+         fov = new ShadowFoV(curMap.getVisibilityMap());
       }
       fov.calcFoV(getTileLoc().x, getTileLoc().y, getVisionRadius());
       if(this == Game.getPlayer())
@@ -207,7 +205,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
          return false;
       if(fov == null)
       {
-         fov = new ShadowFoVRect(curMap.getVisibilityMap());
+         fov = new ShadowFoV(curMap.getVisibilityMap());
          updateFoV();
       }
       return fov.isVisible(x, y);
