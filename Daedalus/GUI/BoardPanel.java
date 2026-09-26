@@ -57,7 +57,7 @@ public class BoardPanel extends DaePanel implements GUIConstants
    protected void drawImageTiles(Graphics2D g2dUnscaled, int xStep, int yStep)
    {
       // storing these values needs to be as close to drawing as possible to avoid juttering,
-      // which is why this is not in updatVisuals()
+      // which is why this is not in updateVisuals()
       if(Game.getPlayer() != null)
       {
          cornerLoc.x = Game.getPlayer().getTileLoc().x - (tilesWide / 2);

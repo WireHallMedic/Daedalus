@@ -186,15 +186,18 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    
    public void setLastSeen(int x, int y)
    {
-      if(isItemAt(x, y))
+      if(isInBounds(x, y))
       {
-         lastSeenMap[x][y] = SQUARE_PALETTE.getTile(itemMap[x][y].getTileIndex(), GREY, BLACK);
+         if(isItemAt(x, y))
+         {
+            lastSeenMap[x][y] = SQUARE_PALETTE.getTile(itemMap[x][y].getTileIndex(), GREY, BLACK);
+         }
+         else 
+         {
+            lastSeenMap[x][y] = SQUARE_PALETTE.getTile(tileMap[x][y].getTileIndex(), GREY, BLACK);
+         }
+         exploredMap[x][y] = SQUARE_PALETTE.getTile(tileMap[x][y].getTileIndex(), tileMap[x][y].getFGColor(), tileMap[x][y].getBGColor());
       }
-      else 
-      {
-         lastSeenMap[x][y] = SQUARE_PALETTE.getTile(tileMap[x][y].getTileIndex(), GREY, BLACK);
-      }
-      exploredMap[x][y] = SQUARE_PALETTE.getTile(tileMap[x][y].getTileIndex(), tileMap[x][y].getFGColor(), tileMap[x][y].getBGColor());
    }
    
    public BufferedImage getExplored(int x, int y)

@@ -21,6 +21,7 @@ Free for private or public use. No warranty is implied or expressed.
 package Daedalus.Actor;
 
 import WidlerSuite.Coord;
+import Daedalus.Engine.*;
 
 public class ShadowFoV
 {
@@ -28,11 +29,14 @@ public class ShadowFoV
    private final double EIGHTH_CIRCLE = 2.0 * Math.PI / 8.0;
    
    protected boolean[][] transparencyMap;    // which tiles are visible
-   protected int[][] visibilityMap;          // which tiles can be seen from most recent calcFoV()
+   protected boolean[][] visibilityMap;      // which tiles can be seen from most recent calcFoV()
+   protected boolean[][] newVisibilityMap;   // used to calc new FoV so we can use table swapping
    protected int[][] addedMap;               // which tiles have been added to processList
    protected int width;
    protected int height;
-   protected int flag;                       // used to avoid unnecessary reassignment to refresh visibilityMap
+   protected int visionRadius;
+   protected int visionDiameter;
+   protected Coord observerPosition;
    
    // multipliers for transforming octants
    private static int[][] multipliers = {{1,  0,  0, -1, -1,  0,  0,  1},
@@ -41,77 +45,107 @@ public class ShadowFoV
                                          {1,  0,  0,  1, -1,  0,  0, -1}};
    
    // constructor
-   public ShadowFoV(boolean[][] transpMap)
+   public ShadowFoV(boolean[][] transpMap, int visionRange, Coord observer)
    {
-      reset(transpMap);
+      reset(transpMap, visionRange, observer);
+   }
+   
+   public ShadowFoV(boolean[][] transpMap, Actor a)
+   {
+      this(transpMap, a.getVisionRadius(), a.getTileLoc());
+   }
+   
+   private Coord translateToLocal(Coord position, Coord observer)
+   {
+      return new Coord(translateToLocal(position.x, observer.x), translateToLocal(position.y, observer.y));
+   }
+   
+   private int translateToLocal(int position, int observer)
+   {
+      return observer - position + visionRadius;
    }
    
    
    // generally only needs to be called if a different transparency map is needed
-   public void reset(boolean[][] transpMap)
+   public void reset(boolean[][] transpMap, int visionRange, Coord observerPos)
    {
       transparencyMap = transpMap;                // intentional shallow copy
       width = transparencyMap.length;
       height = transparencyMap[0].length;
-      visibilityMap = new int[width][height];
-      flag = 0;
+      visionRadius = visionRange;
+      visionDiameter = visionRange + visionRange + 1;
+      visibilityMap = new boolean[visionDiameter][visionDiameter];
+      newVisibilityMap = new boolean[visionDiameter][visionDiameter];
+      observerPosition = observerPos;
    }
+   public void reset(boolean[][] transpMap, Actor a){reset(transpMap, a.getVisionRadius(), a.getTileLoc());}
    
-   // checks if a location is in the map bounds
-   public boolean isInBounds(Coord loc){return isInBounds(loc.x, loc.y);}
-   public boolean isInBounds(int x, int y)
+   // checks if a location is in the transparency map bounds
+   public boolean isInTransparentMapBounds(Coord loc){return isInTransparentMapBounds(loc.x, loc.y);}
+   public boolean isInTransparentMapBounds(int x, int y)
    {
       return x >= 0 && y >= 0 && x < width && y < height;
+   }
+   
+   // checks if a location is in the transparency map bounds
+   public boolean isInVisionMapBounds(Coord loc){return isInVisionMapBounds(loc.x, loc.y);}
+   public boolean isInVisionMapBounds(int x, int y)
+   {
+      x = translateToLocal(x, observerPosition.x);
+      y = translateToLocal(y, observerPosition.y);
+      return x >= 0 && y >= 0 && x < visionDiameter && y < visionDiameter;
    }
    
    // checks if a square blocks LoS
    public boolean blocksLoS(Coord loc){return blocksLoS(loc.x, loc.y);}
    public boolean blocksLoS(int x, int y)
    {
-      if(isInBounds(x, y))
+      if(isInTransparentMapBounds(x, y))
          return !transparencyMap[x][y];
-      return false;
+      return true;
    }
    
    // checks if a square is visible
    public boolean isVisible(Coord loc){return isVisible(loc.x, loc.y);}
    public boolean isVisible(int x, int y)
    {
-      return isInBounds(x, y) && visibilityMap[x][y] == flag;
+      return isInVisionMapBounds(x, y) && getVisible(x, y);
    }
    
-   // returns the visibility array in the rectangle passed
-   public boolean[][] getArray(int startX, int startY, int w, int h)
+   private boolean getVisible(Coord loc){return getVisible(loc.x, loc.y);}
+   private boolean getVisible(int x, int y)
    {
-      boolean[][] visArr = new boolean[w][h];
-      for(int x = 0; x < w; x++)
-      for(int y = 0; y < h; y++)
-      {
-         visArr[x][y] = isVisible(startX + x, startY + y);
-      }
-      return visArr;
+      x = translateToLocal(x, observerPosition.x);
+      y = translateToLocal(y, observerPosition.y);
+      return visibilityMap[x][y];
    }
    
-   protected void incrementFlag()
+   private void setVisible(Coord loc, boolean v){setVisible(loc.x, loc.y, v);}
+   private void setVisible(int x, int y, boolean v)
    {
-      flag += 1;
-      if(flag == Integer.MAX_VALUE)
-      {
-         reset(transparencyMap);
-      }
+      x = translateToLocal(x, observerPosition.x);
+      y = translateToLocal(y, observerPosition.y);
+      newVisibilityMap[x][y] = v;
    }
 
    
    // Calculate visible squares from a given location and radius
    public void calcFoV(int xLoc, int yLoc, int radius)
    {
-      incrementFlag();
+      observerPosition.x = xLoc;
+      observerPosition.y = yLoc;
+      visionRadius = radius;
+      visionDiameter = radius + radius + 1;
+      newVisibilityMap = new boolean[visionDiameter][visionDiameter];
       for(int oct = 0; oct < 8; oct += 1)
       {
-         castLightInOctant(xLoc, yLoc, oct, radius);
+         castLightInOctant(xLoc, yLoc, oct, visionRadius);
       }
-      visibilityMap[xLoc][yLoc] = flag;
+      setVisible(observerPosition, true);
+      visibilityMap = newVisibilityMap;
    }
+   public void calcFoV(Actor a)
+   {calcFoV(a.getTileLoc().x, a.getTileLoc().y, a.getVisionRadius());}
    
    private void castLightInOctant(int xLoc, int yLoc, int oct, int radius)
    {
@@ -121,12 +155,6 @@ public class ShadowFoV
                 multipliers[0][oct], multipliers[1][oct], multipliers[2][oct], multipliers[3][oct]); // octant multipliers
    }
    
-   // sets a square as visible using the current flag
-   private void setVisible(int x, int y)
-   {
-      if(isInBounds(x, y))
-         visibilityMap[x][y] = flag;
-   }
    
    // casts light
    private void castLight(int cx, int cy,                       // starting coordinates
@@ -168,7 +196,7 @@ public class ShadowFoV
                // observer has LoS to the square; mark accordingly
                if(dx * dx + dy * dy < RADIUS_SQUARED)
                {
-                  setVisible(x, y);
+                  setVisible(x, y, true);
                }
                if(blocked) // we're scanning a row of blocked squares
                {
@@ -206,6 +234,7 @@ public class ShadowFoV
    }
    public void calcCone(Coord origin, int radius, Coord target)
    {
+      newVisibilityMap = new boolean[visionDiameter][visionDiameter];
       double angleTo = origin.getAngleTo(target);
       int octant = 5;
       if(angleTo <= EIGHTH_CIRCLE)
@@ -222,9 +251,58 @@ public class ShadowFoV
          octant = 7;
       else if(angleTo <= EIGHTH_CIRCLE * 7)
          octant = 4;
-      incrementFlag();
       castLightInOctant(origin.x, origin.y, octant, radius);
-      visibilityMap[origin.x][origin.y] = flag;
+      setVisible(origin, true);
+      visibilityMap = newVisibilityMap;
    }
    
+   
+   public static void main(String[] args)
+   {
+      int size = 20;
+      int vision = 5;
+      int visionDiameter = vision + vision + 1;
+      int playerPosX = 10;
+      int playerPosY = 5;
+      char[][] charMap = new char[size][size];
+      boolean[][] boolMap = new boolean[size][size];
+      for(int x = 0; x < size; x++)
+      for(int y = 0; y < size; y++)
+      {
+         if(x == 0 || y == 0 || x == size - 1 || y == size - 1)
+            charMap[x][y] = '#';
+         else
+            charMap[x][y] = '.';
+      }
+      charMap[playerPosX - 2][playerPosY] = '#';
+      charMap[playerPosX][playerPosY] = '@';
+      for(int x = 0; x < size; x++)
+      for(int y = 0; y < size; y++)
+         if(charMap[x][y] != '#')
+            boolMap[x][y] = true;
+      
+      ShadowFoV fov = new ShadowFoV(boolMap, vision, new Coord(10, 10));
+      fov.calcFoV(playerPosX, playerPosY, 5);
+      
+      for(int y = playerPosY - vision; y <= playerPosY + vision; y++)
+      {
+         for(int x = playerPosX - vision; x <= playerPosX + vision; x++)
+         {
+               System.out.print(charMap[x][y] + "");
+         }
+         System.out.println("");
+      }
+      
+      for(int y = playerPosY - vision; y <= playerPosY + vision; y++)
+      {
+         for(int x = playerPosX - vision; x <= playerPosX + vision; x++)
+         {
+            if(fov.isVisible(x, y))
+               System.out.print(charMap[x][y] + "");
+            else
+               System.out.print(" ");
+         }
+         System.out.println("");
+      }
+   }
 }

@@ -17,6 +17,7 @@ public class MapPainter implements ZoneConstants, GUIConstants
       noise = new NoiseChoir();
       double noiseStepSize = .2;
       paintAllFloor(map, WASTELAND_GROUND_BG, true, noiseStepSize);
+      map.getOOBTile().setFGColor(STONE);
       for(int x = 0; x < map.getWidth(); x++)
       for(int y = 0; y < map.getHeight(); y++)
       {
@@ -39,8 +40,6 @@ public class MapPainter implements ZoneConstants, GUIConstants
    
    public static void paintAllFloor(ZoneMap map, int color, boolean applyNoise, double noiseStepSize)
    {
-      if(applyNoise)
-         noise = new NoiseChoir();
       for(int x = 0; x < map.getWidth(); x++)
       for(int y = 0; y < map.getHeight(); y++)
       {
@@ -52,5 +51,6 @@ public class MapPainter implements ZoneConstants, GUIConstants
          else
             map.getTile(x, y).setBGColor(color);
       }
+      map.getOOBTile().setBGColor(color);
    }
 }

@@ -168,7 +168,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
          if(curMap != Game.getCurMap())
          {
             curMap = Game.getCurMap();
-            fov = new ShadowFoV(curMap.getVisibilityMap());
+            fov = new ShadowFoV(curMap.getVisibilityMap(), this);
          }
          turnHasStarted = true;
          updateFoV();
@@ -192,9 +192,9 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
       if(fov == null || curMap != Game.getCurMap())
       {
          curMap = Game.getCurMap();
-         fov = new ShadowFoV(curMap.getVisibilityMap());
+         fov = new ShadowFoV(curMap.getVisibilityMap(), this);
       }
-      fov.calcFoV(getTileLoc().x, getTileLoc().y, getVisionRadius());
+      fov.calcFoV(this);
       if(this == Game.getPlayer())
          updateLastSeenMap();
    }
@@ -205,7 +205,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
          return false;
       if(fov == null)
       {
-         fov = new ShadowFoV(curMap.getVisibilityMap());
+         fov = new ShadowFoV(curMap.getVisibilityMap(), this);
          updateFoV();
       }
       return fov.isVisible(x, y);
