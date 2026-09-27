@@ -182,7 +182,6 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    public BufferedImage getImage(Coord c){return getImage(c.x, c.y);}
    
    
-   
    public BufferedImage getLastSeen(int x, int y)
    {
       if(isInBounds(x, y))

@@ -11,6 +11,7 @@ public class AnimationManager implements GUIConstants, AIConstants
    private static Vector<AnimationScript> lockingList = new Vector<AnimationScript>();
    private static Vector<AnimationScript> nonLockingList = new Vector<AnimationScript>();
    private static Vector<AnimationScript> semiLockingList = new Vector<AnimationScript>();
+   private static Vector<GroundAnimationScript> groundList = new Vector<GroundAnimationScript>();
    private static BoardPanel boardPanel = null; // because we need to add visual effects from a bunch of other 
                                                 // places, like AI. Set in BoardPanel constructor.
    private static double screenShakeX = 0.0;
@@ -34,6 +35,7 @@ public class AnimationManager implements GUIConstants, AIConstants
    public static void addLocking(AnimationScript as){lockingList.add(as);}
    public static void addNonLocking(AnimationScript as){nonLockingList.add(as);}
    public static void addSemiLocking(AnimationScript as){semiLockingList.add(as);}
+   public static void addGroundAnimation(GroundAnimationScript gas){groundList.add(gas);}
    
    public static double getScreenShakeX(){return screenShakeX;}
    public static double getScreenShakeY(){return screenShakeY;}
@@ -63,6 +65,7 @@ public class AnimationManager implements GUIConstants, AIConstants
       updateList(lockingList);
       updateList(nonLockingList);
       updateList(semiLockingList);
+      updateGroundList(groundList);
       updateLocked = false;
       
       if(rumbleCountdown > 0)
@@ -136,11 +139,25 @@ public class AnimationManager implements GUIConstants, AIConstants
       }
    }
    
+   private static void updateGroundList(Vector<GroundAnimationScript> list)
+   {
+      for(int i = 0; i < list.size(); i++)
+      {
+         list.elementAt(i).update();
+         if(list.elementAt(i).isExpired())
+         {
+            list.removeElementAt(i);
+            i--;
+         }
+      }
+   }
+   
    public static void clear()
    {
       lockingList = new Vector<AnimationScript>();
       nonLockingList = new Vector<AnimationScript>();
       semiLockingList = new Vector<AnimationScript>();
+      groundList = new Vector<GroundAnimationScript>();
       screenShakeX = 0.0;
       screenShakeY = 0.0;
       screenShakeDuration = 0;

@@ -156,6 +156,16 @@ public class AnimationScriptFactory implements ZoneConstants, GUIConstants
       return script;
    }
    
+   public static GroundAnimationScript getGroundFlash(int x, int y)
+   {
+      ImageTile it = Game.getCurMap().getTile(x, y);
+      GroundAnimationScript gas = new GroundAnimationScript(it);
+      int duration = GUIConstants.FRAMES_PER_SECOND / 10;
+      gas.setBGColorList(getColorGradient(WHITE, it.getBGColor(), duration));
+      return gas;
+   }
+   public static GroundAnimationScript getGroundFlash(Coord c){return getGroundFlash(c.x, c.y);}
+   
    // adders. Create and add to boardpanel and animationmanager
    ///////////////////////////////////////////////////////////////////////////////
    
@@ -245,6 +255,13 @@ public class AnimationScriptFactory implements ZoneConstants, GUIConstants
       }
    }
    public static void addShieldParticles(Actor a){addShieldParticles(a.getTileLoc());}
+   
+   public static void addGroundFlash(int x, int y)
+   {
+      GroundAnimationScript gas = getGroundFlash(x, y);
+      AnimationManager.addGroundAnimation(gas);
+   }
+   public static void addGroundFlash(Coord c){addGroundFlash(c.x, c.y);}
    
    // private methods
    /////////////////////////////////////////////////////////////

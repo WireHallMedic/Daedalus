@@ -37,6 +37,7 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
 
       for(int i = 0; i < affectedList.size(); i++)
       {
+         AnimationScriptFactory.addGroundFlash(affectedList.elementAt(i));
          if(Game.isActorAt(affectedList.elementAt(i)))
             defenderList.add(Game.getActorAt(affectedList.elementAt(i)));
       }
