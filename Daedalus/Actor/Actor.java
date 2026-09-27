@@ -265,6 +265,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
          dropAllItems();
       if(hasPack())
          pack.removeMember(this);
+      Game.getCurMap().dropCorpse(new Corpse(this), this.getTileLoc());
    }
    
    public void fullHeal()

@@ -20,6 +20,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
 	private boolean[][] visibilityMap;
 	private BufferedImage[][] lastSeenMap;
 	private BufferedImage[][] exploredMap;
+	private Corpse[][] corpseMap;
    private Vector<Coord> exitList;
    private static final BufferedImage BLACK_SQUARE = SQUARE_PALETTE.getTile(' ');
    private int maxThreat;
@@ -62,11 +63,13 @@ public class ZoneMap implements ZoneConstants, GUIConstants
       visibilityMap = new boolean[width][height];
       lastSeenMap = new BufferedImage[width][height];
       exploredMap = new BufferedImage[width][height];
+      corpseMap = new Corpse[width][height];
       for(int x = 0; x < width; x++)
       for(int y = 0; y < height; y++)
       {
          tileMap[x][y] = new ZoneTile(TileBase.CLEAR);
          itemMap[x][y] = null;
+         corpseMap[x][y] = null;
          visibilityMap[x][y] = false;
          lastSeenMap[x][y] = BLACK_SQUARE;
          exploredMap[x][y] = BLACK_SQUARE;
@@ -166,6 +169,12 @@ public class ZoneMap implements ZoneConstants, GUIConstants
       {
          return new ImageTile(SQUARE_PALETTE, itemMap[x][y].getTileIndex(), 
                               itemMap[x][y].getFGColor(), tileMap[x][y].getBGColor()).getImage();
+      }
+      // corpse tile
+      if(isCorpseAt(x, y))
+      {
+         return new ImageTile(SQUARE_PALETTE, corpseMap[x][y].getTileIndex(), 
+                              corpseMap[x][y].getFGColor(), tileMap[x][y].getBGColor()).getImage();
       }
       // out of bounds
       return tileMap[x][y].getImage();
@@ -355,7 +364,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    // drops an item in the nearest droppable tile
    public void dropItem(Item item, int x, int y)
    {
-      Coord loc = getDropLocation(x, y);
+      Coord loc = getItemDropLocation(x, y);
       if(loc != null)
          setItemAt(item, loc.x, loc.y);
    }
@@ -378,7 +387,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    public boolean[][] getItemDroppableMap(Coord c){return getItemDroppableMap(c.x, c.y);}
    
    
-   public Coord getDropLocation(int originX, int originY)
+   public Coord getItemDropLocation(int originX, int originY)
    {
       int xInset = originX - (ITEM_SEARCH_DIAMETER / 2);
       int yInset = originY - (ITEM_SEARCH_DIAMETER / 2);
@@ -398,7 +407,97 @@ public class ZoneMap implements ZoneConstants, GUIConstants
       System.out.println("No place to drop item.");
       return null;
    }
-   public Coord getDropLocation(Coord origin){return getDropLocation(origin.x, origin.y);}
+   public Coord getItemDropLocation(Coord origin){return getItemDropLocation(origin.x, origin.y);}
+   
+   
+   // corpse stuff
+   ////////////////////////////////////////////
+   
+   public boolean canPlaceCorpse(int x, int y)
+   {
+      return isValidLocationForCorpse(x, y) && getCorpseAt(x, y) == null;
+   }
+   public boolean canPlaceCorpse(Coord c){return canPlaceCorpse(c.x, c.y);}
+   
+   
+   public boolean isValidLocationForCorpse(int x, int y)
+   {
+      return isInBounds(x, y) && 
+             tileMap[x][y].isLowPassable() &&
+             !(tileMap[x][y] instanceof Door) &&
+             !(tileMap[x][y] instanceof Exit);
+   }
+   public boolean isValidLocationForCorpse(Coord c){return isValidLocationForCorpse(c.x, c.y);}
+   
+   
+   public boolean isCorpseAt(int x, int y)
+   {
+      return isInBounds(x, y) && corpseMap[x][y] != null;
+   }
+   public boolean isCorpseAt(Coord c){return isCorpseAt(c.x, c.y);}
+   
+   
+   public Corpse getCorpseAt(int x, int y)
+   {
+      return corpseMap[x][y];
+   }
+   public Corpse getCorpseAt(Coord c){return getCorpseAt(c.x, c.y);}
+   
+   
+   public void setCorpseAt(Corpse corpse, int x, int y)
+   {
+      corpseMap[x][y] = corpse;
+   }
+   public void setCorpseAt(Corpse corpse, Coord c){setCorpseAt(corpse, c.x, c.y);}
+   
+   
+   // drops an corpse in the nearest droppable tile
+   public void dropCorpse(Corpse corpse, int x, int y)
+   {
+      Coord loc = getCorpseDropLocation(x, y);
+      if(loc != null)
+         setCorpseAt(corpse, loc.x, loc.y);
+   }
+   public void dropCorpse(Corpse corpse, Coord c){dropCorpse(corpse, c.x, c.y);}
+   
+   
+   public boolean[][] getCorpseDroppableMap(int centerX, int centerY)
+   {
+      boolean[][] map = new boolean[ITEM_SEARCH_DIAMETER][ITEM_SEARCH_DIAMETER];
+      int radius = ITEM_SEARCH_DIAMETER / 2;
+      for(int x = 0; x < ITEM_SEARCH_DIAMETER; x++)
+      for(int y = 0; y < ITEM_SEARCH_DIAMETER; y++)
+      {
+         int xSearch = centerX - radius + x;
+         int ySearch = centerY - radius + y;
+         map[x][y] = isValidLocationForCorpse(xSearch, ySearch);
+      }
+      return map;
+   }
+   public boolean[][] getCorpseDroppableMap(Coord c){return getCorpseDroppableMap(c.x, c.y);}
+   
+   
+   public Coord getCorpseDropLocation(int originX, int originY)
+   {
+      int xInset = originX - (ITEM_SEARCH_DIAMETER / 2);
+      int yInset = originY - (ITEM_SEARCH_DIAMETER / 2);
+      boolean[][] searchMap = getCorpseDroppableMap(originX, originY);
+      SpiralSearch search = new SpiralSearch(searchMap, ITEM_SEARCH_DIAMETER / 2, ITEM_SEARCH_DIAMETER / 2);
+      Coord prospect = search.getNext();
+      while(prospect != null)
+      {
+         prospect.x += xInset;
+         prospect.y += yInset;
+         if(canPlaceCorpse(prospect))
+         {
+            return prospect;
+         }
+         prospect = search.getNext();
+      }
+      System.out.println("No place to drop corpse.");
+      return null;
+   }
+   public Coord getCorpseDropLocation(Coord origin){return getCorpseDropLocation(origin.x, origin.y);}
    
    
    // test map

@@ -382,6 +382,9 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
 //             AnimationScriptFactory.addTestEffect();
            // AnimationScriptFactory.addShieldParticles(Game.getPlayer());
                Game.getPlayer().setCurHealth(5);
+               Actor a = ActorFactory.getJackal();
+               a.setTileLoc(2, 2, false);
+                Game.getCurMap().dropCorpse(new Corpse(a), a.getTileLoc());
             break;
       }
    }
