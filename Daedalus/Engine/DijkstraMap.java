@@ -4,8 +4,6 @@ Note that this implementation is different from the one in WidlerSuite
 
 package Daedalus.Engine;
 
-import WidlerSuite.Coord;
-
 public class DijkstraMap
 {
    public static final double MAX_DISTANCE = 10000.0;

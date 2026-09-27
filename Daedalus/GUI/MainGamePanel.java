@@ -12,7 +12,6 @@ import Daedalus.Actor.*;
 import Daedalus.Combat.*;
 import Daedalus.Ability.*;
 import Daedalus.Engine.*;
-import WidlerSuite.Coord;
 
 
 public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants, ZoneConstants

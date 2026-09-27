@@ -6,7 +6,6 @@ import Daedalus.Item.*;
 import Daedalus.Actor.*;
 import Daedalus.Combat.*;
 import Daedalus.Engine.*;
-import WidlerSuite.Coord;
 
 public class ZombieAI extends AI
 {

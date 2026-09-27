@@ -1,8 +1,7 @@
 package Daedalus.GUI;
 
 import Daedalus.Actor.*;
-import WidlerSuite.WSFontConstants;
-import WidlerSuite.Coord;
+import Daedalus.Engine.*;
 import java.awt.*;
 import java.awt.image.*;
 

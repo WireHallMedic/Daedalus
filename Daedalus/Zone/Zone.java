@@ -3,7 +3,6 @@ package Daedalus.Zone;
 import java.util.*;
 import Daedalus.Actor.*;
 import Daedalus.Engine.*;
-import WidlerSuite.Coord;
 
 public class Zone
 {

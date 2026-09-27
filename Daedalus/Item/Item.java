@@ -1,7 +1,7 @@
 package Daedalus.Item;
 
 import Daedalus.GUI.*;
-import WidlerSuite.Coord;
+import Daedalus.Engine.*;
 
 public class Item extends ImageTile implements ItemConstants, GUIConstants
 {

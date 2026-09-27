@@ -5,7 +5,6 @@ import Daedalus.Engine.*;
 import Daedalus.Actor.*;
 import Daedalus.Zone.*;
 import Daedalus.GUI.*;
-import WidlerSuite.Coord;
 import java.util.*;
 
 public class CombatManager implements CombatConstants, AbilityConstants, ZoneConstants

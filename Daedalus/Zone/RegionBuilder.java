@@ -6,7 +6,6 @@ import java.util.*;
 import Daedalus.GUI.*;
 import Daedalus.Actor.*;
 import Daedalus.Engine.*;
-import WidlerSuite.Coord;
 
 public class RegionBuilder implements ZoneConstants, GUIConstants, ActorConstants
 {

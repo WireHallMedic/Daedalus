@@ -1,7 +1,5 @@
 package Daedalus.Ability;
 
-import WidlerSuite.Coord;
-import WidlerSuite.StraightLine;
 import Daedalus.Zone.*;
 import Daedalus.Engine.*;
 import java.util.*;

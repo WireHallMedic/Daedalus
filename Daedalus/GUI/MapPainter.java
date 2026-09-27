@@ -4,9 +4,6 @@ import java.awt.*;
 import java.awt.image.*;
 import java.util.*;
 import Daedalus.Zone.*;
-import WidlerSuite.Coord;
-import WidlerSuite.NoiseChoir;
-import WidlerSuite.WSFontConstants;
 
 public class MapPainter implements ZoneConstants, GUIConstants
 {

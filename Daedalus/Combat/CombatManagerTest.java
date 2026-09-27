@@ -1,8 +1,8 @@
 package Daedalus.Combat;
 
-import WidlerSuite.Coord;
 import Daedalus.Item.*;
 import Daedalus.Actor.*;
+import Daedalus.Engine.*;
 import Daedalus.Ability.*;
 import org.junit.Assert;
 import static org.junit.Assert.*;

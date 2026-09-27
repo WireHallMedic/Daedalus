@@ -20,7 +20,6 @@ Free for private or public use. No warranty is implied or expressed.
 
 package Daedalus.Actor;
 
-import WidlerSuite.Coord;
 import Daedalus.Engine.*;
 
 public class ShadowFoV
@@ -53,6 +52,11 @@ public class ShadowFoV
    public ShadowFoV(boolean[][] transpMap, Actor a)
    {
       this(transpMap, a.getVisionRadius(), a.getTileLoc());
+   }
+   
+   public ShadowFoV(boolean[][] transpMap, int visionRange, int xLoc, int yLoc)
+   {
+      this(transpMap, visionRange, new Coord(xLoc, yLoc));
    }
    
    private Coord translateToLocal(Coord position, Coord observer)

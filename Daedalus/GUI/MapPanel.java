@@ -10,7 +10,6 @@ import Daedalus.Item.*;
 import Daedalus.Zone.*;
 import Daedalus.Actor.*;
 import Daedalus.Engine.*;
-import WidlerSuite.Coord;
 
 
 public class MapPanel extends SelectionPanel implements ActionListener, GUIConstants, KeyListener

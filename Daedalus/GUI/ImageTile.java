@@ -1,6 +1,5 @@
 package Daedalus.GUI;
 
-import WidlerSuite.WSFontConstants;
 import java.awt.*;
 import java.awt.image.*;
 import Daedalus.Zone.ZoneTile;

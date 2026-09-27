@@ -1,17 +1,20 @@
 package Daedalus.Zone;
 
-import WidlerSuite.WSFontConstants;
-import WidlerSuite.Coord;
 import Daedalus.Engine.*;
+import Daedalus.GUI.*;
 
 public interface ZoneConstants
 {
    public static final int ITEM_SEARCH_DIAMETER = 15;
+   // adjacency lists: x, y, stepCost
+   public static final int[][] RECT_ORTHO = {{-1, 0, 10}, {0, -1, 10}, {1, 0, 10}, {0, 1, 10}};
+   public static final int[][] RECT_DIAG = {{-1, 0, 10}, {0, -1, 10}, {1, 0, 10}, {0, 1, 10},
+                                            {-1, -1, 14}, {-1, 1, 14}, {1, -1, 14}, {1, 1, 14}};
    
    public enum TileBase
    {
-      CLEAR          ("Clear", true, true, true, WSFontConstants.SMALL_BULLET_TILE),
-      PATH           ("Path", true, true, true, WSFontConstants.BULLET_TILE),
+      CLEAR          ("Clear", true, true, true, FontConstants.SMALL_BULLET_TILE),
+      PATH           ("Path", true, true, true, FontConstants.BULLET_TILE),
       WALL           ("Wall", false, false, false, '#'),
       LOW_WALL       ("Low Wall", false, true, true, '='),
       BARS           ("Bars", false, false, true, ':'),
@@ -20,13 +23,13 @@ public interface ZoneConstants
       DOOR           ("Door", false, false, false, '|'),
       OPEN_DOOR      ("Open Door", true, true, true, '/'),
       SWITCH         ("Switch", false, false, true, '!'),
-      FLIPPED_SWITCH ("Flipped Switch", false, false, true, WSFontConstants.INVERTED_EXCLAMATION_TILE),
+      FLIPPED_SWITCH ("Flipped Switch", false, false, true, FontConstants.INVERTED_EXCLAMATION_TILE),
       CHEST          ("Chest", false, true, true, '?'),
-      OPEN_CHEST     ("Open Chest", false, true, true, WSFontConstants.INVERTED_QUESTION_TILE),
+      OPEN_CHEST     ("Open Chest", false, true, true, FontConstants.INVERTED_QUESTION_TILE),
       ROUGH          ("Rough", true, true, true, ','),
-      TERMINAL       ("Terminal", false, true, true, WSFontConstants.CAPITAL_OMEGA_TILE),
-      SIGN           ("Sign", false, true, true, WSFontConstants.IDENTICAL_TO_TILE),
-      EXIT           ("Exit", true, true, true, WSFontConstants.INTERSECTION_TILE);
+      TERMINAL       ("Terminal", false, true, true, FontConstants.CAPITAL_OMEGA_TILE),
+      SIGN           ("Sign", false, true, true, FontConstants.IDENTICAL_TO_TILE),
+      EXIT           ("Exit", true, true, true, FontConstants.INTERSECTION_TILE);
       
       public String name;
       public boolean lowPassable;
@@ -137,12 +140,12 @@ public interface ZoneConstants
    
    public enum ExitDirection
    {
-      NORTH ('N', WSFontConstants.UP_TRIANGLE_TILE),
-      EAST  ('E', WSFontConstants.RIGHT_TRIANGLE_TILE),
-      SOUTH ('S', WSFontConstants.DOWN_TRIANGLE_TILE),
-      WEST  ('W', WSFontConstants.LEFT_TRIANGLE_TILE),
-      UP    ('U', WSFontConstants.UP_ARROW_TILE),
-      DOWN  ('D', WSFontConstants.DOWN_ARROW_TILE);
+      NORTH ('N', FontConstants.UP_TRIANGLE_TILE),
+      EAST  ('E', FontConstants.RIGHT_TRIANGLE_TILE),
+      SOUTH ('S', FontConstants.DOWN_TRIANGLE_TILE),
+      WEST  ('W', FontConstants.LEFT_TRIANGLE_TILE),
+      UP    ('U', FontConstants.UP_ARROW_TILE),
+      DOWN  ('D', FontConstants.DOWN_ARROW_TILE);
       
       public char character;
       public int tileIndex;

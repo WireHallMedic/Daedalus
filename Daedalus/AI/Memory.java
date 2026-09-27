@@ -3,7 +3,6 @@ package Daedalus.AI;
 import Daedalus.Zone.*;
 import Daedalus.Actor.*;
 import Daedalus.Engine.*;
-import WidlerSuite.Coord;
 import java.util.*;
 
 public class Memory implements AIConstants

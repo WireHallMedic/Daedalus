@@ -7,8 +7,6 @@ import Daedalus.Zone.*;
 import Daedalus.Combat.*;
 import Daedalus.Engine.*;
 import Daedalus.Ability.*;
-import WidlerSuite.Coord;
-import WidlerSuite.WSFontConstants;
 import java.util.*;
 
 public class Actor extends UnboundTile implements ActorConstants, ScriptListener, ZoneConstants
@@ -77,7 +75,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    public Actor()
    {
       super(GUIConstants.SQUARE_PALETTE, '?', GUIConstants.CYAN, GUIConstants.ORANGE);
-      setLowerTileIndex(WSFontConstants.CIRCLE_TILE);
+      setLowerTileIndex(FontConstants.CIRCLE_TILE);
       ai = new AI(this);
       name = "Unknown Actor";
       charge = STARTING_CHARGE;

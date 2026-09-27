@@ -1,10 +1,8 @@
 package Daedalus.GUI;
 
 import java.awt.*;
-import WidlerSuite.Coord;
-import WidlerSuite.WSFontConstants;
 
-public class GUITools implements GUIConstants, WSFontConstants
+public class GUITools implements GUIConstants, FontConstants
 {
    public static int[] getBar(int cur, int max, int length)
    {
@@ -123,4 +121,21 @@ public class GUITools implements GUIConstants, WSFontConstants
       
       return new Color(red, green, blue).getRGB();
    }
+   
+   // returns the value of a point between two values.  For example, if the passed values are 2 and 4, and the xOffset
+   // is .5 (halfway between the two), this will return 3.
+   public static double interpolateLinear(double p1, double p2, double xOff)
+   {
+      return (double)(p1 + ((p2 - p1) * xOff));
+   }
+   
+   
+   // returns a value similar to interpolateLinear(), but on an s-curve so that results are more heavily weighted towards
+   // the closer of the two points.
+   public static double interpolateCosine(double p1, double p2, double xOff)
+   {
+      xOff = ((-1.0f * (float)Math.cos(Math.PI * xOff)) *.5f) + .5f;
+      return interpolateLinear(p1, p2, xOff);
+   }
+
 }

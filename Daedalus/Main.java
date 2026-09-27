@@ -7,7 +7,6 @@ import Daedalus.Engine.*;
 import Daedalus.Ability.*;
 import Daedalus.Actor.*;
 import Daedalus.Zone.*;
-import WidlerSuite.Coord;
 import java.util.*;
 
 public class Main

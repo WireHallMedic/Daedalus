@@ -2,7 +2,6 @@ package Daedalus.Zone;
 
 import java.awt.*;
 import Daedalus.GUI.*;
-import WidlerSuite.WSFontConstants;
 
 public class Exit extends ZoneTile implements ZoneConstants, GUIConstants
 {

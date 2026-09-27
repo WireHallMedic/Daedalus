@@ -10,7 +10,6 @@ import Daedalus.Item.*;
 import Daedalus.Zone.*;
 import Daedalus.Actor.*;
 import Daedalus.Engine.*;
-import WidlerSuite.WSFontConstants;
 
 
 public class InventoryPanel extends SelectionPanel implements ActionListener, GUIConstants, KeyListener
@@ -108,7 +107,7 @@ public class InventoryPanel extends SelectionPanel implements ActionListener, GU
       super.setTiles();
       if(inventory != null)
       {
-         String str = ((char)WSFontConstants.CENT_TILE) + " " + inventory.getCredits().getValue();
+         String str = ((char)FontConstants.CENT_TILE) + " " + inventory.getCredits().getValue();
          write(listStartX, listStartY - 2, str, CREDIT_COLOR, UI_BG_COLOR, 12, 1);
       }
    }

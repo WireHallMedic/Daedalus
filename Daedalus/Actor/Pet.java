@@ -7,10 +7,6 @@ import Daedalus.Zone.*;
 import Daedalus.Combat.*;
 import Daedalus.Engine.*;
 import Daedalus.Ability.*;
-import WidlerSuite.Coord;
-import WidlerSuite.WSFontConstants;
-import WidlerSuite.ShadowFoV;
-import WidlerSuite.ShadowFoVRect;
 import java.util.*;
 
 public class Pet extends Actor

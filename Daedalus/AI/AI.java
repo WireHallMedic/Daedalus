@@ -6,9 +6,6 @@ import Daedalus.Item.*;
 import Daedalus.Actor.*;
 import Daedalus.Combat.*;
 import Daedalus.Engine.*;
-import WidlerSuite.Coord;
-import WidlerSuite.AStar;
-import WidlerSuite.StraightLine;
 import java.util.*;
 
 public class AI implements AIConstants, ZoneConstants

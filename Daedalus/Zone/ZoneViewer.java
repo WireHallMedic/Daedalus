@@ -1,7 +1,7 @@
 package Daedalus.Zone;
 
 import Daedalus.GUI.*;
-import WidlerSuite.Coord;
+import Daedalus.Engine.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.*;

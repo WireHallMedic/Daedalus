@@ -1,12 +1,8 @@
 package Daedalus.Engine;
 
-import WidlerSuite.Vect;
-import WidlerSuite.Coord;
-import WidlerSuite.StraightLine;
-import WidlerSuite.ShadowFoVRect;
 import Daedalus.Zone.*;
-import Daedalus.Ability.*;
 import Daedalus.Actor.*;
+import Daedalus.Ability.*;
 import java.util.*;
 
 public class EngineTools implements AbilityConstants
@@ -155,7 +151,7 @@ public class EngineTools implements AbilityConstants
       {
          blockingMap[x][y] = Game.getCurMap().getTile(xStart + x, yStart + y).isHighPassable();
       }
-      ShadowFoVRect fov = new ShadowFoVRect(blockingMap);
+      ShadowFoV fov = new ShadowFoV(blockingMap, radius, radius, radius + 1);
       fov.calcFoV(radius, radius, radius + 1);
       Vector<Coord> areaList = new Vector<Coord>();
       for(int x = 0; x < diameter; x++)
@@ -174,6 +170,21 @@ public class EngineTools implements AbilityConstants
          if(list.elementAt(i).equals(c))
             return true;
       return false;
+   }
+   
+   // rounds to an intiger, but .5 rounds to the nearest even int
+   public static int roundToEven(double value)
+   {
+      int returnVal = (int)Math.round(value);
+      
+      if(Math.abs(value % 1) == .5)
+      {
+         if(returnVal % 2 == 1)
+            returnVal--;
+         if(returnVal % 2 == -1)
+            returnVal++;
+      }
+      return returnVal;
    }
    
    

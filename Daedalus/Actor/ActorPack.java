@@ -1,6 +1,6 @@
 package Daedalus.Actor;
 
-import WidlerSuite.Coord;
+import Daedalus.Engine.*;
 import java.util.*;
 
 public class ActorPack implements ActorConstants

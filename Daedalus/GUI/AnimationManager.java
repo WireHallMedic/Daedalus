@@ -5,7 +5,6 @@ import Daedalus.AI.*;
 import Daedalus.Item.*;
 import Daedalus.Actor.*;
 import Daedalus.Engine.*;
-import WidlerSuite.Coord;
 
 public class AnimationManager implements GUIConstants, AIConstants
 {

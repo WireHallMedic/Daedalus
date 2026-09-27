@@ -31,7 +31,6 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
       a.setTargetingType(AbilityConstants.TargetingType.POINT);
       a.setRange(10);
       a.setHitVerb("shoots");
-      a.setImpactEffect(AbilityConstants.ImpactEffect.SPLASH);
       w.setMaxShots(6);
       w.fullyCharge();
       return w;

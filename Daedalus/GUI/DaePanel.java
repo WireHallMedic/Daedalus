@@ -1,6 +1,6 @@
 package Daedalus.GUI;
 
-import WidlerSuite.*;
+import Daedalus.Engine.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.*;

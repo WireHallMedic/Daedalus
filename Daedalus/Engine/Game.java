@@ -3,7 +3,6 @@ package Daedalus.Engine;
 import Daedalus.GUI.*;
 import Daedalus.Zone.*;
 import Daedalus.Actor.*;
-import WidlerSuite.Coord;
 import java.util.*;
 import java.awt.event.*;
 

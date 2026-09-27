@@ -15,7 +15,6 @@ import Daedalus.GUI.*;
 import Daedalus.Zone.*;
 import Daedalus.Actor.*;
 import Daedalus.Engine.*;
-import WidlerSuite.Coord;
 import java.util.*;
 
 public class DroneAI extends WanderAI implements AIConstants, ZoneConstants

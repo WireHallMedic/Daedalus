@@ -1,0 +1,219 @@
+/*******************************************************************************************
+  
+A portable A* pathing class.
+Accepts an array of boolean values, or difficulty mulitipliers for the map.
+Internally keeps decimal data as int types, to help with speed
+   
+Procedure:
+   OL = open list, CL = closed list, H = estimated distance to target,
+   G = distance traveled so far
+      
+   1) Add origin node to OL
+   2) Node P = the node which has the lowest H+G on the OL.
+   3) For each passable cell adjacent to P that is not on the CL,
+      if new cell == target, end.
+      newG = P.G + entry cost of this node.
+      If not on OL: Add to OL.  G = newG
+      If on OL: if G > newG, G = newG, parent = P
+      else do nothing
+   4) Add P to CL.  Go to step 2.
+
+Once you end, then follow the parents back for the target node to find the path.
+Returns a Vector of Coords; either from the origin to the path, or empty if no path
+was found.
+    
+Copyright 2019 Michael Widler
+Free for private or public use. No warranty is implied or expressed.
+*******************************************************************************************/
+
+package Daedalus.Zone;
+
+import Daedalus.Engine.*;
+import java.util.*;
+
+public class AStar implements ZoneConstants
+{
+   protected boolean[][] passMap;
+   protected int[][] closedMap;
+   protected AStarOpenList openList;
+   protected int iteration;
+   protected int width;
+   protected int height;
+   protected boolean searchDiagonal = true;
+    
+   public static int MAX_LOOPS = 5000;
+   public static final double H_MULTIPLIER = 1.2;
+    
+   public void setSearchDiagonal(boolean sd){searchDiagonal = sd;}
+    
+   // constructor
+   public AStar()
+   {
+      passMap = new boolean[0][0];
+      closedMap = new int[0][0];
+      openList = new AStarOpenList();
+      iteration = 0;
+      width = 0;
+      height = 0;
+   }
+    
+   // Primary function. Attempts to make a path.
+   public Vector<Coord> path(boolean[][] pm, Coord start, Coord end)
+   {
+      setMap(pm);
+      mainLoop(start, end);
+      return getPath(start, end);
+   }
+   public Vector<Coord> path(boolean[][] pm, int startX, int startY, int endX, int endY){return path(pm, new Coord(startX, startY), new Coord(endX, endY));}
+    
+   // makes a deep copy of a boolean map, and sets internal values accordingly
+   public void setMap(boolean[][] pm)
+   {
+      if(width != pm.length || height != pm[0].length)
+      {
+         width = pm.length;
+         height = pm[0].length;
+         closedMap = new int[width][height];
+         iteration = 0;
+      }
+      passMap = new boolean[width][height];
+      for(int x = 0; x < width; x++)
+      for(int y = 0; y < height; y++)
+          passMap[x][y] = pm[x][y];
+   }
+    
+   // Returns the distance heuristic. This is the primary tuning point; path optimization is improved by decreasing the multiplier,
+   // but this increases the number of cycles needed.
+   protected static double getDistHeur(Coord origin, Coord terminus)
+   {
+       int x = origin.x - terminus.x;
+       int y = origin.y - terminus.y;
+       return Math.sqrt((x * x) + (y * y)) * H_MULTIPLIER;
+   }
+    
+   // check to stay in bounds
+   protected boolean isInBounds(Coord c)
+   {
+       return c.x >= 0 && c.y >= 0 && c.x < width && c.y < height;
+   }
+    
+   // traces the path, then returns it
+   public Vector<Coord> getPath(Coord origin, Coord terminus)
+   {
+      Vector<Coord> pathToOrigin = new Vector<Coord>();
+      Vector<Coord> pathToTerminus = new Vector<Coord>();
+      // run the thing
+      if(openList.pathExists(terminus))
+      {
+         AStarNode curNode = openList.peek();
+         pathToOrigin.add(curNode.getLoc());
+         while(curNode.getLoc().equals(origin) == false)
+         {
+            curNode = curNode.getParentNode();
+            pathToOrigin.add(curNode.getLoc());
+         }
+         for(int i = pathToOrigin.size() - 2; i >= 0; i -= 1)
+         {
+            pathToTerminus.add(pathToOrigin.elementAt(i));
+         }
+      }
+      return pathToTerminus;
+   }
+   public Vector<Coord> getPath(int originX, int originY, int terminusX, int terminusY)
+   {
+      return getPath(new Coord(originX, originY), new Coord(terminusX, terminusY));
+   }
+    
+   // main work loop. See description at beginning of document.
+   protected void mainLoop(Coord origin, Coord terminus)
+   {
+      openList = new AStarOpenList(origin, getDistHeur(origin, terminus));
+      int loops = 0;
+      iteration += 1;
+      closedMap[origin.x][origin.y] = iteration;
+      int[][] adjTiles;
+      while(openList.pathExists(terminus) == false && openList.size() > 0 && loops < MAX_LOOPS)
+      {
+         loops += 1;
+         // pop the list
+         AStarNode curNode = openList.pop();
+         // did we find the end?
+         if(curNode.getLoc().equals(terminus))
+         {
+            openList.pushToFront(curNode);
+            break;
+         }
+            
+         // get list of adjacent tile directions
+         if(searchDiagonal)
+            adjTiles = RECT_DIAG;
+         else
+            adjTiles = RECT_ORTHO;
+
+         for(int[] locInfo : adjTiles)
+         {
+            Coord curLoc = new Coord(curNode.getLoc().x + locInfo[0], curNode.getLoc().y + locInfo[1]);
+            if(isInBounds(curLoc) && closedMap[curLoc.x][curLoc.y] != iteration && passMap[curLoc.x][curLoc.y])
+            {
+               // else is this already on the openlist?
+               if(openList.contains(curLoc))
+               {
+                  openList.update(curLoc, curNode, locInfo[2] / 10.0);
+               }
+               // final else
+               else
+               {
+                  openList.push(new AStarNode(curLoc, curNode, getDistHeur(curLoc, terminus), locInfo[2] / 10.0));
+               }
+               // mark as closed
+               closedMap[curLoc.x][curLoc.y] = iteration;
+            }
+         }
+      }
+   }
+   
+   public static void main(String[] args)
+   {
+      boolean[][] boolArr = new boolean[15][15];
+      Coord startLoc = new Coord();
+      Coord endLoc = new Coord();
+      char[] charList = {
+         '.', '.', '.', '.', '.', '.', '.', '#', '.', '#', '.', '.', '.', '.', '.', 
+         '.', '.', '.', '.', '.', '.', '.', '#', '.', '.', '.', '.', '.', '.', '.', 
+         '.', '.', '.', '.', '.', '.', '.', '#', '.', '#', '.', '.', ',', ',', ',', 
+         '.', '.', '.', '.', '.', '.', '.', '#', '.', '#', ',', '.', '.', '.', '.', 
+         '.', '.', '.', '.', '.', '.', '.', '#', '.', '#', ',', '.', '.', '.', '.', 
+         '.', '.', ',', '.', '.', '.', '.', '#', '.', '#', ',', '.', '.', '.', '.', 
+         '.', '.', ',', '.', '.', '.', '.', '#', '.', '#', ',', '.', '.', '.', '.', 
+         '.', '@', ',', '.', '.', '.', '.', '#', '.', '#', ',', '.', '.', '.', '.', 
+         '.', '.', ',', '.', '.', '.', '.', '#', '.', '#', '.', '.', '.', '.', '.', 
+         '.', '.', ',', '.', '.', '.', '.', '#', '.', '#', '.', '.', ',', ',', ',', 
+         '.', '.', '.', '.', '.', '.', '.', '#', '.', '#', ',', '.', '.', '.', '.', 
+         '.', '.', '.', '.', '.', '.', '.', '#', '.', '#', ',', '.', '.', '.', '.', 
+         '.', '.', ',', '.', '.', '.', '.', '.', '.', '#', ',', '.', '.', '!', '.', 
+         '.', '.', ',', '.', '.', '.', '.', '#', '.', '#', ',', '.', '.', '.', '.', 
+         '.', '.', ',', '.', '.', '.', '.', '#', '.', '#', ',', '.', '.', '.', '.'};
+
+      for(int x = 0; x < 15; x++)
+      for(int y = 0; y < 15; y++)
+      {
+         char curChar = charList[x + (15 * y)];
+         boolean curBool = false;
+         if(curChar != '#')
+            curBool = true;
+         if(curChar == '@')
+         {
+            startLoc.x = x;
+            startLoc.y = y;
+         }
+         if(curChar == '!')
+         {
+            endLoc.x = x;
+            endLoc.y = y;
+         }
+         boolArr[x][y] = curBool;
+      }
+      AStar aStar = new AStar();
+      aStar.path(boolArr, startLoc, endLoc);
+   }
+}

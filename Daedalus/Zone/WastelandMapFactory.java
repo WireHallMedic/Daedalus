@@ -8,9 +8,6 @@ import Daedalus.GUI.*;
 import Daedalus.Item.*;
 import Daedalus.Actor.*;
 import Daedalus.Engine.*;
-import WidlerSuite.Coord;
-import WidlerSuite.FloodFill;
-import WidlerSuite.SpiralSearch;
 
 public class WastelandMapFactory extends MapFactory implements ZoneConstants, GUIConstants
 {

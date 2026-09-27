@@ -1,7 +1,6 @@
 package Daedalus.GUI;
 
-import WidlerSuite.Coord;
-import Daedalus.Engine.Game;
+import Daedalus.Engine.*;
 import Daedalus.Actor.*;
 import Daedalus.Zone.*;
 import java.awt.*;

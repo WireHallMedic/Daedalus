@@ -1,6 +1,5 @@
 package Daedalus.GUI;
 
-import WidlerSuite.WSFontConstants;
 import java.awt.*;
 import java.util.*;
 

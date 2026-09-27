@@ -1,6 +1,5 @@
 package Daedalus.Item;
 
-import WidlerSuite.WSFontConstants;
 import Daedalus.GUI.*;
 
 public interface ItemConstants
@@ -16,7 +15,7 @@ public interface ItemConstants
    
    public enum ItemBase
    {
-      CREDITS     (WSFontConstants.CENT_TILE, WSFontConstants.CENT_TILE),
+      CREDITS     (FontConstants.CENT_TILE, FontConstants.CENT_TILE),
       WEAPON      ('}', '{'),
       SHIELD      (')', '('),
       ARMOR       (']', '['),
