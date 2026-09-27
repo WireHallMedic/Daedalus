@@ -432,7 +432,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
          resolveKnockbackStep();
    }
    
-   public void scriptExpiring(AnimationScript source)
+   public void scriptExpiring(GroundAnimationScript source)
    {
       if(knockbackDistance > 0)
       {

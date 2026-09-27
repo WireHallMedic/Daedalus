@@ -3,34 +3,23 @@ package Daedalus.GUI;
 import java.awt.*;
 import java.util.*;
 
-public class AnimationScript
+public class AnimationScript extends GroundAnimationScript
 {
-   public static final int LOOP = 1;
+   public static final int LOOP = GroundAnimationScript.LOOP;
    public static final int EXPIRE_TARGET = 2;
    public static final int CENTER_TARGET = 4;
    
-	private UnboundTile target;
-	private int endBehavior;
-	private int age;
+	private UnboundTile targetUnboundTile;
    private boolean nonTrackingMovement;   // non-tracking movement is ignored for centering screen on player
-	private int[] tileIndexList;
-	private int[] fgColorList;
-	private int[] bgColorList;
 	private int[] lowerTileIndexList;
 	private double[] xMoveList;
 	private double[] yMoveList;
 	private double[] scaleList;
-   private UnboundTile originalTile;
-   private Vector<ScriptListener> scriptListenerList;
+   private UnboundTile originalUnboundTile;
 
 
-	public UnboundTile getTarget(){return target;}
-	public int getEndBehavior(){return endBehavior;}
-	public int getAge(){return age;}
+	public UnboundTile getTarget(){return targetUnboundTile;}
    public boolean isNonTrackingMovement(){return nonTrackingMovement;}
-	public int[] getTileIndexList(){return tileIndexList;}
-	public int[] getFGColorList(){return fgColorList;}
-	public int[] getBGColorList(){return bgColorList;}
 	public int[] getLowerTileIndexList(){return lowerTileIndexList;}
 	public double[] getXMoveList(){return xMoveList;}
 	public double[] getYMoveList(){return yMoveList;}
@@ -38,13 +27,8 @@ public class AnimationScript
    public Vector<ScriptListener> getScriptListenerList(){return scriptListenerList;}
 
 
-	public void setTarget(UnboundTile t){target = t;}
-	public void setEndBehavior(int e){endBehavior = e;}
-	public void setAge(int a){age = a;}
+	public void setTarget(UnboundTile t){targetUnboundTile = t; originalUnboundTile = targetUnboundTile.copy();}
    public void setNonTrackingMovement(boolean ntm){nonTrackingMovement = ntm;}
-	public void setTileIndexList(int[] i){tileIndexList = i;}
-	public void setFGColorList(int[] f){fgColorList = f;}
-	public void setBGColorList(int[] b){bgColorList = b;}
 	public void setLowerTileIndexList(int[] l){lowerTileIndexList = l;}
 	public void setXMoveList(double[] x){xMoveList = x;}
 	public void setYMoveList(double[] y){yMoveList = y;}
@@ -54,35 +38,22 @@ public class AnimationScript
 
    public AnimationScript(UnboundTile _target)
    {
-      target = _target;
-      endBehavior = 0;
-      age = -1;
-      nonTrackingMovement = false;
-      tileIndexList = null;
-   	fgColorList = null;
-   	bgColorList = null;
+      super(null);
+      targetUnboundTile = _target;
    	lowerTileIndexList = null;
    	xMoveList = null;
    	yMoveList = null;
    	scaleList = null;
-      scriptListenerList = new Vector<ScriptListener>();
-      originalTile = target.copy();
+      if(targetUnboundTile != null)
+         originalUnboundTile = targetUnboundTile.copy();
+      else
+         originalUnboundTile = null;
    }
    
-   public void addScriptListener(ScriptListener sl)
-   {
-      scriptListenerList.add(sl);
-   }
    
    public int getLifespan()
    {
-      int lifespan = 0;
-      if(tileIndexList != null)
-         lifespan = Math.max(lifespan, tileIndexList.length);
-      if(fgColorList != null)
-         lifespan = Math.max(lifespan, fgColorList.length);
-      if(bgColorList != null)
-         lifespan = Math.max(lifespan, bgColorList.length);
+      int lifespan = super.getLifespan();
       if(lowerTileIndexList != null)
          lifespan = Math.max(lifespan, lowerTileIndexList.length);
       if(xMoveList != null)
@@ -92,11 +63,6 @@ public class AnimationScript
       if(scaleList != null)
          lifespan = Math.max(lifespan, scaleList.length);
       return lifespan;
-   }
-   
-   public boolean isExpired()
-   {
-      return age >= getLifespan();
    }
    
    public void update()
@@ -110,40 +76,40 @@ public class AnimationScript
       if(!isExpired())
       {
          if(tileIndexList != null)
-            target.setTileIndex(tileIndexList[age]);
+            targetUnboundTile.setTileIndex(tileIndexList[age]);
          if(fgColorList != null)
-            target.setFGColor(fgColorList[age]);
+            targetUnboundTile.setFGColor(fgColorList[age]);
          if(bgColorList != null)
-            target.setBGColor(bgColorList[age]);
+            targetUnboundTile.setBGColor(bgColorList[age]);
          if(lowerTileIndexList != null)
-            target.setLowerTileIndex(lowerTileIndexList[age]);
+            targetUnboundTile.setLowerTileIndex(lowerTileIndexList[age]);
          if(scaleList != null)
-            target.setScale(scaleList[age]);
+            targetUnboundTile.setScale(scaleList[age]);
          if(nonTrackingMovement)
          {
             if(xMoveList != null)
-               target.setNonTrackingXOffset(target.getNonTrackingXOffset() + xMoveList[age]);
+               targetUnboundTile.setNonTrackingXOffset(targetUnboundTile.getNonTrackingXOffset() + xMoveList[age]);
             if(yMoveList != null)
-               target.setNonTrackingYOffset(target.getNonTrackingYOffset() + yMoveList[age]);
+               targetUnboundTile.setNonTrackingYOffset(targetUnboundTile.getNonTrackingYOffset() + yMoveList[age]);
          }
          else
          {
             if(xMoveList != null)
-               target.setXOffset(target.getXOffset() + xMoveList[age]);
+               targetUnboundTile.setXOffset(targetUnboundTile.getXOffset() + xMoveList[age]);
             if(yMoveList != null)
-               target.setYOffset(target.getYOffset() + yMoveList[age]);
+               targetUnboundTile.setYOffset(targetUnboundTile.getYOffset() + yMoveList[age]);
          }
       }
    }
    
-   private void resolveEndBehavior()
+   protected void resolveEndBehavior()
    {
       // put stuff back
-      target.setFGColor(originalTile.getFGColor());
-      target.setBGColor(originalTile.getBGColor());
-      target.setTileIndex(originalTile.getTileIndex());
-      target.setLowerTileIndex(originalTile.getLowerTileIndex());
-      target.setScale(originalTile.getScale());
+      targetUnboundTile.setFGColor(originalUnboundTile.getFGColor());
+      targetUnboundTile.setBGColor(originalUnboundTile.getBGColor());
+      targetUnboundTile.setTileIndex(originalUnboundTile.getTileIndex());
+      targetUnboundTile.setLowerTileIndex(originalUnboundTile.getLowerTileIndex());
+      targetUnboundTile.setScale(originalUnboundTile.getScale());
    
       if((endBehavior & LOOP) > 0)
       {
@@ -151,24 +117,25 @@ public class AnimationScript
       }
       if((endBehavior & EXPIRE_TARGET) > 0)
       {
-         target.setExpired(true);
+         targetUnboundTile.setExpired(true);
       }
       if((endBehavior & CENTER_TARGET) > 0)
       {
          if(nonTrackingMovement)
          {
-            target.setNonTrackingXOffset(0.0);
-            target.setNonTrackingYOffset(0.0);
+            targetUnboundTile.setNonTrackingXOffset(0.0);
+            targetUnboundTile.setNonTrackingYOffset(0.0);
          }
          else
          {
-            target.setXOffset(0.0);
-            target.setYOffset(0.0);
+            targetUnboundTile.setXOffset(0.0);
+            targetUnboundTile.setYOffset(0.0);
          }
       }
       
-      for(ScriptListener listener: scriptListenerList)
-         listener.scriptExpiring(this);
+      if(isExpired())
+         for(ScriptListener listener: scriptListenerList)
+            listener.scriptExpiring(this);
    }
 }
 

@@ -2,5 +2,5 @@ package Daedalus.GUI;
 
 public interface ScriptListener
 {
-   public void scriptExpiring(AnimationScript source);
+   public void scriptExpiring(GroundAnimationScript source);
 }
