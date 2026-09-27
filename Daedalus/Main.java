@@ -3,6 +3,7 @@ package Daedalus;
 import Daedalus.AI.*;
 import Daedalus.GUI.*;
 import Daedalus.Item.*;
+import Daedalus.Combat.*;
 import Daedalus.Engine.*;
 import Daedalus.Ability.*;
 import Daedalus.Actor.*;
@@ -20,9 +21,7 @@ public class Main
       
       Actor a = ActorFactory.getPlayer();
       a.setTileLoc(3, 5);
-      Weapon w = WeaponFactory.getShotgun();
-      WeaponFactory.setLowQuality(w);
-      a.addToInventory(w);
+      a.getCurWeapon().getAttack().getBaseDamage().setValue(CombatConstants.DamageType.PIERCE, 20);
       game.setPlayer(a);
 
       Actor b = ActorFactory.getDrone();

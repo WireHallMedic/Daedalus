@@ -58,7 +58,8 @@ public class Zone
    
    public void populate()
    {
-      int threatBudget = calculateThreat() - map.getMinThreat();
+      int threatBudget = map.getMinThreat() - calculateThreat();
+      
       if(!initiallyPopulated)
       {
          threatBudget = map.getMaxThreat();
