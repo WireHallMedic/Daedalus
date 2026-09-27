@@ -48,7 +48,8 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
          AnimationManager.addLocking(as);
          // only do screenshake if you hit something
          if(defenderList.size() > 0)
-            AnimationManager.setScreenShake(AnimationScriptFactory.MELEE_IMPACT_DELAY);
+            if(Game.shouldReport(attacker, defenderList))
+               AnimationManager.setScreenShake(AnimationScriptFactory.MELEE_IMPACT_DELAY);
       }
       else
       {
@@ -78,11 +79,14 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
          for(int j = 0; j < rateOfFire; j++)
             damageCount += applyAttack(attacker, defender, attack, attackOrigin);
          defender.notice(attacker);
-         String damageMessage = String.format("%s %s %s for %d damage! ", attacker.getName(), attack.getHitVerb(), 
-                                              defender.getName(), damageCount);
-         if(defender.isDead())
-            damageMessage += defender.getName() + " is dead! ";
-         MainGamePanel.addMessage(damageMessage);
+         if(Game.shouldReport(attacker, defender))
+         {
+            String damageMessage = String.format("%s %s %s for %d damage! ", attacker.getName(), attack.getHitVerb(), 
+                                                 defender.getName(), damageCount);
+            if(defender.isDead())
+               damageMessage += defender.getName() + " is dead! ";
+            MainGamePanel.addMessage(damageMessage);
+         }
          dir = Direction.getDirectionTo(defender.getTileLoc(), attacker.getTileLoc());
          if(attack.isMelee())
          {

@@ -461,7 +461,7 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
          case KeyEvent.VK_ESCAPE:
             mode = ACT_MODE;
             clearMessage();
-            MainGamePanel.addMessage("Attack Cancelled", true);
+            MainGamePanel.addMessage("Attack cancelled", true);
             Game.getPlayer().getAI().clearPlan();
             setNonTargetingValues();
             break;

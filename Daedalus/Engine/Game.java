@@ -243,4 +243,23 @@ public class Game implements Runnable
       }
       System.out.println("No matching exit found.");
    }
+   
+   public static boolean shouldReport(Actor attacker){return shouldReport(attacker, (Actor)null);}
+   public static boolean shouldReport(Actor attacker, Actor defender)
+   {
+      if(attacker == Game.getPlayer() || defender == Game.getPlayer())
+         return true;
+      if(attacker != null && Game.getPlayer().canSee(attacker))
+         return true;
+      if(defender != null && Game.getPlayer().canSee(defender))
+         return true;
+      return false;
+   }
+   public static boolean shouldReport(Actor attacker, Vector<Actor> defenderList)
+   {
+      for(Actor defender: defenderList)
+         if(shouldReport(attacker, defender))
+            return true;
+      return false;
+   }
 }
