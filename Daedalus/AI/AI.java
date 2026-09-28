@@ -200,7 +200,7 @@ public class AI implements AIConstants, ZoneConstants
    
    protected void doDelay()
    {
-      self.discharge(self.getMoveSpeed());
+      self.discharge(ActorConstants.ActionSpeed.NORMAL);
    }
    
    protected void doStep()
