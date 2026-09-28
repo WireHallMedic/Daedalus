@@ -167,16 +167,13 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
       int barWidth = 6;
       for(int i = 0; i < nearbyActors.size() && i < SURROUNDINGS_PANEL_HEIGHT; i++)
       {
-         Actor a = nearbyActors.elementAt(i);
-         writeActorSummary(a, row, barWidth);
+         writeActorSummary(nearbyActors.elementAt(i), row, barWidth);
          row += 2;
       }
       Vector<Item> nearbyItems = getItemsForSurroundingsPanel();
       for(int i = 0; i < nearbyItems.size(); i++)
       {
-         Item item = nearbyItems.elementAt(i);
-         setTile(SURROUNDINGS_PANEL_X_START + 1, row, item.getTileIndex(), item.getFGColor(), item.getBGColor());
-         write(SURROUNDINGS_PANEL_X_START + 2, row, " " + item.getName(), WHITE, BLACK, SURROUNDINGS_PANEL_WIDTH - 3, 1);
+         writeItemSummary(nearbyItems.elementAt(i), row, barWidth);
          row++;
       }
       while(row < SURROUNDINGS_PANEL_Y_START + SURROUNDINGS_PANEL_HEIGHT)
@@ -200,6 +197,12 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
          write(SURROUNDINGS_PANEL_X_START, row + 1, "", WHITE, BLACK, SURROUNDINGS_PANEL_WIDTH, 1);
       }
       write(SURROUNDINGS_PANEL_X_START + 12, row, a.getName(), WHITE, BLACK, SURROUNDINGS_PANEL_WIDTH - 12, 1);
+   }
+   
+   private void writeItemSummary(Item item, int row, int barWidth)
+   {
+      setTile(SURROUNDINGS_PANEL_X_START + 1, row, item.getTileIndex(), item.getFGColor(), item.getBGColor());
+      write(SURROUNDINGS_PANEL_X_START + 2, row, " " + item.getName(), WHITE, BLACK, SURROUNDINGS_PANEL_WIDTH - 3, 1);
    }
    
    
