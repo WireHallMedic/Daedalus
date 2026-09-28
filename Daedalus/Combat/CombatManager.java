@@ -37,7 +37,10 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
 
       for(int i = 0; i < affectedList.size(); i++)
       {
-         AnimationScriptFactory.addGroundFlash(affectedList.elementAt(i));
+         if(attack.isMelee())
+            AnimationScriptFactory.addMeleeGroundFlash(affectedList.elementAt(i));
+         else
+            AnimationScriptFactory.addGroundFlash(affectedList.elementAt(i));
          if(Game.isActorAt(affectedList.elementAt(i)))
             defenderList.add(Game.getActorAt(affectedList.elementAt(i)));
       }
@@ -54,9 +57,12 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
       }
       else
       {
-         as = AnimationScriptFactory.getRecoil(attacker, dir);
-         AnimationManager.addLocking(as);
-         AnimationManager.setScreenRumble();
+         if(Game.shouldReport(attacker))
+         {
+            as = AnimationScriptFactory.getRecoil(attacker, dir);
+            AnimationManager.addLocking(as);
+            AnimationManager.setScreenRumble();
+         }
       }
       MainGamePanel.clearMessage();
       if(attack.getImpactEffect() != null)
@@ -87,17 +93,17 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
             if(defender.isDead())
                damageMessage += defender.getName() + " is dead! ";
             MainGamePanel.addMessage(damageMessage);
-         }
-         dir = Direction.getDirectionTo(defender.getTileLoc(), attacker.getTileLoc());
-         if(attack.isMelee())
-         {
-            as = AnimationScriptFactory.getMeleeImpact(defender, dir);
-            AnimationManager.addLocking(as);
-         }
-         else
-         {
-            as = AnimationScriptFactory.getRecoil(defender, dir);
-            AnimationManager.addLocking(as);
+            dir = Direction.getDirectionTo(defender.getTileLoc(), attacker.getTileLoc());
+            if(attack.isMelee())
+            {
+               as = AnimationScriptFactory.getMeleeImpact(defender, dir);
+               AnimationManager.addLocking(as);
+            }
+            else
+            {
+               as = AnimationScriptFactory.getRecoil(defender, dir);
+               AnimationManager.addLocking(as);
+            }
          }
       }
    }

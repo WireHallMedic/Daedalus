@@ -166,6 +166,15 @@ public class AnimationScriptFactory implements ZoneConstants, GUIConstants
    }
    public static GroundAnimationScript getGroundFlash(Coord c){return getGroundFlash(c.x, c.y);}
    
+   public static GroundAnimationScript getMeleeGroundFlash(int x, int y)
+   {
+      ImageTile it = Game.getCurMap().getTile(x, y);
+      GroundAnimationScript gas = getGroundFlash(x, y);
+      gas.setBGColorList(prepend(it.getBGColor(), MELEE_IMPACT_DELAY, gas.getBGColorList()));
+      return gas;
+   }
+   public static GroundAnimationScript getMeleeGroundFlash(Coord c){return getMeleeGroundFlash(c.x, c.y);}
+   
    // adders. Create and add to boardpanel and animationmanager
    ///////////////////////////////////////////////////////////////////////////////
    
@@ -263,6 +272,13 @@ public class AnimationScriptFactory implements ZoneConstants, GUIConstants
    }
    public static void addGroundFlash(Coord c){addGroundFlash(c.x, c.y);}
    
+   public static void addMeleeGroundFlash(int x, int y)
+   {
+      GroundAnimationScript gas = getMeleeGroundFlash(x, y);
+      AnimationManager.addGroundAnimation(gas);
+   }
+   public static void addMeleeGroundFlash(Coord c){addMeleeGroundFlash(c.x, c.y);}
+   
    // private methods
    /////////////////////////////////////////////////////////////
    
@@ -346,6 +362,16 @@ public class AnimationScriptFactory implements ZoneConstants, GUIConstants
    private static double[] prepend(double val, int count, double[] original)
    {
       double[] newArray = new double[count + original.length];
+      for(int i = 0; i < count; i++)
+         newArray[i] = val;
+      for(int i = 0; i < original.length; i++)
+         newArray[count + i] = original[i];
+      return newArray;
+   }
+   
+   private static int[] prepend(int val, int count, int[] original)
+   {
+      int[] newArray = new int[count + original.length];
       for(int i = 0; i < count; i++)
          newArray[i] = val;
       for(int i = 0; i < original.length; i++)

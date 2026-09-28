@@ -22,15 +22,15 @@ public class Main
       Actor a = ActorFactory.getPlayer();
       a.setTileLoc(3, 5);
       a.getCurWeapon().getAttack().getBaseDamage().setValue(CombatConstants.DamageType.PIERCE, 20);
-      game.setPlayer(a);
+      Game.setPlayer(a);
 
       Actor b = ActorFactory.getDrone();
       b.setTileLoc(6, 6);
       zoneList.elementAt(1).getActorList().add(b);
       
-      game.setZoneList(zoneList);
-      game.setZone(zoneList.elementAt(0), new Coord(3, 5));
-      game.play();
+      Game.setZoneList(zoneList);
+      Game.setZone(zoneList.elementAt(0), new Coord(3, 5));
+      Game.play();
 
    }
 }
