@@ -183,6 +183,14 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
          write(SURROUNDINGS_PANEL_X_START + 12, row, a.getName(), WHITE, BLACK, SURROUNDINGS_PANEL_WIDTH - 12, 1);
          row += 2;
       }
+      Vector<Item> nearbyItems = getItemsForSurroundingsPanel();
+      for(int i = 0; i < nearbyItems.size(); i++)
+      {
+         Item item = nearbyItems.elementAt(i);
+         setTile(SURROUNDINGS_PANEL_X_START + 1, row, item.getTileIndex(), item.getFGColor(), item.getBGColor());
+         write(SURROUNDINGS_PANEL_X_START + 2, row, " " + item.getName(), WHITE, BLACK, SURROUNDINGS_PANEL_WIDTH - 3, 1);
+         row++;
+      }
       while(row < SURROUNDINGS_PANEL_Y_START + SURROUNDINGS_PANEL_HEIGHT)
       {
          write(SURROUNDINGS_PANEL_X_START, row, "", WHITE, BLACK, SURROUNDINGS_PANEL_WIDTH, 1);
@@ -206,6 +214,32 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
          }
       }
       return actorList;
+   }
+   
+   
+   private Vector<Item> getItemsForSurroundingsPanel()
+   {
+      Vector<Item> itemList = new Vector<Item>();
+      Actor player = Game.getPlayer();
+      if(player == null)
+         return itemList;
+      int xStart = player.getTileLoc().x - player.getVisionRadius();
+      int yStart = player.getTileLoc().y - player.getVisionRadius();
+      int diameter = player.getVisionRadius() * 2 + 1;
+      for(int x = 0; x < diameter; x++)
+      for(int y = 0; y < diameter; y++)
+      {
+         if(player.canSee(x + xStart, y + yStart))
+         {
+            if(Game.getCurMap().isItemAt(x + xStart, y + yStart))
+            {
+               Item item = Game.getCurMap().getItemAt(x + xStart, y + yStart);
+               if(!(item instanceof Credits))
+                  itemList.add(item);
+            }
+         }
+      }
+      return itemList;
    }
    
    
