@@ -168,19 +168,7 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
       for(int i = 0; i < nearbyActors.size() && i < SURROUNDINGS_PANEL_HEIGHT; i++)
       {
          Actor a = nearbyActors.elementAt(i);
-         setTile(SURROUNDINGS_PANEL_X_START + 1, row, a.getTileIndex(), a.getFGColor(), a.getBGColor());
-         if(a.hasShield())
-         {
-            drawBar(SURROUNDINGS_PANEL_X_START + 3, row, a.getCurShield(), a.getMaxShield(), barWidth, SHIELD_COLOR);
-            drawBar(SURROUNDINGS_PANEL_X_START + 3, row + 1, a.getCurHealth(), a.getMaxHealth(), barWidth, HEALTH_COLOR);
-         }
-         else
-         {
-            drawBar(SURROUNDINGS_PANEL_X_START + 3, row, a.getCurHealth(), a.getMaxHealth(), barWidth, HEALTH_COLOR);
-            write(SURROUNDINGS_PANEL_X_START, row + 1, "", WHITE, BLACK, SURROUNDINGS_PANEL_WIDTH, 1);
-         }
-
-         write(SURROUNDINGS_PANEL_X_START + 12, row, a.getName(), WHITE, BLACK, SURROUNDINGS_PANEL_WIDTH - 12, 1);
+         writeActorSummary(a, row, barWidth);
          row += 2;
       }
       Vector<Item> nearbyItems = getItemsForSurroundingsPanel();
@@ -196,7 +184,22 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
          write(SURROUNDINGS_PANEL_X_START, row, "", WHITE, BLACK, SURROUNDINGS_PANEL_WIDTH, 1);
          row++;
       }
-      
+   }
+   
+   private void writeActorSummary(Actor a, int row, int barWidth)
+   {
+      setTile(SURROUNDINGS_PANEL_X_START + 1, row, a.getTileIndex(), a.getFGColor(), a.getBGColor());
+      if(a.hasShield())
+      {
+         drawBar(SURROUNDINGS_PANEL_X_START + 3, row, a.getCurShield(), a.getMaxShield(), barWidth, SHIELD_COLOR);
+         drawBar(SURROUNDINGS_PANEL_X_START + 3, row + 1, a.getCurHealth(), a.getMaxHealth(), barWidth, HEALTH_COLOR);
+      }
+      else
+      {
+         drawBar(SURROUNDINGS_PANEL_X_START + 3, row, a.getCurHealth(), a.getMaxHealth(), barWidth, HEALTH_COLOR);
+         write(SURROUNDINGS_PANEL_X_START, row + 1, "", WHITE, BLACK, SURROUNDINGS_PANEL_WIDTH, 1);
+      }
+      write(SURROUNDINGS_PANEL_X_START + 12, row, a.getName(), WHITE, BLACK, SURROUNDINGS_PANEL_WIDTH - 12, 1);
    }
    
    
