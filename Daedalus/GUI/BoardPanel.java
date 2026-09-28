@@ -97,15 +97,15 @@ public class BoardPanel extends DaePanel implements GUIConstants
    {
       if(Game.getCurMap() == null)
          return;
+         
+      // draw actors
       Vector<Actor> actorList = Game.getActorList();
       if(actorList != null)
       {
          for(int i = 0; i < actorList.size(); i++)
             actorList.elementAt(i).drawToImage(g2dUnscaled, palette, cornerLoc);
       }
-      for(int i = 0; i < unboundTileList.size(); i++)
-         unboundTileList.elementAt(i).drawToImage(g2dUnscaled, palette, cornerLoc);
-          
+      
       // occlude tiles outsize the player's FoV
       BufferedImage blackSquare = palette.getTile(' ');
       for(int x = 0; x < tilesWide; x++)
@@ -115,6 +115,10 @@ public class BoardPanel extends DaePanel implements GUIConstants
             g2dUnscaled.drawImage(Game.getCurMap().getLastSeen(x + cornerLoc.x, y + cornerLoc.y), 
                                   palette.getTileWidth() * x, palette.getTileHeight() * y, null);
       }
+      
+      // draw unbound tiles
+      for(int i = 0; i < unboundTileList.size(); i++)
+         unboundTileList.elementAt(i).drawToImage(g2dUnscaled, palette, cornerLoc);
       
       // draw cursor if needed
       if(AnimationManager.getMediumBlink() && parentPanel.getMode() != MainGamePanel.ACT_MODE)
