@@ -235,7 +235,8 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
          drawBar(SURROUNDINGS_PANEL_X_START + 3, row, a.getCurHealth(), a.getMaxHealth(), barWidth, HEALTH_COLOR);
          write(SURROUNDINGS_PANEL_X_START, row + 1, "", WHITE, BLACK, SURROUNDINGS_PANEL_WIDTH, 1);
       }
-      write(SURROUNDINGS_PANEL_X_START + 12, row, a.getName(), WHITE, BLACK, SURROUNDINGS_PANEL_WIDTH - 12, 1);
+      String nameStr = a.getName() + " (" + a.getAI().getAttitude() + ")";
+      write(SURROUNDINGS_PANEL_X_START + 12, row, nameStr, WHITE, BLACK, SURROUNDINGS_PANEL_WIDTH - 12, 1);
    }
    
    private void writeItemSummary(Item item, int row)

@@ -419,6 +419,26 @@ public class AI implements AIConstants, ZoneConstants
       }
    }
    
+   public String getAttitude()
+   {
+      if(Game.getPlayer() == null)
+         return "No Player Detected";
+      if(alertness == Alertness.INERT)
+         return "Inactive";
+      if(alertness == Alertness.RELAXED)
+         return "Calm";
+      if(alertness == Alertness.SURPRISED)
+         return "Surprised";
+      if(alertness == Alertness.ALERT)
+      {
+         if(isEnemy(Game.getPlayer()))
+            return "Hostile";
+         else  
+            return "Alert";
+      }
+      return "No case found.";
+   }
+   
    
    
    // memory
