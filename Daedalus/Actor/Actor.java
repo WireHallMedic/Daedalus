@@ -222,11 +222,19 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    
    // stat block
    public int getMaxHealth(){return baseStats.getMaxHealth();}
-	public int getVisionRadius(){return baseStats.getVisionRadius();}
 	public ActionSpeed getMoveSpeed(){return baseStats.getMoveSpeed();}
 	public ActionSpeed getAttackSpeed(){return baseStats.getAttackSpeed();}
 	public ActionSpeed getInteractSpeed(){return baseStats.getInteractSpeed();}
    public boolean isFlying(){return baseStats.isFlying();}
+   
+   
+	public int getVisionRadius()
+   {
+      int v = baseStats.getVisionRadius();
+      if(ai.getAlertness() == AIConstants.Alertness.INERT)
+         v = Math.max(1, v - 2);
+      return v;
+   }
    
    
    // status effects
