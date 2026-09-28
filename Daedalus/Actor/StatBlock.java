@@ -36,6 +36,12 @@ public class StatBlock implements ActorConstants
       flying = false;
    }
    
+   public StatBlock(StatBlock that)
+   {
+      this();
+      this.set(that);
+   }
+   
    public void set(StatBlock that)
    {
       this.maxHealth = that.maxHealth;

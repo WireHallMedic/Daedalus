@@ -16,6 +16,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    private boolean dead;
    private Inventory inventory;
    private StatBlock baseStats;
+   private StatBlock curStats;
    private ShadowFoV fov;
    private ZoneMap curMap;      // used to know when stuff needs to be updated
    private boolean turnHasStarted;
@@ -38,6 +39,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    public boolean isDead(){return dead;}
    public Inventory getInventory(){return inventory;}
    public StatBlock getBaseStats(){return baseStats;}
+   public StatBlock getCurStats(){return curStats;}
    public ShadowFoV getFoV(){return fov;}
    public int getCurHealth(){return curHealth;}
 	public Weapon getWeapon1(){return weapon1;}
@@ -98,6 +100,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
       baseStats.setVisionRadius(10);
       
       statusEffectList = new Vector<StatusEffect>();
+      setCurStats();
       
       threat = 0;
       
@@ -221,11 +224,20 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    }
    
    // stat block
-   public int getMaxHealth(){return baseStats.getMaxHealth();}
-	public ActionSpeed getMoveSpeed(){return baseStats.getMoveSpeed();}
-	public ActionSpeed getAttackSpeed(){return baseStats.getAttackSpeed();}
-	public ActionSpeed getInteractSpeed(){return baseStats.getInteractSpeed();}
-   public boolean isFlying(){return baseStats.isFlying();}
+   public int getMaxHealth(){return curStats.getMaxHealth();}
+	public ActionSpeed getMoveSpeed(){return curStats.getMoveSpeed();}
+	public ActionSpeed getAttackSpeed(){return curStats.getAttackSpeed();}
+	public ActionSpeed getInteractSpeed(){return curStats.getInteractSpeed();}
+   public boolean isFlying(){return curStats.isFlying();}
+   
+   
+   public void setCurStats()
+   {
+      StatBlock newBlock = new StatBlock(baseStats);
+      for(StatusEffect se: statusEffectList)
+         newBlock.add(se.getStatBlock());
+      curStats = newBlock;
+   }
    
    
 	public int getVisionRadius()
@@ -255,11 +267,13 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
             statusEffectList.elementAt(i).applyTags(this);
          }
       }
+      setCurStats();
    }
    
    public void add(StatusEffect se)
    {
       statusEffectList.add(se);
+      setCurStats();
    }
    
    // health
