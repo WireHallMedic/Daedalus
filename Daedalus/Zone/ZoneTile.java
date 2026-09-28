@@ -36,6 +36,7 @@ public class ZoneTile extends ImageTile implements ZoneConstants, GUIConstants
       this.highPassable = that.highPassable;
       this.transparent = that.transparent;
       this.decorationType = that.decorationType;
+      this.name = that.name;
    }
    
    public ZoneTile copy()
@@ -58,6 +59,7 @@ public class ZoneTile extends ImageTile implements ZoneConstants, GUIConstants
       lowPassable = base.lowPassable;
       highPassable = base.highPassable;
       transparent = base.transparent;
+      name = base.name;
    }
    
    public boolean isPathable()

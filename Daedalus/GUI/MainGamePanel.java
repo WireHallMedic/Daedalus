@@ -165,17 +165,56 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
       Vector<Actor> nearbyActors = getActorsForSurroundingsPanel();
       int row = SURROUNDINGS_PANEL_Y_START;
       int barWidth = 6;
-      for(int i = 0; i < nearbyActors.size() && i < SURROUNDINGS_PANEL_HEIGHT; i++)
+      if(mode == ACT_MODE)
       {
-         writeActorSummary(nearbyActors.elementAt(i), row, barWidth);
-         row += 2;
+         for(int i = 0; i < nearbyActors.size() && i < SURROUNDINGS_PANEL_HEIGHT; i++)
+         {
+            writeActorSummary(nearbyActors.elementAt(i), row, barWidth);
+            row += 2;
+         }
+         Vector<Item> nearbyItems = getItemsForSurroundingsPanel();
+         // excludes credits
+         for(int i = 0; i < nearbyItems.size(); i++)
+         {
+            writeItemSummary(nearbyItems.elementAt(i), row);
+            row++;
+         }
       }
-      Vector<Item> nearbyItems = getItemsForSurroundingsPanel();
-      for(int i = 0; i < nearbyItems.size(); i++)
+      if(mode == LOOK_MODE || mode == TARGETING_MODE)
       {
-         writeItemSummary(nearbyItems.elementAt(i), row, barWidth);
-         row++;
+         Actor actor = null;
+         Item item = null;
+         Corpse corpse = null;
+         ZoneTile zoneTile = null;
+         if(Game.getPlayer().canSee(cursorLoc))
+         {
+            actor = Game.getActorAt(cursorLoc);
+            item = Game.getCurMap().getItemAt(cursorLoc);
+            corpse = Game.getCurMap().getCorpseAt(cursorLoc);
+            zoneTile = Game.getCurMap().getTile(cursorLoc);
+         }
+         if(actor != null)
+         {
+            writeActorSummary(actor, row, barWidth);
+            row += 2;
+         }
+         if(item != null)
+         {
+            writeItemSummary(item, row);
+            row++;
+         }
+         if(zoneTile != null)
+         {
+            writeZoneTileSummary(zoneTile, row);
+            row++;
+         }
+         if(corpse != null)
+         {
+            writeCorpseSummary(corpse, row);
+            row++;
+         }
       }
+      // clear rest of panel
       while(row < SURROUNDINGS_PANEL_Y_START + SURROUNDINGS_PANEL_HEIGHT)
       {
          write(SURROUNDINGS_PANEL_X_START, row, "", WHITE, BLACK, SURROUNDINGS_PANEL_WIDTH, 1);
@@ -199,10 +238,22 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
       write(SURROUNDINGS_PANEL_X_START + 12, row, a.getName(), WHITE, BLACK, SURROUNDINGS_PANEL_WIDTH - 12, 1);
    }
    
-   private void writeItemSummary(Item item, int row, int barWidth)
+   private void writeItemSummary(Item item, int row)
    {
       setTile(SURROUNDINGS_PANEL_X_START + 1, row, item.getTileIndex(), item.getFGColor(), item.getBGColor());
       write(SURROUNDINGS_PANEL_X_START + 2, row, " " + item.getName(), WHITE, BLACK, SURROUNDINGS_PANEL_WIDTH - 3, 1);
+   }
+   
+   private void writeCorpseSummary(Corpse corpse, int row)
+   {
+      setTile(SURROUNDINGS_PANEL_X_START + 1, row, corpse.getTileIndex(), corpse.getFGColor(), BLACK);
+      write(SURROUNDINGS_PANEL_X_START + 2, row, " " + corpse.getName(), WHITE, BLACK, SURROUNDINGS_PANEL_WIDTH - 3, 1);
+   }
+   
+   private void writeZoneTileSummary(ZoneTile zoneTile, int row)
+   {
+      setTile(SURROUNDINGS_PANEL_X_START + 1, row, zoneTile.getTileIndex(), zoneTile.getFGColor(), zoneTile.getBGColor());
+      write(SURROUNDINGS_PANEL_X_START + 2, row, " " + zoneTile.getName(), WHITE, BLACK, SURROUNDINGS_PANEL_WIDTH - 3, 1);
    }
    
    

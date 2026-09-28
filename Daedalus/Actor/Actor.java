@@ -11,7 +11,6 @@ import java.util.*;
 
 public class Actor extends UnboundTile implements ActorConstants, ScriptListener, ZoneConstants
 {
-	private String name;
 	private AI ai;
    private int charge;
    private boolean dead;
@@ -34,7 +33,6 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    private int threat;
 
 
-	public String getName(){return name;}
 	public AI getAI(){return ai;}
    public int getCharge(){return charge;}
    public boolean isDead(){return dead;}
@@ -54,7 +52,6 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    public int getThreat(){return threat;}
 
 
-	public void setName(String n){name = n;}
 	public void setAI(AI a){ai = a;}
    public void setCharge(int c){charge = c;}
    public void setBaseStats(StatBlock bs){baseStats = bs;}
@@ -77,7 +74,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
       super(GUIConstants.SQUARE_PALETTE, '?', GUIConstants.CYAN, GUIConstants.ORANGE);
       setLowerTileIndex(FontConstants.CIRCLE_TILE);
       ai = new AI(this);
-      name = "Unknown Actor";
+      setName("Unknown Actor");
       charge = STARTING_CHARGE;
       inventory = new Inventory(this);
       baseStats = new StatBlock();

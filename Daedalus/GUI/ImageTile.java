@@ -13,6 +13,7 @@ public class ImageTile
    protected int lowerTileIndex;
 	protected boolean dirty;
 	protected TilePalette palette;
+   protected String name;
 
 
 	public int getFGColor(){return fgColor;}
@@ -21,10 +22,12 @@ public class ImageTile
    public int getLowerTileIndex(){return lowerTileIndex;}
 	public boolean isDirty(){return dirty;}
 	public TilePalette getPalette(){return palette;}
+   public String getName(){return name;}
 
 
 	public void setDirty(boolean d){dirty = d;}
 	public void setPalette(TilePalette p){palette = p;}
+   public void setName(String n){name = n;}
 
    public ImageTile(TilePalette p)
    {
@@ -39,6 +42,7 @@ public class ImageTile
       fgColor = fg;
       bgColor = bg;
       dirty = true;
+      name = "";
    }
    
    public ImageTile(ImageTile that)
