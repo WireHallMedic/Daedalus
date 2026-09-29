@@ -296,21 +296,27 @@ public class AI implements AIConstants, ZoneConstants
       Item item = self.getInventory().takeItem(pendingIndex);
       if(item instanceof Weapon)
       {
+         Weapon w = (Weapon)item;
+         w.fullyDischarge();
          if(self.getCurWeapon() != null)
             self.getInventory().add(self.getCurWeapon());
-         self.setCurWeapon((Weapon)item);
+         self.setCurWeapon(w);
       }
       if(item instanceof Shield)
       {
+         Shield s = (Shield)item;
+         s.fullyDischarge();
          if(self.getShield() != null)
             self.getInventory().add(self.getShield());
-         self.setShield((Shield)item);
+         self.setShield(s);
       }
       if(item instanceof Armor)
       {
+         Armor a = (Armor)item;
+         a.fullyDischarge();
          if(self.getArmor() != null)
             self.getInventory().add(self.getArmor());
-         self.setArmor((Armor)item);
+         self.setArmor(a);
       }
       self.discharge(self.getInteractSpeed());
    }
