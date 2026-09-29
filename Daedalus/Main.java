@@ -23,6 +23,8 @@ public class Main
       a.addToInventory(WeaponFactory.getBeamCannon());
       a.addToInventory(new Shield("Test Shield"));
       a.addToInventory(WeaponFactory.getAutogun());
+      a.addToInventory(ArmorFactory.getStandardArmor());
+      a.addToInventory(ArmorFactory.getAssaultArmor());
       a.getCurWeapon().getAttack().getBaseDamage().setValue(CombatConstants.DamageType.COLD, 20);
       Game.setPlayer(a);
 

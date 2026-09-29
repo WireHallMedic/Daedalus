@@ -4,7 +4,7 @@ import Daedalus.GUI.*;
 import Daedalus.Combat.*;
 import java.util.*;
 
-public class Armor extends ChargeItem implements Equippable, ItemConstants, GUIConstants
+public class Armor extends ChargeItem implements Equippable, ItemConstants, GUIConstants, CombatConstants
 {
    public static final int DEFAULT_GADGET_SLOTS = 3;
    
@@ -77,10 +77,12 @@ public class Armor extends ChargeItem implements Equippable, ItemConstants, GUIC
    @Override
    public void fullyCharge()
    {
-      for(Gadget gadget: gadgetList)
-      {
-         gadget.fullyCharge();
-      }
+      // null protection as this is called from super.constructor()
+      if(gadgetList != null)
+         for(Gadget gadget: gadgetList)
+         {
+            gadget.fullyCharge();
+         }
    }
    
    @Override
@@ -106,6 +108,21 @@ public class Armor extends ChargeItem implements Equippable, ItemConstants, GUIC
    {
       Vector<String> list = new Vector<String>();
       list.add(getName());
+      
+      list.add("Protection:");
+      for(DamageType damageType: DamageType.values())
+      {
+         int dmg = damageProtection.getValue(damageType);
+         if(dmg != 0)
+         {
+            String str = " " + damageType.name + " ";
+            while(str.length() < 14)
+               str += " ";
+            str += dmg;
+            list.add(str);
+         }
+      }
+      list.add("Gadget Slots: " + getMaxGadgets());
       return list;
    }
 }

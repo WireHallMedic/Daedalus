@@ -21,7 +21,7 @@ public class ShieldFactory implements ItemConstants, GUIConstants, CombatConstan
       Shield s = new Shield("Basic Shield");
       s.setMaxDamageCapacity(Shield.STANDARD_MAX_DAMAGE_CAPACITY);
       s.setChargeDelay(Shield.STANDARD_CHARGE_DELAY);
-      s.setMaxCharge(Shield.STANDARD_MAX_CHARGE_TIME);
+      s.setMaxChargeTurns(Shield.STANDARD_MAX_CHARGE_TIME);
       return s;
    }
    
