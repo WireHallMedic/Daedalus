@@ -45,6 +45,11 @@ public abstract class ChargeItem extends Item implements ItemConstants, GUIConst
       setMaxCharge(t * getChargeRate() * ActorConstants.ActionSpeed.NORMAL.increments);
    }
    
+   public double getTurnsToFullCharge()
+   {
+      return (double)getMaxCharge() / getChargeRate();
+   }
+   
    
    public void fullyCharge()
    {

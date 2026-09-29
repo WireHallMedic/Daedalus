@@ -66,8 +66,7 @@ public class Weapon extends ChargeItem implements Equippable, ItemConstants, GUI
       if(getRateOfFire() > 1)
          str += " (x" + getRateOfFire() + ")";
       list.add(str);
-      double chargeTimeTurns = (getMaxShots() * getChargeTimePerShot()) / 2.0;
-      list.add("Charge Time:  " + String.format("%.1f", chargeTimeTurns) + "s");
+      list.add("Full Charge:  " + String.format("%.1f", getTurnsToFullCharge() / 2.0) + "s");
       return list;
    }
    
