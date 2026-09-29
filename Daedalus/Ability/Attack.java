@@ -2,6 +2,7 @@ package Daedalus.Ability;
 
 import Daedalus.Combat.*;
 import Daedalus.Engine.*;
+import java.util.*;
 
 public class Attack extends Ability implements AbilityConstants, CombatConstants
 {
@@ -31,6 +32,28 @@ public class Attack extends Ability implements AbilityConstants, CombatConstants
       melee = false;
       damageDropoff = false;
       setHitVerb("strikes");
+   }
+   
+   public Vector<String> getDescriptionList()
+   {
+      Vector<String> list = super.getDescriptionList();
+      list.add("Damage:");
+      for(DamageType damageType: DamageType.values())
+      {
+         int base = baseDamage.getValue(damageType);
+         int rand = randomDamage.getValue(damageType);
+         if(base != 0 || rand != 0)
+         {
+            String str = " " + damageType.name + " ";
+            while(str.length() < 15)
+               str += " ";
+            str += base + "-" + (base + rand);
+            list.add(str);
+         }
+      }
+      if(hasDamageDropoff())
+         list.add(" *Damage reduced by range");
+      return list;
    }
    
    public Damage rollDamage()

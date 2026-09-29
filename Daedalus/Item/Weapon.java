@@ -4,6 +4,7 @@ import Daedalus.GUI.*;
 import Daedalus.Actor.*;
 import Daedalus.Combat.*;
 import Daedalus.Ability.*;
+import java.util.*;
 
 public class Weapon extends ChargeItem implements Equippable, ItemConstants, GUIConstants, CombatConstants
 {
@@ -53,6 +54,21 @@ public class Weapon extends ChargeItem implements Equippable, ItemConstants, GUI
    {
       this(name);
       attack = atk;
+   }
+   
+   public Vector<String> getDescriptionList()
+   {
+      Vector<String> list = attack.getDescriptionList();
+      list.removeElementAt(0);
+      list.insertElementAt(getName(), 0);
+      list.add("Rate of Fire: " + getRateOfFire());
+      String str = "Max Shots:    " + getMaxShots();
+      if(getRateOfFire() > 1)
+         str += " (x" + getRateOfFire() + ")";
+      list.add(str);
+      double chargeTimeTurns = (getMaxShots() * getChargeTimePerShot()) / 2.0;
+      list.add("Charge Time:  " + String.format("%.1f", chargeTimeTurns) + "s");
+      return list;
    }
    
    

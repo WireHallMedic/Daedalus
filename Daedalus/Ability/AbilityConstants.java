@@ -6,11 +6,18 @@ public interface AbilityConstants
    
    public enum TargetingType
    {
-      POINT,   // single point in rainge
-      CONE,    // 30-degree cone eminating from origin
-      BEAM,    // all tiles in line from origin to target
-      BLAST,   // radius around and including target
-      RING;    // radius around origin
+      POINT ("Point"),   // single point in rainge
+      CONE  ("Cone"),    // 30-degree cone eminating from origin
+      BEAM  ("Beam"),    // all tiles in line from origin to target
+      BLAST ("Blast"),   // radius around and including target
+      RING  ("Ring");    // radius around origin
+   
+      public String name;
+      
+      private TargetingType(String n)
+      {
+         name = n;
+      }
    }
    
    public enum StatusEffectTag
@@ -21,7 +28,6 @@ public interface AbilityConstants
    public enum ImpactEffect
    {
       EXPLOSION,
-      BEAM,
       SPLASH;
    }
 }

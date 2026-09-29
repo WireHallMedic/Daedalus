@@ -15,6 +15,8 @@ import Daedalus.Engine.*;
 public class InventoryPanel extends SelectionPanel implements ActionListener, GUIConstants, KeyListener
 {
    private Inventory inventory;
+   private static final int DESCRIPTION_COLUMN_X_START = PANEL_WIDTH_TILES / 3;
+   private static final int COLUMN_WIDTH = (PANEL_WIDTH_TILES / 3) - 1;
    
    public InventoryPanel()
    {
@@ -61,13 +63,14 @@ public class InventoryPanel extends SelectionPanel implements ActionListener, GU
             Item item = inventory.getItemList().elementAt(i);
             setTile(listStartX, listStartY + i, item.getTileIndex(), item.getFGColor(), item.getBGColor());
          }
+         setDescription();
       }
+      
    }
    
    @Override
    public void keyPressed(KeyEvent ke)
    {
-      // single-key actions need to set pendingTarget after seting pendingAction.
       switch(ke.getKeyCode())
       {
          case KeyEvent.VK_ESCAPE:
@@ -98,6 +101,26 @@ public class InventoryPanel extends SelectionPanel implements ActionListener, GU
             break;
          default :
             super.keyPressed(ke);
+      }
+   }
+   
+   private void setDescription()
+   {
+      Vector<String> descList = new Vector<String>();
+      if(inventory != null)
+      {
+         if(inventory.getItem(curIndex) instanceof Weapon)
+         {
+            Weapon w = (Weapon)inventory.getItem(curIndex);
+            descList = w.getDescriptionList();
+         }
+         for(int i = 0; i < PANEL_HEIGHT_TILES - 5; i++)
+         {
+            if(i < descList.size())
+               write(DESCRIPTION_COLUMN_X_START, i + 4, descList.elementAt(i), WHITE, UI_BG_COLOR, COLUMN_WIDTH, 1);
+            else
+               write(DESCRIPTION_COLUMN_X_START, i + 4, "", WHITE, UI_BG_COLOR, COLUMN_WIDTH, 1);
+         }
       }
    }
    

@@ -22,6 +22,7 @@ public class Main
       Actor a = ActorFactory.getPlayer();
       a.setTileLoc(3, 5);
       a.addToInventory(WeaponFactory.getBeamCannon());
+      a.addToInventory(new Shield("Test Shield"));
       a.getCurWeapon().getAttack().getBaseDamage().setValue(CombatConstants.DamageType.PIERCE, 20);
       Game.setPlayer(a);
 

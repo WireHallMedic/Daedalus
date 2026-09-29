@@ -35,6 +35,15 @@ public class Ability implements AbilityConstants
       impactEffect = null;
    }
    
+   public Vector<String> getDescriptionList()
+   {
+      Vector<String> list = new Vector<String>();
+      list.add(getName());
+      list.add("Range:        " + getRange());
+      list.add("Targeting:    " + getTargetingType().name);
+      return list;
+   }
+   
    // origin for visual effects and knockback
    public Coord getEffectOrigin(Coord origin, Coord target, int range)
    {
