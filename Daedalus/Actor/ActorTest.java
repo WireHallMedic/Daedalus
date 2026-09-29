@@ -25,17 +25,23 @@ public class ActorTest implements ActorConstants
       StatBlock modBlock = new StatBlock();
       modBlock.setMoveSpeed(ActionSpeed.FAST);
       a.getBaseStats().add(modBlock);
+      a.setCurStats();
       Assert.assertEquals("Base speed + 1 is FAST", ActionSpeed.FAST, a.getMoveSpeed());
       a.getBaseStats().add(modBlock);
+      a.setCurStats();
       Assert.assertEquals("Base speed + 2 is FAST", ActionSpeed.FAST, a.getMoveSpeed());
       modBlock.setMoveSpeed(ActionSpeed.SLOW);
       a.getBaseStats().add(modBlock);
+      a.setCurStats();
       Assert.assertEquals("FAST + 1 - 1 is FAST", ActionSpeed.FAST, a.getMoveSpeed());
       a.getBaseStats().add(modBlock);
+      a.setCurStats();
       Assert.assertEquals("FAST + 1 - 2 is NORMAL", ActionSpeed.NORMAL, a.getMoveSpeed());
       a.getBaseStats().add(modBlock);
+      a.setCurStats();
       Assert.assertEquals("FAST + 1 - 3 is SLOW", ActionSpeed.SLOW, a.getMoveSpeed());
       a.getBaseStats().add(modBlock);
+      a.setCurStats();
       Assert.assertEquals("FAST + 1 - 4 is SLOW", ActionSpeed.SLOW, a.getMoveSpeed());
    }
 
@@ -47,10 +53,12 @@ public class ActorTest implements ActorConstants
       StatBlock modBlock = new StatBlock();
       modBlock.setMoveSpeed(ActionSpeed.INSTANTANEOUS);
       a.getBaseStats().add(modBlock);
+      a.setCurStats();
       Assert.assertEquals("Base speed + INSTANTANEOUS is INSTANTANEOUS", ActionSpeed.INSTANTANEOUS, a.getMoveSpeed());
       modBlock.setMoveSpeed(ActionSpeed.SLOW);
       a.getBaseStats().setMoveSpeed(ActionSpeed.INSTANTANEOUS);
       a.getBaseStats().add(modBlock);
+      a.setCurStats();
       Assert.assertEquals("INSTANTANEOUS Base speed + SLOW is INSTANTANEOUS", ActionSpeed.INSTANTANEOUS, a.getMoveSpeed());
       
       // action
@@ -58,10 +66,12 @@ public class ActorTest implements ActorConstants
       modBlock = new StatBlock();
       modBlock.setAttackSpeed(ActionSpeed.INSTANTANEOUS);
       a.getBaseStats().add(modBlock);
+      a.setCurStats();
       Assert.assertEquals("Base speed + INSTANTANEOUS is INSTANTANEOUS", ActionSpeed.INSTANTANEOUS, a.getAttackSpeed());
       modBlock.setAttackSpeed(ActionSpeed.SLOW);
       a.getBaseStats().setAttackSpeed(ActionSpeed.INSTANTANEOUS);
       a.getBaseStats().add(modBlock);
+      a.setCurStats();
       Assert.assertEquals("INSTANTANEOUS Base speed + SLOW is INSTANTANEOUS", ActionSpeed.INSTANTANEOUS, a.getAttackSpeed());
       
       // interact
@@ -69,10 +79,12 @@ public class ActorTest implements ActorConstants
       modBlock = new StatBlock();
       modBlock.setInteractSpeed(ActionSpeed.INSTANTANEOUS);
       a.getBaseStats().add(modBlock);
+      a.setCurStats();
       Assert.assertEquals("Base speed + INSTANTANEOUS is INSTANTANEOUS", ActionSpeed.INSTANTANEOUS, a.getInteractSpeed());
       modBlock.setInteractSpeed(ActionSpeed.SLOW);
       a.getBaseStats().setInteractSpeed(ActionSpeed.INSTANTANEOUS);
       a.getBaseStats().add(modBlock);
+      a.setCurStats();
       Assert.assertEquals("INSTANTANEOUS Base speed + SLOW is INSTANTANEOUS", ActionSpeed.INSTANTANEOUS, a.getInteractSpeed());
    }
    
