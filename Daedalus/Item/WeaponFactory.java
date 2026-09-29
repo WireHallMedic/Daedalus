@@ -24,6 +24,8 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
       }
    }
    
+   // basic weapons
+   
    public static Weapon getBoltgun()
    {
       Weapon w = new Weapon("Boltgun");
@@ -118,6 +120,71 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
    }
    public static Weapon getBasicMelee(){return getBasicMelee(3);}
    
+   
+   // upgrades
+   ////////////////////////////////////////////////////
+   
+   public static void improveCapacity(Weapon w)
+   {
+      w.setName("High-Capacity " + w.getName());
+      int newMaxShots = Math.max((w.getMaxShots() * 3) / 2, w.getMaxShots() + 1);
+      w.setMaxShots(newMaxShots);
+   }
+   
+   public static void improveRange(Weapon w)
+   {
+      w.setName("Long-Range " + w.getName());
+      int newRange = w.getAttack().getRange() + 2;
+      if(w.getAttack().getRange() <= 5)
+         newRange = w.getAttack().getRange() + 1;
+      w.getAttack().setRange(newRange);
+   }
+   
+   public static void improveDamage(Weapon w)
+   {
+      w.setName("Heavy " + w.getName());
+      if(w.getRateOfFire() > 1)
+         increaseRoF(w);
+      else
+         increaseHighestDamage(w);
+   }
+   
+   public static void improveRecharge(Weapon w)
+   {
+      // most weapons improved by 1 s
+      int newChargeTimePerShot = w.getChargeTimePerShot() - 2;
+      // slow charging weapons (10+ s per shot) improved by 2s
+      if(w.getChargeTimePerShot() >= 20)
+         newChargeTimePerShot = w.getChargeTimePerShot() - 4;
+      // fast charging weapons (3- s per shot) improved by 0.5s
+      if(w.getChargeTimePerShot() <= 6)
+         newChargeTimePerShot = w.getChargeTimePerShot() - 1;
+      newChargeTimePerShot = Math.max(2, newChargeTimePerShot);
+      w.setChargeTimePerShot(newChargeTimePerShot);
+   }
+   
+   private static void increaseRoF(Weapon w)
+   {
+      w.setRateOfFire(w.getRateOfFire() + 1);
+   }
+   
+   private static void increaseHighestDamage(Weapon w)
+   {
+      DamageType highestType = DamageType.values()[0];
+      int highestDamage = w.getAttack().getBaseDamage().getValue(highestType);
+      for(DamageType curType: DamageType.values())
+      {
+         if(w.getAttack().getBaseDamage().getValue(curType) > highestDamage)
+         {
+            highestType = curType;
+            highestDamage = w.getAttack().getBaseDamage().getValue(curType);
+         }
+      }
+      int newBase = Math.max((int)(highestDamage * 1.25), highestDamage + 2);
+      int newRandom = w.getAttack().getRandomDamage().getValue(highestType) + 1;
+      w.getAttack().getBaseDamage().setValue(highestType, newBase);
+      w.getAttack().getRandomDamage().setValue(highestType, newRandom);
+   }
    
    // enemy weapons
    ////////////////////////////////////////////////////
