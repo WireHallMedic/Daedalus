@@ -114,7 +114,7 @@ public class InventoryPanel extends SelectionPanel implements ActionListener, GU
             Weapon w = (Weapon)inventory.getItem(curIndex);
             descList = w.getDescriptionList();
          }
-         for(int i = 0; i < PANEL_HEIGHT_TILES - 5; i++)
+         for(int i = 0; i < PANEL_HEIGHT_TILES - 6; i++)
          {
             if(i < descList.size())
                write(DESCRIPTION_COLUMN_X_START, i + 4, descList.elementAt(i), WHITE, UI_BG_COLOR, COLUMN_WIDTH, 1);

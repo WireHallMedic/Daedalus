@@ -45,7 +45,7 @@ public class Attack extends Ability implements AbilityConstants, CombatConstants
          if(base != 0 || rand != 0)
          {
             String str = " " + damageType.name + " ";
-            while(str.length() < 15)
+            while(str.length() < 14)
                str += " ";
             str += base + "-" + (base + rand);
             list.add(str);

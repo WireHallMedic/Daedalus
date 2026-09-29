@@ -23,7 +23,8 @@ public class Main
       a.setTileLoc(3, 5);
       a.addToInventory(WeaponFactory.getBeamCannon());
       a.addToInventory(new Shield("Test Shield"));
-      a.getCurWeapon().getAttack().getBaseDamage().setValue(CombatConstants.DamageType.PIERCE, 20);
+      a.addToInventory(WeaponFactory.getAutogun());
+      a.getCurWeapon().getAttack().getBaseDamage().setValue(CombatConstants.DamageType.COLD, 20);
       Game.setPlayer(a);
 
       Actor b = ActorFactory.getDrone();
