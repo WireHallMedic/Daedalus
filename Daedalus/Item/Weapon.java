@@ -12,7 +12,7 @@ public class Weapon extends ChargeItem implements Equippable, ItemConstants, GUI
    public enum BaseType
    {
       BOLTGUN,          // single projectile
-      SHOTGUN,          // spread
+      SCATTERGUN,       // spread
       AUTOGUN,          // rapid-fire
       PLASMA_LAUNCHER,  // exploding projectile
       BEAM_CANNON;      // line

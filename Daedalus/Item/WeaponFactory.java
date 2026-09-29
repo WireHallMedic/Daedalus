@@ -37,9 +37,9 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
    }
    
    
-   public static Weapon getShotgun()
+   public static Weapon getScattergun()
    {
-      Weapon w = new Weapon("Shotgun");
+      Weapon w = new Weapon("Scattergun");
       Attack a = w.getAttack();
       a.setBaseDamage(new Damage(DamageType.CONCUSSION, DEFAULT_BASE_SHOT_DAMAGE * 3 / 2));
       a.setRandomDamage(new Damage(DamageType.CONCUSSION, DEFAULT_RANDOM_SHOT_DAMAGE));
@@ -153,7 +153,7 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
    
    public static Weapon getTestWeapon()
    {
-      Weapon w = getShotgun();
+      Weapon w = getScattergun();
       return w;
    }
 }

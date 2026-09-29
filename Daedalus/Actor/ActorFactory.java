@@ -17,7 +17,7 @@ public class ActorFactory implements ActorConstants, GUIConstants, AIConstants
       a.getBaseStats().setMaxHealth(BASE_PLAYER_HEALTH);
       a.setAI(new PlayerAI(a));
       a.setWeapon1(WeaponFactory.getBoltgun());
-      a.setWeapon2(WeaponFactory.getShotgun());
+      a.setWeapon2(WeaponFactory.getScattergun());
       a.setShield(new Shield("Test Shield"));
       a.getAI().setAlertness(Alertness.ALERT);
       a.setThreat(0);
@@ -113,14 +113,11 @@ public class ActorFactory implements ActorConstants, GUIConstants, AIConstants
       a.setAI(new StandardAI(a));
       switch(RNG.nextInt(5))
       {
-         case 0   :  a.setCurWeapon(WeaponFactory.getShotgun());
-                     a.setThreat(2);
+         case 0   :  a.setCurWeapon(WeaponFactory.getScattergun());
                      break;
          case 1   :  a.setCurWeapon(WeaponFactory.getBoltgun());;
-                     a.setThreat(3);
                      break;
          default  :  a.setCurWeapon(WeaponFactory.getAutogun());;
-                     a.setThreat(2);
                      break;
       }
       WeaponFactory.setLowQuality(a.getCurWeapon());
