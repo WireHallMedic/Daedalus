@@ -540,7 +540,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
       z.setItemAt(WeaponFactory.getBoltgun(), 1, 5);
       z.setItemAt(WeaponFactory.getAutogun(), 1, 6);
       z.setItemAt(new Credits(10), 1, 7);
-      z.setItemAt(ShieldFactory.getBasicShield(), 1, 8);
+      z.setItemAt(ShieldFactory.getStandardShield(), 1, 8);
       
       z.updateSubmaps();
       return z;

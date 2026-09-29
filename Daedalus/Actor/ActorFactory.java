@@ -121,7 +121,7 @@ public class ActorFactory implements ActorConstants, GUIConstants, AIConstants
                      break;
       }
       WeaponFactory.setLowQuality(a.getCurWeapon());
-      Shield s = ShieldFactory.getBasicShield();
+      Shield s = ShieldFactory.getStandardShield();
       ShieldFactory.setLowQuality(s);
       a.setShield(s);
       a.fullHeal();

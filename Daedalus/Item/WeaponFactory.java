@@ -110,7 +110,7 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
       Attack a = new Attack("Punch");
       a.setMelee(true);
       a.setRange(1);
-      a.setBaseDamage(new Damage(CombatConstants.DamageType.CONCUSSION, Math.max(0, damage - 2)));
+      a.setBaseDamage(new Damage(CombatConstants.DamageType.CONCUSSION, damage));
       a.setRandomDamage(new Damage(CombatConstants.DamageType.CONCUSSION, 2));
       a.setHitVerb("strikes");
       Weapon w = new Weapon("Unarmed", a);
@@ -118,8 +118,22 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
       w.fullyCharge();
       return w;
    }
-   public static Weapon getBasicMelee(){return getBasicMelee(3);}
+   public static Weapon getBasicMelee(){return getBasicMelee(DEFAULT_BASE_SHOT_DAMAGE / 2);}
    
+   
+   public static Weapon getByBaseType(Weapon.BaseType baseType)
+   {
+      switch(baseType)
+      {
+         case MELEE:             return getBasicMelee();
+         case BOLTGUN:           return getBoltgun();
+         case SCATTERGUN:        return getScattergun();
+         case AUTOGUN:           return getAutogun();
+         case PLASMA_CANNON:     return getPlasmaCannon();
+         case BEAM_CANNON:       return getBeamCannon();
+      }
+      return null;
+   }
    
    // upgrades
    ////////////////////////////////////////////////////

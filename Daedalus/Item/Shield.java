@@ -8,6 +8,13 @@ import java.util.*;
 
 public class Shield extends ChargeItem implements Equippable, ItemConstants, GUIConstants
 {
+   public enum BaseType
+   {
+      STANDARD,      // baseline version
+      QUICK_CHARGE,  // less delay, less capacity, same charge time per damage (less time overall)
+      HEAVY;         // more delay, more capacity, same charge time per damage (more time overall)
+   }
+   
    public static final int STANDARD_MAX_DAMAGE_CAPACITY = 10;
    public static final int STANDARD_CHARGE_DELAY = 10;
    public static final int STANDARD_MAX_CHARGE_TIME = 20;

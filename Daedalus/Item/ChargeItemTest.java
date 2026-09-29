@@ -20,8 +20,10 @@ public class ChargeItemTest {
    @Test public void testShieldValues() 
    {
       Shield s = new Shield("Test Shield");
-      s.setChargeDelayTurns(1);
-      s.setMaxChargeTurns(10);
+      s.setChargeDelay(2);
+      s.setMaxDamageCapacity(10);
+      s.setMaxChargeTurns(20);
+      s.fullyCharge();
       Assert.assertEquals("Initial charge is full.", 10, s.getCurDamageCapacity());
       s.applyDamage(5);
       Assert.assertEquals("Taking damage lowers charge.", 5, s.getCurDamageCapacity());

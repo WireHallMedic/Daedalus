@@ -39,4 +39,16 @@ public class ArmorFactory implements ItemConstants, GUIConstants, CombatConstant
       a.setMaxGadgets(Armor.DEFAULT_GADGET_SLOTS - 1);
       return a;
    }
+   
+   public static Armor getByBaseType(Armor.BaseType baseType)
+   {
+      switch(baseType)
+      {
+         case UTILITY_HARNESS:   return getUtilityHarness();
+         case SCOUT:             return getScoutArmor();
+         case STANDARD:          return getStandardArmor();
+         case ASSAULT:           return getAssaultArmor();
+      }
+      return null;
+   }
 }

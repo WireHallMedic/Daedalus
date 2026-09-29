@@ -6,6 +6,14 @@ import java.util.*;
 
 public class Armor extends ChargeItem implements Equippable, ItemConstants, GUIConstants, CombatConstants
 {
+   public enum BaseType
+   {
+      UTILITY_HARNESS,  // just a place for gadgets
+      SCOUT,            // no damage protection, but extra gadgets
+      STANDARD,         // physical protection
+      ASSAULT;          // physical and energy protection, fewer gadgets
+   }
+   
    public static final int DEFAULT_GADGET_SLOTS = 3;
    
 	private Damage damageProtection;
