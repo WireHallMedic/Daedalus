@@ -2,6 +2,7 @@ package Daedalus.Item;
 
 import Daedalus.GUI.*;
 import Daedalus.Combat.*;
+import java.util.*;
 
 public class Armor extends ChargeItem implements Equippable, ItemConstants, GUIConstants
 {
@@ -89,14 +90,11 @@ public class Armor extends ChargeItem implements Equippable, ItemConstants, GUIC
       }
    }
    
-   // equippable
-   public String getSummaryString()
-   {
-      return "Armor Description";
-   }
    
-   public String getComparisonString(Equippable that)
+   public Vector<String> getDescriptionList()
    {
-      return "Armor Comparison";
+      Vector<String> list = new Vector<String>();
+      list.add(getName());
+      return list;
    }
 }

@@ -66,4 +66,9 @@ public abstract class ChargeItem extends Item implements ItemConstants, GUIConst
       if(!alwaysCharged)
          setCurCharge(getCurCharge() - amt);
    }
+   
+   public void fullyDischarge()
+   {
+      setCurCharge(0);
+   }
 }

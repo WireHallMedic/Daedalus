@@ -289,6 +289,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    
    public void fullHeal()
    {
+      setCurStats();
       curHealth = getMaxHealth();
    }
    

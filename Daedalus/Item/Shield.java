@@ -4,6 +4,7 @@ import Daedalus.GUI.*;
 import Daedalus.Actor.*;
 import Daedalus.Ability.*;
 import Daedalus.Combat.*;
+import java.util.*;
 
 public class Shield extends ChargeItem implements Equippable, ItemConstants, GUIConstants
 {
@@ -72,10 +73,23 @@ public class Shield extends ChargeItem implements Equippable, ItemConstants, GUI
       setDamagePerCharge();
    }
    
-   // returns damage absorbed
-   public int applyDamage(int damageSum)
+   @Override
+   public void discharge(int val)
    {
       ticksSinceCharge = 0;
+      super.discharge(val);
+   }
+   
+   @Override
+   public void fullyDischarge()
+   {
+      ticksSinceCharge = 0;
+      super.fullyDischarge();
+   }
+   
+   // returns damage absorbed
+   public int applyDamage(int damageSum)
+   {;
       int damageAbsorbed = Math.min(damageSum, getCurDamageCapacity());
       //setCurCharge((int)(getCurCharge() - (damageAbsorbed / damagePerCharge)));
       discharge((int)(damageAbsorbed / damagePerCharge));
@@ -83,14 +97,11 @@ public class Shield extends ChargeItem implements Equippable, ItemConstants, GUI
    }
    public int applyDamage(Damage damage){return applyDamage(damage.getSum());}
    
-   // equippable
-   public String getSummaryString()
-   {
-      return "Shield Description";
-   }
    
-   public String getComparisonString(Equippable that)
+   public Vector<String> getDescriptionList()
    {
-      return "Shield Comparison";
+      Vector<String> list = new Vector<String>();
+      list.add(getName());
+      return list;
    }
 }

@@ -1,8 +1,9 @@
 package Daedalus.Item;
 
+import java.util.*;
+
 public interface Equippable
 {
-   public String getSummaryString();
-   public String getComparisonString(Equippable that);
    public boolean isDroppable();
+   public Vector<String> getDescriptionList();
 }

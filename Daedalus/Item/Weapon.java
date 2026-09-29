@@ -116,17 +116,6 @@ public class Weapon extends ChargeItem implements Equippable, ItemConstants, GUI
       super.setAlwaysCharged(a);
    }
    
-   // equippable
-   public String getSummaryString()
-   {
-      return "Weapon Description";
-   }
-   
-   public String getComparisonString(Equippable that)
-   {
-      return "Weapon Comparison";
-   }
-   
    
    public static Weapon getMock()
    {
