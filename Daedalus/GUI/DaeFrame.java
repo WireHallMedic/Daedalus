@@ -141,6 +141,7 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
             this.actionPerformed(new ActionEvent(this, 1, "Timer kick"));
          }
          Thread.yield();
+         Game.mainGameplayLoop();
       }
    
    }

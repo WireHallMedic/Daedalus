@@ -17,8 +17,10 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
       for(int i = 0; i < DamageType.values().length; i++)
       {
          DamageType type = DamageType.values()[i];
-         base.setValue(type, base.getValue(type) / 2);
-         random.setValue(type, random.getValue(type) / 2);
+         if(base.getValue(type) > 0)
+            base.setValue(type, Math.max(1, base.getValue(type) - 2));
+         if(random.getValue(type) > 0)
+            random.setValue(type, Math.max(1, random.getValue(type) - 1));
       }
    }
    

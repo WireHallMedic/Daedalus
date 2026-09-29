@@ -6,19 +6,19 @@ import Daedalus.Actor.*;
 import java.util.*;
 import java.awt.event.*;
 
-public class Game implements Runnable
+public class Game
 {
    private static Zone curZone = null;
 	private static ZoneMap curMap = null;
 	private static Actor player = null;
    private static Vector<Actor> actorList = null;
    private static int initiativeIndex;
-   private static boolean continueF;
-   private static boolean playF;
+   private static boolean continueF = true;
+   private static boolean playF = false;
 	private static Actor[][] actorMap;      // used to make isActorAt() and getActorAt() O(1)
    private static Zone nextZone = null;
    private static Coord nextZonePlayerLoc = null;
-   private static Vector<Zone> zoneList;
+   private static Vector<Zone> zoneList = null;
 
 
 	public static ZoneMap getCurMap(){return curMap;}
@@ -32,18 +32,6 @@ public class Game implements Runnable
    public static void setActorList(Vector<Actor> al){actorList = al; setActorMap();}
    public static void setZoneList(Vector<Zone> zl){zoneList = zl;}
 
-   public Game()
-   {
-      curMap = null;
-      actorMap = null;
-	   player = null;
-      actorList = null;
-      initiativeIndex = 0;
-      continueF = true;
-      playF = false;
-      zoneList = new Vector<Zone>();
-      new Thread(this).start();
-   }
    
    private static void setActorMap()
    {
@@ -85,7 +73,7 @@ public class Game implements Runnable
       }
    }
    
-   private void cleanActorList()
+   private static void cleanActorList()
    {
       for(int i = 0; i < actorList.size(); i++)
       {
@@ -128,11 +116,11 @@ public class Game implements Runnable
    public static boolean canStep(Actor a, Coord c){return canStep(a, c.x, c.y);}
    
    
-   public void run()
+   public static void mainGameplayLoop()
    {
-      while(continueF)
+      if(continueF)
       {
-         while(playF)
+         if(playF)
          {
             if(actorList != null && actorList.size() > 0 && curMap != null)
             {
@@ -180,7 +168,7 @@ public class Game implements Runnable
    }
    
    // zone takes turn after all actors
-   private void incrementInitiativeIndex()
+   private static void incrementInitiativeIndex()
    {
       initiativeIndex++;
       if(initiativeIndex == actorList.size())
@@ -191,7 +179,7 @@ public class Game implements Runnable
       }
    }
    
-   public void addActor(Actor a)
+   public static void addActor(Actor a)
    {
       if(actorList == null)
          actorList = new Vector<Actor>();
