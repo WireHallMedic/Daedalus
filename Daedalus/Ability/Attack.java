@@ -52,7 +52,7 @@ public class Attack extends Ability implements AbilityConstants, CombatConstants
          }
       }
       if(hasDamageDropoff())
-         list.add(" *Damage reduced by range");
+         list.add(" (Damage reduced by range)");
       return list;
    }
    

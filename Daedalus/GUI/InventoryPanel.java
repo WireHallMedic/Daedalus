@@ -16,6 +16,7 @@ public class InventoryPanel extends SelectionPanel implements ActionListener, GU
 {
    private Inventory inventory;
    private static final int DESCRIPTION_COLUMN_X_START = PANEL_WIDTH_TILES / 3;
+   private static final int EQUIPPED_COLUMN_X_START = (PANEL_WIDTH_TILES / 3) * 2;
    private static final int COLUMN_WIDTH = (PANEL_WIDTH_TILES / 3) - 1;
    
    public InventoryPanel()
@@ -24,6 +25,7 @@ public class InventoryPanel extends SelectionPanel implements ActionListener, GU
       inventory = null;
       setHeader("Inventory");
       setFooter("[D]rop, [ENTER] to Equip or Use, [ESC] to exit");
+      write(listStartX, 3, "       Stored", UI_FG_COLOR, UI_BG_COLOR, COLUMN_WIDTH, 1);
    }
    
    @Override
@@ -64,8 +66,58 @@ public class InventoryPanel extends SelectionPanel implements ActionListener, GU
             setTile(listStartX, listStartY + i, item.getTileIndex(), item.getFGColor(), item.getBGColor());
          }
          setDescription();
+         setEquippedDescription();
       }
-      
+   }
+   
+   private void setDescription()
+   {
+      Vector<String> descList = new Vector<String>();
+      if(inventory != null)
+      {
+         if(inventory.getItem(curIndex) instanceof Weapon)
+         {
+            Weapon w = (Weapon)inventory.getItem(curIndex);
+            descList = w.getDescriptionList();
+         }
+         if(descList.size() > 0)
+            write(DESCRIPTION_COLUMN_X_START, 3, "       Selected", UI_FG_COLOR, UI_BG_COLOR, COLUMN_WIDTH, 1);
+         else
+            write(DESCRIPTION_COLUMN_X_START, 3, "", UI_FG_COLOR, UI_BG_COLOR, COLUMN_WIDTH, 1);
+         for(int i = 0; i < PANEL_HEIGHT_TILES - 6; i++)
+         {
+            if(i < descList.size())
+               write(DESCRIPTION_COLUMN_X_START, i + 4, descList.elementAt(i), WHITE, UI_BG_COLOR, COLUMN_WIDTH, 1);
+            else
+               write(DESCRIPTION_COLUMN_X_START, i + 4, "", WHITE, UI_BG_COLOR, COLUMN_WIDTH, 1);
+         }
+      }
+   }
+   
+   private void setEquippedDescription()
+   {
+      Vector<String> descList = new Vector<String>();
+      if(inventory != null)
+      {
+         // weapon
+         if(inventory.getItem(curIndex) instanceof Weapon)
+         {
+            Weapon w = Game.getPlayer().getCurWeapon();
+            if(w != null)
+               descList = w.getDescriptionList();
+         }
+         if(descList.size() > 0)
+            write(EQUIPPED_COLUMN_X_START, 3, "       Equipped", UI_FG_COLOR, UI_BG_COLOR, COLUMN_WIDTH, 1);
+         else
+            write(EQUIPPED_COLUMN_X_START, 3, "", UI_FG_COLOR, UI_BG_COLOR, COLUMN_WIDTH, 1);
+         for(int i = 0; i < PANEL_HEIGHT_TILES - 6; i++)
+         {
+            if(i < descList.size())
+               write(EQUIPPED_COLUMN_X_START, i + 4, descList.elementAt(i), WHITE, UI_BG_COLOR, COLUMN_WIDTH, 1);
+            else
+               write(EQUIPPED_COLUMN_X_START, i + 4, "", WHITE, UI_BG_COLOR, COLUMN_WIDTH, 1);
+         }
+      }
    }
    
    @Override
@@ -101,26 +153,6 @@ public class InventoryPanel extends SelectionPanel implements ActionListener, GU
             break;
          default :
             super.keyPressed(ke);
-      }
-   }
-   
-   private void setDescription()
-   {
-      Vector<String> descList = new Vector<String>();
-      if(inventory != null)
-      {
-         if(inventory.getItem(curIndex) instanceof Weapon)
-         {
-            Weapon w = (Weapon)inventory.getItem(curIndex);
-            descList = w.getDescriptionList();
-         }
-         for(int i = 0; i < PANEL_HEIGHT_TILES - 6; i++)
-         {
-            if(i < descList.size())
-               write(DESCRIPTION_COLUMN_X_START, i + 4, descList.elementAt(i), WHITE, UI_BG_COLOR, COLUMN_WIDTH, 1);
-            else
-               write(DESCRIPTION_COLUMN_X_START, i + 4, "", WHITE, UI_BG_COLOR, COLUMN_WIDTH, 1);
-         }
       }
    }
    
