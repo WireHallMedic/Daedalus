@@ -9,47 +9,52 @@ public class Armor extends ChargeItem implements Equippable, ItemConstants, GUIC
    public static final int DEFAULT_GADGET_SLOTS = 3;
    
 	private Damage damageProtection;
-   private Gadget[] gadgetList;
+	private Vector<Gadget> gadgetList;
+	private int maxGadgets;
 
 
 	public Damage getDamageProtection(){return damageProtection;}
-   public Gadget[] getGadgetList(){return gadgetList;}
+	public Vector<Gadget> getGadgetList(){return gadgetList;}
+	public int getMaxGadgets(){return maxGadgets;}
+
 
 	public void setDamageProtection(Damage d){damageProtection = d;}
-   public void setGadgetList(Gadget[] gl){gadgetList = gl;}
+	public void setGadgetList(Vector<Gadget> g){gadgetList = g;}
+	public void setMaxGadgets(int m){maxGadgets = m;}
+
 
    public Armor(String name)
    {
       super(name, ItemBase.ARMOR);
       damageProtection = new Damage();
-      setGadgetListSize(DEFAULT_GADGET_SLOTS);
+      gadgetList = new Vector<Gadget>();
+      maxGadgets = DEFAULT_GADGET_SLOTS;
    }
    
-   // note that this clobbers any existing installed gadgets
-   public void setGadgetListSize(int s)
-   {
-      gadgetList = new Gadget[s];
-      for(int i = 0; i < s; i++)
-         gadgetList[i] = null;
-   }
-   
-   public int getGadgetListSize(){return gadgetList.length;}
+   public int getGadgetListSize(){return gadgetList.size();}
    
    public Gadget getGadget(int i)
    {
-      return gadgetList[i];
+      if(i < gadgetList.size())
+         return gadgetList.elementAt(i);
+      return null;
    }
    
    public Gadget takeGadget(int i)
    {
-      Gadget gadget = gadgetList[i];
-      gadgetList[i] = null;
+      Gadget gadget = getGadget(i);
+      gadgetList.removeElementAt(i);
       return gadget;
    }
    
-   public void setGadget(int i, Gadget gadget)
+   public void addGadget(Gadget gadget)
    {
-      gadgetList[i] = gadget;
+      gadgetList.add(gadget);
+   }
+   
+   public boolean canAddGadget()
+   {
+      return gadgetList.size() < maxGadgets;
    }
    
    public int getDamageProtection(CombatConstants.DamageType type)
@@ -72,31 +77,27 @@ public class Armor extends ChargeItem implements Equippable, ItemConstants, GUIC
    @Override
    public void fullyCharge()
    {
-      if(gadgetList != null)
-         for(int i = 0; i < getGadgetListSize(); i++)
-         {
-            if(gadgetList[i] != null)
-               gadgetList[i].fullyCharge();
-         }
+      for(Gadget gadget: gadgetList)
+      {
+         gadget.fullyCharge();
+      }
    }
    
    @Override
    public void charge()
    {
-      for(int i = 0; i < getGadgetListSize(); i++)
+      for(Gadget gadget: gadgetList)
       {
-         if(gadgetList[i] != null)
-            gadgetList[i].charge();
+         gadget.charge();
       }
    }
    
    @Override
    public void fullyDischarge()
    {
-      for(int i = 0; i < getGadgetListSize(); i++)
+      for(Gadget gadget: gadgetList)
       {
-         if(gadgetList[i] != null)
-            gadgetList[i].fullyDischarge();
+         gadget.fullyDischarge();
       }
    }
    

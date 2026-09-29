@@ -8,4 +8,8 @@ import Daedalus.Ability.*;
 public class ArmorFactory implements ItemConstants, GUIConstants, CombatConstants
 {
 
+   public static Armor getStandardArmor()
+   {
+      
+   }
 }

@@ -15,7 +15,6 @@ public class Main
    public static void main(String[] args)
    {
       DaeFrame frame = new DaeFrame();
-      //Game game = new Game();
       
       Vector<Zone> zoneList = RegionBuilder.buildWasteland();
       

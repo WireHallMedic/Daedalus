@@ -118,52 +118,47 @@ public class Game
    
    public static void mainGameplayLoop()
    {
-      if(continueF)
+      if(continueF && playF)
       {
-         if(playF)
+         if(actorList != null && actorList.size() > 0 && curMap != null)
          {
-            if(actorList != null && actorList.size() > 0 && curMap != null)
+            // select actor
+            Actor curActor = actorList.elementAt(initiativeIndex);
+            // charge if needed
+            if(!curActor.isCharged())
             {
-               // select actor
-               Actor curActor = actorList.elementAt(initiativeIndex);
-               // charge if needed
-               if(!curActor.isCharged())
+               curActor.charge();
+            }
+            // cur actor is charged, try to plan and act
+            if(curActor.isCharged())
+            {
+               curActor.startOfTurn();
+               // plan if needed
+               if(!curActor.hasPlan())
+                  curActor.plan();
+               // try to act
+               if(curActor.hasPlan() && AnimationManager.isClearToAct(curActor))
                {
-                  curActor.charge();
-               }
-               // cur actor is charged, try to plan and act
-               if(curActor.isCharged())
-               {
-                  curActor.startOfTurn();
-                  // plan if needed
-                  if(!curActor.hasPlan())
-                     curActor.plan();
-                  // try to act
-                  if(curActor.hasPlan() && AnimationManager.isClearToAct(curActor))
+                  curActor.act();
+                  player.updateFoV();
+                  cleanActorList();
+                  if(curActor == player)
+                     MainGamePanel.incrementMessagePanel();
+                  if(!curActor.isCharged())
                   {
-                     curActor.act();
-                     player.updateFoV();
-                     cleanActorList();
-                     if(curActor == player)
-                        MainGamePanel.incrementMessagePanel();
-                     if(!curActor.isCharged())
-                     {
-                        curActor.endOfTurn();
-                        incrementInitiativeIndex();
-                     }
+                     curActor.endOfTurn();
+                     incrementInitiativeIndex();
                   }
                }
-               // cur actor not done charging, increment
-               else
-               {
-                  incrementInitiativeIndex();
-               }
             }
-            if(nextZone != null)
-               transitionZone();
-            Thread.yield();
+            // cur actor not done charging, increment
+            else
+            {
+               incrementInitiativeIndex();
+            }
          }
-         Thread.yield();
+         if(nextZone != null)
+            transitionZone();
       }
    }
    
