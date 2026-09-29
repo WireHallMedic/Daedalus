@@ -66,7 +66,7 @@ public class Weapon extends ChargeItem implements Equippable, ItemConstants, GUI
       if(getRateOfFire() > 1)
          str += " (x" + getRateOfFire() + ")";
       list.add(str);
-      list.add("Full Charge:  " + String.format("%.1f", getTurnsToFullCharge() / 2.0) + "s");
+      list.add("Full Charge:  " + GUITools.turnsToSeconds(getTurnsToFullCharge()));
       return list;
    }
    
@@ -92,12 +92,6 @@ public class Weapon extends ChargeItem implements Equippable, ItemConstants, GUI
    public void discharge()
    {
       super.discharge(chargePerShot);
-   }
-   
-   @Override
-   public void setMaxChargeTurns(int val)
-   {
-      throw new Error("setMaxChargeTurns() inappropriate for weapons, use setMaxShots() and setChargeTimePerShot() instead");
    }
    
    

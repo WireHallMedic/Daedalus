@@ -9,8 +9,8 @@ import java.util.*;
 public class Shield extends ChargeItem implements Equippable, ItemConstants, GUIConstants
 {
    public static final int STANDARD_MAX_DAMAGE_CAPACITY = 10;
-   public static final int STANDARD_CHARGE_DELAY_NORMAL_TURNS = 5;
-   public static final int STANDARD_MAX_CHARGE_TIME_STANDARD_TURNS = 10;
+   public static final int STANDARD_CHARGE_DELAY = 10;
+   public static final int STANDARD_MAX_CHARGE_TIME = 20;
    
 	private int maxDamageCapacity;
 	private int chargeDelay;
@@ -33,14 +33,9 @@ public class Shield extends ChargeItem implements Equippable, ItemConstants, GUI
    {
       super(name, ItemBase.SHIELD);
       setMaxDamageCapacity(STANDARD_MAX_DAMAGE_CAPACITY);
-      setChargeDelayTurns(STANDARD_CHARGE_DELAY_NORMAL_TURNS);
-      setMaxChargeTurns(STANDARD_MAX_CHARGE_TIME_STANDARD_TURNS);
+      setChargeDelay(STANDARD_CHARGE_DELAY);
+      setMaxChargeTurns(STANDARD_MAX_CHARGE_TIME);
       ticksSinceCharge = 0;
-   }
-   
-   public void setChargeDelayTurns(int cd)
-   {
-      chargeDelay = ActorConstants.ActionSpeed.NORMAL.increments * cd;
    }
    
    
@@ -59,17 +54,9 @@ public class Shield extends ChargeItem implements Equippable, ItemConstants, GUI
    }
    
    @Override
-   public void setMaxCharge(int m)
+   public void setMaxChargeTurns(int t)
    {
-      super.setMaxCharge(m);
-      setDamagePerCharge();
-      fullyCharge();
-   }
-   
-   @Override
-   public void setMaxChargeTurns(int turns)
-   {
-      super.setMaxChargeTurns(turns);
+      super.setMaxChargeTurns(t);
       setDamagePerCharge();
    }
    
@@ -102,6 +89,9 @@ public class Shield extends ChargeItem implements Equippable, ItemConstants, GUI
    {
       Vector<String> list = new Vector<String>();
       list.add(getName());
+      list.add("Damage Capacity: " + getMaxDamageCapacity());
+      list.add("Charge Delay:    " + GUITools.turnsToSeconds(getChargeDelay()));
+      list.add("Full Charge:     " + GUITools.turnsToSeconds(getTurnsToFullCharge()));
       return list;
    }
 }

@@ -137,5 +137,10 @@ public class GUITools implements GUIConstants, FontConstants
       xOff = ((-1.0f * (float)Math.cos(Math.PI * xOff)) *.5f) + .5f;
       return interpolateLinear(p1, p2, xOff);
    }
+   
+   public static String turnsToSeconds(double turns)
+   {
+      return String.format("%.1f", turns / 2.0) + "s";
+   }
 
 }

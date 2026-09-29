@@ -20,8 +20,8 @@ public class ShieldFactory implements ItemConstants, GUIConstants, CombatConstan
    {
       Shield s = new Shield("Basic Shield");
       s.setMaxDamageCapacity(Shield.STANDARD_MAX_DAMAGE_CAPACITY);
-      s.setChargeDelayTurns(Shield.STANDARD_CHARGE_DELAY_NORMAL_TURNS);
-      s.setMaxChargeTurns(Shield.STANDARD_MAX_CHARGE_TIME_STANDARD_TURNS);
+      s.setChargeDelay(Shield.STANDARD_CHARGE_DELAY);
+      s.setMaxCharge(Shield.STANDARD_MAX_CHARGE_TIME);
       return s;
    }
    
@@ -32,7 +32,7 @@ public class ShieldFactory implements ItemConstants, GUIConstants, CombatConstan
    {
       Shield s = new Shield("Drone Shield");
       s.setMaxDamageCapacity(Shield.STANDARD_MAX_DAMAGE_CAPACITY / 2);
-      s.setMaxChargeTurns(Shield.STANDARD_MAX_CHARGE_TIME_STANDARD_TURNS / 2);
+      s.setMaxChargeTurns(Shield.STANDARD_MAX_CHARGE_TIME / 2);
       s.fullyCharge();
       return s;
    }

@@ -46,18 +46,17 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
       }
       Direction dir = Direction.getDirectionTo(attacker.getTileLoc(), targetLoc);
       AnimationScript as;
-      if(attack.isMelee())
+      if(Game.shouldReport(attacker, defenderList))
       {
-         as = AnimationScriptFactory.getMeleeAttack(attacker, dir);
-         AnimationManager.addLocking(as);
-         // only do screenshake if you hit something
-         if(defenderList.size() > 0)
-            if(Game.shouldReport(attacker, defenderList))
+         if(attack.isMelee())
+         {
+            as = AnimationScriptFactory.getMeleeAttack(attacker, dir);
+            AnimationManager.addLocking(as);
+            // only do screenshake if you hit something
+            if(defenderList.size() > 0)
                AnimationManager.setScreenShake(AnimationScriptFactory.MELEE_IMPACT_DELAY);
-      }
-      else
-      {
-         if(Game.shouldReport(attacker))
+         }
+         else
          {
             as = AnimationScriptFactory.getRecoil(attacker, dir);
             AnimationManager.addLocking(as);
