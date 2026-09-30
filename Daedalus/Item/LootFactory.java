@@ -14,7 +14,7 @@ public class LootFactory implements ItemConstants
    private static final double M = (Y2 - Y1) / (X2 - X1);
    private static final double B = Y1 - (M * X1);
    
-   public static Vector<? extends TableItem> standardList = getStandardList();
+   public static Vector<? extends TableItem> standardTable = getStandardTable();
    
    
    public static int getMaxCredits(int level)
@@ -30,16 +30,16 @@ public class LootFactory implements ItemConstants
       return new Credits(val);
    }
    
-   private static Vector<TableItemWrapper> getStandardList()
+   private static Vector<TableItemWrapper> getStandardTable()
    {
       Vector<TableItemWrapper> list = new Vector<TableItemWrapper>();
       list.add(new TableItemWrapper(ItemBase.CREDITS,    0,    100,  2.0));
       list.add(new TableItemWrapper(ItemBase.WEAPON,     0,    100,  1.0));
       list.add(new TableItemWrapper(ItemBase.SHIELD,     0,    100,  0.5));
       list.add(new TableItemWrapper(ItemBase.ARMOR,      0,    100,  0.5));
-      list.add(new TableItemWrapper(ItemBase.MOD,        0,    100,  .25));
-      list.add(new TableItemWrapper(ItemBase.GADGET,     0,    100,  .25));
-      list.add(new TableItemWrapper(ItemBase.CONSUMABLE, 0,    100,  1.0));
+//      list.add(new TableItemWrapper(ItemBase.MOD,        0,    100,  .25));
+//      list.add(new TableItemWrapper(ItemBase.GADGET,     0,    100,  .25));
+//      list.add(new TableItemWrapper(ItemBase.CONSUMABLE, 0,    100,  1.0));
       return list;
    }
    

@@ -32,4 +32,13 @@ public interface ItemConstants
          specialTileIndex = sti;
       }
    }
+   
+   public enum ItemQuality
+   {
+      LOW,
+      STANDARD,
+      HIGH,
+      SUPERIOR,
+      UNIQUE;
+   }
 }
