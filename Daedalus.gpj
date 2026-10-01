@@ -14,7 +14,7 @@ s#k0
 s#j0
 s#l0
 !74;u
-a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!3443;g
+a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!3487;g
 %\011Daedalus%sAbility%sAbility.java
 %\011Daedalus%sAbility%sAbilityConstants.java
 %\011Daedalus%sAbility%sAttack.java
@@ -75,6 +75,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!3443;
 %\011Daedalus%sItem%sArmorFactory.java
 %\011Daedalus%sItem%sChargeItem.java
 %\011Daedalus%sItem%sConsumable.java
+%\011Daedalus%sItem%sConsumableFactory.java
 %\011Daedalus%sItem%sCredits.java
 %\011Daedalus%sItem%sEquippable.java
 %\011Daedalus%sItem%sGadget.java
@@ -109,7 +110,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!3443;
 %\011Daedalus%sZone%sZoneMap.java
 %\011Daedalus%sZone%sZoneTile.java
 %\011Daedalus%sZone%sZoneViewer.java
-!3443;f
+!3487;f
 %\011Daedalus%sAbility%sAbility.java
 %\011Daedalus%sAbility%sAbilityConstants.java
 %\011Daedalus%sAbility%sAttack.java
@@ -170,6 +171,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!3443;
 %\011Daedalus%sItem%sArmorFactory.java
 %\011Daedalus%sItem%sChargeItem.java
 %\011Daedalus%sItem%sConsumable.java
+%\011Daedalus%sItem%sConsumableFactory.java
 %\011Daedalus%sItem%sCredits.java
 %\011Daedalus%sItem%sEquippable.java
 %\011Daedalus%sItem%sGadget.java

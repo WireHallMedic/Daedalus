@@ -9,6 +9,7 @@ public class StatusEffect implements AbilityConstants
 	private StatBlock statBlock;
 	private int maxDuration;
 	private int remainingDuration;
+   private int intensity;
 	private Vector<StatusEffectTag> tagList;
 
 
@@ -16,6 +17,7 @@ public class StatusEffect implements AbilityConstants
 	public StatBlock getStatBlock(){return statBlock;}
 	public int getMaxDuration(){return maxDuration;}
 	public int getRemainingDuration(){return remainingDuration;}
+   public int getIntensity(){return intensity;}
 	public Vector<StatusEffectTag> getTagList(){return tagList;}
 
 
@@ -23,6 +25,7 @@ public class StatusEffect implements AbilityConstants
 	public void setStatBlock(StatBlock s){statBlock = s;}
 	public void setMaxDuration(int m){maxDuration = m; setRemainingDuration(m);}
 	public void setRemainingDuration(int r){remainingDuration = r;}
+   public void setIntensity(int i){intensity = i;}
 	public void setTagList(Vector<StatusEffectTag> t){tagList = t;}
 
 
@@ -32,6 +35,7 @@ public class StatusEffect implements AbilityConstants
       statBlock = new StatBlock();
       maxDuration = 10;
       remainingDuration = 10;
+      intensity = 1;
       tagList = new Vector<StatusEffectTag>();
    }
 
@@ -42,6 +46,7 @@ public class StatusEffect implements AbilityConstants
       this.maxDuration = that.maxDuration;
       this.remainingDuration = that.remainingDuration;
       this.tagList = new Vector<StatusEffectTag>();
+      this.intensity = that.intensity;
       for(StatusEffectTag tag: that.tagList)
          this.tagList.add(tag);
    }
@@ -77,7 +82,7 @@ public class StatusEffect implements AbilityConstants
       {
          switch(tag)
          {
-            case HEALING : a.heal(1); break;
+            case HEALING : a.heal(intensity); break;
          }
       }
    }
