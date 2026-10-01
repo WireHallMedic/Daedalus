@@ -41,6 +41,7 @@ public interface GUIConstants
                                             LIGHT_BLUE, LIGHT_GREEN, BEIGE, RED, 
                                             CYAN, YELLOW, ORANGE, PINK};
    public static final int TRANSPARENT = new Color(0, 0, 0, 0).getRGB();
+   public static final int SMOKE  = new Color(0, 0, 0, 127).getRGB();
    
    public static final int UI_FG_COLOR = CYAN;
    public static final int UI_BG_COLOR = BLACK;

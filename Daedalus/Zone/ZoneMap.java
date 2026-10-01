@@ -21,6 +21,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
 	private BufferedImage[][] lastSeenMap;
 	private BufferedImage[][] exploredMap;
 	private Corpse[][] corpseMap;
+	private Smoke[][] smokeMap;
    private Vector<Coord> exitList;
    private static final BufferedImage BLACK_SQUARE = SQUARE_PALETTE.getTile(' ');
    private int maxThreat;
@@ -36,6 +37,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    public Item[][] getItemMap(){return itemMap;}
    public boolean[][] getVisibilityMap(){return visibilityMap;}
    public BufferedImage[][] getLastSeenMap(){return lastSeenMap;}
+   public Smoke[][] getSmokeMap(){return smokeMap;}
    public int getMaxThreat(){return maxThreat;}
    public int getMinThreat(){return minThreat;}
    public int getLevel(){return level;}
@@ -64,12 +66,14 @@ public class ZoneMap implements ZoneConstants, GUIConstants
       lastSeenMap = new BufferedImage[width][height];
       exploredMap = new BufferedImage[width][height];
       corpseMap = new Corpse[width][height];
+      smokeMap = new Smoke[width][height];
       for(int x = 0; x < width; x++)
       for(int y = 0; y < height; y++)
       {
          tileMap[x][y] = new ZoneTile(TileBase.CLEAR);
          itemMap[x][y] = null;
          corpseMap[x][y] = null;
+         smokeMap[x][y] = null;
          visibilityMap[x][y] = false;
          lastSeenMap[x][y] = BLACK_SQUARE;
          exploredMap[x][y] = BLACK_SQUARE;
@@ -107,7 +111,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    
    public void updateSubmaps(int x, int y)
    {
-      visibilityMap[x][y] = getTile(x, y).isTransparent();
+      visibilityMap[x][y] = getTile(x, y).isTransparent() && !hasSmoke(x, y);
    }
    public void updateSubmaps(Coord c){updateSubmaps(c.x, c.y);}
    
@@ -498,6 +502,60 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    }
    public Coord getCorpseDropLocation(Coord origin){return getCorpseDropLocation(origin.x, origin.y);}
    
+   
+   // smoke
+   ///////////////////////////////////////////////
+   public boolean hasSmoke(int x, int y)
+   {
+      return isInBounds(x, y) && smokeMap[x][y] != null;
+   }
+   public boolean hasSmoke(Coord c){return hasSmoke(c.x, c.y);}
+   
+   
+   public Smoke getSmoke(int x, int y)
+   {
+      if(isInBounds(x, y))
+         return smokeMap[x][y];
+      return null;
+   }
+   public Smoke getSmoke(Coord c){return getSmoke(c.x, c.y);}
+   
+   public void setSmoke(int x, int y, Smoke s)
+   {
+      if(isInBounds(x, y))
+      {
+         smokeMap[x][y] = s;
+         updateSubmaps(x, y);
+      }
+   }
+   public void setSmoke(Coord c, Smoke s){setSmoke(c.x, c.y, s);}
+   
+   public void setSmoke(int x, int y, int s)
+   {
+      setSmoke(x, y, new Smoke(s));
+   }
+   public void setSmoke(Coord c, int s){setSmoke(c.x, c.y, s);}
+   
+   
+   private void incrementSmoke(int x, int y)
+   {
+      if(smokeMap[x][y] != null)
+      {
+         smokeMap[x][y].increment();
+         if(smokeMap[x][y].isExpired())
+            smokeMap[x][y] = null;
+         updateSubmaps(x, y);
+      }
+   }
+   
+   public void incrementSmoke()
+   {
+      for(int x = 0; x < width; x++)
+      for(int y = 0; y < height; y++)
+      {
+         incrementSmoke(x, y);
+      }
+   }
    
    // test map
    ////////////////////////////////////////

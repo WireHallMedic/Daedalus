@@ -73,6 +73,11 @@ public class BoardPanel extends DaePanel implements GUIConstants
       {
          curTileImage = Game.getCurMap().getImage(x + cornerLoc.x, y + cornerLoc.y);
          g2dUnscaled.drawImage(curTileImage, xStep * x, yStep * y, null);
+         if(Game.getCurMap().hasSmoke(x + cornerLoc.x, y + cornerLoc.y))
+         {
+            g2dUnscaled.drawImage(Game.getCurMap().getSmoke(x + cornerLoc.x, y + cornerLoc.y).getImage(), 
+                                  xStep * x, yStep * y, null);
+         }
       }
       
       // overwrite tile bgs that are being targeted

@@ -42,6 +42,7 @@ public class Zone
       {
          populate();
       }
+      map.incrementSmoke();
    }
    
    
