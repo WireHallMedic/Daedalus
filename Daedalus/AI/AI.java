@@ -4,6 +4,7 @@ import Daedalus.GUI.*;
 import Daedalus.Zone.*;
 import Daedalus.Item.*;
 import Daedalus.Actor.*;
+import Daedalus.Ability.*;
 import Daedalus.Combat.*;
 import Daedalus.Engine.*;
 import java.util.*;
@@ -105,8 +106,8 @@ public class AI implements AIConstants, ZoneConstants
       // basic check
       boolean plan = pendingTarget != null && pendingAction != null && pendingAction != ActorAction.CONTEXTUAL;
       
-      // check thins that need pendingIndex have it
-      if(pendingAction == ActorAction.DROP || pendingAction == ActorAction.USE)
+      // check things that need pendingIndex have it
+      if(pendingAction == ActorAction.DROP || pendingAction == ActorAction.CONSUME)
          if(pendingIndex == -1)
             plan = false;
       
@@ -288,7 +289,7 @@ public class AI implements AIConstants, ZoneConstants
    
    protected void doWeaponAttack(Weapon w)
    {
-      CombatManager.resolveAttack(self, w.getAttack(), pendingTarget, w.getRateOfFire());
+      CombatManager.resolveAbility(self, w.getAttack(), pendingTarget, w.getRateOfFire());
       if(w != self.getNaturalWeapon())
          w.discharge();
       self.discharge(self.getAttackSpeed());
@@ -324,10 +325,15 @@ public class AI implements AIConstants, ZoneConstants
       self.discharge(self.getInteractSpeed());
    }
    
-   protected void doAbility(Ability a)
+   protected void doConsume()
    {
-      CombatManager.resolveAbility(self, a, pendingTarget);
-      self.discharge(self.getAttackSpeed());
+      Consumable consumable = (Consumable)self.getInventory().takeItem(pendingIndex);
+      CombatManager.resolveAbility(self, consumable.getAbility(),pendingTarget);
+      if(self == Game.getPlayer())
+      {
+         MainGamePanel.clearMessage();
+         MainGamePanel.addMessage("You use the " + consumable.getName() + ".");
+      }
    }
    
    protected Vector<Coord> getPathTo(Coord target)

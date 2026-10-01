@@ -120,6 +120,7 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
          }
       }
    }
+   public static void resolveAbility(Actor attacker, Ability ability, Coord targetLoc){resolveAbility(attacker, ability, targetLoc, 1);}
    
    
    // get the damage dropoff by range

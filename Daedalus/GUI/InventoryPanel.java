@@ -74,7 +74,7 @@ public class InventoryPanel extends SelectionPanel implements ActionListener, GU
    
    private void setDescription()
    {
-      if(inventory != null)
+      if(inventory != null && inventory.size() > 0)
       {
          writeItem(inventory.getItem(curIndex), DESCRIPTION_COLUMN_X_START);
       }
@@ -83,7 +83,7 @@ public class InventoryPanel extends SelectionPanel implements ActionListener, GU
    
    private void setEquippedDescription()
    {
-      if(inventory != null)
+      if(inventory != null && inventory.size() > 0)
       {
          if(inventory.getItem(curIndex) instanceof Weapon)
             writeItem(Game.getPlayer().getCurWeapon(), EQUIPPED_COLUMN_X_START);
