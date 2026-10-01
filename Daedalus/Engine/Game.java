@@ -240,8 +240,10 @@ public class Game
    }
    public static boolean shouldReport(Actor attacker, Vector<Actor> defenderList)
    {
+      if(shouldReport(attacker))
+         return true;
       for(Actor defender: defenderList)
-         if(shouldReport(attacker, defender))
+         if(shouldReport(defender))
             return true;
       return false;
    }
