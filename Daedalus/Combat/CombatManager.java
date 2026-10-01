@@ -119,6 +119,7 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
             }
          }
       }
+      ability.resolveSpecialEffect(attacker.getTileLoc(), targetLoc);
    }
    public static void resolveAbility(Actor attacker, Ability ability, Coord targetLoc){resolveAbility(attacker, ability, targetLoc, 1);}
    

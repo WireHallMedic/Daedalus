@@ -1,6 +1,7 @@
 package Daedalus.Ability;
 
 import Daedalus.Zone.*;
+import Daedalus.Actor.*;
 import Daedalus.Engine.*;
 import java.util.*;
 
@@ -12,6 +13,7 @@ public class Ability implements AbilityConstants
    private String hitVerb;
    private StatusEffect statusEffect;
    private ImpactEffect impactEffect;
+   private SpecialEffect specialEffect;
 
 
 	public String getName(){return name;}
@@ -20,6 +22,7 @@ public class Ability implements AbilityConstants
    public String getHitVerb(){return hitVerb;}
    public StatusEffect getStatusEffect(){return statusEffect;}
    public ImpactEffect getImpactEffect(){return impactEffect;}
+   public SpecialEffect getSpecialEffect(){return specialEffect;}
 
 
 	public void setName(String n){name = n;}
@@ -28,6 +31,7 @@ public class Ability implements AbilityConstants
    public void setHitVerb(String h){hitVerb = h;}
    public void setStatusEffect(StatusEffect se){statusEffect = se.copy();}
    public void setImpactEffect(ImpactEffect ie){impactEffect = ie;}
+   public void setSpecialEffect(SpecialEffect se){specialEffect = se;}
 
    public Ability(String n)
    {
@@ -37,6 +41,7 @@ public class Ability implements AbilityConstants
       hitVerb = "affects";
       statusEffect = null;
       impactEffect = null;
+      specialEffect = null;
    }
    
    public Vector<String> getDescriptionList()
@@ -86,5 +91,22 @@ public class Ability implements AbilityConstants
             tileList.add(c);
       }
       return tileList;
+   }
+   
+   public void resolveSpecialEffect(Coord origin, Coord target)
+   {
+      if(specialEffect == SpecialEffect.SMOKE)
+      {
+         Vector<Coord> targetList = getAffectedTiles(origin, target);
+         // single tiles are targeted 9-15 times, multiple tiles are targeted once each
+         if(targetList.size() == 1)
+         {
+            int reps = 8 + RNG.nextInt(7);
+            for(int i = 0; i < reps; i++)
+               targetList.add(targetList.elementAt(0));
+            for(Coord loc: targetList)
+               Game.getCurMap().dropSmoke(12 + RNG.nextInt(13), loc);
+         }
+      }
    }
 }

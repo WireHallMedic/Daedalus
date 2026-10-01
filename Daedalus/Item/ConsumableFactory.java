@@ -31,9 +31,19 @@ public class ConsumableFactory implements ItemConstants, GUIConstants, CombatCon
       a.setBaseDamage(new Damage(DamageType.CONCUSSION, DEFAULT_BASE_SHOT_DAMAGE * 3));
       a.setRandomDamage(new Damage(DamageType.CONCUSSION, DEFAULT_RANDOM_SHOT_DAMAGE * 2));
       a.setTargetingType(AbilityConstants.TargetingType.BLAST);
-      a.setRange(7);
+      a.setRange(5);
       a.setHitVerb("blasts");
       a.setImpactEffect(AbilityConstants.ImpactEffect.EXPLOSION);
+      c.setAbility(a);
+      return c;
+   }
+   
+   public static Consumable getSmokeGrenade()
+   {
+      Consumable c = new Consumable("Smoke Grenade");
+      Ability a = new Ability("Smoke");
+      a.setRange(5);
+      a.setSpecialEffect(SpecialEffect.SMOKE);
       c.setAbility(a);
       return c;
    }

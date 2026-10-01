@@ -30,4 +30,10 @@ public interface AbilityConstants
       EXPLOSION,
       SPLASH;
    }
+   
+   public enum SpecialEffect
+   {
+      SMOKE,
+      TELEPORT;
+   }
 }

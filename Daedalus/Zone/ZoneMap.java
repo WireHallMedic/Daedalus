@@ -99,6 +99,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
          return tileMap[x][y].isHighPassable();
       return false;
    }
+   public boolean isHighPassable(Coord c){return isHighPassable(c.x, c.y);}
    
    
    public boolean isLowPassable(int x, int y)
@@ -107,6 +108,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
          return tileMap[x][y].isLowPassable();
       return false;
    }
+   public boolean isLowPassable(Coord c){return isLowPassable(c.x, c.y);}
    
    
    public void updateSubmaps(int x, int y)
@@ -520,7 +522,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    }
    public Smoke getSmoke(Coord c){return getSmoke(c.x, c.y);}
    
-   public void setSmoke(int x, int y, Smoke s)
+   public void setSmoke(Smoke s, int x, int y)
    {
       if(isInBounds(x, y))
       {
@@ -528,13 +530,55 @@ public class ZoneMap implements ZoneConstants, GUIConstants
          updateSubmaps(x, y);
       }
    }
-   public void setSmoke(Coord c, Smoke s){setSmoke(c.x, c.y, s);}
+   public void setSmoke(Smoke s, Coord c){setSmoke(s, c.x, c.y);}
    
-   public void setSmoke(int x, int y, int s)
+   // drops an corpse in the nearest droppable tile
+   public void dropSmoke(Smoke smoke, int x, int y)
    {
-      setSmoke(x, y, new Smoke(s));
+      Coord loc = getSmokeDropLocation(x, y);
+      if(loc != null)
+         setSmoke(smoke, loc.x, loc.y);
    }
-   public void setSmoke(Coord c, int s){setSmoke(c.x, c.y, s);}
+   public void dropSmoke(Smoke smoke, Coord c){dropSmoke(smoke, c.x, c.y);}
+   public void dropSmoke(int intensity, int x, int y){dropSmoke(new Smoke(intensity), x, y);}
+   public void dropSmoke(int intensity, Coord c){dropSmoke(new Smoke(intensity), c.x, c.y);}
+
+   public boolean[][] getSmokeDroppableMap(int centerX, int centerY)
+   {
+      boolean[][] map = new boolean[ITEM_SEARCH_DIAMETER][ITEM_SEARCH_DIAMETER];
+      int radius = ITEM_SEARCH_DIAMETER / 2;
+      for(int x = 0; x < ITEM_SEARCH_DIAMETER; x++)
+      for(int y = 0; y < ITEM_SEARCH_DIAMETER; y++)
+      {
+         int xSearch = centerX - radius + x;
+         int ySearch = centerY - radius + y;
+         map[x][y] = isHighPassable(xSearch, ySearch);
+      }
+      return map;
+   }
+   public boolean[][] getSmokeDroppableMap(Coord c){return getSmokeDroppableMap(c.x, c.y);}
+   
+   
+   public Coord getSmokeDropLocation(int originX, int originY)
+   {
+      int xInset = originX - (ITEM_SEARCH_DIAMETER / 2);
+      int yInset = originY - (ITEM_SEARCH_DIAMETER / 2);
+      boolean[][] searchMap = getSmokeDroppableMap(originX, originY);
+      SpiralSearch search = new SpiralSearch(searchMap, ITEM_SEARCH_DIAMETER / 2, ITEM_SEARCH_DIAMETER / 2);
+      Coord prospect = search.getNext();
+      while(prospect != null)
+      {
+         prospect.x += xInset;
+         prospect.y += yInset;
+         if(!hasSmoke(prospect))
+         {
+            return prospect;
+         }
+         prospect = search.getNext();
+      }
+      return null;
+   }
+   public Coord getSmokeDropLocation(Coord origin){return getSmokeDropLocation(origin.x, origin.y);}
    
    
    private void incrementSmoke(int x, int y)
