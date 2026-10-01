@@ -151,8 +151,17 @@ public class InventoryPanel extends SelectionPanel implements ActionListener, GU
                   Game.getPlayer().getAI().setPendingTarget(ZoneConstants.Direction.ORIGIN);
                   DaeFrame.setActivePanel(MainGamePanel.class);
                }
+               else if(inventory.getItem(curIndex) instanceof Consumable)
+               {
+                  Game.getPlayer().getAI().setPendingAction(AIConstants.ActorAction.CONSUME);
+                  Game.getPlayer().getAI().setPendingIndex(curIndex);
+                  Consumable c = (Consumable)inventory.getItem(curIndex);
+                  if(c.getAbility().getRange() == 0)
+                     Game.getPlayer().getAI().setPendingTarget(ZoneConstants.Direction.ORIGIN);
+                  DaeFrame.setActivePanel(MainGamePanel.class);
+               }
                else
-                  System.out.println("Non-equippable item.");
+                  System.out.println("Usage not defined in InventoryPanel");
             }
             break;
          default :

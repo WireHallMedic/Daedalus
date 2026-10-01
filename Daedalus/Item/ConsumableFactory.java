@@ -22,7 +22,6 @@ public class ConsumableFactory implements ItemConstants, GUIConstants, CombatCon
       a.setStatusEffect(se);
       c.setAbility(a);
       return c;
-      
    }
    
    private static Ability getSelfTargetingAbility(String name)

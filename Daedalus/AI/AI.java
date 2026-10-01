@@ -194,6 +194,9 @@ public class AI implements AIConstants, ZoneConstants
          case ActorAction.EQUIP :
             doEquip();
             break;
+         case ActorAction.CONSUME :
+            doConsume();
+            break;
       }
       clearPlan();
    }
@@ -319,6 +322,12 @@ public class AI implements AIConstants, ZoneConstants
          self.setArmor(a);
       }
       self.discharge(self.getInteractSpeed());
+   }
+   
+   protected void doAbility(Ability a)
+   {
+      CombatManager.resolveAbility(self, a, pendingTarget);
+      self.discharge(self.getAttackSpeed());
    }
    
    protected Vector<Coord> getPathTo(Coord target)

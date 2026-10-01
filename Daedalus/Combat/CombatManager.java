@@ -31,17 +31,20 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
       return damageDealt;
    }
    
-   public static void resolveAttack(Actor attacker, Attack attack, Coord targetLoc, int rateOfFire)
+   public static void resolveAbility(Actor attacker, Ability ability, Coord targetLoc, int rateOfFire)
    {
-      Vector<Coord> affectedList = attack.getAffectedTiles(attacker.getTileLoc(), targetLoc);
+      Attack attack = null;
+      if(ability instanceof Attack)
+         attack = (Attack)ability;
+      Vector<Coord> affectedList = ability.getAffectedTiles(attacker.getTileLoc(), targetLoc);
       Vector<Actor> defenderList = new Vector<Actor>();
-      Coord attackOrigin = attacker.getTileLoc();
-      if(attack.getTargetingType() == TargetingType.BLAST)
-         attackOrigin = EngineTools.getBlastOrigin(attacker.getTileLoc(), targetLoc, attack.getRange());
+      Coord abilityOrigin = attacker.getTileLoc();
+      if(ability.getTargetingType() == TargetingType.BLAST)
+         abilityOrigin = EngineTools.getBlastOrigin(attacker.getTileLoc(), targetLoc, ability.getRange());
 
       for(int i = 0; i < affectedList.size(); i++)
       {
-         if(attack.isMelee())
+         if(ability instanceof Attack && attack.isMelee())
             AnimationScriptFactory.addMeleeGroundFlash(affectedList.elementAt(i));
          else
             AnimationScriptFactory.addGroundFlash(affectedList.elementAt(i));
@@ -52,7 +55,7 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
       AnimationScript as;
       if(Game.shouldReport(attacker, defenderList))
       {
-         if(attack.isMelee())
+         if(ability instanceof Attack && attack.isMelee())
          {
             as = AnimationScriptFactory.getMeleeAttack(attacker, dir);
             AnimationManager.addLocking(as);
@@ -68,16 +71,16 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
          }
       }
       MainGamePanel.clearMessage();
-      if(attack.getImpactEffect() != null)
+      if(ability.getImpactEffect() != null)
       {
          Coord impactLoc = affectedList.elementAt(0);
-         if(attack.getTargetingType() == TargetingType.BLAST)
-            impactLoc = attackOrigin;
-         if(attack.getImpactEffect() == ImpactEffect.EXPLOSION)
+         if(ability.getTargetingType() == TargetingType.BLAST)
+            impactLoc = abilityOrigin;
+         if(ability.getImpactEffect() == ImpactEffect.EXPLOSION)
          {
             AnimationScriptFactory.addExplosion(impactLoc);
          }
-         if(attack.getImpactEffect() == ImpactEffect.SPLASH)
+         if(ability.getImpactEffect() == ImpactEffect.SPLASH)
          {
             AnimationScriptFactory.addSplash(impactLoc, GUIConstants.LIGHT_GREEN);
          }
@@ -86,18 +89,25 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
       {
          Actor defender = defenderList.elementAt(i);
          int damageCount = 0;
-         for(int j = 0; j < rateOfFire; j++)
-            damageCount += applyAttack(attacker, defender, attack, attackOrigin);
+         if(ability instanceof Attack)
+         {
+            for(int j = 0; j < rateOfFire; j++)
+               damageCount += applyAttack(attacker, defender, attack, abilityOrigin);
+         }
+         else
+         {
+            defender.add(ability.getStatusEffect().copy());
+         }
          defender.notice(attacker);
          if(Game.shouldReport(attacker, defender))
          {
-            String damageMessage = String.format("%s %s %s for %d damage! ", attacker.getName(), attack.getHitVerb(), 
+            String damageMessage = String.format("%s %s %s for %d damage! ", attacker.getName(), ability.getHitVerb(), 
                                                  defender.getName(), damageCount);
             if(defender.isDead())
                damageMessage += defender.getName() + " is dead! ";
             MainGamePanel.addMessage(damageMessage);
             dir = Direction.getDirectionTo(defender.getTileLoc(), attacker.getTileLoc());
-            if(attack.isMelee())
+            if(ability instanceof Attack && attack.isMelee())
             {
                as = AnimationScriptFactory.getMeleeImpact(defender, dir);
                AnimationManager.addLocking(as);
