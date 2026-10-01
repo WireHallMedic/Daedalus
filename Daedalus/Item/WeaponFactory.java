@@ -3,10 +3,14 @@ package Daedalus.Item;
 import Daedalus.GUI.*;
 import Daedalus.Actor.*;
 import Daedalus.Combat.*;
+import Daedalus.Engine.*;
 import Daedalus.Ability.*;
+import java.util.*;
 
 public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstants
 {
+   public static Vector<? extends TableItem> standardTable = getStandardTable();
+   
    public static void setLowQuality(Weapon w)
    {
       w.setName("Low-Quality " + w.getName());
@@ -138,6 +142,18 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
    // upgrades
    ////////////////////////////////////////////////////
    
+   
+   public static void addRandomUpgrade(Weapon w)
+   {
+      switch(RNG.nextInt(4))
+      {
+         case 0 : improveCapacity(w); break;
+         case 1 : improveRange(w); break;
+         case 2 : improveDamage(w); break;
+         case 3 : improveRecharge(w); break;
+      }
+   }
+   
    public static void improveCapacity(Weapon w)
    {
       w.setName("High-Capacity " + w.getName());
@@ -230,6 +246,61 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
       w.setAlwaysCharged(true);
       w.fullyCharge();
       return w;
+   }
+   
+   
+   // rolling
+   ////////////////////////////////////////
+   
+   public static Weapon rollWeapon(int level)
+   {
+      WeaponTableEntry result = (WeaponTableEntry)RNG.roll(standardTable, level);
+      
+      Weapon w = getByBaseType(result.type);
+      if(result.quality == ItemQuality.LOW)
+         setLowQuality(w);
+      if(result.quality == ItemQuality.HIGH)
+         addRandomUpgrade(w);
+      return w;
+   }
+   
+   private static Vector<WeaponTableEntry> getStandardTable()
+   {
+      Vector<WeaponTableEntry> list = new Vector<WeaponTableEntry>();
+      for(Weapon.BaseType type: Weapon.BaseType.values())
+      {
+         list.add(new WeaponTableEntry(type, ItemQuality.LOW, 0, 100, 1.0));
+         list.add(new WeaponTableEntry(type, ItemQuality.STANDARD, 0, 100, 1.0));
+         list.add(new WeaponTableEntry(type, ItemQuality.HIGH, 0, 100, 1.0));
+      }
+      return list;
+   }
+   
+   private static class WeaponTableEntry implements TableItem
+   {
+      public Weapon.BaseType type;
+      public ItemQuality quality;
+      private int minLevel;
+   	private int maxLevel;
+   	private int weight;
+      
+      public int getMinLevel(){return minLevel;}
+   	public int getMaxLevel(){return maxLevel;}
+   	public int getWeight(){return weight;}
+   
+   
+   	public void setMinLevel(int m){minLevel = m;}
+   	public void setMaxLevel(int m){maxLevel = m;}
+   	public void setWeight(int w){weight = w;}
+      
+      public WeaponTableEntry(Weapon.BaseType t, ItemQuality iq, int min, int max, double weightMultiplier)
+      {
+         type = t;
+         quality = iq;
+         minLevel = min;
+         maxLevel = max;
+         weight = (int)(BASE_WEIGHT * weightMultiplier);
+      }
    }
    
    

@@ -24,7 +24,7 @@ public class Main
       a.addToInventory(new Shield("Test Shield"));
       a.addToInventory(WeaponFactory.getAutogun());
       for(int i = 0; i < 10; i++)
-         a.addToInventory(ShieldFactory.rollShield(1));
+         a.addToInventory(WeaponFactory.rollWeapon(1));
       a.getCurWeapon().getAttack().getBaseDamage().setValue(CombatConstants.DamageType.COLD, 20);
       Game.setPlayer(a);
 

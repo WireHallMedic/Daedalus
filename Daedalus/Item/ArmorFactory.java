@@ -76,13 +76,10 @@ public class ArmorFactory implements ItemConstants, GUIConstants, CombatConstant
    
    public static Armor rollArmor(int level)
    {
-      TableItemWrapper result = (TableItemWrapper)RNG.roll(standardTable, level);
-      ArmorTableEntry entry = (ArmorTableEntry)result.getObject();
-      Armor.BaseType type = entry.type;
-      ItemQuality quality = entry.quality;
+      ArmorTableEntry result = (ArmorTableEntry)RNG.roll(standardTable, level);
       
-      Armor a = getByBaseType(type);
-      if(quality == ItemQuality.LOW)
+      Armor a = getByBaseType(result.type);
+      if(result.quality == ItemQuality.LOW)
          setLowQuality(a);
       return a;
    }

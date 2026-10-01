@@ -72,15 +72,15 @@ public class ShieldFactory implements ItemConstants, GUIConstants, CombatConstan
       return s;
    }
    
+   // rolling
+   ///////////////////////////////////////////
+   
    public static Shield rollShield(int level)
    {
-      TableItemWrapper result = (TableItemWrapper)RNG.roll(standardTable, level);
-      ShieldTableEntry entry = (ShieldTableEntry)result.getObject();
-      Shield.BaseType type = entry.type;
-      ItemQuality quality = entry.quality;
+      ShieldTableEntry result = (ShieldTableEntry)RNG.roll(standardTable, level);
       
-      Shield s = getByBaseType(type);
-      if(quality == ItemQuality.LOW)
+      Shield s = getByBaseType(result.type);
+      if(result.quality == ItemQuality.LOW)
          setLowQuality(s);
       return s;
    }
