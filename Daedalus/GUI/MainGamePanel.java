@@ -555,12 +555,7 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
             break;
          case KeyEvent.VK_F:
          case KeyEvent.VK_ENTER:
-//             if(Game.getPlayer().getAI().getPendingAction() == ActorAction.BASIC_ATTACK)
-//             {
-//                Game.getPlayer().getAI().setPendingTarget(cursorLoc);
-//             }
             Game.getPlayer().getAI().setPendingTarget(cursorLoc);
-            // TODO: non-attack abilities
             mode = ACT_MODE;
             setNonTargetingValues();
             break;
