@@ -10,6 +10,7 @@ public class Ability implements AbilityConstants
 	private TargetingType targetingType;
 	private int range;
    private String hitVerb;
+   private StatusEffect statusEffect;
    private ImpactEffect impactEffect;
 
 
@@ -17,6 +18,7 @@ public class Ability implements AbilityConstants
 	public TargetingType getTargetingType(){return targetingType;}
 	public int getRange(){return range;}
    public String getHitVerb(){return hitVerb;}
+   public StatusEffect getStatusEffect(){return statusEffect;}
    public ImpactEffect getImpactEffect(){return impactEffect;}
 
 
@@ -24,6 +26,7 @@ public class Ability implements AbilityConstants
 	public void setTargetingType(TargetingType t){targetingType = t;}
 	public void setRange(int r){range = r;}
    public void setHitVerb(String h){hitVerb = h;}
+   public void setStatusEffect(StatusEffect se){statusEffect = se.copy();}
    public void setImpactEffect(ImpactEffect ie){impactEffect = ie;}
 
    public Ability(String n)
@@ -32,6 +35,7 @@ public class Ability implements AbilityConstants
       targetingType = TargetingType.POINT;
       range = 10;
       hitVerb = "affects";
+      statusEffect = null;
       impactEffect = null;
    }
    
@@ -41,6 +45,8 @@ public class Ability implements AbilityConstants
       list.add(getName());
       list.add("Range:        " + getRange());
       list.add("Targeting:    " + getTargetingType().name);
+      if(statusEffect != null)
+         list.add("Effect:       " + getStatusEffect().getName());
       return list;
    }
    

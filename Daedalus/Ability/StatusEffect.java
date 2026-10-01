@@ -34,6 +34,22 @@ public class StatusEffect implements AbilityConstants
       remainingDuration = 10;
       tagList = new Vector<StatusEffectTag>();
    }
+
+   public StatusEffect(StatusEffect that)
+   {
+      this.name = that.name;
+      this.statBlock = that.statBlock.copy();
+      this.maxDuration = that.maxDuration;
+      this.remainingDuration = that.remainingDuration;
+      this.tagList = new Vector<StatusEffectTag>();
+      for(StatusEffectTag tag: that.tagList)
+         this.tagList.add(tag);
+   }
+   
+   public StatusEffect copy()
+   {
+      return new StatusEffect(this);
+   }
    
    public void addTag(StatusEffectTag tag)
    {

@@ -42,6 +42,11 @@ public class StatBlock implements ActorConstants
       this.set(that);
    }
    
+   public StatBlock copy()
+   {
+      return new StatBlock(this);
+   }
+   
    public void set(StatBlock that)
    {
       this.maxHealth = that.maxHealth;

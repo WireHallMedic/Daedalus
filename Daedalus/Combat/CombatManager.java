@@ -24,6 +24,10 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
          }
          defender.setKnockback(knockback, Direction.getDirectionTo(attackOrigin, defender.getTileLoc()));
       }
+      if(attack.getStatusEffect() != null)
+      {
+         defender.add(attack.getStatusEffect().copy());
+      }
       return damageDealt;
    }
    
