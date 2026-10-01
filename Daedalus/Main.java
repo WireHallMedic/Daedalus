@@ -21,6 +21,7 @@ public class Main
       Actor a = ActorFactory.getPlayer();
       a.setTileLoc(3, 5);
       a.addToInventory(ConsumableFactory.getMedPatch());
+      a.addToInventory(ConsumableFactory.getGrenade());
       a.getCurWeapon().getAttack().getBaseDamage().setValue(CombatConstants.DamageType.CRYO, 20);
       Game.setPlayer(a);
 

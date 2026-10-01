@@ -328,12 +328,12 @@ public class AI implements AIConstants, ZoneConstants
    protected void doConsume()
    {
       Consumable consumable = (Consumable)self.getInventory().takeItem(pendingIndex);
-      CombatManager.resolveAbility(self, consumable.getAbility(),pendingTarget);
       if(self == Game.getPlayer())
       {
          MainGamePanel.clearMessage();
          MainGamePanel.addMessage("You use the " + consumable.getName() + ".");
       }
+      CombatManager.resolveAbility(self, consumable.getAbility(),pendingTarget);
    }
    
    protected Vector<Coord> getPathTo(Coord target)

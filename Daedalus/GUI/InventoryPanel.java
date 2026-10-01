@@ -14,14 +14,16 @@ import Daedalus.Engine.*;
 
 public class InventoryPanel extends SelectionPanel implements ActionListener, GUIConstants, KeyListener
 {
+   private MainGamePanel mainGamePanel;
    private Inventory inventory;
    private static final int DESCRIPTION_COLUMN_X_START = PANEL_WIDTH_TILES / 3;
    private static final int EQUIPPED_COLUMN_X_START = (PANEL_WIDTH_TILES / 3) * 2;
    private static final int COLUMN_WIDTH = (PANEL_WIDTH_TILES / 3) - 1;
    
-   public InventoryPanel()
+   public InventoryPanel(MainGamePanel mgp)
    {
       super();
+      mainGamePanel = mgp;
       inventory = null;
       setHeader("Inventory");
       setFooter("[D]rop, [ENTER] to Equip or Use, [ESC] to exit");
@@ -158,6 +160,8 @@ public class InventoryPanel extends SelectionPanel implements ActionListener, GU
                   Consumable c = (Consumable)inventory.getItem(curIndex);
                   if(c.getAbility().getRange() == 0)
                      Game.getPlayer().getAI().setPendingTarget(ZoneConstants.Direction.ORIGIN);
+                  else
+                     mainGamePanel.setTargetingMode(c.getAbility());
                   DaeFrame.setActivePanel(MainGamePanel.class);
                }
                else

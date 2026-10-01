@@ -24,6 +24,20 @@ public class ConsumableFactory implements ItemConstants, GUIConstants, CombatCon
       return c;
    }
    
+   public static Consumable getGrenade()
+   {
+      Consumable c = new Consumable("Grenade");
+      Attack a = new Attack("Grenade");
+      a.setBaseDamage(new Damage(DamageType.CONCUSSION, DEFAULT_BASE_SHOT_DAMAGE * 3));
+      a.setRandomDamage(new Damage(DamageType.CONCUSSION, DEFAULT_RANDOM_SHOT_DAMAGE * 2));
+      a.setTargetingType(AbilityConstants.TargetingType.BLAST);
+      a.setRange(7);
+      a.setHitVerb("blasts");
+      a.setImpactEffect(AbilityConstants.ImpactEffect.EXPLOSION);
+      c.setAbility(a);
+      return c;
+   }
+   
    private static Ability getSelfTargetingAbility(String name)
    {
       Ability a = new Ability(name);

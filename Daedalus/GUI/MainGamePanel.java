@@ -48,6 +48,9 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
    public Vector<Coord> getAffectedList(){return affectedList;}
    public Ability getPendingAbility(){return pendingAbility;}
    
+   public void setMode(int m){mode = m;}
+   public void setPendingAbility(Ability a){pendingAbility = a;}
+   
    public MainGamePanel(TilePalette rectPalette, TilePalette squarePalette)
    {
       super(PANEL_WIDTH_TILES, PANEL_HEIGHT_TILES, rectPalette);
@@ -442,15 +445,8 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
             {
                if(Game.getPlayer().getCurWeapon().getChargedShots() > 0)
                {
-                  if(Game.getPlayer().getAI().getClosestEnemy() != null)
-                     cursorLoc = Game.getPlayer().getAI().getClosestEnemy().getTileLoc();
-                  else
-                     cursorLoc = Game.getPlayer().getTileLoc();
-                  mode = TARGETING_MODE;
-                  setTargetingValues();
-                  clearMessage();
+                  setTargetingMode();
                   Game.getPlayer().getAI().setPendingAction(ActorAction.BASIC_ATTACK);
-                  MainGamePanel.addMessage("Select target.", true);
                }
                else
                {
@@ -559,10 +555,11 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
             break;
          case KeyEvent.VK_F:
          case KeyEvent.VK_ENTER:
-            if(Game.getPlayer().getAI().getPendingAction() == ActorAction.BASIC_ATTACK)
-            {
-               Game.getPlayer().getAI().setPendingTarget(cursorLoc);
-            }
+//             if(Game.getPlayer().getAI().getPendingAction() == ActorAction.BASIC_ATTACK)
+//             {
+//                Game.getPlayer().getAI().setPendingTarget(cursorLoc);
+//             }
+            Game.getPlayer().getAI().setPendingTarget(cursorLoc);
             // TODO: non-attack abilities
             mode = ACT_MODE;
             setNonTargetingValues();
@@ -593,11 +590,24 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
    public void keyReleased(KeyEvent ke){}
    public void keyTyped(KeyEvent ke){}
    
-   private void setTargetingValues()
+   
+   public void setTargetingMode(Ability ability)
    {
-      pendingAbility = Game.getPlayer().getBasicAttack();
+      if(Game.getPlayer().getAI().getClosestEnemy() != null)
+         cursorLoc = Game.getPlayer().getAI().getClosestEnemy().getTileLoc();
+      else
+         cursorLoc = Game.getPlayer().getTileLoc();
+      mode = TARGETING_MODE;
+      clearMessage();
+      if(ability != null)
+         pendingAbility = ability;
+      else
+         pendingAbility = Game.getPlayer().getBasicAttack();
       affectedList = pendingAbility.getAffectedTiles(Game.getPlayer().getTileLoc(), cursorLoc);
+      MainGamePanel.addMessage("Select target.", true);
    }
+   public void setTargetingMode(){setTargetingMode(null);}
+   
    
    private void updateAffectedList()
    {

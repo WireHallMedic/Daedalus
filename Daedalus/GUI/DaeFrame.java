@@ -42,7 +42,7 @@ public class DaeFrame extends JFrame implements ActionListener, ComponentListene
       innerPanel.add(mainGamePanel);
       panelList.add(mainGamePanel);
       
-      inventoryPanel = new InventoryPanel();
+      inventoryPanel = new InventoryPanel(mainGamePanel);
       innerPanel.add(inventoryPanel);
       panelList.add(inventoryPanel);
       
