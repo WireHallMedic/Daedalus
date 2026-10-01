@@ -102,7 +102,7 @@ public class ActorTest implements ActorConstants
       a.setShield(shield);
       Damage damage = new Damage();
       damage.setValue(CombatConstants.DamageType.FIRE, 2);
-      damage.setValue(CombatConstants.DamageType.COLD, 2);
+      damage.setValue(CombatConstants.DamageType.CRYO, 2);
       
       Assert.assertEquals("Initially health full", 10, a.getCurHealth());
       Assert.assertEquals("Initially shield full", 5, a.getCurShield());

@@ -9,7 +9,7 @@ public interface CombatConstants
       CONCUSSION  ("Concussion", 1.5),
       PIERCE      ("Pierce", 1.0),
       FIRE        ("Thermal", 0.25),
-      COLD        ("Cryo", 0.25),
+      CRYO        ("Cryo", 0.25),
       CORROSION   ("Corrosion", 0.5),
       ELECTRIC    ("Electric", 1.0);
       

@@ -20,12 +20,9 @@ public class Main
       
       Actor a = ActorFactory.getPlayer();
       a.setTileLoc(3, 5);
-      a.addToInventory(WeaponFactory.getBeamCannon());
-      a.addToInventory(new Shield("Test Shield"));
-      a.addToInventory(WeaponFactory.getAutogun());
       for(int i = 0; i < 10; i++)
-         a.addToInventory(WeaponFactory.rollWeapon(1));
-      a.getCurWeapon().getAttack().getBaseDamage().setValue(CombatConstants.DamageType.COLD, 20);
+         a.addToInventory(LootFactory.roll(1));
+      a.getCurWeapon().getAttack().getBaseDamage().setValue(CombatConstants.DamageType.CRYO, 20);
       Game.setPlayer(a);
 
       Actor b = ActorFactory.getDrone();

@@ -30,6 +30,22 @@ public class LootFactory implements ItemConstants
       return new Credits(val);
    }
    
+   public static Item roll(int level)
+   {
+      TableItemWrapper wrapper = (TableItemWrapper)RNG.roll(standardTable, level);
+      switch((ItemBase)wrapper.getObject())
+      {
+         case ItemBase.CREDITS:     return rollCredits(level);
+         case ItemBase.WEAPON:      return WeaponFactory.rollWeapon(level);
+         case ItemBase.SHIELD:      return ShieldFactory.rollShield(level);
+         case ItemBase.ARMOR:       return ArmorFactory.rollArmor(level);
+//          case ItemBase.MOD:         return rollCredits(level);
+//          case ItemBase.GADGET:      return rollCredits(level);
+//          case ItemBase.CONSUMABLE:  return rollCredits(level);
+      }
+      return null;
+   }
+   
    private static Vector<TableItemWrapper> getStandardTable()
    {
       Vector<TableItemWrapper> list = new Vector<TableItemWrapper>();

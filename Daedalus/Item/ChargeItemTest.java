@@ -77,12 +77,12 @@ public class ChargeItemTest {
       a.setDamageProtection(CombatConstants.DamageType.FIRE, 5);
       Damage d = new Damage();
       d.setValue(CombatConstants.DamageType.FIRE, 3);
-      d.setValue(CombatConstants.DamageType.COLD, 3);
+      d.setValue(CombatConstants.DamageType.CRYO, 3);
       d = a.absorbDamage(d);
       Assert.assertEquals("Higher armor blocks damage", 3, d.getSum());
       
       d.setValue(CombatConstants.DamageType.FIRE, 7);
-      d.setValue(CombatConstants.DamageType.COLD, 3);
+      d.setValue(CombatConstants.DamageType.CRYO, 3);
       d = a.absorbDamage(d);
       Assert.assertEquals("Lower armor blocks some damage", 5, d.getSum());
    }

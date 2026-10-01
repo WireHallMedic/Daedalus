@@ -95,7 +95,7 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
    
    public static Weapon getBeamCannon()
    {
-      Weapon w = new Weapon("Beam Cannon", Attack.getMock());
+      Weapon w = new Weapon("Beam Cannon");
       Attack a = w.getAttack();
       a.setBaseDamage(new Damage(DamageType.CONCUSSION, DEFAULT_BASE_SHOT_DAMAGE * 2));
       a.setRandomDamage(new Damage(DamageType.CONCUSSION, DEFAULT_RANDOM_SHOT_DAMAGE));
@@ -104,6 +104,20 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
       w.getAttack().setRange(5);
       w.setMaxShots(2);
       w.setChargeTimePerShot(10);
+      w.fullyCharge();
+      return w;
+   }
+   
+   public static Weapon getBaton()
+   {
+      Weapon w = new Weapon("Combat Baton");
+      Attack a = w.getAttack();
+      a.setMelee(true);
+      a.setRange(1);
+      a.setBaseDamage(new Damage(CombatConstants.DamageType.CONCUSSION, DEFAULT_BASE_SHOT_DAMAGE));
+      a.setRandomDamage(new Damage(CombatConstants.DamageType.CONCUSSION, DEFAULT_RANDOM_SHOT_DAMAGE));
+      a.setHitVerb("strikes");
+      w.setAlwaysCharged(true);
       w.fullyCharge();
       return w;
    }
@@ -129,7 +143,7 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
    {
       switch(baseType)
       {
-         case MELEE:             return getBasicMelee();
+         case MELEE:             return getBaton();
          case BOLTGUN:           return getBoltgun();
          case SCATTERGUN:        return getScattergun();
          case AUTOGUN:           return getAutogun();
@@ -152,6 +166,25 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
          case 2 : improveDamage(w); break;
          case 3 : improveRecharge(w); break;
       }
+   }
+   
+   public static void addRandomMeleeUpgrade(Weapon w)
+   {
+      DamageType dType = DamageType.CONCUSSION;
+      String namePrefix = "Heavy";
+      switch(RNG.nextInt(5))
+      {
+         case 0 : dType = DamageType.FIRE; namePrefix = dType.name; break;
+         case 1 : dType = DamageType.CRYO; namePrefix = dType.name; break;
+         case 2 : dType = DamageType.CORROSION; namePrefix = dType.name; break;
+         case 3 : dType = DamageType.ELECTRIC; namePrefix = dType.name; break;
+         case 4 : dType = DamageType.CONCUSSION; namePrefix = "Heavy"; break;
+      }
+      Damage baseDamage = w.getAttack().getBaseDamage();
+      Damage randomDamage = w.getAttack().getRandomDamage();
+      baseDamage.setValue(dType, baseDamage.getValue(dType) + 2);
+      randomDamage.setValue(dType, randomDamage.getValue(dType) + 2);
+      w.setName(namePrefix + " " + w.getName());
    }
    
    public static void improveCapacity(Weapon w)
