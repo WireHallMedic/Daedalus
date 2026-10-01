@@ -53,9 +53,9 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
       }
       Direction dir = Direction.getDirectionTo(attacker.getTileLoc(), targetLoc);
       AnimationScript as;
-      if(Game.shouldReport(attacker, defenderList))
+      if(ability instanceof Attack && Game.shouldReport(attacker, defenderList))
       {
-         if(ability instanceof Attack && attack.isMelee())
+         if(attack.isMelee())
          {
             as = AnimationScriptFactory.getMeleeAttack(attacker, dir);
             AnimationManager.addLocking(as);
@@ -99,7 +99,7 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
             defender.add(ability.getStatusEffect().copy());
          }
          defender.notice(attacker);
-         if(Game.shouldReport(attacker, defender))
+         if(ability instanceof Attack && Game.shouldReport(attacker, defender))
          {
             String damageMessage = String.format("%s %s %s for %d damage! ", attacker.getName(), ability.getHitVerb(), 
                                                  defender.getName(), damageCount);
@@ -107,7 +107,7 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
                damageMessage += defender.getName() + " is dead! ";
             MainGamePanel.addMessage(damageMessage);
             dir = Direction.getDirectionTo(defender.getTileLoc(), attacker.getTileLoc());
-            if(ability instanceof Attack && attack.isMelee())
+            if(attack.isMelee())
             {
                as = AnimationScriptFactory.getMeleeImpact(defender, dir);
                AnimationManager.addLocking(as);
