@@ -43,7 +43,7 @@ public interface ActorConstants
    }
    
    
-   public enum EnemyBase
+   public enum ActorBase
    {
       JACKAL,
       ROACH,

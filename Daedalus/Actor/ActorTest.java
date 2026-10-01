@@ -123,7 +123,7 @@ public class ActorTest implements ActorConstants
    
    @Test public void testGeneratingEnemies()
    {
-      for(EnemyBase base: EnemyBase.values())
+      for(ActorBase base: ActorBase.values())
       {
          Actor a = ActorFactory.getActor(base);
          Assert.assertNotEquals("Generate " + base + " by enum.", null, a);

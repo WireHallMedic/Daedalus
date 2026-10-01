@@ -91,12 +91,15 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
          int damageCount = 0;
          if(ability instanceof Attack)
          {
+            // applyAttack also applies the status effect
             for(int j = 0; j < rateOfFire; j++)
                damageCount += applyAttack(attacker, defender, attack, abilityOrigin);
          }
          else
          {
-            defender.add(ability.getStatusEffect().copy());
+            // apply status effect if there is one
+            if(ability.getStatusEffect() != null)
+               defender.add(ability.getStatusEffect().copy());
          }
          defender.notice(attacker);
          if(ability instanceof Attack && Game.shouldReport(attacker, defender))

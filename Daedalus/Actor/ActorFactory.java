@@ -128,7 +128,7 @@ public class ActorFactory implements ActorConstants, GUIConstants, AIConstants
       return a;
    }
    
-   public static Actor getActor(EnemyBase base)
+   public static Actor getActor(ActorBase base)
    {
       switch(base)
       {

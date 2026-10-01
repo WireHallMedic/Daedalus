@@ -1,6 +1,7 @@
 package Daedalus.Zone;
 
 import java.util.*;
+import Daedalus.AI.*;
 import Daedalus.Actor.*;
 import Daedalus.Engine.*;
 
@@ -64,7 +65,6 @@ public class Zone
       if(!initiallyPopulated)
       {
          threatBudget = map.getMaxThreat();
-         initiallyPopulated = true;
       }
       if(threatBudget <= 0 || map.getLevel() == 0)
          return;
@@ -74,13 +74,30 @@ public class Zone
       while(newThreat < threatBudget)
       {
          TableItemWrapper tiw = (TableItemWrapper)RNG.roll(randomEncounterTable, map.getLevel());
-         ActorConstants.EnemyBase family = (ActorConstants.EnemyBase)tiw.getObject();
+         ActorConstants.ActorBase family = (ActorConstants.ActorBase)tiw.getObject();
          Actor newActor = ActorFactory.getActor(family);
          newThreat += newActor.getThreat();
          newActorList.add(newActor);
       }
       if(newActorList.size() > 0)
          randomlyPlaceActors(newActorList);
+      // populate spawn points last so they don't use threat
+      if(!initiallyPopulated)
+      {
+         initiallyPopulated = true;
+         for(SpawnPoint spawnPoint: map.getSpawnPointList())
+         {
+            Actor a = ActorFactory.getActor(spawnPoint.getActorBase());
+            Coord loc = map.getActorDropLocation(spawnPoint.getLocation(), actorList);
+            a.setTileLoc(loc, false);   // initial population is before the player arrives
+            actorList.add(a);
+            if(a.getAI() instanceof WanderAI)
+            {
+               WanderAI ai = (WanderAI)a.getAI();
+               ai.setWanderChance(0.0);   // spawn point enemies shouldn't wander
+            }
+         }
+      }
    }
    
    public int calculateThreat()

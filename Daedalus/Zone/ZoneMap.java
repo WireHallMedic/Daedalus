@@ -27,6 +27,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    private int maxThreat;
    private int minThreat;
    private int level;
+   private Vector<SpawnPoint> spawnPointList;
 
 
    public String getName(){return name;}
@@ -41,6 +42,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    public int getMaxThreat(){return maxThreat;}
    public int getMinThreat(){return minThreat;}
    public int getLevel(){return level;}
+   public Vector<SpawnPoint> getSpawnPointList(){return spawnPointList;}
 
 
    public void setName(String n){name = n;}
@@ -52,6 +54,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    public void setMaxThreat(int t){maxThreat = t;}
    public void setMinThreat(int t){minThreat = t;}
    public void setLevel(int l){level = l;}
+   public void setSpawnPointList(Vector<SpawnPoint> spl){spawnPointList = spl;}
 
 
    public ZoneMap(int w, int h)
@@ -82,6 +85,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
       maxThreat = 0;
       minThreat = 0;
       level = 0;
+      spawnPointList = new Vector<SpawnPoint>();
    }
    
    
@@ -308,7 +312,10 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    }
    public Coord getActorDropLocation(Coord origin, Vector<Actor> actorList){return getActorDropLocation(origin.x, origin.y, actorList);}
    
-   
+   public void add(SpawnPoint sp)
+   {
+      spawnPointList.add(sp);
+   }
    
    // item stuff
    ////////////////////////////////////////////

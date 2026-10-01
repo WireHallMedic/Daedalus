@@ -14,7 +14,7 @@ s#k0
 s#j0
 s#l0
 !74;u
-a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!3519;g
+a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!3556;g
 %\011Daedalus%sAbility%sAbility.java
 %\011Daedalus%sAbility%sAbilityConstants.java
 %\011Daedalus%sAbility%sAttack.java
@@ -102,6 +102,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!3519;
 %\011Daedalus%sZone%sRegionBuilder.java
 %\011Daedalus%sZone%sSign.java
 %\011Daedalus%sZone%sSmoke.java
+%\011Daedalus%sZone%sSpawnPoint.java
 %\011Daedalus%sZone%sSpiralSearch.java
 %\011Daedalus%sZone%sSwitch.java
 %\011Daedalus%sZone%sToggleTile.java
@@ -111,7 +112,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!3519;
 %\011Daedalus%sZone%sZoneMap.java
 %\011Daedalus%sZone%sZoneTile.java
 %\011Daedalus%sZone%sZoneViewer.java
-!3519;f
+!3556;f
 %\011Daedalus%sAbility%sAbility.java
 %\011Daedalus%sAbility%sAbilityConstants.java
 %\011Daedalus%sAbility%sAttack.java
@@ -199,6 +200,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!3519;
 %\011Daedalus%sZone%sRegionBuilder.java
 %\011Daedalus%sZone%sSign.java
 %\011Daedalus%sZone%sSmoke.java
+%\011Daedalus%sZone%sSpawnPoint.java
 %\011Daedalus%sZone%sSpiralSearch.java
 %\011Daedalus%sZone%sSwitch.java
 %\011Daedalus%sZone%sToggleTile.java

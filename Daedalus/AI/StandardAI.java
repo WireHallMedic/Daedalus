@@ -29,10 +29,11 @@ public class StandardAI extends WanderAI implements AIConstants, ZoneConstants
       Actor targetActor = getClosestEnemy();
       if(targetActor != null)
       {
-         // has target, line of effect, and range
+         // has target, line of effect, line of sight, and range
          setPassMap(targetActor, false);
          if(hasLineOfEffect(self, targetActor) &&
-            EngineTools.getAngbandDistance(self.getTileLoc(), targetActor.getTileLoc()) <= self.getCurWeapon().getAttack().getRange())
+            EngineTools.getAngbandDistance(self.getTileLoc(), targetActor.getTileLoc()) <= self.getCurWeapon().getAttack().getRange()
+            && self.canSee(targetActor))
          {
             // can shoot
             if(self.getCurWeapon().canFire())
@@ -48,7 +49,7 @@ public class StandardAI extends WanderAI implements AIConstants, ZoneConstants
                return;
             }
          }
-         // has target, but not line of effect and range
+         // has target, but not line of effect, LoS, and range
          else
          {
             // path towards target

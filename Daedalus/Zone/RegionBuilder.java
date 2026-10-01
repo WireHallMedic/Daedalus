@@ -55,7 +55,20 @@ public class RegionBuilder implements ZoneConstants, GUIConstants, ActorConstant
       hideoutEntrance.setExitDirection('D');
       hideoutEntrance.pair(hideout.getExitByDirection(ExitDirection.UP));
       
-      // finalize maps
+      Coord spawnLoc = null;
+      for(Coord prospect: hideoutEntranceMap.getExitList())
+         if(prospect.y == hideoutEntranceMap.getHeight() - 1)
+            spawnLoc = prospect.copy();
+      if(spawnLoc != null)
+      {
+         spawnLoc.y -= 4;
+         SpawnPoint spawnPoint = new SpawnPoint(spawnLoc, ActorBase.DRONE);
+         hideoutEntranceMap.add(spawnPoint);
+      }
+      else
+         System.out.println("No spawn loc");
+      
+      // link exits and paint
       for(int x = 0; x < regionWidth; x++)
       for(int y = 0; y < regionHeight; y++)
       {
@@ -75,9 +88,9 @@ public class RegionBuilder implements ZoneConstants, GUIConstants, ActorConstant
       for(int i = 1; i < zoneList.size(); i++)
       {
          Vector<TableItemWrapper> randEncTab = new Vector<TableItemWrapper>();
-         randEncTab.add(new TableItemWrapper(EnemyBase.JACKAL, 1, 100, TableItem.BASE_WEIGHT * 2));
-         randEncTab.add(new TableItemWrapper(EnemyBase.ROACH, 1, 100, TableItem.BASE_WEIGHT * 2));
-         randEncTab.add(new TableItemWrapper(EnemyBase.BANDIT, 1, 100, TableItem.BASE_WEIGHT));
+         randEncTab.add(new TableItemWrapper(ActorBase.JACKAL, 1, 100, TableItem.BASE_WEIGHT * 2));
+         randEncTab.add(new TableItemWrapper(ActorBase.ROACH, 1, 100, TableItem.BASE_WEIGHT * 2));
+         randEncTab.add(new TableItemWrapper(ActorBase.BANDIT, 1, 100, TableItem.BASE_WEIGHT));
          zoneList.elementAt(i).setRandomEncounterTable(randEncTab);
       }
       
