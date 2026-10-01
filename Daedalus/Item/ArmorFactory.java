@@ -87,30 +87,45 @@ public class ArmorFactory implements ItemConstants, GUIConstants, CombatConstant
       return a;
    }
    
-   private static Vector<TableItemWrapper> getStandardTable()
+   private static Vector<ArmorTableEntry> getStandardTable()
    {
-      Vector<TableItemWrapper> list = new Vector<TableItemWrapper>();
-      list.add(new TableItemWrapper(new ArmorTableEntry(Armor.BaseType.UTILITY_HARNESS, ItemQuality.LOW), 0, 100, 1.0));
-      list.add(new TableItemWrapper(new ArmorTableEntry(Armor.BaseType.SCOUT, ItemQuality.LOW), 0, 100, 1.0));
-      list.add(new TableItemWrapper(new ArmorTableEntry(Armor.BaseType.STANDARD, ItemQuality.LOW), 0, 100, 1.0));
-      list.add(new TableItemWrapper(new ArmorTableEntry(Armor.BaseType.ASSAULT, ItemQuality.LOW), 0, 100, 1.0));
+      Vector<ArmorTableEntry> list = new Vector<ArmorTableEntry>();
+      list.add(new ArmorTableEntry(Armor.BaseType.UTILITY_HARNESS, ItemQuality.LOW, 0, 100, 1.0));
+      list.add(new ArmorTableEntry(Armor.BaseType.SCOUT, ItemQuality.LOW, 0, 100, 1.0));
+      list.add(new ArmorTableEntry(Armor.BaseType.STANDARD, ItemQuality.LOW, 0, 100, 1.0));
+      list.add(new ArmorTableEntry(Armor.BaseType.ASSAULT, ItemQuality.LOW, 0, 100, 1.0));
       
-      list.add(new TableItemWrapper(new ArmorTableEntry(Armor.BaseType.UTILITY_HARNESS, ItemQuality.STANDARD), 0, 100, 1.0));
-      list.add(new TableItemWrapper(new ArmorTableEntry(Armor.BaseType.SCOUT, ItemQuality.STANDARD), 0, 100, 1.0));
-      list.add(new TableItemWrapper(new ArmorTableEntry(Armor.BaseType.STANDARD, ItemQuality.STANDARD), 0, 100, 1.0));
-      list.add(new TableItemWrapper(new ArmorTableEntry(Armor.BaseType.ASSAULT, ItemQuality.STANDARD), 0, 100, 1.0));
+      list.add(new ArmorTableEntry(Armor.BaseType.UTILITY_HARNESS, ItemQuality.STANDARD, 0, 100, 1.0));
+      list.add(new ArmorTableEntry(Armor.BaseType.SCOUT, ItemQuality.STANDARD, 0, 100, 1.0));
+      list.add(new ArmorTableEntry(Armor.BaseType.STANDARD, ItemQuality.STANDARD, 0, 100, 1.0));
+      list.add(new ArmorTableEntry(Armor.BaseType.ASSAULT, ItemQuality.STANDARD, 0, 100, 1.0));
       return list;
    }
    
-   private static class ArmorTableEntry
+   private static class ArmorTableEntry implements TableItem
    {
       public Armor.BaseType type;
       public ItemQuality quality;
+      private int minLevel;
+   	private int maxLevel;
+   	private int weight;
       
-      public ArmorTableEntry(Armor.BaseType t, ItemQuality iq)
+      public int getMinLevel(){return minLevel;}
+   	public int getMaxLevel(){return maxLevel;}
+   	public int getWeight(){return weight;}
+   
+   
+   	public void setMinLevel(int m){minLevel = m;}
+   	public void setMaxLevel(int m){maxLevel = m;}
+   	public void setWeight(int w){weight = w;}
+      
+      public ArmorTableEntry(Armor.BaseType t, ItemQuality iq, int min, int max, double weightMultiplier)
       {
          type = t;
          quality = iq;
+         minLevel = min;
+         maxLevel = max;
+         weight = (int)(BASE_WEIGHT * weightMultiplier);
       }
    }
 }

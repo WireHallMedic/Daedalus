@@ -85,29 +85,44 @@ public class ShieldFactory implements ItemConstants, GUIConstants, CombatConstan
       return s;
    }
    
-   private static Vector<TableItemWrapper> getStandardTable()
+   private static Vector<ShieldTableEntry> getStandardTable()
    {
-      Vector<TableItemWrapper> list = new Vector<TableItemWrapper>();
-      list.add(new TableItemWrapper(new ShieldTableEntry(Shield.BaseType.STANDARD, ItemQuality.LOW), 0, 100, 1.0));
-      list.add(new TableItemWrapper(new ShieldTableEntry(Shield.BaseType.QUICK_CHARGE, ItemQuality.LOW), 0, 100, 1.0));
-      list.add(new TableItemWrapper(new ShieldTableEntry(Shield.BaseType.HEAVY, ItemQuality.LOW), 0, 100, 1.0));
+      Vector<ShieldTableEntry> list = new Vector<ShieldTableEntry>();
+      list.add(new ShieldTableEntry(Shield.BaseType.STANDARD, ItemQuality.LOW, 0, 100, 1.0));
+      list.add(new ShieldTableEntry(Shield.BaseType.QUICK_CHARGE, ItemQuality.LOW, 0, 100, 1.0));
+      list.add(new ShieldTableEntry(Shield.BaseType.HEAVY, ItemQuality.LOW, 0, 100, 1.0));
       
-      list.add(new TableItemWrapper(new ShieldTableEntry(Shield.BaseType.STANDARD, ItemQuality.STANDARD), 0, 100, 1.0));
-      list.add(new TableItemWrapper(new ShieldTableEntry(Shield.BaseType.QUICK_CHARGE, ItemQuality.STANDARD), 0, 100, 1.0));
-      list.add(new TableItemWrapper(new ShieldTableEntry(Shield.BaseType.HEAVY, ItemQuality.STANDARD), 0, 100, 1.0));
+      list.add(new ShieldTableEntry(Shield.BaseType.STANDARD, ItemQuality.STANDARD, 0, 100, 1.0));
+      list.add(new ShieldTableEntry(Shield.BaseType.QUICK_CHARGE, ItemQuality.STANDARD, 0, 100, 1.0));
+      list.add(new ShieldTableEntry(Shield.BaseType.HEAVY, ItemQuality.STANDARD, 0, 100, 1.0));
       return list;
    }
    
    
-   private static class ShieldTableEntry
+   private static class ShieldTableEntry implements TableItem
    {
       public Shield.BaseType type;
       public ItemQuality quality;
+      private int minLevel;
+   	private int maxLevel;
+   	private int weight;
       
-      public ShieldTableEntry(Shield.BaseType t, ItemQuality iq)
+      public int getMinLevel(){return minLevel;}
+   	public int getMaxLevel(){return maxLevel;}
+   	public int getWeight(){return weight;}
+   
+   
+   	public void setMinLevel(int m){minLevel = m;}
+   	public void setMaxLevel(int m){maxLevel = m;}
+   	public void setWeight(int w){weight = w;}
+      
+      public ShieldTableEntry(Shield.BaseType t, ItemQuality iq, int min, int max, double weightMultiplier)
       {
          type = t;
          quality = iq;
+         minLevel = min;
+         maxLevel = max;
+         weight = (int)(BASE_WEIGHT * weightMultiplier);
       }
    }
 }
