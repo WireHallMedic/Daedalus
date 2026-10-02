@@ -96,9 +96,10 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
          }
          else
          {
-            // apply status effect if there is one
+            // apply status effect if there is one and it procs
             if(ability.getStatusEffect() != null)
-               defender.add(ability.getStatusEffect().copy());
+               if(RNG.nextDouble() < ability.getProcChance())
+                  defender.add(ability.getStatusEffect().copy());
          }
          defender.notice(attacker);
          if(ability instanceof Attack && Game.shouldReport(attacker, defender))

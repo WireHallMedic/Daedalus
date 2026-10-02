@@ -142,5 +142,10 @@ public class GUITools implements GUIConstants, FontConstants
    {
       return String.format("%.1f", turns / 2.0) + "s";
    }
+   
+   public static String doubleToPercent(double input)
+   {
+      return ((int)(input * 100)) + "%";
+   }
 
 }

@@ -1,5 +1,6 @@
 package Daedalus.Ability;
 
+import Daedalus.GUI.*;
 import Daedalus.Zone.*;
 import Daedalus.Actor.*;
 import Daedalus.Engine.*;
@@ -11,6 +12,7 @@ public class Ability implements AbilityConstants
 	private TargetingType targetingType;
 	private int range;
    private String hitVerb;
+   private double procChance;
    private StatusEffect statusEffect;
    private ImpactEffect impactEffect;
    private SpecialEffect specialEffect;
@@ -20,6 +22,7 @@ public class Ability implements AbilityConstants
 	public TargetingType getTargetingType(){return targetingType;}
 	public int getRange(){return range;}
    public String getHitVerb(){return hitVerb;}
+   public double getProcChance(){return procChance;}
    public StatusEffect getStatusEffect(){return statusEffect;}
    public ImpactEffect getImpactEffect(){return impactEffect;}
    public SpecialEffect getSpecialEffect(){return specialEffect;}
@@ -29,6 +32,7 @@ public class Ability implements AbilityConstants
 	public void setTargetingType(TargetingType t){targetingType = t;}
 	public void setRange(int r){range = r;}
    public void setHitVerb(String h){hitVerb = h;}
+   public void setProcChance(double pc){procChance = pc;}
    public void setStatusEffect(StatusEffect se){statusEffect = se.copy();}
    public void setImpactEffect(ImpactEffect ie){impactEffect = ie;}
    public void setSpecialEffect(SpecialEffect se){specialEffect = se;}
@@ -42,6 +46,7 @@ public class Ability implements AbilityConstants
       statusEffect = null;
       impactEffect = null;
       specialEffect = null;
+      procChance = 1.0;
    }
    
    public Vector<String> getDescriptionList()
@@ -51,7 +56,12 @@ public class Ability implements AbilityConstants
       list.add("Range:        " + getRange());
       list.add("Targeting:    " + getTargetingType().name);
       if(statusEffect != null)
-         list.add("Effect:       " + getStatusEffect().getName());
+      {
+         String chance = "";
+         if(procChance < 1.0)
+            chance = " " + GUITools.doubleToPercent(procChance);
+         list.add("Effect:       " + getStatusEffect().getName() + chance);
+      }
       return list;
    }
    
