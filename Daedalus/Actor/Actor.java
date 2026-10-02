@@ -267,7 +267,12 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
             statusEffectList.elementAt(i).applyTags(this);
          }
       }
-      setCurStats();
+      setCurStats();            
+      if(isBurning())
+      {
+         Damage d = new Damage(CombatConstants.DamageType.FIRE, getBurning());
+         applyDamage(d);
+      }
    }
    
    public void add(StatusEffect se)

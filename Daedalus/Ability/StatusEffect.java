@@ -11,14 +11,15 @@ public class StatusEffect implements AbilityConstants
 	private int remainingDuration;
    private int intensity;
 	private Vector<StatusEffectTag> tagList;
+   private boolean includeIntensityInName;
 
 
-   public String getName(){return name;}
 	public StatBlock getStatBlock(){return statBlock;}
 	public int getMaxDuration(){return maxDuration;}
 	public int getRemainingDuration(){return remainingDuration;}
    public int getIntensity(){return intensity;}
 	public Vector<StatusEffectTag> getTagList(){return tagList;}
+   public boolean includesIntensityInName(){return includeIntensityInName;}
 
 
    public void setName(String n){name = n;}
@@ -27,6 +28,7 @@ public class StatusEffect implements AbilityConstants
 	public void setRemainingDuration(int r){remainingDuration = r;}
    public void setIntensity(int i){intensity = i;}
 	public void setTagList(Vector<StatusEffectTag> t){tagList = t;}
+   public void includeIntensityInName(boolean inc){includeIntensityInName = inc;}
 
 
    public StatusEffect(String n)
@@ -37,6 +39,7 @@ public class StatusEffect implements AbilityConstants
       remainingDuration = 10;
       intensity = 1;
       tagList = new Vector<StatusEffectTag>();
+      includeIntensityInName = false;
    }
 
    public StatusEffect(StatusEffect that)
@@ -47,8 +50,16 @@ public class StatusEffect implements AbilityConstants
       this.remainingDuration = that.remainingDuration;
       this.tagList = new Vector<StatusEffectTag>();
       this.intensity = that.intensity;
+      this.includeIntensityInName = that.includeIntensityInName;
       for(StatusEffectTag tag: that.tagList)
          this.tagList.add(tag);
+   }
+   
+   public String getName()
+   {
+      if(includeIntensityInName)
+         return name + "[" + intensity + "]";
+      return name;
    }
    
    public StatusEffect copy()

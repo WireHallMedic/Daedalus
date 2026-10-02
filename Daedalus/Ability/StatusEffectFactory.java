@@ -8,8 +8,9 @@ public class StatusEffectFactory implements AbilityConstants
    public static StatusEffect getHealing(int intensity)
    {
       StatusEffect se = new StatusEffect("Healing");
-      se.addTag(StatusEffectTag.HEALING);
       se.setIntensity(intensity);
+      se.includeIntensityInName(true);
+      se.addTag(StatusEffectTag.HEALING);
       return se;
    }
    public static StatusEffect getHealing(){return getHealing(2);}
@@ -51,16 +52,18 @@ public class StatusEffectFactory implements AbilityConstants
    {
       StatusEffect se = new StatusEffect("Burning");
       se.setIntensity(intensity);
+      se.includeIntensityInName(true);
       se.addTag(StatusEffectTag.BURNING);
       return se;
    }
-   public static StatusEffect getBurning(){return getBurning(2);}
+   public static StatusEffect getBurning(){return getBurning(1);}
    
    
    public static StatusEffect getVulnerable(int intensity)
    {
       StatusEffect se = new StatusEffect("Vulnerable");
       se.setIntensity(intensity);
+      se.includeIntensityInName(true);
       se.addTag(StatusEffectTag.VULNERABLE);
       return se;
    }
