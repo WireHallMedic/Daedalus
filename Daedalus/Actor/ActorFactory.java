@@ -39,13 +39,14 @@ public class ActorFactory implements ActorConstants, GUIConstants, AIConstants
    }
    public static Actor getDog(){return getDog("Dog");}
    
+   
    public static Actor getDecoy()
    {
       Actor a = new Actor("Holo-Decoy");
       a.setTileIndex('d');
       a.setBGColor(CYAN);
       a.setFGColor(WHITE);
-      a.getBaseStats().setMaxHealth(BASE_NPC_HEALTH / 2);
+      a.getBaseStats().setMaxHealth(BASE_NPC_HEALTH);
       a.setAI(new AI(a));
       a.getAI().setTeam(Team.PLAYER);
       a.fullHeal();

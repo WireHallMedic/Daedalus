@@ -55,19 +55,6 @@ public class RegionBuilder implements ZoneConstants, GUIConstants, ActorConstant
       hideoutEntrance.setExitDirection('D');
       hideoutEntrance.pair(hideout.getExitByDirection(ExitDirection.UP));
       
-      Coord spawnLoc = null;
-      for(Coord prospect: hideoutEntranceMap.getExitList())
-         if(prospect.y == hideoutEntranceMap.getHeight() - 1)
-            spawnLoc = prospect.copy();
-      if(spawnLoc != null)
-      {
-         spawnLoc.y -= 4;
-         SpawnPoint spawnPoint = new SpawnPoint(spawnLoc, ActorBase.DRONE);
-         hideoutEntranceMap.add(spawnPoint);
-      }
-      else
-         System.out.println("No spawn loc");
-      
       // link exits and paint
       for(int x = 0; x < regionWidth; x++)
       for(int y = 0; y < regionHeight; y++)

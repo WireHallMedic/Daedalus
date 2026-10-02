@@ -65,6 +65,18 @@ public class ConsumableFactory implements ItemConstants, GUIConstants, CombatCon
       return a;
    }
    
+   public static Consumable getByBaseType(Consumable.BaseType baseType)
+   {
+      switch(baseType)
+      {
+         case MED_PATCH:      return getMedPatch();
+         case SMOKE_GRENADE:  return getSmokeGrenade();
+         case GRENADE:        return getGrenade();
+         case DECOY:          return getDecoy();
+      }
+      return null;
+   }
+   
    
    private static Vector<TableItemWrapper> getStandardTable()
    {
