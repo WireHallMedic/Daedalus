@@ -66,6 +66,7 @@ public class ConsumableFactory implements ItemConstants, GUIConstants, CombatCon
 	   se.getStatBlock().setMoveSpeed(ActorConstants.ActionSpeed.FAST);
 	   se.getStatBlock().setAttackSpeed(ActorConstants.ActionSpeed.FAST);
 	   se.getStatBlock().setInteractSpeed(ActorConstants.ActionSpeed.FAST);
+      se.addTag(StatusEffectTag.HASTE);
       a.setStatusEffect(se);
       c.setAbility(a);
       return c;

@@ -20,9 +20,11 @@ public interface AbilityConstants
       }
    }
    
+   // any status effect that can be combined requires at least one tag
    public enum StatusEffectTag
    {
-      HEALING;
+      HEALING,
+      HASTE;
    }
    
    public enum ImpactEffect

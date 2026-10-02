@@ -272,7 +272,18 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    
    public void add(StatusEffect se)
    {
-      statusEffectList.add(se);
+      boolean combined = false;
+      for(StatusEffect existingEffect: statusEffectList)
+      {
+         if(existingEffect.canCombine(se))
+         {
+            existingEffect.combine(se);
+            combined = true;
+            break;
+         }
+      }
+      if(!combined)
+         statusEffectList.add(se);
       setCurStats();
    }
    
