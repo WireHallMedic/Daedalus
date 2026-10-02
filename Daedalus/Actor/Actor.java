@@ -276,6 +276,26 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
       setCurStats();
    }
    
+   public String getStatusEffectString(boolean withTimes)
+   {
+      String str = "";
+      if(statusEffectList.size() > 0)
+      {
+         str += statusEffectList.elementAt(0).getName();
+         if(withTimes)
+            str += " " + GUITools.turnsToSeconds(statusEffectList.elementAt(0).getRemainingDuration());
+      }
+      for(int i = 1; i < statusEffectList.size(); i++)
+      {
+         str += ", " + statusEffectList.elementAt(i).getName();
+         if(withTimes)
+            str += " " + GUITools.turnsToSeconds(statusEffectList.elementAt(0).getRemainingDuration());
+      }
+      return str;
+   }
+   public String getStatusEffectString(){return getStatusEffectString(false);}
+   
+   
    // health
    public void die()
    {

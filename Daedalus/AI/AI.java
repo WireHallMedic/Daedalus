@@ -339,6 +339,7 @@ public class AI implements AIConstants, ZoneConstants
       CombatManager.resolveAbility(self, consumable.getAbility(), pendingTarget);
       if(self.getTileLoc().equals(pendingTarget))
          AnimationScriptFactory.addPickupEffect(consumable, pendingTarget);
+      self.discharge(self.getInteractSpeed());
    }
    
    protected Vector<Coord> getPathTo(Coord target)

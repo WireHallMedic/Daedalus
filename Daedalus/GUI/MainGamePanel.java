@@ -239,7 +239,7 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
          drawBar(SURROUNDINGS_PANEL_X_START + 3, row, a.getCurHealth(), a.getMaxHealth(), barWidth, HEALTH_COLOR);
          write(SURROUNDINGS_PANEL_X_START, row + 1, "", WHITE, BLACK, SURROUNDINGS_PANEL_WIDTH, 1);
       }
-      String nameStr = " " +a.getName() + " (" + a.getAI().getAttitude() + ")";
+      String nameStr = " " +a.getName() + " (" + a.getAI().getAttitude() + ") " + a.getStatusEffectString();
       write(SURROUNDINGS_PANEL_X_START + 11, row, nameStr, WHITE, BLACK, SURROUNDINGS_PANEL_WIDTH - 11, 1);
    }
    
@@ -323,7 +323,10 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
       else
          write(HUD_PANEL_X_START + 3, row, "", SHIELD_COLOR, BLACK, barWidth + 2, 1);
       drawBar(HUD_PANEL_X_START + barWidth + 6, row, a.getCurHealth(), a.getMaxHealth(), barWidth, HEALTH_COLOR);
-      write(HUD_PANEL_X_START + 21, row, a.getName(), WHITE, BLACK, HUD_PANEL_WIDTH - 21, 1);
+      String playerNameStr = a.getName();
+      if(a.getStatusEffectString().length() > 0)
+         playerNameStr += " (" + a.getStatusEffectString(true) + ")";
+      write(HUD_PANEL_X_START + 21, row, playerNameStr, WHITE, BLACK, HUD_PANEL_WIDTH - 21, 1);
       row++;
       write(HUD_PANEL_X_START, row, "", WHITE, BLACK, HUD_PANEL_WIDTH, 1);
       row++;
