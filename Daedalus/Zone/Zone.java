@@ -12,6 +12,7 @@ public class Zone
 	private Vector<Actor> actorList;
    private Vector<TableItemWrapper> randomEncounterTable;
    private boolean initiallyPopulated;
+   private boolean oneSecondFlag;
 
 
 	public ZoneMap getMap(){return map;}
@@ -40,18 +41,22 @@ public class Zone
    
    public void zoneTurn()
    {
+      oneSecondFlag = !oneSecondFlag;
       if(shouldRepopulate())
       {
          populate();
       }
       map.incrementSmoke();
-      // actors on fire take damage unaffected by turn speeds; 1x/sec
-      for(Actor a: actorList)
+      if(oneSecondFlag)
       {
-         if(a.isBurning())
+         // actors on fire take damage unaffected by turn speeds; 1x/sec
+         for(Actor a: actorList)
          {
-            Damage d = new Damage(CombatConstants.DamageType.FIRE, a.getBurning());
-            a.applyDamage(d);
+            if(a.isBurning())
+            {
+               Damage d = new Damage(CombatConstants.DamageType.FIRE, a.getBurning());
+               a.applyDamage(d);
+            }
          }
       }
    }
