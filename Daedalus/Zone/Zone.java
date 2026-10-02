@@ -49,15 +49,7 @@ public class Zone
       map.incrementSmoke();
       if(oneSecondFlag)
       {
-         // actors on fire take damage unaffected by turn speeds; 1x/sec
-         for(Actor a: actorList)
-         {
-            if(a.isBurning())
-            {
-               Damage d = new Damage(CombatConstants.DamageType.FIRE, a.getBurning());
-               a.applyDamage(d);
-            }
-         }
+
       }
    }
    
