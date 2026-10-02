@@ -77,15 +77,36 @@ public class ConsumableFactory implements ItemConstants, GUIConstants, CombatCon
       return null;
    }
    
+   public static Consumable rollConsumable(int level)
+   {
+      TableItemWrapper roll = (TableItemWrapper)RNG.roll(standardTable, level);
+      Consumable.BaseType result = (Consumable.BaseType)roll.getObject();
+      
+      return getByBaseType(result);
+   }
    
-   private static Vector<TableItemWrapper> getStandardTable()
+   
+   public static Vector<TableItemWrapper> getStandardTable()
    {
       Vector<TableItemWrapper> list = new Vector<TableItemWrapper>();
-      for(Consumable.BaseType type: Consumable.BaseType.values())
-      {
-         list.add(new TableItemWrapper(type, 0, 100, 1.0));
-      }
+      list.add(new TableItemWrapper(Consumable.BaseType.MED_PATCH, 0, 100, 3.5));
+      list.add(new TableItemWrapper(Consumable.BaseType.GRENADE, 0, 100, 1.5));
+      list.add(new TableItemWrapper(Consumable.BaseType.SMOKE_GRENADE, 0, 100, 1.0));
+      list.add(new TableItemWrapper(Consumable.BaseType.DECOY, 0, 100, 1.0));
       return list;
+   }
+   
+   
+   // function for automated test
+   public static boolean standardTableContains(Consumable.BaseType type)
+   {
+      for(int i = 0; i < standardTable.size(); i++)
+      {
+         TableItemWrapper element = (TableItemWrapper)standardTable.elementAt(i);
+         if(element.getObject() == type)
+            return true;
+      }
+      return false;
    }
 
 }

@@ -9,7 +9,7 @@ import java.util.*;
 
 public class ArmorFactory implements ItemConstants, GUIConstants, CombatConstants
 {
-   public static Vector<? extends TableItem> standardTable = getStandardTable();
+   private static Vector<? extends TableItem> standardTable = getStandardTable();
    
    public static void setLowQuality(Armor a)
    {
@@ -97,6 +97,19 @@ public class ArmorFactory implements ItemConstants, GUIConstants, CombatConstant
       list.add(new ArmorTableEntry(Armor.BaseType.STANDARD, ItemQuality.STANDARD, 0, 100, 1.0));
       list.add(new ArmorTableEntry(Armor.BaseType.ASSAULT, ItemQuality.STANDARD, 0, 100, 1.0));
       return list;
+   }
+   
+   
+   // function for automated test
+   public static boolean standardTableContains(Armor.BaseType type)
+   {
+      for(int i = 0; i < standardTable.size(); i++)
+      {
+         ArmorTableEntry element = (ArmorTableEntry)standardTable.elementAt(i);
+         if(element.type== type)
+            return true;
+      }
+      return false;
    }
    
    private static class ArmorTableEntry implements TableItem

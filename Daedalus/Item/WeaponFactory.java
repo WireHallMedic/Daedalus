@@ -309,6 +309,19 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
       return list;
    }
    
+   
+   // function for automated test
+   public static boolean standardTableContains(Weapon.BaseType type)
+   {
+      for(int i = 0; i < standardTable.size(); i++)
+      {
+         WeaponTableEntry element = (WeaponTableEntry)standardTable.elementAt(i);
+         if(element.type== type)
+            return true;
+      }
+      return false;
+   }
+   
    private static class WeaponTableEntry implements TableItem
    {
       public Weapon.BaseType type;
@@ -335,11 +348,5 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
          weight = (int)(BASE_WEIGHT * weightMultiplier);
       }
    }
-   
-   
-   public static Weapon getTestWeapon()
-   {
-      Weapon w = getScattergun();
-      return w;
-   }
+
 }

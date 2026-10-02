@@ -9,7 +9,7 @@ import java.util.*;
 
 public class ShieldFactory implements ItemConstants, GUIConstants, CombatConstants
 {
-   public static Vector<? extends TableItem> standardTable = getStandardTable();
+   private static Vector<? extends TableItem> standardTable = getStandardTable();
    
    public static void setLowQuality(Shield s)
    {
@@ -96,6 +96,19 @@ public class ShieldFactory implements ItemConstants, GUIConstants, CombatConstan
       list.add(new ShieldTableEntry(Shield.BaseType.QUICK_CHARGE, ItemQuality.STANDARD, 0, 100, 1.0));
       list.add(new ShieldTableEntry(Shield.BaseType.HEAVY, ItemQuality.STANDARD, 0, 100, 1.0));
       return list;
+   }
+   
+   
+   // function for automated test
+   public static boolean standardTableContains(Shield.BaseType type)
+   {
+      for(int i = 0; i < standardTable.size(); i++)
+      {
+         ShieldTableEntry element = (ShieldTableEntry)standardTable.elementAt(i);
+         if(element.type== type)
+            return true;
+      }
+      return false;
    }
    
    

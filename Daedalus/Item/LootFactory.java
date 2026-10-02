@@ -39,9 +39,9 @@ public class LootFactory implements ItemConstants
          case ItemBase.WEAPON:      return WeaponFactory.rollWeapon(level);
          case ItemBase.SHIELD:      return ShieldFactory.rollShield(level);
          case ItemBase.ARMOR:       return ArmorFactory.rollArmor(level);
+         case ItemBase.CONSUMABLE:  return ConsumableFactory.rollConsumable(level);
 //          case ItemBase.MOD:         return rollCredits(level);
 //          case ItemBase.GADGET:      return rollCredits(level);
-//          case ItemBase.CONSUMABLE:  return rollCredits(level);
       }
       return null;
    }
@@ -53,9 +53,9 @@ public class LootFactory implements ItemConstants
       list.add(new TableItemWrapper(ItemBase.WEAPON,     0,    100,  1.0));
       list.add(new TableItemWrapper(ItemBase.SHIELD,     0,    100,  0.5));
       list.add(new TableItemWrapper(ItemBase.ARMOR,      0,    100,  0.5));
+      list.add(new TableItemWrapper(ItemBase.CONSUMABLE, 0,    100,  1.0));
 //      list.add(new TableItemWrapper(ItemBase.MOD,        0,    100,  .25));
 //      list.add(new TableItemWrapper(ItemBase.GADGET,     0,    100,  .25));
-//      list.add(new TableItemWrapper(ItemBase.CONSUMABLE, 0,    100,  1.0));
       return list;
    }
    
