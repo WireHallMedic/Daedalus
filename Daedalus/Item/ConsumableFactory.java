@@ -58,6 +58,19 @@ public class ConsumableFactory implements ItemConstants, GUIConstants, CombatCon
       return c;
    }
    
+   public static Consumable getStims()
+   {
+      Consumable c = new Consumable("Stims");
+      Ability a = getSelfTargetingAbility("Stims");
+      StatusEffect se = new StatusEffect("Stims");
+	   se.getStatBlock().setMoveSpeed(ActorConstants.ActionSpeed.FAST);
+	   se.getStatBlock().setAttackSpeed(ActorConstants.ActionSpeed.FAST);
+	   se.getStatBlock().setInteractSpeed(ActorConstants.ActionSpeed.FAST);
+      a.setStatusEffect(se);
+      c.setAbility(a);
+      return c;
+   }
+   
    private static Ability getSelfTargetingAbility(String name)
    {
       Ability a = new Ability(name);
@@ -73,6 +86,7 @@ public class ConsumableFactory implements ItemConstants, GUIConstants, CombatCon
          case SMOKE_GRENADE:  return getSmokeGrenade();
          case GRENADE:        return getGrenade();
          case DECOY:          return getDecoy();
+         case STIMS:          return getStims();
       }
       return null;
    }
@@ -89,10 +103,18 @@ public class ConsumableFactory implements ItemConstants, GUIConstants, CombatCon
    public static Vector<TableItemWrapper> getStandardTable()
    {
       Vector<TableItemWrapper> list = new Vector<TableItemWrapper>();
-      list.add(new TableItemWrapper(Consumable.BaseType.MED_PATCH, 0, 100, 3.5));
       list.add(new TableItemWrapper(Consumable.BaseType.GRENADE, 0, 100, 1.5));
       list.add(new TableItemWrapper(Consumable.BaseType.SMOKE_GRENADE, 0, 100, 1.0));
       list.add(new TableItemWrapper(Consumable.BaseType.DECOY, 0, 100, 1.0));
+      list.add(new TableItemWrapper(Consumable.BaseType.STIMS, 0, 100, 1.0));
+      
+      // med patches are half the table
+      double sum = 0.0;
+      for(TableItemWrapper tiw: list)
+      {
+         sum += tiw.getWeight();
+      }
+      list.add(new TableItemWrapper(Consumable.BaseType.MED_PATCH, 0, 100, sum));
       return list;
    }
    

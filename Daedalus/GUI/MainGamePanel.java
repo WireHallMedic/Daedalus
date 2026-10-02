@@ -31,6 +31,7 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
    private static final int HUD_PANEL_X_START = 1;
    private static final int HUD_PANEL_Y_START = BOARD_SIZE_TILES + 2;
    private static final int HUD_PANEL_WIDTH = PANEL_WIDTH_TILES - 2;
+   private static final int HUD_COLUMN_WIDTH = HUD_PANEL_WIDTH / 3;
    private static final int HUD_PANEL_HEIGHT = PANEL_HEIGHT_TILES - BOARD_SIZE_TILES - 3;
    
    private BoardPanel boardPanel;
@@ -329,18 +330,18 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
       if(a.getCurWeapon() != null)
       {
          Weapon w = a.getCurWeapon();
-         write(HUD_PANEL_X_START + 2, row, w.getName(), WHITE, BLACK, 20, 1);
+         write(HUD_PANEL_X_START + 2, row, w.getName(), WHITE, BLACK, HUD_COLUMN_WIDTH, 1);
          drawDotBar(HUD_PANEL_X_START + 2, row + 1, w.getChargedShots(), w.getMaxShots(), WHITE);
-         write(HUD_PANEL_X_START + w.getMaxShots() + 4, row + 1, "", WHITE, BLACK, 20 - (w.getMaxShots() + 2), 1);
+         write(HUD_PANEL_X_START + w.getMaxShots() + 4, row + 1, "", WHITE, BLACK, HUD_COLUMN_WIDTH - (w.getMaxShots() + 2), 1);
          row += 3;
       }
       
       if(a.getOffWeapon() != null)
       {
          Weapon w = a.getOffWeapon();
-         write(HUD_PANEL_X_START + 2, row, w.getName(), WHITE, BLACK, 20, 1);
+         write(HUD_PANEL_X_START + 2, row, w.getName(), WHITE, BLACK, HUD_COLUMN_WIDTH, 1);
          drawDotBar(HUD_PANEL_X_START + 2, row + 1, w.getChargedShots(), w.getMaxShots(), WHITE);
-         write(HUD_PANEL_X_START + w.getMaxShots() + 4, row + 1, "", WHITE, BLACK, 20 - (w.getMaxShots() + 2), 1);
+         write(HUD_PANEL_X_START + w.getMaxShots() + 4, row + 1, "", WHITE, BLACK, HUD_COLUMN_WIDTH - (w.getMaxShots() + 2), 1);
          row += 3;
       }
       

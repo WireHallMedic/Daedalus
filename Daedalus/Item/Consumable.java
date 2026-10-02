@@ -9,6 +9,7 @@ public class Consumable extends Item implements ItemConstants, GUIConstants
    public enum BaseType
    {
       MED_PATCH,
+      STIMS,
       SMOKE_GRENADE,
       GRENADE,
       DECOY;
