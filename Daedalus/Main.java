@@ -23,10 +23,7 @@ public class Main
       a.addToInventory(ConsumableFactory.getMedPatch());
       a.addToInventory(ConsumableFactory.getGrenade());
       a.addToInventory(ConsumableFactory.getSmokeGrenade());
-      a.addToInventory(ConsumableFactory.getSmokeGrenade());
-      a.addToInventory(ConsumableFactory.getSmokeGrenade());
-      a.addToInventory(ConsumableFactory.getSmokeGrenade());
-      a.addToInventory(ConsumableFactory.getSmokeGrenade());
+      a.addToInventory(ConsumableFactory.getDecoy());
       a.getCurWeapon().getAttack().getBaseDamage().setValue(CombatConstants.DamageType.CRYO, 20);
       Game.setPlayer(a);
 

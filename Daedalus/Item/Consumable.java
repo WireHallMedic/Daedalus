@@ -10,7 +10,8 @@ public class Consumable extends Item implements ItemConstants, GUIConstants
    {
       MED_PATCH,
       SMOKE_GRENADE,
-      GRENADE;
+      GRENADE,
+      DECOY;
    }
    
 	private Ability ability;

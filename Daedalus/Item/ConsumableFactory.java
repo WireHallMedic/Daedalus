@@ -48,6 +48,16 @@ public class ConsumableFactory implements ItemConstants, GUIConstants, CombatCon
       return c;
    }
    
+   public static Consumable getDecoy()
+   {
+      Consumable c = new Consumable("Holo-Decoy");
+      Ability a = new Ability("Decoy");
+      a.setRange(5);
+      a.setSpecialEffect(SpecialEffect.DECOY);
+      c.setAbility(a);
+      return c;
+   }
+   
    private static Ability getSelfTargetingAbility(String name)
    {
       Ability a = new Ability(name);

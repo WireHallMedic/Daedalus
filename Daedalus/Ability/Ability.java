@@ -95,18 +95,27 @@ public class Ability implements AbilityConstants
    
    public void resolveSpecialEffect(Coord origin, Coord target)
    {
+      Vector<Coord> targetList = getAffectedTiles(origin, target);
+      if(targetList.size() == 0)
+         return;
       if(specialEffect == SpecialEffect.SMOKE)
       {
-         Vector<Coord> targetList = getAffectedTiles(origin, target);
          // single tiles are targeted 9-15 times, multiple tiles are targeted once each
          if(targetList.size() == 1)
          {
             int reps = 8 + RNG.nextInt(7);
             for(int i = 0; i < reps; i++)
                targetList.add(targetList.elementAt(0));
-            for(Coord loc: targetList)
-               Game.getCurMap().dropSmoke(12 + RNG.nextInt(13), loc);
          }
+         for(Coord loc: targetList)
+            Game.getCurMap().dropSmoke(12 + RNG.nextInt(13), loc);
+      }
+      if(specialEffect == SpecialEffect.DECOY)
+      {
+         Actor decoy = ActorFactory.getDecoy();
+         Coord loc = Game.getCurMap().getActorDropLocation(targetList.elementAt(0), Game.getActorList());
+         decoy.setTileLoc(loc);
+         Game.addActor(decoy);
       }
    }
 }
