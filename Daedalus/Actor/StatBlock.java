@@ -82,4 +82,5 @@ public class StatBlock implements ActorConstants
       
       this.flying = this.flying || that.flying;
    }
+   
 }

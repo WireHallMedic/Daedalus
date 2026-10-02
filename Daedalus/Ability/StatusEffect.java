@@ -86,4 +86,23 @@ public class StatusEffect implements AbilityConstants
          }
       }
    }
+   
+   // returns true if tag lists match and are not empty
+   public boolean canCombine(StatusEffect that)
+   {
+      if(this.tagList.size() == 0 || this.tagList.size() != that.tagList.size())
+         return false;
+      for(StatusEffectTag tag: this.tagList)
+         if(!that.hasTag(tag))
+            return false;
+      return true;
+   }
+   
+   public void combine(StatusEffect that)
+   {
+      this.maxDuration = Math.max(this.maxDuration, that.maxDuration);
+      this.remainingDuration = Math.max(this.remainingDuration, that.remainingDuration);
+      this.intensity = Math.max(this.intensity, that.intensity);
+      // as these should only be used on temporary status effects, we don't need to combine stat blocks
+   }
 }
