@@ -16,10 +16,7 @@ public class ConsumableFactory implements ItemConstants, GUIConstants, CombatCon
    {
       Consumable c = new Consumable("Med-Patch");
       Ability a = getSelfTargetingAbility("Med-Patch");
-      StatusEffect se = new StatusEffect("Healing");
-      se.addTag(StatusEffectTag.HEALING);
-      se.setIntensity(2);
-      a.setStatusEffect(se);
+      a.setStatusEffect(StatusEffectFactory.getHealing());
       c.setAbility(a);
       return c;
    }
@@ -62,12 +59,7 @@ public class ConsumableFactory implements ItemConstants, GUIConstants, CombatCon
    {
       Consumable c = new Consumable("Stims");
       Ability a = getSelfTargetingAbility("Stims");
-      StatusEffect se = new StatusEffect("Invigorated");
-	   se.getStatBlock().setMoveSpeed(ActorConstants.ActionSpeed.FAST);
-	   se.getStatBlock().setAttackSpeed(ActorConstants.ActionSpeed.FAST);
-	   se.getStatBlock().setInteractSpeed(ActorConstants.ActionSpeed.FAST);
-      se.addTag(StatusEffectTag.HASTE);
-      a.setStatusEffect(se);
+      a.setStatusEffect(StatusEffectFactory.getHasted());
       c.setAbility(a);
       return c;
    }

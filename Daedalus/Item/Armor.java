@@ -70,17 +70,26 @@ public class Armor extends ChargeItem implements Equippable, ItemConstants, GUIC
       return damageProtection.getValue(type);
    }
    
+   public Damage getDamageProtectionWithVulnerability(int vulnerability)
+   {
+      Damage d = damageProtection.copy();
+      for(DamageType type: DamageType.values())
+         d.setValue(type, Math.max(d.getValue(type) - vulnerability, 0));
+      return d;
+   }
+   
    public void setDamageProtection(CombatConstants.DamageType type, int value)
    {
       damageProtection.setValue(type, value);
    }
    
-   public Damage absorbDamage(Damage d)
+   public Damage absorbDamage(Damage d, int vulnerability)
    {
       d = d.copy();
-      d.subtract(getDamageProtection());
+      d.subtract( getDamageProtectionWithVulnerability(vulnerability));
       return d;
    }
+   public Damage absorbDamage(Damage d){return absorbDamage(d, 0);}
    
    @Override
    public void fullyCharge()

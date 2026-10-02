@@ -287,6 +287,44 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
       setCurStats();
    }
    
+   // returns the amount the actor is burning, 0 if not burning
+   public int getBurning()
+   {
+      int burning = 0;
+      for(StatusEffect se: statusEffectList)
+      {
+         if(se.hasTag(AbilityConstants.StatusEffectTag.BURNING))
+         {
+            burning = Math.max(burning, se.getIntensity());
+         }
+      }
+      return burning;
+   }
+   
+   public boolean isBurning()
+   {
+      return getBurning() > 0;
+   }
+   
+   // returns the amount the actor is burning, 0 if not burning
+   public int getVulnerability()
+   {
+      int vulnerability = 0;
+      for(StatusEffect se: statusEffectList)
+      {
+         if(se.hasTag(AbilityConstants.StatusEffectTag.VULNERABLE))
+         {
+            vulnerability = Math.max(vulnerability, se.getIntensity());
+         }
+      }
+      return vulnerability;
+   }
+   
+   public boolean isVulnerable()
+   {
+      return getVulnerability() > 0;
+   }
+   
    public String getStatusEffectString(boolean withTimes)
    {
       String str = "";
@@ -343,7 +381,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
          ablatedDamage = getShield().applyDamage((int)(damage.getSum() * damageMultiplier));
       // reduce by armor
       if(hasArmor())
-         damage = getArmor().absorbDamage(damage);
+         damage = getArmor().absorbDamage(damage, getVulnerability());
       // apply shield ablation and apply to health
       healthDamage = Math.max(0, (int)(damage.getSum() * damageMultiplier) - ablatedDamage);
       

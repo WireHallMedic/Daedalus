@@ -24,7 +24,11 @@ public interface AbilityConstants
    public enum StatusEffectTag
    {
       HEALING,
-      HASTE;
+      HASTED,
+      ENTANGLED,
+      SLOWED,
+      BURNING,    // hightest, not additive
+      VULNERABLE; // hightest, not additive
    }
    
    public enum ImpactEffect
