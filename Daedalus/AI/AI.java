@@ -273,6 +273,8 @@ public class AI implements AIConstants, ZoneConstants
    
    protected void doWeaponSwap()
    {
+      MainGamePanel.clearMessage();
+      MainGamePanel.addMessage("You swap weapons.");
       self.swapWeapons();
       self.discharge(self.getInteractSpeed());
    }
@@ -289,6 +291,7 @@ public class AI implements AIConstants, ZoneConstants
    
    protected void doWeaponAttack(Weapon w)
    {
+      MainGamePanel.clearMessage();
       CombatManager.resolveAbility(self, w.getAttack(), pendingTarget, w.getRateOfFire());
       if(w != self.getNaturalWeapon())
          w.discharge();
@@ -333,7 +336,9 @@ public class AI implements AIConstants, ZoneConstants
          MainGamePanel.clearMessage();
          MainGamePanel.addMessage("You use the " + consumable.getName() + ".");
       }
-      CombatManager.resolveAbility(self, consumable.getAbility(),pendingTarget);
+      CombatManager.resolveAbility(self, consumable.getAbility(), pendingTarget);
+      if(self.getTileLoc().equals(pendingTarget))
+         AnimationScriptFactory.addPickupEffect(consumable, pendingTarget);
    }
    
    protected Vector<Coord> getPathTo(Coord target)

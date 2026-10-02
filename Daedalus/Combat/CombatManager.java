@@ -70,7 +70,6 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
             AnimationManager.setScreenRumble();
          }
       }
-      MainGamePanel.clearMessage();
       if(ability.getImpactEffect() != null)
       {
          Coord impactLoc = affectedList.elementAt(0);

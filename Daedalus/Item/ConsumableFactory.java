@@ -62,7 +62,7 @@ public class ConsumableFactory implements ItemConstants, GUIConstants, CombatCon
    {
       Consumable c = new Consumable("Stims");
       Ability a = getSelfTargetingAbility("Stims");
-      StatusEffect se = new StatusEffect("Stims");
+      StatusEffect se = new StatusEffect("Invigorated");
 	   se.getStatBlock().setMoveSpeed(ActorConstants.ActionSpeed.FAST);
 	   se.getStatBlock().setAttackSpeed(ActorConstants.ActionSpeed.FAST);
 	   se.getStatBlock().setInteractSpeed(ActorConstants.ActionSpeed.FAST);

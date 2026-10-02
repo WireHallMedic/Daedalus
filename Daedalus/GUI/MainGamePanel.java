@@ -313,6 +313,7 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
       Actor a = Game.getPlayer();
       if(a == null)
          return;
+      // health and shield
       int barWidth = 6;
       int row = HUD_PANEL_Y_START;
       setTile(HUD_PANEL_X_START + 1, row, a.getTileIndex(), a.getFGColor(), a.getBGColor());
@@ -327,23 +328,53 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
       write(HUD_PANEL_X_START, row, "", WHITE, BLACK, HUD_PANEL_WIDTH, 1);
       row++;
       
+      // weapons
       if(a.getCurWeapon() != null)
       {
          Weapon w = a.getCurWeapon();
-         write(HUD_PANEL_X_START + 2, row, w.getName(), WHITE, BLACK, HUD_COLUMN_WIDTH, 1);
+         write(HUD_PANEL_X_START + 2, row, w.getName(), WHITE, BLACK, HUD_COLUMN_WIDTH - 3, 1);
          drawDotBar(HUD_PANEL_X_START + 2, row + 1, w.getChargedShots(), w.getMaxShots(), WHITE);
-         write(HUD_PANEL_X_START + w.getMaxShots() + 4, row + 1, "", WHITE, BLACK, HUD_COLUMN_WIDTH - (w.getMaxShots() + 2), 1);
+         write(HUD_PANEL_X_START + w.getMaxShots() + 4, row + 1, "", WHITE, BLACK, HUD_COLUMN_WIDTH - (w.getMaxShots() + 5), 1);
          row += 3;
       }
       
       if(a.getOffWeapon() != null)
       {
          Weapon w = a.getOffWeapon();
-         write(HUD_PANEL_X_START + 2, row, w.getName(), WHITE, BLACK, HUD_COLUMN_WIDTH, 1);
+         write(HUD_PANEL_X_START + 2, row, w.getName(), WHITE, BLACK, HUD_COLUMN_WIDTH - 3, 1);
          drawDotBar(HUD_PANEL_X_START + 2, row + 1, w.getChargedShots(), w.getMaxShots(), WHITE);
-         write(HUD_PANEL_X_START + w.getMaxShots() + 4, row + 1, "", WHITE, BLACK, HUD_COLUMN_WIDTH - (w.getMaxShots() + 2), 1);
+         write(HUD_PANEL_X_START + w.getMaxShots() + 4, row + 1, "", WHITE, BLACK, HUD_COLUMN_WIDTH - (w.getMaxShots() + 5), 1);
          row += 3;
       }
+      
+      ActorConstants.ActionSpeed speed = a.getAttackSpeed();
+      int color = WHITE;
+      switch(speed)
+      {
+         case ActorConstants.ActionSpeed.SLOW : color = ORANGE; break;
+         case ActorConstants.ActionSpeed.NORMAL : color = WHITE; break;
+         case ActorConstants.ActionSpeed.FAST : color = LIGHT_BLUE; break;
+         case ActorConstants.ActionSpeed.INSTANTANEOUS : color = PURPLE; break;
+      }
+      write(HUD_COLUMN_WIDTH * 2, HUD_PANEL_Y_START + 2, "Attack Speed:   " + GUITools.turnsToSeconds(speed.increments), color, BLACK, HUD_COLUMN_WIDTH, 1);
+      speed = a.getMoveSpeed();
+      switch(speed)
+      {
+         case ActorConstants.ActionSpeed.SLOW : color = ORANGE; break;
+         case ActorConstants.ActionSpeed.NORMAL : color = WHITE; break;
+         case ActorConstants.ActionSpeed.FAST : color = LIGHT_BLUE; break;
+         case ActorConstants.ActionSpeed.INSTANTANEOUS : color = PURPLE; break;
+      }
+      write(HUD_COLUMN_WIDTH * 2, HUD_PANEL_Y_START + 3, "Move Speed:     " + GUITools.turnsToSeconds(speed.increments), color, BLACK, HUD_COLUMN_WIDTH, 1);
+      speed = a.getInteractSpeed();
+      switch(speed)
+      {
+         case ActorConstants.ActionSpeed.SLOW : color = ORANGE; break;
+         case ActorConstants.ActionSpeed.NORMAL : color = WHITE; break;
+         case ActorConstants.ActionSpeed.FAST : color = LIGHT_BLUE; break;
+         case ActorConstants.ActionSpeed.INSTANTANEOUS : color = PURPLE; break;
+      }
+      write(HUD_COLUMN_WIDTH * 2, HUD_PANEL_Y_START + 4, "Interact Speed: " + GUITools.turnsToSeconds(speed.increments), color, BLACK, HUD_COLUMN_WIDTH, 1);
       
       // fill rest empty
       row++;
