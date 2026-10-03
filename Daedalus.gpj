@@ -14,7 +14,7 @@ s#k0
 s#j0
 s#l0
 !74;u
-a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!3605;g
+a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!3644;g
 %\011Daedalus%sAbility%sAbility.java
 %\011Daedalus%sAbility%sAbilityConstants.java
 %\011Daedalus%sAbility%sAttack.java
@@ -96,6 +96,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!3605;
 %\011Daedalus%sZone%sAStarOpenList.java
 %\011Daedalus%sZone%sChest.java
 %\011Daedalus%sZone%sDoor.java
+%\011Daedalus%sZone%sEventTrigger.java
 %\011Daedalus%sZone%sExit.java
 %\011Daedalus%sZone%sFloodFill.java
 %\011Daedalus%sZone%sMapFactory.java
@@ -113,7 +114,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!3605;
 %\011Daedalus%sZone%sZoneMap.java
 %\011Daedalus%sZone%sZoneTile.java
 %\011Daedalus%sZone%sZoneViewer.java
-!3605;f
+!3644;f
 %\011Daedalus%sAbility%sAbility.java
 %\011Daedalus%sAbility%sAbilityConstants.java
 %\011Daedalus%sAbility%sAttack.java
@@ -195,6 +196,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!3605;
 %\011Daedalus%sZone%sAStarOpenList.java
 %\011Daedalus%sZone%sChest.java
 %\011Daedalus%sZone%sDoor.java
+%\011Daedalus%sZone%sEventTrigger.java
 %\011Daedalus%sZone%sExit.java
 %\011Daedalus%sZone%sFloodFill.java
 %\011Daedalus%sZone%sMapFactory.java

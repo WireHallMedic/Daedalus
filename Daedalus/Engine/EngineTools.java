@@ -7,6 +7,14 @@ import java.util.*;
 
 public class EngineTools implements AbilityConstants
 {
+   private static int uniqueNum = 0;
+   
+   public static int getUniqueNum()
+   {
+      uniqueNum++;
+      return uniqueNum;
+   }
+   
    public static int getAngbandDistance(int x1, int y1, int x2, int y2)
    {
       int x = Math.abs(x2 - x1);
