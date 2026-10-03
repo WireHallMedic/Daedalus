@@ -178,6 +178,35 @@ public class AnimationScriptFactory implements ZoneConstants, GUIConstants
    }
    public static GroundAnimationScript getMeleeGroundFlash(Coord c){return getMeleeGroundFlash(c.x, c.y);}
    
+   
+   public static AnimationScript getStatusEffectAnimationScript(UnboundTile target, double delay)
+   {
+      AnimationScript script = new AnimationScript(target);
+      int duration = GUIConstants.FRAMES_PER_SECOND * 3 / 2;
+      double[] yList = new double[duration];
+      int[] fgList = new int[duration];
+      double yStep = -1.0 / duration;
+      for(int i = 0; i < duration; i++)
+      {
+         yList[i] = yStep;
+         fgList[i] = target.getFGColor();
+      }
+      if(delay > 0.0)
+      {
+         int delayTicks = (int)(duration * delay);
+         yList = prepend(0.0, delayTicks, yList);
+         fgList = prepend(GUIConstants.TRANSPARENT, delayTicks, fgList);
+      }
+      script.setYMoveList(yList);
+      script.setFGColorList(fgList);
+      script.setEndBehavior(AnimationScript.EXPIRE_TARGET);
+      return script;
+   }
+   public static AnimationScript getStatusEffectAnimationScript(UnboundTile target)
+   {
+      return getStatusEffectAnimationScript(target, 0.0);
+   }
+   
    // adders. Create and add to boardpanel and animationmanager
    ///////////////////////////////////////////////////////////////////////////////
    
@@ -282,18 +311,24 @@ public class AnimationScriptFactory implements ZoneConstants, GUIConstants
    }
    public static void addMeleeGroundFlash(Coord c){addMeleeGroundFlash(c.x, c.y);}
    
-   public static void addStatusEffectVE(Actor actor, AbilityConstants.StatusEffectTag tag)
+   public static void addStatusEffectVE(Actor actor, AbilityConstants.StatusEffectTag tag, int reps)
    {
-      UnboundTile ut = new UnboundTile(SQUARE_PALETTE, tag.tileIndex, tag.color, TRANSPARENT);         
-      ut.setTileLoc(actor.getTileLoc());
-      ut.setXOffset(-.25 + (RNG.nextDouble() / 2));
-      ut.setScale(.5);
-      AnimationScript as = getFloatEffect(ut);
-      as.setScriptListenerNote(tag);
-      as.addScriptListener(actor);
-      AnimationManager.addToBoardPanel(ut);
-      AnimationManager.addNonLocking(as);
+      for(int i = 0; i < reps; i++)
+      {
+         double delay = (1.0 / reps) * i;
+         UnboundTile ut = new UnboundTile(SQUARE_PALETTE, tag.tileIndex, tag.color, TRANSPARENT);         
+         ut.setTileLoc(actor.getTileLoc());
+         ut.setXOffset(-.25 + (RNG.nextDouble() / 2));
+         ut.setYOffset(-.25);
+         ut.setScale(.5);
+         AnimationScript as = getStatusEffectAnimationScript(ut, delay);
+         as.addScriptListener(actor);
+         as.setScriptListenerNote(tag);
+         AnimationManager.addToBoardPanel(ut);
+         AnimationManager.addNonLocking(as);
+      }
    }
+   public static void addStatusEffectVE(Actor actor, AbilityConstants.StatusEffectTag tag){addStatusEffectVE( actor, tag, 1);}
    
    // private methods
    /////////////////////////////////////////////////////////////

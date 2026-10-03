@@ -57,8 +57,7 @@ public class ActorFactory implements ActorConstants, GUIConstants, AIConstants
    {
       Actor a = new Actor("Drone");
       a.setTileIndex('d');
-      a.setBGColor(GREY);
-      a.setFGColor(WHITE);
+      a.setFGColor(LIGHT_GREY);
       a.getBaseStats().setMaxHealth(BASE_NPC_HEALTH);
       a.getBaseStats().setFlying(true);
       a.setAI(new DroneAI(a));
@@ -75,8 +74,7 @@ public class ActorFactory implements ActorConstants, GUIConstants, AIConstants
    {
       Actor a = new Actor("Jackal");
       a.setTileIndex('j');
-      a.setBGColor(BROWN);
-      a.setFGColor(ORANGE);
+      a.setFGColor(BROWN);
       a.getBaseStats().setMaxHealth(BASE_NPC_HEALTH / 2);
       a.setAI(new WolfAI(a));
       a.setNaturalWeapon(WeaponFactory.getJackalJaws());
@@ -90,7 +88,6 @@ public class ActorFactory implements ActorConstants, GUIConstants, AIConstants
    {
       Actor a = new Actor("Skyroach");
       a.setTileIndex('r');
-      a.setBGColor(BROWN);
       a.setFGColor(ORANGE);
       a.getBaseStats().setMaxHealth(BASE_NPC_HEALTH / 2);
       a.getBaseStats().setFlying(true);
@@ -106,7 +103,6 @@ public class ActorFactory implements ActorConstants, GUIConstants, AIConstants
    {
       Actor a = new Actor("Horklouse");
       a.setTileIndex('l');
-      a.setBGColor(BROWN);
       a.setFGColor(ORANGE);
       a.getBaseStats().setMaxHealth(BASE_NPC_HEALTH);
       a.setAI(new StandardAI(a));
@@ -121,8 +117,7 @@ public class ActorFactory implements ActorConstants, GUIConstants, AIConstants
    {
       Actor a = new Actor("Bandit");
       a.setTileIndex('b');
-      a.setBGColor(BLACK);
-      a.setFGColor(WHITE);
+      a.setFGColor(BEIGE);
       a.getBaseStats().setMaxHealth(BASE_NPC_HEALTH);
       a.setAI(new StandardAI(a));
       switch(RNG.nextInt(5))

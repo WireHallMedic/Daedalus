@@ -73,7 +73,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    
    public Actor()
    {
-      super(GUIConstants.SQUARE_PALETTE, '?', GUIConstants.CYAN, GUIConstants.ORANGE);
+      super(GUIConstants.SQUARE_PALETTE, '?', GUIConstants.WHITE, GUIConstants.BLACK);
       setLowerTileIndex(FontConstants.CIRCLE_TILE);
       ai = new AI(this);
       setName("Unknown Actor");
@@ -291,7 +291,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
       {
          statusEffectList.add(se);
          for(int i = 0; i < se.getTagList().size(); i++)
-            AnimationScriptFactory.addStatusEffectVE(this, se.getTagList().elementAt(i));
+            AnimationScriptFactory.addStatusEffectVE(this, se.getTagList().elementAt(i), 2);
       }
       setCurStats();
    }
@@ -355,7 +355,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
       {
          str += ", " + statusEffectList.elementAt(i).getName();
          if(withTimes)
-            str += " " + GUITools.turnsToSeconds(statusEffectList.elementAt(0).getRemainingDuration());
+            str += " " + GUITools.turnsToSeconds(statusEffectList.elementAt(i).getRemainingDuration());
       }
       return str;
    }
