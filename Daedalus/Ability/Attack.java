@@ -10,18 +10,21 @@ public class Attack extends Ability implements AbilityConstants, CombatConstants
 	private Damage randomDamage;
 	private boolean melee;
    private boolean damageDropoff;      // damage reduces over distance
+   private boolean heavy;              // can destroy terrain
 
 
 	public Damage getBaseDamage(){return baseDamage;}
 	public Damage getRandomDamage(){return randomDamage;}
 	public boolean isMelee(){return melee;}
    public boolean hasDamageDropoff(){return damageDropoff;}
+   public boolean isHeavy(){return heavy;}
 
 
 	public void setBaseDamage(Damage b){baseDamage = b;}
 	public void setRandomDamage(Damage r){randomDamage = r;}
 	public void setMelee(boolean m){melee = m;}
    public void setDamageDropoff(boolean dd){damageDropoff = dd;}
+   public void setHeavy(boolean h){heavy = h;}
 
 
    public Attack(String n)
@@ -31,6 +34,7 @@ public class Attack extends Ability implements AbilityConstants, CombatConstants
       randomDamage = new Damage();
       melee = false;
       damageDropoff = false;
+      heavy = false;
       setHitVerb("strikes");
    }
    
