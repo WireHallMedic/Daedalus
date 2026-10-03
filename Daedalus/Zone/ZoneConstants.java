@@ -179,5 +179,12 @@ public interface ZoneConstants
          return null;
       }
    }
+   
+   public enum Durability
+   {
+      FRAGILE,
+      STANDARD,
+      UNBREAKABLE;
+   }
 
 }

@@ -9,24 +9,28 @@ public class ZoneTile extends ImageTile implements ZoneConstants, GUIConstants
 	protected boolean highPassable;
 	protected boolean transparent;
    protected int decorationType;
+   protected Durability durability;
 
 
 	public boolean isLowPassable(){return lowPassable;}
 	public boolean isHighPassable(){return highPassable;}
 	public boolean isTransparent(){return transparent;}
    public int getDecorationType(){return decorationType;}
+   public Durability getDurability(){return durability;}
 
 
 	public void setLowPassable(boolean l){lowPassable = l;}
 	public void setHighPassable(boolean h){highPassable = h;}
 	public void setTransparent(boolean t){transparent = t;}
    public void setDecorationType(int d){decorationType = d;}
+   public void setDurability(Durability d){durability = d;}
 
    public ZoneTile(TileBase base)
    {
       super(SQUARE_PALETTE);
       set(base, WHITE, BLACK);
       decorationType = 0;
+      durability = Durability.STANDARD;
    }
    
    public ZoneTile(ZoneTile that)
@@ -37,6 +41,7 @@ public class ZoneTile extends ImageTile implements ZoneConstants, GUIConstants
       this.transparent = that.transparent;
       this.decorationType = that.decorationType;
       this.name = that.name;
+      this.durability = that.durability;
    }
    
    public ZoneTile copy()
