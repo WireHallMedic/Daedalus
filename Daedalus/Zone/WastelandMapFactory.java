@@ -93,6 +93,11 @@ public class WastelandMapFactory extends MapFactory implements ZoneConstants, GU
       for(int y = 0; y < map.getHeight(); y++)
          map.getTile(x, y).setBGColor(WASTELAND_GROUND_BG);
       
+      ZoneTile zt = new ZoneTile(TileBase.WALL);
+      zt.setDurability(Durability.FRAGILE);
+      zt.setName("Cracked Pillar");
+      map.setTile(3, 3, zt);
+      
       return map;
    }
 

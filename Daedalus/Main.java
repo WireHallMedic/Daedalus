@@ -20,7 +20,9 @@ public class Main
       
       Actor a = ActorFactory.getPlayer();
       a.setTileLoc(3, 5);
-      a.addToInventory(ConsumableFactory.getStims());
+      a.addToInventory(ConsumableFactory.getGrenade());
+      a.addToInventory(ConsumableFactory.getGrenade());
+      a.addToInventory(ConsumableFactory.getGrenade());
       a.addToInventory(ConsumableFactory.getStims());
       a.addToInventory(ConsumableFactory.getMedPatch());
       for(int i = 0; i < 10; i++)

@@ -31,6 +31,7 @@ public class ConsumableFactory implements ItemConstants, GUIConstants, CombatCon
       a.setRange(5);
       a.setHitVerb("blasts");
       a.setImpactEffect(AbilityConstants.ImpactEffect.EXPLOSION);
+      a.setHeavy(true);
       c.setAbility(a);
       return c;
    }

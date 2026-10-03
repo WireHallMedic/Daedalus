@@ -539,7 +539,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    }
    public void setSmoke(Smoke s, Coord c){setSmoke(s, c.x, c.y);}
    
-   // drops an corpse in the nearest droppable tile
+   // drops smoke in the nearest droppable tile
    public void dropSmoke(Smoke smoke, int x, int y)
    {
       Coord loc = getSmokeDropLocation(x, y);
@@ -607,6 +607,24 @@ public class ZoneMap implements ZoneConstants, GUIConstants
          incrementSmoke(x, y);
       }
    }
+   
+   // breaking stuff
+   ////////////////////////////////////////
+   
+   public void attackTile(int x, int y, boolean heavyAttack)
+   {
+      if(isInBounds(x, y))
+      {
+         corpseMap[x][y] = null;
+         if(tileMap[x][y].getDurability() == Durability.FRAGILE ||
+            (heavyAttack && tileMap[x][y].getDurability() == Durability.STANDARD))
+         {
+            tileMap[x][y] = tileMap[x][y].getBroken();
+            updateSubmaps(x, y);
+         }
+      }
+   }
+   public void attackTile(Coord c, boolean heavyAttack){attackTile(c.x, c.y, heavyAttack);}
    
    // test map
    ////////////////////////////////////////

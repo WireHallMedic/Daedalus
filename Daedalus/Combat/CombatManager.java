@@ -41,7 +41,8 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
       Coord abilityOrigin = attacker.getTileLoc();
       if(ability.getTargetingType() == TargetingType.BLAST)
          abilityOrigin = EngineTools.getBlastOrigin(attacker.getTileLoc(), targetLoc, ability.getRange());
-
+      
+      // process affected tiles
       for(int i = 0; i < affectedList.size(); i++)
       {
          if(ability instanceof Attack && attack.isMelee())
@@ -50,6 +51,8 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
             AnimationScriptFactory.addGroundFlash(affectedList.elementAt(i));
          if(Game.isActorAt(affectedList.elementAt(i)))
             defenderList.add(Game.getActorAt(affectedList.elementAt(i)));
+         if(ability instanceof Attack)
+            Game.getCurMap().attackTile(affectedList.elementAt(i), attack.isHeavy());
       }
       Direction dir = Direction.getDirectionTo(attacker.getTileLoc(), targetLoc);
       AnimationScript as;

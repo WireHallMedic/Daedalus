@@ -30,7 +30,6 @@ public class ZoneTile extends ImageTile implements ZoneConstants, GUIConstants
       super(SQUARE_PALETTE);
       set(base, WHITE, BLACK);
       decorationType = 0;
-      durability = Durability.STANDARD;
    }
    
    public ZoneTile(ZoneTile that)
@@ -84,7 +83,8 @@ public class ZoneTile extends ImageTile implements ZoneConstants, GUIConstants
          case FLIPPED_SWITCH: 
          case ROUGH: 
          case TERMINAL: 
-         case EXIT:        setDurability(Durability.UNBREAKABLE);
+         case EXIT:        setDurability(Durability.UNBREAKABLE); break;
+         default :         durability = Durability.STANDARD; break;
       }
 
    }
