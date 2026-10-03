@@ -62,6 +62,7 @@ public class ToggleTile extends ZoneTile implements ZoneConstants, GUIConstants
 	@Override public int getBGColor(){return getCurState().getBGColor();}
 	@Override public int getTileIndex(){return getCurState().getTileIndex();}
    @Override public int getLowerTileIndex(){return getCurState().getLowerTileIndex();}
+   // durability is not passed through, as the single value applies to both
    
    // setting colors applies to both states
 	@Override public void setFGColor(int f){aState.setFGColor(f); bState.setFGColor(f);}

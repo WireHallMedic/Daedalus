@@ -49,6 +49,15 @@ public class ZoneTile extends ImageTile implements ZoneConstants, GUIConstants
       return new ZoneTile(this);
    }
    
+   public ZoneTile getBroken()
+   {
+      ZoneTile z = new ZoneTile(TileBase.ROUGH);
+      z.setName("Rubble");
+      z.setFGColor(this.getFGColor());
+      z.setBGColor(this.getBGColor());
+      return z;
+   }
+   
    public void set(TileBase base, int fg, int bg, int dt)
    {
       set(base);
@@ -65,6 +74,19 @@ public class ZoneTile extends ImageTile implements ZoneConstants, GUIConstants
       highPassable = base.highPassable;
       transparent = base.transparent;
       name = base.name;
+      switch(base)
+      {
+         case CLEAR: 
+         case PATH: 
+         case DEEP_LIQUID: 
+         case SHALLOW_LIQUID: 
+         case SWITCH: 
+         case FLIPPED_SWITCH: 
+         case ROUGH: 
+         case TERMINAL: 
+         case EXIT:        setDurability(Durability.UNBREAKABLE);
+      }
+
    }
    
    public boolean isPathable()
