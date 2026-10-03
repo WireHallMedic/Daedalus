@@ -1,3 +1,5 @@
+// parent class of animationScript
+
 package Daedalus.GUI;
 
 import Daedalus.Engine.*;
@@ -16,6 +18,7 @@ public class GroundAnimationScript
 	protected int[] bgColorList;
    protected ImageTile originalTile;
    protected Vector<ScriptListener> scriptListenerList;
+   private Object scriptListenerNote;  // used for recurring and timing effects
 
 
 	public ImageTile getTargetTile(){return targetTile;}
@@ -25,6 +28,7 @@ public class GroundAnimationScript
 	public int[] getFGColorList(){return fgColorList;}
 	public int[] getBGColorList(){return bgColorList;}
    public Vector<ScriptListener> getScriptListenerList(){return scriptListenerList;}
+   public Object getScriptListenerNote(){return scriptListenerNote;}
 
 
 	public void setTargetTile(ImageTile t){targetTile = t; originalTile = targetTile.copy();}
@@ -34,6 +38,7 @@ public class GroundAnimationScript
 	public void setFGColorList(int[] f){fgColorList = f;}
 	public void setBGColorList(int[] b){bgColorList = b;}
    public void setScriptListenerList(Vector<ScriptListener> sll){scriptListenerList = sll;}
+   public void setScriptListenerNote(Object o){scriptListenerNote = o;}
 
 
    public GroundAnimationScript(ImageTile _target)
@@ -45,6 +50,7 @@ public class GroundAnimationScript
    	fgColorList = null;
    	bgColorList = null;
       scriptListenerList = new Vector<ScriptListener>();
+      scriptListenerNote = null;
       if(targetTile != null)
          originalTile = targetTile.copy();
       else

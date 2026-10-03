@@ -6,6 +6,7 @@ import Daedalus.Zone.*;
 import Daedalus.Item.*;
 import Daedalus.Actor.*;
 import Daedalus.Engine.*;
+import Daedalus.Ability.*;
 
 public class AnimationScriptFactory implements ZoneConstants, GUIConstants
 {
@@ -21,7 +22,9 @@ public class AnimationScriptFactory implements ZoneConstants, GUIConstants
    
    public static AnimationScript getKnockback(UnboundTile target, Direction dir)
    {
-      return getOneTileMove(target, dir, GUIConstants.FRAMES_PER_SECOND / 10);
+      AnimationScript as = getOneTileMove(target, dir, GUIConstants.FRAMES_PER_SECOND / 10);
+      as.setScriptListenerNote(AbilityConstants.KNOCKBACK_TAG);
+      return as;
    }
    
    
@@ -278,6 +281,19 @@ public class AnimationScriptFactory implements ZoneConstants, GUIConstants
       AnimationManager.addGroundAnimation(gas);
    }
    public static void addMeleeGroundFlash(Coord c){addMeleeGroundFlash(c.x, c.y);}
+   
+   public static void addStatusEffectVE(Actor actor, AbilityConstants.StatusEffectTag tag)
+   {
+      UnboundTile ut = new UnboundTile(SQUARE_PALETTE, tag.tileIndex, tag.color, TRANSPARENT);         
+      ut.setTileLoc(actor.getTileLoc());
+      ut.setXOffset(-.25 + (RNG.nextDouble() / 2));
+      ut.setScale(.5);
+      AnimationScript as = getFloatEffect(ut);
+      as.setScriptListenerNote(tag);
+      as.addScriptListener(actor);
+      AnimationManager.addToBoardPanel(ut);
+      AnimationManager.addNonLocking(as);
+   }
    
    // private methods
    /////////////////////////////////////////////////////////////

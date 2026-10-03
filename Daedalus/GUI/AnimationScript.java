@@ -24,7 +24,6 @@ public class AnimationScript extends GroundAnimationScript
 	public double[] getXMoveList(){return xMoveList;}
 	public double[] getYMoveList(){return yMoveList;}
 	public double[] getScaleList(){return scaleList;}
-   public Vector<ScriptListener> getScriptListenerList(){return scriptListenerList;}
 
 
 	public void setTarget(UnboundTile t){targetUnboundTile = t; originalUnboundTile = targetUnboundTile.copy();}
@@ -33,7 +32,6 @@ public class AnimationScript extends GroundAnimationScript
 	public void setXMoveList(double[] x){xMoveList = x;}
 	public void setYMoveList(double[] y){yMoveList = y;}
 	public void setScaleList(double[] s){scaleList = s;}
-   public void setScriptListenerList(Vector<ScriptListener> sll){scriptListenerList = sll;}
 
 
    public AnimationScript(UnboundTile _target)

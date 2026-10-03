@@ -288,8 +288,20 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
          }
       }
       if(!combined)
+      {
          statusEffectList.add(se);
+         for(int i = 0; i < se.getTagList().size(); i++)
+            AnimationScriptFactory.addStatusEffectVE(this, se.getTagList().elementAt(i));
+      }
       setCurStats();
+   }
+   
+   public boolean hasStatusEffectTag(AbilityConstants.StatusEffectTag tag)
+   {
+      for(StatusEffect se: statusEffectList)
+         if(se.hasTag(tag))
+            return true;
+      return false;
    }
    
    // returns the amount the actor is burning, 0 if not burning
@@ -528,9 +540,16 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    
    public void scriptExpiring(GroundAnimationScript source)
    {
-      if(knockbackDistance > 0)
+      if(source.getScriptListenerNote() == AbilityConstants.KNOCKBACK_TAG &&
+         knockbackDistance > 0)
       {
          resolveKnockbackStep();
+      }
+      else if(source.getScriptListenerNote() instanceof AbilityConstants.StatusEffectTag)
+      {
+         AbilityConstants.StatusEffectTag tag = (AbilityConstants.StatusEffectTag)source.getScriptListenerNote();
+         if(hasStatusEffectTag(tag))
+            AnimationScriptFactory.addStatusEffectVE(this, tag);
       }
    }
    
