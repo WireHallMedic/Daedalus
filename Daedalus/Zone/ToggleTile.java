@@ -68,11 +68,17 @@ public class ToggleTile extends ZoneTile implements ZoneConstants, GUIConstants
    @Override public boolean isLowPassable(){return getCurState().isLowPassable();}
 	@Override public boolean isHighPassable(){return getCurState().isHighPassable();}
 	@Override public boolean isTransparent(){return getCurState().isTransparent();}
-   @Override public int getFGColor(){return getCurState().getFGColor();}
 	@Override public int getBGColor(){return getCurState().getBGColor();}
 	@Override public int getTileIndex(){return getCurState().getTileIndex();}
    @Override public int getLowerTileIndex(){return getCurState().getLowerTileIndex();}
    // durability is not passed through, as the single value applies to both
+   
+   @Override public int getFGColor()
+   {
+      if(isLocked())
+         return GUIConstants.LOCKED_COLOR;
+      return getCurState().getFGColor();
+   }
    
    // setting colors applies to both states
 	@Override public void setFGColor(int f){aState.setFGColor(f); bState.setFGColor(f);}

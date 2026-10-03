@@ -66,4 +66,5 @@ public interface GUIConstants
    public static final int WASTELAND_GROUND_FG = BEIGE;
    public static final int STONE = new Color(200, 200, 200).getRGB();
    public static final int ACID = new Color(154, 205, 50).getRGB();
+   public static final int LOCKED_COLOR = LIGHT_GREY;
 }

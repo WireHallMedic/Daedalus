@@ -199,8 +199,13 @@ public class Zone
                   ActorConstants.ActorBase base = (ActorConstants.ActorBase)te.getActionObj();
                   Actor a = ActorFactory.getActor(base);
                   Coord loc = map.getActorDropLocation(te.getTargetTile(), actorList);
-                  a.setTileLoc(loc);
-                  actorList.add(a);
+                  if(loc == null)
+                     System.out.println("No place to drop actor.");
+                  else
+                  {
+                     a.setTileLoc(loc);
+                     actorList.add(a);
+                  }
                   break;
             }
          }

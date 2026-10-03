@@ -695,6 +695,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
       }
       z.addSpawnPoint(new SpawnPoint(9, 7, ActorConstants.ActorBase.JACKAL));
       
+      // switch doors
       Switch mapSwitch = new Switch();
       z.setTile(1, 10, mapSwitch);
       Door door = new Door();
@@ -709,6 +710,31 @@ public class ZoneMap implements ZoneConstants, GUIConstants
       et = new EventTrigger(mapSwitch.getTriggerIndex(), 2, 12, EventTrigger.TriggerAction.TOGGLE);
       z.addEventTrigger(et);
       
+      // switch chest
+      mapSwitch = new Switch();
+      mapSwitch.setOneToggleOnly(true);
+      z.setTile(3, 10, mapSwitch);
+      Chest c = new Chest();
+      c.setLocked(true);
+      z.setTile(3, 12, c);
+      et = new EventTrigger(mapSwitch.getTriggerIndex(), 3, 12, EventTrigger.TriggerAction.UNLOCK);
+      z.addEventTrigger(et);
+      
+      // switch set tile
+      mapSwitch = new Switch();
+      mapSwitch.setOneToggleOnly(true);
+      z.setTile(5, 10, mapSwitch);
+      ZoneTile zt = new ZoneTile(TileBase.CLEAR);
+      et = new EventTrigger(mapSwitch.getTriggerIndex(), 8, 8, EventTrigger.TriggerAction.SET_TILE);
+      et.setActionObj(zt);
+      z.addEventTrigger(et);
+      
+      // switch spawn actor
+      mapSwitch = new Switch();
+      z.setTile(7, 10, mapSwitch);
+      et = new EventTrigger(mapSwitch.getTriggerIndex(), 9, 8, EventTrigger.TriggerAction.SPAWN_ACTOR);
+      et.setActionObj(ActorConstants.ActorBase.JACKAL);
+      z.addEventTrigger(et);
       
          
       
