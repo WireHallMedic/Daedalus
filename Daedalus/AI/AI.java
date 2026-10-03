@@ -234,8 +234,22 @@ public class AI implements AIConstants, ZoneConstants
       }
       if(Game.getCurMap().getTile(pendingTarget) instanceof ToggleTile)
       {
-         Game.getCurMap().toggle(pendingTarget);
-         self.discharge(self.getInteractSpeed());
+         ToggleTile tt = (ToggleTile)Game.getCurMap().getTile(pendingTarget);
+         if(tt.isLocked())
+         {
+            if(tt instanceof Door || tt instanceof Chest)
+            {
+               MainGamePanel.clearMessage();
+               MainGamePanel.addMessage("It's locked.");
+            }
+            clearPlan();
+            return;
+         }
+         else
+         {
+            Game.getCurMap().toggle(pendingTarget);
+            self.discharge(self.getInteractSpeed());
+         }
       }
       if(Game.getCurMap().getTile(pendingTarget) instanceof Sign)
       {

@@ -9,7 +9,8 @@ public class EventTrigger
    {
       TOGGLE,
       UNLOCK,
-      SET_TILE;
+      SET_TILE,
+      SPAWN_ACTOR;
    }
    
 	private int triggerIndex;
@@ -23,7 +24,7 @@ public class EventTrigger
 	public Coord getTargetTile(){return new Coord(targetTile);}
 	public TriggerAction getAction(){return action;}
 	public Object getActionObj(){return actionObj;}
-	public boolean isOnlyTriggersOnce(){return onlyTriggersOnce;}
+	public boolean onlyTriggersOnce(){return onlyTriggersOnce;}
 
 
 	public void setTriggerIndex(int t){triggerIndex = t;}

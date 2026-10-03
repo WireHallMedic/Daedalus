@@ -28,6 +28,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    private int minThreat;
    private int level;
    private Vector<SpawnPoint> spawnPointList;
+   private Vector<EventTrigger> eventTriggerList;
 
 
    public String getName(){return name;}
@@ -43,6 +44,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    public int getMinThreat(){return minThreat;}
    public int getLevel(){return level;}
    public Vector<SpawnPoint> getSpawnPointList(){return spawnPointList;}
+   public Vector<EventTrigger> getEventTriggerList(){return eventTriggerList;}
 
 
    public void setName(String n){name = n;}
@@ -55,6 +57,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    public void setMinThreat(int t){minThreat = t;}
    public void setLevel(int l){level = l;}
    public void setSpawnPointList(Vector<SpawnPoint> spl){spawnPointList = spl;}
+   public void setEventTriggerList(Vector<EventTrigger> etl){eventTriggerList = etl;}
 
 
    public ZoneMap(int w, int h)
@@ -86,6 +89,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
       minThreat = 0;
       level = 0;
       spawnPointList = new Vector<SpawnPoint>();
+      eventTriggerList = new Vector<EventTrigger>();
    }
    
    
@@ -148,6 +152,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
          updateSubmaps(x, y);
       }
    }
+   public void setTile(Coord c, ZoneTile zt){setTile(c.x, c.y, zt);}
    
    
    public void setTile(int x, int y, TileBase base)
@@ -645,6 +650,14 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    }
    public void attackTile(Coord c, boolean heavyAttack){attackTile(c.x, c.y, heavyAttack);}
    
+   
+   // event triggers
+   /////////////////////////////////////////////////
+   public void addEventTrigger(EventTrigger et)
+   {
+      eventTriggerList.add(et);
+   }
+   
    // test map
    ////////////////////////////////////////
    
@@ -673,8 +686,6 @@ public class ZoneMap implements ZoneConstants, GUIConstants
       
       for(int i = 0; i < 4; i++)
       {
-         z.setTile(2 + i, 10, new ZoneTile(TileBase.LOW_WALL));
-         
          z.setTile(8 + i, 6, new ZoneTile(TileBase.LOW_WALL));
          z.setTile(8 + i, 9, new ZoneTile(TileBase.LOW_WALL));
          z.setTile(8, 6 + i, new ZoneTile(TileBase.LOW_WALL));
@@ -683,6 +694,23 @@ public class ZoneMap implements ZoneConstants, GUIConstants
          z.setTile(4 + i, 5, new ZoneTile(TileBase.WALL));
       }
       z.addSpawnPoint(new SpawnPoint(9, 7, ActorConstants.ActorBase.JACKAL));
+      
+      Switch mapSwitch = new Switch();
+      z.setTile(1, 10, mapSwitch);
+      Door door = new Door();
+      door.setLocked(true);
+      z.setTile(1, 12, door);
+      door = new Door();
+      door.setLocked(true);
+      door.toggle();
+      z.setTile(2, 12, door);
+      EventTrigger et = new EventTrigger(mapSwitch.getTriggerIndex(), 1, 12, EventTrigger.TriggerAction.TOGGLE);
+      z.addEventTrigger(et);
+      et = new EventTrigger(mapSwitch.getTriggerIndex(), 2, 12, EventTrigger.TriggerAction.TOGGLE);
+      z.addEventTrigger(et);
+      
+      
+         
       
       z.setItemAt(WeaponFactory.getBoltgun(), 1, 5);
       z.setItemAt(WeaponFactory.getAutogun(), 1, 6);

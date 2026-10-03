@@ -21,6 +21,7 @@ public class Game
    private static Vector<Zone> zoneList = null;
 
 
+   public static Zone getCurZone(){return curZone;}
 	public static ZoneMap getCurMap(){return curMap;}
 	public static Actor getPlayer(){return player;}
    public static Vector<Actor> getActorList(){return actorList;}

@@ -167,10 +167,49 @@ public class Zone
       }
    }
    
-      public void randomlyPlaceActor(Actor actor)
+   public void randomlyPlaceActor(Actor actor)
+   {
+      Vector<Actor> localActorList = new Vector<Actor>();
+      localActorList.add(actor);
+      randomlyPlaceActors(localActorList);
+   }
+   
+   public void resolveTriggerEvent(int triggerIndex)
+   {
+      Vector<EventTrigger> eventList = map.getEventTriggerList();
+      for(int i = 0; i < eventList.size(); i++)
       {
-         Vector<Actor> actorList = new Vector<Actor>();
-         actorList.add(actor);
-         randomlyPlaceActors(actorList);
+         if(eventList.elementAt(i).getTriggerIndex() == triggerIndex)
+         {
+            EventTrigger te = eventList.elementAt(i);
+            switch(te.getAction())
+            {
+               case EventTrigger.TriggerAction.TOGGLE:
+                  map.toggle(te.getTargetTile());
+                  break;
+               case EventTrigger.TriggerAction.UNLOCK:
+                  ToggleTile tt = (ToggleTile)map.getTile(te.getTargetTile());
+                  tt.setLocked(false);
+                  break;
+               case EventTrigger.TriggerAction.SET_TILE:
+                  ZoneTile tile = (ZoneTile)te.getActionObj();
+                  map.setTile(te.getTargetTile(), tile);
+                  break;
+               case EventTrigger.TriggerAction.SPAWN_ACTOR:
+                  ActorConstants.ActorBase base = (ActorConstants.ActorBase)te.getActionObj();
+                  Actor a = ActorFactory.getActor(base);
+                  Coord loc = map.getActorDropLocation(te.getTargetTile(), actorList);
+                  a.setTileLoc(loc);
+                  actorList.add(a);
+                  break;
+            }
+         }
+         // remove one-use-only events
+         if(eventList.elementAt(i).onlyTriggersOnce())
+         {
+            eventList.removeElementAt(i);
+            i--;
+         }
       }
+   }
 }
