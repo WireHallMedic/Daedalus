@@ -171,25 +171,44 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    
    public BufferedImage getImage(int x, int y)
    {
-      // out of bounds
-      if(!isInBounds(x, y))
-         return oobTile.getImage();
-      // item on tile
-      if(isItemAt(x, y))
-      {
-         return new ImageTile(SQUARE_PALETTE, itemMap[x][y].getTileIndex(), 
-                              itemMap[x][y].getFGColor(), tileMap[x][y].getBGColor()).getImage();
-      }
-      // corpse tile
-      if(isCorpseAt(x, y))
-      {
-         return new ImageTile(SQUARE_PALETTE, corpseMap[x][y].getTileIndex(), 
-                              corpseMap[x][y].getFGColor(), tileMap[x][y].getBGColor()).getImage();
-      }
-      // out of bounds
-      return tileMap[x][y].getImage();
+      return new ImageTile(SQUARE_PALETTE, getTileIndex(x, y), getFGColor(x, y), getBGColor(x, y)).getImage();
    }
    public BufferedImage getImage(Coord c){return getImage(c.x, c.y);}
+   
+   
+   public int getTileIndex(int x, int y)
+   {
+      if(!isInBounds(x, y))
+         return oobTile.getTileIndex();
+      if(isItemAt(x, y))
+         return itemMap[x][y].getTileIndex();
+      if(isCorpseAt(x, y))
+         return corpseMap[x][y].getTileIndex();
+      return tileMap[x][y].getTileIndex();
+   }
+   public int getTileIndex(Coord c){return getTileIndex(c.x, c.y);}
+   
+   
+   public int getFGColor(int x, int y)
+   {
+      if(!isInBounds(x, y))
+         return oobTile.getFGColor();
+      if(isItemAt(x, y))
+         return itemMap[x][y].getFGColor();
+      if(isCorpseAt(x, y))
+         return corpseMap[x][y].getFGColor();
+      return tileMap[x][y].getFGColor();
+   }
+   public int getFGColor(Coord c){return getFGColor(c.x, c.y);}
+   
+   
+   public int getBGColor(int x, int y)
+   {
+      if(!isInBounds(x, y))
+         return oobTile.getBGColor();
+      return tileMap[x][y].getBGColor();
+   }
+   public int getBGColor(Coord c){return getBGColor(c.x, c.y);}
    
    
    public BufferedImage getLastSeen(int x, int y)

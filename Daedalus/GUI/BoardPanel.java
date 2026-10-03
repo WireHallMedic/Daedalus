@@ -90,7 +90,9 @@ public class BoardPanel extends DaePanel implements GUIConstants
             {
                Coord c = affectedList.elementAt(i);
                ZoneTile zt = Game.getCurMap().getTile(c);
-               ImageTile it = new ImageTile(SQUARE_PALETTE, zt.getTileIndex(), zt.getFGColor(), TARGETING_BG_COLOR);
+               int tileIndex = Game.getCurMap().getTileIndex(c);
+               int fgColor = Game.getCurMap().getFGColor(c);
+               ImageTile it = new ImageTile(SQUARE_PALETTE, tileIndex, fgColor, TARGETING_BG_COLOR);
                g2dUnscaled.drawImage(it.getImage(), xStep * (c.x - cornerLoc.x), yStep * (c.y - cornerLoc.y), null);
             }
          }
