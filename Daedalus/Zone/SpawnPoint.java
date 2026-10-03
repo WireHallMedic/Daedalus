@@ -23,4 +23,5 @@ public class SpawnPoint implements ActorConstants
       location = loc.copy();
       actorBase = base;
    }
+   public SpawnPoint(int x, int y, ActorBase base){this(new Coord(x, y), base);}
 }

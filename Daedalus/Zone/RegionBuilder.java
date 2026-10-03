@@ -83,4 +83,16 @@ public class RegionBuilder implements ZoneConstants, GUIConstants, ActorConstant
       
       return zoneList;
    }
+   
+   public static Vector<Zone> buildTestRegion()
+   {
+      Vector<Zone> zoneList = new Vector<Zone>();
+      
+      Zone testZone = new Zone();
+      testZone.setMap(ZoneMap.getTestMap());
+      testZone.setActorList(new Vector<Actor>());
+      
+      zoneList.add(testZone);
+      return zoneList;
+   }
 }

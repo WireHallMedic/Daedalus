@@ -16,7 +16,8 @@ public class Main
    {
       DaeFrame frame = new DaeFrame();
       
-      Vector<Zone> zoneList = RegionBuilder.buildWasteland();
+      //Vector<Zone> zoneList = RegionBuilder.buildWasteland();
+      Vector<Zone> zoneList = RegionBuilder.buildTestRegion();
       
       Actor a = ActorFactory.getPlayer();
       a.setTileLoc(3, 5);
@@ -29,13 +30,9 @@ public class Main
          a.addToInventory(LootFactory.roll(1));
       a.getCurWeapon().getAttack().getBaseDamage().setValue(CombatConstants.DamageType.CRYO, 20);
       Game.setPlayer(a);
-
-      Actor b = ActorFactory.getDrone();
-      b.setTileLoc(6, 6);
-      zoneList.elementAt(1).getActorList().add(b);
       
       Game.setZoneList(zoneList);
-      Game.setZone(zoneList.elementAt(0), new Coord(3, 5));
+      Game.setZone(zoneList.elementAt(0), new Coord(4, 4));
       Game.play();
 
    }

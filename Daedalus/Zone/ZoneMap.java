@@ -312,7 +312,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    }
    public Coord getActorDropLocation(Coord origin, Vector<Actor> actorList){return getActorDropLocation(origin.x, origin.y, actorList);}
    
-   public void add(SpawnPoint sp)
+   public void addSpawnPoint(SpawnPoint sp)
    {
       spawnPointList.add(sp);
    }
@@ -663,6 +663,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
          
          z.setTile(4 + i, 5, new ZoneTile(TileBase.WALL));
       }
+      z.addSpawnPoint(new SpawnPoint(9, 7, ActorConstants.ActorBase.JACKAL));
       
       z.setItemAt(WeaponFactory.getBoltgun(), 1, 5);
       z.setItemAt(WeaponFactory.getAutogun(), 1, 6);
