@@ -2,6 +2,7 @@ package Daedalus.Zone;
 
 import java.util.*;
 import Daedalus.AI.*;
+import Daedalus.Item.*;
 import Daedalus.Actor.*;
 import Daedalus.Combat.*;
 import Daedalus.Engine.*;
@@ -81,6 +82,9 @@ public class Zone
          TableItemWrapper tiw = (TableItemWrapper)RNG.roll(randomEncounterTable, map.getLevel());
          ActorConstants.ActorBase family = (ActorConstants.ActorBase)tiw.getObject();
          Actor newActor = ActorFactory.getActor(family);
+         Vector<Item> lootList = LootFactory.rollForLoot(map.getLevel());
+         for(Item loot: lootList)
+            newActor.addToInventory(loot);
          newThreat += newActor.getThreat();
          newActorList.add(newActor);
       }
@@ -93,6 +97,9 @@ public class Zone
          for(SpawnPoint spawnPoint: map.getSpawnPointList())
          {
             Actor a = ActorFactory.getActor(spawnPoint.getActorBase());
+            Vector<Item> lootList = LootFactory.rollForLoot(map.getLevel());
+            for(Item loot: lootList)
+               a.addToInventory(loot);
             Coord loc = map.getActorDropLocation(spawnPoint.getLocation(), actorList);
             a.setTileLoc(loc, false);   // initial population is before the player arrives
             actorList.add(a);

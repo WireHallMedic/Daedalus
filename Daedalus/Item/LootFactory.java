@@ -14,21 +14,43 @@ public class LootFactory implements ItemConstants
    private static final double M = (Y2 - Y1) / (X2 - X1);
    private static final double B = Y1 - (M * X1);
    
+   public static final int BAD_LOOT = 0;
+   public static final int NORMAL_LOOT = 1;
+   public static final int CHAMPION_LOOT = 2;
+   
+   
    public static Vector<? extends TableItem> standardTable = getStandardTable();
    
    
-   public static int getMaxCredits(int level)
+   public static Vector<Item> rollForLoot(int level, int lootType, int extraRolls)
    {
-      return (int)Math.round((M * Math.pow(level, POW)) + B);
+      Vector<Item> lootList = new Vector<Item>();
+      int lootItems = 0;
+      double chanceOfLoot = .5;
+      int numberOfChecks = 1 + extraRolls;
+      switch(lootType)
+      {
+         case BAD_LOOT :      chanceOfLoot = .25;
+                              break;
+         case NORMAL_LOOT :   numberOfChecks = 2 + extraRolls;
+                              break;
+         case CHAMPION_LOOT : chanceOfLoot = .75;
+                              lootItems = 2;
+                              numberOfChecks = 3 + extraRolls;
+                              break;
+      }
+      for(int i = 0; i < numberOfChecks; i++)
+      {
+         if(RNG.nextDouble() < chanceOfLoot)
+            lootItems++;
+      }
+      for(int i = 0; i < lootItems; i++)
+      {
+         lootList.add(roll(level));
+      }
+      return lootList;
    }
-   
-   public static Credits rollCredits(int level)
-   {
-      int val = getMaxCredits(level);
-      double mod = (RNG.nextDouble() / 2.0) + .5;
-      val = (int)(val * mod);
-      return new Credits(val);
-   }
+   public static Vector<Item> rollForLoot(int level){return rollForLoot(level, NORMAL_LOOT, 0);}
    
    public static Item roll(int level)
    {
@@ -44,6 +66,19 @@ public class LootFactory implements ItemConstants
 //          case ItemBase.GADGET:      return rollCredits(level);
       }
       return null;
+   }
+   
+   public static int getMaxCredits(int level)
+   {
+      return (int)Math.round((M * Math.pow(level, POW)) + B);
+   }
+   
+   public static Credits rollCredits(int level)
+   {
+      int val = getMaxCredits(level);
+      double mod = (RNG.nextDouble() / 2.0) + .5;
+      val = (int)(val * mod);
+      return new Credits(val);
    }
    
    private static Vector<TableItemWrapper> getStandardTable()

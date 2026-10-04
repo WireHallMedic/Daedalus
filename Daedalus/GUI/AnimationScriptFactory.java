@@ -288,7 +288,7 @@ public class AnimationScriptFactory implements ZoneConstants, GUIConstants
    {
       for(int i = 0; i < 12; i++)
       {
-         UnboundTile ut = new UnboundTile(SQUARE_PALETTE, FontConstants.SMALL_BULLET_TILE, SHIELD_COLOR, TRANSPARENT);         
+         UnboundTile ut = new UnboundTile(SQUARE_PALETTE, FontConstants.BULLET_TILE, SHIELD_COLOR, TRANSPARENT);         
          ut.setTileLoc(loc);
          AnimationScript as = AnimationScriptFactory.getShieldParticleScript(ut);
          AnimationManager.addToBoardPanel(ut);
