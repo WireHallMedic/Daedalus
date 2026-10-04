@@ -26,4 +26,12 @@ public class Switch extends ToggleTile implements ZoneConstants, GUIConstants
    {
       Game.getCurZone().resolveTriggerEvent(triggerIndex);
    }
+   
+   
+   @Override
+   public void setTransparent(boolean v)
+   {
+      aState.setTransparent(v);
+      bState.setTransparent(v);
+   }
 }

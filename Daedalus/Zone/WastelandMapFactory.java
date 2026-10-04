@@ -81,23 +81,89 @@ public class WastelandMapFactory extends MapFactory implements ZoneConstants, GU
    
    public static ZoneMap getHideout()
    {
-      ZoneMap map = new ZoneMap(10, 10);
+      String[] tileArr =  {"#######################",
+                           "############....#######",
+                           "######...|...###..#####",
+                           "#####!...#!######...U##",
+                           "######...##############",
+                           "####!#/################",
+                           "#.........#############",
+                           "#.........#############",
+                           "#.........####........#",
+                           "#.....................#",
+                           "#.........####........#",
+                           "#.........####........#",
+                           "#.........####........#",
+                           "####\\#########........#",
+                           "####.....#####........#",
+                           "####.....#####........#",
+                           "####.....##############",
+                           "#######################"};
+   
+      int width = tileArr[0].length();
+      int height = tileArr.length;
+      
+      ZoneMap map = new ZoneMap(width, height);
+      ZoneTile zt = null;
+      int switchVal = EngineTools.getUniqueNum();
+      Coord airlockDoor1 = null;
+      Coord airlockDoor2 = null;
+      for(int x = 0; x < width; x++)
+      for(int y = 0; y < height; y++)
+      {
+         switch(tileArr[y].charAt(x))
+         {
+            case '#' :  zt = new ZoneTile(TileBase.WALL);
+                        break;
+            case '.' :  zt = new ZoneTile(TileBase.CLEAR);
+                        break;
+            case 'U' :  zt = new Exit('U');
+                        break;
+            case '!' :  Switch s = new Switch();
+                        s.setTriggerIndex(switchVal);
+                        s.setTransparent(false);
+                        zt = s;
+                        break;
+            case '/' :  Door d1 = new Door();
+                        d1.setLocked(true);
+                        d1.toggle();
+                        zt = d1;
+                        airlockDoor1 = new Coord(x, y);
+                        break;
+            case '|' :  Door d2 = new Door();
+                        d2.setLocked(true);
+                        zt = d2;
+                        airlockDoor2 = new Coord(x, y);
+                        break;
+            case '\\' : zt = new Door();
+                        break;
+         }
+         map.setTile(x, y, zt);
+      }
       map.setName("Hideout");
-      setBorder(map, new ZoneTile(ZoneConstants.TileBase.WALL));
-      map.setTile(1, 1, new Exit('U'));
       map.setExitList();
       map.setMaxThreat(0);
       map.setMinThreat(0);
       map.setLevel(0);
-      for(int x = 0; x < map.getWidth(); x++)
-      for(int y = 0; y < map.getHeight(); y++)
-         map.getTile(x, y).setBGColor(WASTELAND_GROUND_BG);
       
-      ZoneTile zt = new ZoneTile(TileBase.WALL);
-      zt.setDurability(Durability.FRAGILE);
-      zt.setName("Cracked Pillar");
-      map.setTile(3, 3, zt);
+      map.addEventTrigger(new EventTrigger(switchVal, airlockDoor1, EventTrigger.TriggerAction.TOGGLE));
+      map.addEventTrigger(new EventTrigger(switchVal, airlockDoor2, EventTrigger.TriggerAction.TOGGLE));
+      MapPainter.paintWastelandOverworld(map);
       
+      
+      for(int x = 0; x < width; x++)
+      for(int y = 0; y < height; y++)
+      {
+         if(map.getTile(x, y).getTileIndex() != '#')
+            map.getTile(x, y).setBGColor(GREY);
+      }
+      
+      for(int x = airlockDoor2.x + 1; x < width; x++)
+      for(int y = 0; y < airlockDoor2.y + 4; y++)
+      {
+         if(map.getTile(x, y).getTileIndex() != '#')
+            map.getTile(x, y).setBGColor(WASTELAND_GROUND_BG);
+      }
       return map;
    }
 
