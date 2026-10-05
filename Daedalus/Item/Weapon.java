@@ -57,6 +57,8 @@ public class Weapon extends ChargeItem implements Equippable, ItemConstants, GUI
       attack = atk;
    }
    
+   public boolean isMelee(){return attack.isMelee();}
+   
    public Vector<String> getDescriptionList()
    {
       Vector<String> list = attack.getDescriptionList();

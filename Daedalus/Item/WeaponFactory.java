@@ -161,12 +161,19 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
    
    public static void addRandomUpgrade(Weapon w)
    {
-      switch(RNG.nextInt(4))
+      if(w.isMelee())
       {
-         case 0 : improveCapacity(w); break;
-         case 1 : improveRange(w); break;
-         case 2 : improveDamage(w); break;
-         case 3 : improveRecharge(w); break;
+         addRandomMeleeUpgrade(w);
+      }
+      else
+      {
+         switch(RNG.nextInt(4))
+         {
+            case 0 : improveCapacity(w); break;
+            case 1 : improveRange(w); break;
+            case 2 : improveDamage(w); break;
+            case 3 : improveRecharge(w); break;
+         }
       }
    }
    
