@@ -65,11 +65,14 @@ public class Weapon extends ChargeItem implements Equippable, ItemConstants, GUI
       list.removeElementAt(0);
       list.insertElementAt(getName(), 0);
       list.add("Rate of Fire: " + getRateOfFire());
-      String str = "Max Shots:    " + getMaxShots();
-      if(getRateOfFire() > 1)
-         str += " (x" + getRateOfFire() + ")";
-      list.add(str);
-      list.add("Full Charge:  " + GUITools.turnsToSeconds(getTurnsToFullCharge()));
+      if(!isAlwaysCharged())
+      {
+         String str = "Max Shots:    " + getMaxShots();
+         if(getRateOfFire() > 1)
+            str += " (x" + getRateOfFire() + ")";
+         list.add(str);
+         list.add("Full Charge:  " + GUITools.turnsToSeconds(getTurnsToFullCharge()));
+      }
       return list;
    }
    

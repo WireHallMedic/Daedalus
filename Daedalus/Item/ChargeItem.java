@@ -14,7 +14,6 @@ public abstract class ChargeItem extends Item implements ItemConstants, GUIConst
 
 	public int getChargeRate(){return chargeRate;}
 	public int getMaxCharge(){return maxCharge;}
-	public int getCurCharge(){return curCharge;}
    public boolean isAlwaysCharged(){return alwaysCharged;}
    public boolean isDroppable(){return droppable;}
 
@@ -39,6 +38,13 @@ public abstract class ChargeItem extends Item implements ItemConstants, GUIConst
    public ChargeItem(String name, ItemBase base){this(name, base.tileIndex, WHITE);}
    public ChargeItem(String name, ItemBase base, int fgColor){this(name, base.tileIndex, fgColor);}
    
+   
+	public int getCurCharge()
+   {
+      if(alwaysCharged)
+         return maxCharge;
+      return curCharge;
+   }
    
    public double getTurnsToFullCharge()
    {
