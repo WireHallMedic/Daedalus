@@ -221,6 +221,24 @@ public class MapFactory implements ZoneConstants, GUIConstants
       }
       map.setExitList();
    }
+   
+   public static void addCrates(ZoneMap map, int x, int y, int width, int height, int numOfCrates)
+   {
+      int maxTries = 100;
+      for(int i = 0; i < numOfCrates; i++)
+      {
+         for(int j = 0; j < maxTries; j++)
+         {
+            int xLoc = RNG.nextInt(x + width);
+            int yLoc = RNG.nextInt(y + height);
+            if(!map.wouldBlockPathing(xLoc, yLoc))
+            {
+               map.setTile(xLoc, yLoc, Chest.getCrate(map.getLevel()));
+               break;
+            }
+         }
+      }
+   }
 
    public static ZoneMap getTestMap1()
    {

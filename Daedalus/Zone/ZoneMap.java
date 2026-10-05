@@ -281,6 +281,32 @@ public class ZoneMap implements ZoneConstants, GUIConstants
       return null;
    }
    
+   public boolean wouldBlockPathing(int x, int y)
+   {
+      /*
+      Check for the following and their rotations:
+      
+      ...   .#.
+      #?#   #?.
+      ...   ...
+      
+      */
+      if(!(isLowPassable(x + 1, y) || isLowPassable(x - 1, y)))
+         return true;
+      if(!(isLowPassable(x, y + 1) || isLowPassable(x, y - 1)))
+         return true;
+      if(!(isLowPassable(x, y - 1) || isLowPassable(x + 1, y)))
+         return true;
+      if(!(isLowPassable(x, y - 1) || isLowPassable(x - 1, y)))
+         return true;
+      if(!(isLowPassable(x, y + 1) || isLowPassable(x + 1, y)))
+         return true;
+      if(!(isLowPassable(x, y + 1) || isLowPassable(x - 1, y)))
+         return true;
+      return false;
+   }
+   public boolean wouldBlockPathing(Coord c){return wouldBlockPathing(c.x, c.y);}
+   
    
    // actor stuff
    ////////////////////////////////////////////

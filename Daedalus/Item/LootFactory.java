@@ -17,7 +17,8 @@ public class LootFactory implements ItemConstants
    public static final int BAD_LOOT = 0;
    public static final int NORMAL_LOOT = 1;
    public static final int CHAMPION_LOOT = 2;
-   public static final int CHEST_LOOT = 3;
+   public static final int CRATE_LOOT = 3;
+   public static final int CHEST_LOOT = 4;
    
    
    public static Vector<? extends TableItem> standardTable = getStandardTable();
@@ -40,6 +41,9 @@ public class LootFactory implements ItemConstants
                               numberOfChecks = 3 + extraRolls;
                               break;
          case CHEST_LOOT :    lootItems = 3 + RNG.nextInt(3);
+                              numberOfChecks = 0;
+                              break;
+         case CRATE_LOOT :    lootItems = RNG.nextInt(3);
                               numberOfChecks = 0;
                               break;
       }

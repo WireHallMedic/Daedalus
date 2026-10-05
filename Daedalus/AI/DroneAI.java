@@ -32,9 +32,9 @@ public class DroneAI extends WanderAI implements AIConstants, ZoneConstants
       {
          // has target, line of effect, and range
          setPassMap(targetActor, false);
-         if(hasLineOfEffect(self, targetActor) &&
-            EngineTools.getAngbandDistance(self.getTileLoc(), targetActor.getTileLoc()) <= self.getCurWeapon().getAttack().getRange()
-            && self.canSee(targetActor))
+         if(self.canSee(targetActor) &&
+            hasLineOfEffect(self, targetActor) &&
+            EngineTools.getAngbandDistance(self.getTileLoc(), targetActor.getTileLoc()) <= self.getCurWeapon().getAttack().getRange())
          {
             // can shoot
             if(self.getCurWeapon().canFire())

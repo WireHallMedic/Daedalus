@@ -18,6 +18,9 @@ public class WastelandMapFactory extends MapFactory implements ZoneConstants, GU
    {
       ZoneMap map = new ZoneMap(DEFAULT_WIDTH, DEFAULT_HEIGHT);
       map.setName("Wasteland");
+      map.setMaxThreat(9);
+      map.setMinThreat(3);
+      map.setLevel(1);
       setJaggedBorder(map, 3, new ZoneTile(ZoneConstants.TileBase.WALL));
       
       for(int x = 0; x < 3; x++)
@@ -70,11 +73,11 @@ public class WastelandMapFactory extends MapFactory implements ZoneConstants, GU
             }
          }
       }
+         
+      int randomCrates = RNG.nextInt(6) + 5;
+      MapFactory.addCrates(map, 5, 5, map.getWidth() - 10, map.getHeight() - 10, randomCrates);
       
       fillUnreachable(map, new ZoneTile(ZoneConstants.TileBase.WALL));
-      map.setMaxThreat(9);
-      map.setMinThreat(3);
-      map.setLevel(1);
       // not painted as we want to add exits first
       return map;
    }
@@ -104,6 +107,11 @@ public class WastelandMapFactory extends MapFactory implements ZoneConstants, GU
       int height = tileArr.length;
       
       ZoneMap map = new ZoneMap(width, height);
+      map.setName("Hideout");
+      map.setMaxThreat(0);
+      map.setMinThreat(0);
+      map.setLevel(0);
+      
       ZoneTile zt = null;
       int switchVal = EngineTools.getUniqueNum();
       Coord airlockDoor1 = null;
@@ -141,14 +149,7 @@ public class WastelandMapFactory extends MapFactory implements ZoneConstants, GU
          map.setTile(x, y, zt);
       }
       
-      Chest c = new Chest(10);
-      c.setDurability(Durability.FRAGILE);
-      map.setTile(4, 8, c);
-      map.setName("Hideout");
       map.setExitList();
-      map.setMaxThreat(0);
-      map.setMinThreat(0);
-      map.setLevel(0);
       
       map.addEventTrigger(new EventTrigger(switchVal, airlockDoor1, EventTrigger.TriggerAction.TOGGLE));
       map.addEventTrigger(new EventTrigger(switchVal, airlockDoor2, EventTrigger.TriggerAction.TOGGLE));

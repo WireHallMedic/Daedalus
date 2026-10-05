@@ -98,8 +98,8 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
    {
       Weapon w = new Weapon("Beam Cannon");
       Attack a = w.getAttack();
-      a.setBaseDamage(new Damage(DamageType.CONCUSSION, DEFAULT_BASE_SHOT_DAMAGE * 2));
-      a.setRandomDamage(new Damage(DamageType.CONCUSSION, DEFAULT_RANDOM_SHOT_DAMAGE));
+      a.setBaseDamage(new Damage(DamageType.CONCUSSION, DEFAULT_BASE_SHOT_DAMAGE * 3));
+      a.setRandomDamage(new Damage(DamageType.CONCUSSION, DEFAULT_RANDOM_SHOT_DAMAGE * 2));
       a.setHitVerb("blasts");
       a.setHeavy(true);
       w.getAttack().setTargetingType(AbilityConstants.TargetingType.BEAM);

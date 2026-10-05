@@ -50,4 +50,14 @@ public class Chest extends ToggleTile implements ZoneConstants, GUIConstants, Lo
       dispensedLoot = true;
    }
    
+   // a crate is a chest that's fragile and has less loot
+   public static Chest getCrate(int lvl)
+   {
+      Chest crate = new Chest(lvl);
+      crate.setName("Crate");
+      crate.lootQuality = LootFactory.CRATE_LOOT;
+      crate.setFGColor(GUIConstants.WOOD);
+      crate.setDurability(Durability.FRAGILE);
+      return crate;
+   }
 }

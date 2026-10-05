@@ -31,9 +31,9 @@ public class StandardAI extends WanderAI implements AIConstants, ZoneConstants
       {
          // has target, line of effect, line of sight, and range
          setPassMap(targetActor, false);
-         if(hasLineOfEffect(self, targetActor) &&
-            EngineTools.getAngbandDistance(self.getTileLoc(), targetActor.getTileLoc()) <= self.getCurWeapon().getAttack().getRange()
-            && self.canSee(targetActor))
+         if(self.canSee(targetActor) &&
+            hasLineOfEffect(self, targetActor) &&
+            EngineTools.getAngbandDistance(self.getTileLoc(), targetActor.getTileLoc()) <= self.getCurWeapon().getAttack().getRange())
          {
             // can shoot
             if(self.getCurWeapon().canFire())
