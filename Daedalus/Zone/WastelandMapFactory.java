@@ -140,6 +140,10 @@ public class WastelandMapFactory extends MapFactory implements ZoneConstants, GU
          }
          map.setTile(x, y, zt);
       }
+      
+      Chest c = new Chest(10);
+      c.setDurability(Durability.FRAGILE);
+      map.setTile(4, 8, c);
       map.setName("Hideout");
       map.setExitList();
       map.setMaxThreat(0);

@@ -445,6 +445,33 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    }
    public Coord getItemDropLocation(Coord origin){return getItemDropLocation(origin.x, origin.y);}
    
+   public void dumpLootContainer(LootContainer lc)
+   {
+      for(int x = 0; x < width; x++)
+      for(int y = 0; y < height; y++)
+      {
+         if(getTile(x, y) == lc)
+         {
+            dumpLootContainer(lc, new Coord(x, y));
+            return;
+         }
+      }
+   }
+   
+   public void dumpLootContainer(Coord c)
+   {
+      dumpLootContainer((LootContainer)getTile(c), c);
+   }
+   
+   public void dumpLootContainer(LootContainer lc, Coord c)
+   {
+      Vector<Item> loot = LootFactory.rollForLoot(lc.getLevel(), lc.getLootQuality(), 0);
+      for(Item item: lc.getGuaranteedItems())
+         loot.add(item);
+      for(Item item: loot)
+         dropItem(item, c);
+   }
+   
    
    // corpse stuff
    ////////////////////////////////////////////
@@ -643,6 +670,8 @@ public class ZoneMap implements ZoneConstants, GUIConstants
          if(tileMap[x][y].getDurability() == Durability.FRAGILE ||
             (heavyAttack && tileMap[x][y].getDurability() == Durability.STANDARD))
          {
+            if(tileMap[x][y] instanceof LootContainer)
+               dumpLootContainer(new Coord(x, y));
             tileMap[x][y] = tileMap[x][y].getBroken();
             updateSubmaps(x, y);
          }
@@ -669,7 +698,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
       z.setTile(6, 4, new ZoneTile(TileBase.BARS));
       z.setTile(6, 5, new Switch());
       z.getTile(6, 5).setFGColor(CYAN);
-      z.setTile(6, 7, new Chest());
+      z.setTile(6, 7, new Chest(1));
       
       for(int x = 0; x < diameter; x++)
       {
@@ -714,7 +743,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
       mapSwitch = new Switch();
       mapSwitch.setOneToggleOnly(true);
       z.setTile(3, 10, mapSwitch);
-      Chest c = new Chest();
+      Chest c = new Chest(1);
       c.setLocked(true);
       z.setTile(3, 12, c);
       et = new EventTrigger(mapSwitch.getTriggerIndex(), 3, 12, EventTrigger.TriggerAction.UNLOCK);
