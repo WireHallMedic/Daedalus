@@ -15,6 +15,14 @@ public class EngineTools implements AbilityConstants
       return uniqueNum;
    }
    
+   public static boolean listContains(Vector<Coord> list, Coord c)
+   {
+      for(Coord prospect: list)
+         if(prospect.equals(c))
+            return true;
+      return false;
+   }
+   
    public static int getAngbandDistance(int x1, int y1, int x2, int y2)
    {
       int x = Math.abs(x2 - x1);

@@ -16,8 +16,8 @@ public class Main
    {
       DaeFrame frame = new DaeFrame();
       
-      Vector<Zone> zoneList = RegionBuilder.buildWasteland();
-      //Vector<Zone> zoneList = RegionBuilder.buildTestRegion();
+      //Vector<Zone> zoneList = RegionBuilder.buildWasteland();
+      Vector<Zone> zoneList = RegionBuilder.buildTestRegion();
       
       Actor a = ActorFactory.getPlayer();
       a.addToInventory(ConsumableFactory.getGrenade());
@@ -32,8 +32,8 @@ public class Main
       Game.setPlayer(a);
       
       Game.setZoneList(zoneList);
-      //Game.setZone(zoneList.elementAt(0), new Coord(4, 4));
-      Game.setZone(zoneList.elementAt(0), new Coord(4, 10));
+      //Game.setZone(zoneList.elementAt(0), new Coord(4, 10));
+      Game.setZone(zoneList.elementAt(0), new Coord(4, 4));
       Game.play();
 
    }

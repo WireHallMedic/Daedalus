@@ -42,6 +42,32 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
       if(ability.getTargetingType() == TargetingType.BLAST)
          abilityOrigin = EngineTools.getBlastOrigin(attacker.getTileLoc(), targetLoc, ability.getRange());
       
+      // add arc targets
+      Vector<Actor> arcList = new Vector<Actor>();
+      if(ability.getSpecialEffect() == SpecialEffect.ARC)
+      {
+         for(Coord targetTile: affectedList)
+         {
+            if(Game.isActorAt(targetTile))
+            {
+               for(int i = 0; i < rateOfFire; i++)
+               {
+                  if(RNG.nextDouble() < attack.getProcChance())
+                  {
+                     Actor arcTarget = getArcTarget(attacker, Game.getActorAt(targetTile), ability.getRange() / 2);
+                     if(arcTarget != null)
+                     {
+                        arcList.add(arcTarget);
+                     }
+                  }
+               }
+            }
+         }
+         for(Actor arcTarget: arcList)
+            if(!EngineTools.listContains(affectedList, arcTarget.getTileLoc()))
+               affectedList.add(arcTarget.getTileLoc());
+      }
+      
       // process affected tiles
       for(int i = 0; i < affectedList.size(); i++)
       {
@@ -94,8 +120,20 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
          if(ability instanceof Attack)
          {
             // applyAttack also applies the status effect
-            for(int j = 0; j < rateOfFire; j++)
-               damageCount += applyAttack(attacker, defender, attack, abilityOrigin);
+            if(!arcList.contains(defender))
+            {
+               for(int j = 0; j < rateOfFire; j++)
+                  damageCount += applyAttack(attacker, defender, attack, abilityOrigin);
+            }
+            else // arcing
+            {
+               int reps = 0;
+               for(int k = 0; k < arcList.size(); k++)
+                  if(arcList.elementAt(k) == defender)
+                     reps++;
+               for(int j = 0; j < reps; j++)
+                  damageCount += applyAttack(attacker, defender, attack, abilityOrigin);
+            }
          }
          else
          {
@@ -146,5 +184,28 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
    public static double getDamageDropoffMultiplier(Attack a, Actor attacker, Actor defender)
    {
       return getDamageDropoffMultiplier(a, attacker.getTileLoc(), defender.getTileLoc());
+   }
+   
+   private static Actor getArcTarget(Actor attacker, Actor defender, int range)
+   {
+      Vector<Actor> prospectList = new Vector<Actor>();
+      {
+         for(int x = -range; x < range; x++)
+         for(int y = -range; y < range; y++)
+         {
+            Coord c = new Coord(defender.getTileLoc().x + x, defender.getTileLoc().y + y);
+            if(Game.isActorAt(c))
+            {
+               Actor prospect = Game.getActorAt(c);
+               if(prospect != attacker &&
+                  prospect != defender &&
+                  defender.hasLineOfEffect(prospect))
+                  prospectList.add(prospect);
+            }
+         }
+      }
+      if(prospectList.size() > 0)
+         return prospectList.elementAt(RNG.nextInt(prospectList.size()));
+      return null;
    }
 }

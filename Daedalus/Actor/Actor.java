@@ -211,6 +211,12 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    public boolean canSee(Actor a){return canSee(a.getTileLoc());}
    public boolean canSee(Coord c){return canSee(c.x, c.y);}
    
+   public boolean hasLineOfEffect(Coord target)
+   {
+      return ai.hasLineOfEffect(this.getTileLoc(), target);
+   }
+   public boolean hasLineOfEffect(Actor a){return hasLineOfEffect(a.getTileLoc());}
+   
    private void updateLastSeenMap()
    {
       for(int x = getTileLoc().x - getVisionRadius(); x < getTileLoc().x + getVisionRadius(); x++)
@@ -390,6 +396,8 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    // a little because armor cares about damage subtypes and shields don't.
    public int applyDamage(Damage damage, double damageMultiplier)
    {
+      if(isDead())
+         return 0;
       boolean checkShieldBreak = getCurShield() > 0;
       int ablatedDamage = 0;
       int healthDamage = 0;

@@ -9,6 +9,10 @@ import Daedalus.Item.*;
 import Daedalus.Actor.*;
 import Daedalus.Engine.*;
 
+// testing imports
+import Daedalus.Combat.*;
+import Daedalus.Ability.*;
+
 public class ZoneMap implements ZoneConstants, GUIConstants
 {
    private String name;
@@ -749,6 +753,9 @@ public class ZoneMap implements ZoneConstants, GUIConstants
          z.setTile(4 + i, 5, new ZoneTile(TileBase.WALL));
       }
       z.addSpawnPoint(new SpawnPoint(9, 7, ActorConstants.ActorBase.JACKAL));
+      z.addSpawnPoint(new SpawnPoint(9, 8, ActorConstants.ActorBase.JACKAL));
+      z.addSpawnPoint(new SpawnPoint(10, 7, ActorConstants.ActorBase.JACKAL));
+      z.addSpawnPoint(new SpawnPoint(10, 8, ActorConstants.ActorBase.JACKAL));
       
       // switch doors
       Switch mapSwitch = new Switch();
@@ -791,12 +798,13 @@ public class ZoneMap implements ZoneConstants, GUIConstants
       et.setActionObj(ActorConstants.ActorBase.JACKAL);
       z.addEventTrigger(et);
       
-         
+      Weapon w = WeaponFactory.getBoltgun();
+      AttackFactory.addDamageType(w.getAttack(), CombatConstants.DamageType.ELECTRIC, 1.0);
+      z.setItemAt(w, 1, 5);
       
-      z.setItemAt(WeaponFactory.getBoltgun(), 1, 5);
-      z.setItemAt(WeaponFactory.getAutogun(), 1, 6);
-      z.setItemAt(new Credits(10), 1, 7);
-      z.setItemAt(ShieldFactory.getStandardShield(), 1, 8);
+      w = WeaponFactory.getAutogun();
+      AttackFactory.addDamageType(w.getAttack(), CombatConstants.DamageType.ELECTRIC, 1.0);
+      z.setItemAt(w, 1, 6);
       
       z.updateSubmaps();
       return z;
