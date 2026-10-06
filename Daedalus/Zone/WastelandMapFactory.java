@@ -14,13 +14,13 @@ public class WastelandMapFactory extends MapFactory implements ZoneConstants, GU
    public static final int DEFAULT_WIDTH = 60;
    public static final int DEFAULT_HEIGHT = 50;
    
-   public static ZoneMap getBasicMap()
+   public static ZoneMap getBasicMap(int level)
    {
       ZoneMap map = new ZoneMap(DEFAULT_WIDTH, DEFAULT_HEIGHT);
       map.setName("Wasteland");
       map.setMaxThreat(9);
       map.setMinThreat(3);
-      map.setLevel(1);
+      map.setLevel(level);
       setJaggedBorder(map, 3, new ZoneTile(ZoneConstants.TileBase.WALL));
       
       for(int x = 0; x < 3; x++)

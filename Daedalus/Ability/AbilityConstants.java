@@ -52,6 +52,7 @@ public interface AbilityConstants
    
    public enum SpecialEffect
    {
+      ARC,
       SMOKE,
       TELEPORT,
       DECOY;

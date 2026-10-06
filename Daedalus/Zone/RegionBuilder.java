@@ -27,7 +27,7 @@ public class RegionBuilder implements ZoneConstants, GUIConstants, ActorConstant
       for(int x = 0; x < regionWidth; x++)
       for(int y = 0; y < regionHeight; y++)
       {
-         overlandArr[x][y] = WastelandMapFactory.getBasicMap();
+         overlandArr[x][y] = WastelandMapFactory.getBasicMap(regionHeight - y);
          if(maze.exitsNorth(x, y))
          {
             MapFactory.addRandomExit(overlandArr[x][y], 'N');

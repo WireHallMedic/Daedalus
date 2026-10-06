@@ -24,7 +24,7 @@ public class ArmorFactory implements ItemConstants, GUIConstants, CombatConstant
             a.setDamageProtection(dType, Math.max(1, dmg - 1));
          }
       }
-      a.setMaxGadgets(Math.max(1, a.getMaxGadgets() - 1));
+      a.setMaxGadgets(Math.max(1, Math.max(1, a.getMaxGadgets() - 1)));
    }
    
    // basic types
@@ -87,15 +87,20 @@ public class ArmorFactory implements ItemConstants, GUIConstants, CombatConstant
    private static Vector<ArmorTableEntry> getStandardTable()
    {
       Vector<ArmorTableEntry> list = new Vector<ArmorTableEntry>();
-      list.add(new ArmorTableEntry(Armor.BaseType.UTILITY_HARNESS, ItemQuality.LOW, 0, 100, 1.0));
-      list.add(new ArmorTableEntry(Armor.BaseType.SCOUT, ItemQuality.LOW, 0, 100, 1.0));
-      list.add(new ArmorTableEntry(Armor.BaseType.STANDARD, ItemQuality.LOW, 0, 100, 1.0));
-      list.add(new ArmorTableEntry(Armor.BaseType.ASSAULT, ItemQuality.LOW, 0, 100, 1.0));
+      list.add(new ArmorTableEntry(Armor.BaseType.UTILITY_HARNESS, ItemQuality.LOW, 0, 5, 2.0));
       
-      list.add(new ArmorTableEntry(Armor.BaseType.UTILITY_HARNESS, ItemQuality.STANDARD, 0, 100, 1.0));
-      list.add(new ArmorTableEntry(Armor.BaseType.SCOUT, ItemQuality.STANDARD, 0, 100, 1.0));
-      list.add(new ArmorTableEntry(Armor.BaseType.STANDARD, ItemQuality.STANDARD, 0, 100, 1.0));
-      list.add(new ArmorTableEntry(Armor.BaseType.ASSAULT, ItemQuality.STANDARD, 0, 100, 1.0));
+      list.add(new ArmorTableEntry(Armor.BaseType.SCOUT, ItemQuality.LOW, 2, 100, 1.0));
+      list.add(new ArmorTableEntry(Armor.BaseType.STANDARD, ItemQuality.LOW, 2, 100, 1.0));
+      
+      list.add(new ArmorTableEntry(Armor.BaseType.UTILITY_HARNESS, ItemQuality.STANDARD, 3, 10, 0.5));
+      
+      list.add(new ArmorTableEntry(Armor.BaseType.SCOUT, ItemQuality.STANDARD, 5, 100, 0.5));
+      list.add(new ArmorTableEntry(Armor.BaseType.STANDARD, ItemQuality.STANDARD, 5, 100, 0.5));
+      list.add(new ArmorTableEntry(Armor.BaseType.ASSAULT, ItemQuality.LOW, 5, 10, 0.5));
+      
+      list.add(new ArmorTableEntry(Armor.BaseType.ASSAULT, ItemQuality.STANDARD, 9, 100, .25));
+      
+      
       return list;
    }
    

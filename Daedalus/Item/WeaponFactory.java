@@ -65,7 +65,7 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
    {
       Weapon w = new Weapon("Autogun");
       Attack a = w.getAttack();
-      a.setBaseDamage(new Damage(DamageType.PIERCE, DEFAULT_BASE_SHOT_DAMAGE / 3));
+      a.setBaseDamage(new Damage(DamageType.PIERCE, (DEFAULT_BASE_SHOT_DAMAGE * 3) / 2));
       a.setRandomDamage(new Damage(DamageType.PIERCE, DEFAULT_RANDOM_SHOT_DAMAGE));
       a.setTargetingType(AbilityConstants.TargetingType.POINT);
       a.setRange(7);
@@ -155,6 +155,38 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
       return null;
    }
    
+   // enemy weapons
+   ////////////////////////////////////////////////////
+   public static Weapon getDroneGun()
+   {
+      Weapon w = new Weapon("Drone Gun");
+      Attack a = w.getAttack();
+      a.setBaseDamage(new Damage(DamageType.PIERCE, DEFAULT_BASE_SHOT_DAMAGE));
+      a.setRandomDamage(new Damage(DamageType.PIERCE, DEFAULT_RANDOM_SHOT_DAMAGE));
+      a.setTargetingType(AbilityConstants.TargetingType.POINT);
+      a.setRange(5);
+      a.setHitVerb("shoots");
+      w.setMaxShots(1);
+      w.setChargeTimePerShotTurns(2);
+      w.fullyCharge();
+      return w;
+   }
+   
+   
+   public static Weapon getJackalJaws()
+   {
+      Attack a = new Attack("Bite");
+      a.setMelee(true);
+      a.setRange(1);
+      a.setBaseDamage(new Damage(CombatConstants.DamageType.PIERCE, DEFAULT_BASE_SHOT_DAMAGE / 2));
+      a.setRandomDamage(new Damage(CombatConstants.DamageType.PIERCE, 2));
+      a.setHitVerb("bites");
+      Weapon w = new Weapon("Jaws", a);
+      w.setAlwaysCharged(true);
+      w.fullyCharge();
+      return w;
+   }
+   
    // upgrades
    ////////////////////////////////////////////////////
    
@@ -167,12 +199,13 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
       }
       else
       {
-         switch(RNG.nextInt(4))
+         switch(RNG.nextInt(6))
          {
             case 0 : improveCapacity(w); break;
             case 1 : improveRange(w); break;
             case 2 : improveDamage(w); break;
             case 3 : improveRecharge(w); break;
+            default : addRandomMeleeUpgrade(w); break;
          }
       }
    }
@@ -189,10 +222,15 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
          case 3 : dType = DamageType.ELECTRIC; namePrefix = dType.name; break;
          case 4 : dType = DamageType.CONCUSSION; namePrefix = "Heavy"; break;
       }
-      Damage baseDamage = w.getAttack().getBaseDamage();
-      Damage randomDamage = w.getAttack().getRandomDamage();
-      baseDamage.setValue(dType, baseDamage.getValue(dType) + 2);
-      randomDamage.setValue(dType, randomDamage.getValue(dType) + 2);
+      double procChance = .75;
+      if(w.getRateOfFire() > 1)
+         procChance = .25;
+      if(w.isMelee() || 
+         w.getAttack().getTargetingType() == AbilityConstants.TargetingType.BLAST ||
+         w.getAttack().getTargetingType() == AbilityConstants.TargetingType.BEAM ||
+         w.getAttack().getTargetingType() == AbilityConstants.TargetingType.RING)
+         procChance = 1.0;
+      AttackFactory.addDamageType(w.getAttack(), dType, procChance);
       w.setName(namePrefix + " " + w.getName());
    }
    
@@ -258,38 +296,6 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
       w.getAttack().getRandomDamage().setValue(highestType, newRandom);
    }
    
-   // enemy weapons
-   ////////////////////////////////////////////////////
-   public static Weapon getDroneGun()
-   {
-      Weapon w = new Weapon("Drone Gun");
-      Attack a = w.getAttack();
-      a.setBaseDamage(new Damage(DamageType.PIERCE, DEFAULT_BASE_SHOT_DAMAGE));
-      a.setRandomDamage(new Damage(DamageType.PIERCE, DEFAULT_RANDOM_SHOT_DAMAGE));
-      a.setTargetingType(AbilityConstants.TargetingType.POINT);
-      a.setRange(5);
-      a.setHitVerb("shoots");
-      w.setMaxShots(1);
-      w.setChargeTimePerShotTurns(2);
-      w.fullyCharge();
-      return w;
-   }
-   
-   
-   public static Weapon getJackalJaws()
-   {
-      Attack a = new Attack("Bite");
-      a.setMelee(true);
-      a.setRange(1);
-      a.setBaseDamage(new Damage(CombatConstants.DamageType.PIERCE, DEFAULT_BASE_SHOT_DAMAGE / 2));
-      a.setRandomDamage(new Damage(CombatConstants.DamageType.PIERCE, 2));
-      a.setHitVerb("bites");
-      Weapon w = new Weapon("Jaws", a);
-      w.setAlwaysCharged(true);
-      w.fullyCharge();
-      return w;
-   }
-   
    
    // rolling
    ////////////////////////////////////////
@@ -309,16 +315,34 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
    private static Vector<WeaponTableEntry> getStandardTable()
    {
       Vector<WeaponTableEntry> list = new Vector<WeaponTableEntry>();
-      for(Weapon.BaseType type: Weapon.BaseType.values())
-      {
-         list.add(new WeaponTableEntry(type, ItemQuality.LOW, 0, 100, 1.0));
-         list.add(new WeaponTableEntry(type, ItemQuality.STANDARD, 0, 100, 1.0));
-         list.add(new WeaponTableEntry(type, ItemQuality.HIGH, 0, 100, 1.0));
-      }
+
+      list.add(new WeaponTableEntry(Weapon.BaseType.BOLTGUN, ItemQuality.LOW, 0, 5, 2.0));
+      list.add(new WeaponTableEntry(Weapon.BaseType.SCATTERGUN, ItemQuality.LOW, 0, 5, 2.0));
+      list.add(new WeaponTableEntry(Weapon.BaseType.AUTOGUN, ItemQuality.LOW, 0, 5, 2.0));
+      list.add(new WeaponTableEntry(Weapon.BaseType.MELEE, ItemQuality.LOW, 0, 5, 1.5));
+      
+      list.add(new WeaponTableEntry(Weapon.BaseType.BOLTGUN, ItemQuality.STANDARD, 3, 20, 1.0));
+      list.add(new WeaponTableEntry(Weapon.BaseType.SCATTERGUN, ItemQuality.STANDARD, 3, 20, 1.0));
+      list.add(new WeaponTableEntry(Weapon.BaseType.AUTOGUN, ItemQuality.STANDARD, 3, 20, 1.0));
+      list.add(new WeaponTableEntry(Weapon.BaseType.MELEE, ItemQuality.STANDARD, 3, 20, .75));
+      
+      list.add(new WeaponTableEntry(Weapon.BaseType.BOLTGUN, ItemQuality.HIGH, 5, 100, 0.5));
+      list.add(new WeaponTableEntry(Weapon.BaseType.SCATTERGUN, ItemQuality.HIGH, 5, 100, 0.5));
+      list.add(new WeaponTableEntry(Weapon.BaseType.AUTOGUN, ItemQuality.HIGH, 5, 100, 0.5));
+      list.add(new WeaponTableEntry(Weapon.BaseType.MELEE, ItemQuality.HIGH, 5, 100, 0.375));
+      
+      list.add(new WeaponTableEntry(Weapon.BaseType.PLASMA_CANNON, ItemQuality.LOW, 6, 10, 0.5));
+      list.add(new WeaponTableEntry(Weapon.BaseType.BEAM_CANNON, ItemQuality.LOW, 6, 10, 0.5));
+
+      list.add(new WeaponTableEntry(Weapon.BaseType.PLASMA_CANNON, ItemQuality.STANDARD, 9, 100, .25));
+      list.add(new WeaponTableEntry(Weapon.BaseType.BEAM_CANNON, ItemQuality.STANDARD, 9, 100, .25));
+      
+      list.add(new WeaponTableEntry(Weapon.BaseType.PLASMA_CANNON, ItemQuality.HIGH, 12, 100, 0.125));
+      list.add(new WeaponTableEntry(Weapon.BaseType.BEAM_CANNON, ItemQuality.HIGH, 12, 100, 0.125));
+
       return list;
    }
-   
-   
+  
    // function for automated test
    public static boolean standardTableContains(Weapon.BaseType type)
    {
