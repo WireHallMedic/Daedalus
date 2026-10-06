@@ -799,10 +799,14 @@ public class ZoneMap implements ZoneConstants, GUIConstants
       z.addEventTrigger(et);
       
       Weapon w = WeaponFactory.getBoltgun();
-      AttackFactory.addDamageType(w.getAttack(), CombatConstants.DamageType.ELECTRIC, 1.0);
+      w.setName("Thermal " + w.getName());
+      w.getAttack().getBaseDamage().setValue(CombatConstants.DamageType.PIERCE, 0);
+      w.getAttack().getRandomDamage().setValue(CombatConstants.DamageType.PIERCE, 0);
+      AttackFactory.addDamageType(w.getAttack(), CombatConstants.DamageType.FIRE, 1.0);
       z.setItemAt(w, 1, 5);
       
       w = WeaponFactory.getAutogun();
+      w.setName("Electric " + w.getName());
       AttackFactory.addDamageType(w.getAttack(), CombatConstants.DamageType.ELECTRIC, 1.0);
       z.setItemAt(w, 1, 6);
       

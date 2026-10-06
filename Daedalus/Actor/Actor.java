@@ -548,6 +548,8 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    
    public void scriptExpiring(GroundAnimationScript source)
    {
+      if(isDead())
+         return;
       if(source.getScriptListenerNote() == AbilityConstants.KNOCKBACK_TAG &&
          knockbackDistance > 0)
       {
