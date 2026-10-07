@@ -10,6 +10,9 @@ import java.util.*;
 public class ArmorFactory implements ItemConstants, GUIConstants, CombatConstants
 {
    private static Vector<? extends TableItem> standardTable = getStandardTable();
+   private static Vector<? extends TableItem> upgradeTable = getUpgradeTable();
+   
+   private enum ArmorUpgrade{REINFORCED, INSULATED, ENGINEERS, ELITE};
    
    // basic types
    //////////////////////////////////////
@@ -79,6 +82,23 @@ public class ArmorFactory implements ItemConstants, GUIConstants, CombatConstant
       a.setDamageProtection(DamageType.CONCUSSION, a.getDamageProtection(DamageType.CONCUSSION) + 2);
       a.setDamageProtection(DamageType.PIERCE, a.getDamageProtection(DamageType.PIERCE) + 2);
    }
+
+   public static void setExtraGadgets(Armor a)
+   {
+      a.setName("Engineer's " + a.getName());
+
+      a.setMaxGadgets(Math.min(1, Math.max(5, a.getMaxGadgets() + 1)));
+   }
+   
+   public static void setElite(Armor a)
+   {
+      a.setName("Elite " + a.getName());
+
+      for(DamageType dType: DamageType.values())
+      {
+         a.setDamageProtection(dType, a.getDamageProtection(dType) + 1);
+      }
+   }
    
    public static Armor getByBaseType(Armor.BaseType baseType)
    {
@@ -101,14 +121,25 @@ public class ArmorFactory implements ItemConstants, GUIConstants, CombatConstant
          setLowQuality(a);
       if(result.quality == ItemQuality.HIGH)
       {
-         switch(RNG.nextInt(2))
-         {
-            case 0:  setInsulated(a); break;
-            case 1:  setReinforced(a); break;
-         }
+         rollUpgrade(a, level);
          a.setFGColor(HIGH_QUALITY_COLOR);
       }
       return a;
+   }
+   
+   public static void rollUpgrade(Armor a, int level)
+   {
+      TableItemWrapper roll = (TableItemWrapper)RNG.roll(upgradeTable, level);
+      if(roll != null)
+      {
+         switch((ArmorUpgrade)roll.getObject())
+         {
+            case REINFORCED : setReinforced(a); break;
+            case INSULATED :  setInsulated(a); break;
+            case ENGINEERS :  setExtraGadgets(a); break;
+            case ELITE :      setElite(a); break;
+         }
+      }
    }
    
    private static Vector<ArmorTableEntry> getStandardTable()
@@ -132,6 +163,17 @@ public class ArmorFactory implements ItemConstants, GUIConstants, CombatConstant
       
       list.add(new ArmorTableEntry(Armor.BaseType.ASSAULT, ItemQuality.HIGH, 10, 10, 0.25));
       
+      
+      return list;
+   }
+   
+   private static Vector<TableItemWrapper> getUpgradeTable()
+   {
+      Vector<TableItemWrapper> list = new Vector<TableItemWrapper>();
+      list.add(new TableItemWrapper(ArmorUpgrade.REINFORCED, 1, 100, 1.0));
+      list.add(new TableItemWrapper(ArmorUpgrade.INSULATED, 1, 100, 1.0));
+      list.add(new TableItemWrapper(ArmorUpgrade.ENGINEERS, 1, 100, .75));
+      list.add(new TableItemWrapper(ArmorUpgrade.ELITE, 1, 100, 0.5));
       
       return list;
    }
