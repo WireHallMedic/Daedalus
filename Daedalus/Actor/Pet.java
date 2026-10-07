@@ -46,7 +46,7 @@ public class Pet extends Actor
          StatusEffect se = new StatusEffect("Healing");
          se.addTag(AbilityConstants.StatusEffectTag.HEALING);
          se.setMaxDuration(damageAmt + 1);
-         a.add(se);
+         a.addStatusEffect(se);
          
          if(a == Game.getPlayer())
          {

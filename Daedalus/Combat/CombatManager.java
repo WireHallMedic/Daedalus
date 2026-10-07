@@ -26,7 +26,7 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
       }
       if(attack.getStatusEffect() != null)
       {
-         defender.add(attack.getStatusEffect().copy());
+         defender.addStatusEffect(attack.getStatusEffect().copy());
       }
       return damageDealt;
    }
@@ -140,7 +140,7 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
             // apply status effect if there is one and it procs
             if(ability.getStatusEffect() != null)
                if(RNG.nextDouble() < ability.getProcChance())
-                  defender.add(ability.getStatusEffect().copy());
+                  defender.addStatusEffect(ability.getStatusEffect().copy());
          }
          defender.notice(attacker);
          if(ability instanceof Attack && Game.shouldReport(attacker, defender))

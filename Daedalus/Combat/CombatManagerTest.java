@@ -44,7 +44,7 @@ public class CombatManagerTest implements CombatConstants, ItemConstants
       Assert.assertEquals("Dropoff deals half damage at max range", 0.5, dropoff, .01);
    }
    
-   @Test public void knockbackDamageDropoff() 
+   @Test public void testKnockbackDamageDropoff() 
    {
       Actor attacker = new Actor("Attacker");
       attacker.setTileLoc(0, 0);
@@ -78,5 +78,33 @@ public class CombatManagerTest implements CombatConstants, ItemConstants
       dropoffMultiplier = CombatManager.getDamageDropoffMultiplier(attack, attacker, defender);
       knockback = rolledDamage.getKnockback(dropoffMultiplier);
       Assert.assertEquals("Dropoff, damage < threshold, type multiplier 1.5, half range", 0, knockback);
+   }
+   
+   
+   
+   @Test public void testVulnerability() 
+   {
+      Actor defender = new Actor("Defender");
+      defender.setTileLoc(5, 0);
+      Damage damage = new Damage(DamageType.PIERCE, 6);
+      Armor armor = new Armor("Test Armor");
+      armor.setDamageProtection(new Damage(DamageType.PIERCE, 2));
+      defender.setArmor(armor);
+      
+      defender.fullHeal();
+      Assert.assertEquals("Actor at full health", 10, defender.getCurHealth());
+      
+      defender.applyDamage(damage);
+      Assert.assertEquals("Armor fully applies to normal damage", 6, defender.getCurHealth());
+      
+      defender.fullHeal();
+      defender.addStatusEffect(StatusEffectFactory.getVulnerable(1));
+      defender.applyDamage(damage);
+      Assert.assertEquals("Vulnerable reduces armor effectiveness", 5, defender.getCurHealth());
+      
+      defender.fullHeal();
+      damage.setValue(DamageType.CRYO, 1);
+      defender.applyDamage(damage);
+      Assert.assertEquals("Unarmored values unaffected by vulnerability", 4, defender.getCurHealth());
    }
 }
