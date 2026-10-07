@@ -11,6 +11,8 @@ public class ShieldFactory implements ItemConstants, GUIConstants, CombatConstan
 {
    private static Vector<? extends TableItem> standardTable = getStandardTable();
    
+   private enum ShieldUpgrade{REACTIVE, HIGH_CAPACITY, OVERCLOCKED};
+   
    public static Shield getStandardShield()
    {
       Shield s = new Shield("Shield");
@@ -61,18 +63,9 @@ public class ShieldFactory implements ItemConstants, GUIConstants, CombatConstan
       return s;
    }
    
-   // rolling
+   // modifiers
    ///////////////////////////////////////////
    
-   public static Shield rollShield(int level)
-   {
-      ShieldTableEntry result = (ShieldTableEntry)RNG.roll(standardTable, level);
-      
-      Shield s = getByBaseType(result.type);
-      if(result.quality == ItemQuality.LOW)
-         setLowQuality(s);
-      return s;
-   }
    
    public static void setLowQuality(Shield s)
    {
@@ -85,16 +78,73 @@ public class ShieldFactory implements ItemConstants, GUIConstants, CombatConstan
       s.fullyCharge();
    }
    
+   public static void setReactive(Shield s)
+   {
+      s.setName("Reactive " + s.getName());
+      s.setChargeDelay(s.getChargeDelay() - 4);
+      s.fullyCharge();
+   }
+   
+   public static void setHighCapacity(Shield s)
+   {
+      s.setName("High-Capacity " + s.getName());
+      s.setMaxDamageCapacity(s.getMaxDamageCapacity() + (Shield.STANDARD_MAX_DAMAGE_CAPACITY / 2));
+      s.fullyCharge();
+   }
+   
+   public static void setOverclocked(Shield s)
+   {
+      s.setName("Overclocked " + s.getName());
+      s.setMaxChargeTurns(s.getMaxChargeTurns() - (Shield.STANDARD_MAX_CHARGE_TIME / 4));
+      s.fullyCharge();
+   }
+   
+   // rolling
+   ///////////////////////////////////////////
+   
+   public static Shield rollShield(int level)
+   {
+      ShieldTableEntry result = (ShieldTableEntry)RNG.roll(standardTable, level);
+      
+      Shield s = getByBaseType(result.type);
+      if(result.quality == ItemQuality.LOW)
+         setLowQuality(s);
+      if(result.quality == ItemQuality.HIGH)
+      {
+         rollUpgrade(s, level);
+         s.setFGColor(HIGH_QUALITY_COLOR);
+      }
+      return s;
+   }
+   
+   public static void rollUpgrade(Shield s, int level)
+   {
+      TableItemWrapper roll = (TableItemWrapper)RNG.roll(getUpgradeTable(s), level);
+      if(roll != null)
+      {
+         switch((ShieldUpgrade)roll.getObject())
+         {
+            case REACTIVE :      setReactive(s); break;
+            case HIGH_CAPACITY : setHighCapacity(s); break;
+            case OVERCLOCKED :   setOverclocked(s); break;
+         }
+      }
+   }
+   
    private static Vector<ShieldTableEntry> getStandardTable()
    {
       Vector<ShieldTableEntry> list = new Vector<ShieldTableEntry>();
-      list.add(new ShieldTableEntry(Shield.BaseType.STANDARD, ItemQuality.LOW, 0, 100, 1.0));
-      list.add(new ShieldTableEntry(Shield.BaseType.QUICK_CHARGE, ItemQuality.LOW, 0, 100, 1.0));
-      list.add(new ShieldTableEntry(Shield.BaseType.HEAVY, ItemQuality.LOW, 0, 100, 1.0));
+      list.add(new ShieldTableEntry(Shield.BaseType.STANDARD, ItemQuality.LOW, 0, 5, 4.0));
+      list.add(new ShieldTableEntry(Shield.BaseType.QUICK_CHARGE, ItemQuality.LOW, 1, 5, 3.0));
+      list.add(new ShieldTableEntry(Shield.BaseType.HEAVY, ItemQuality.LOW, 1, 5, 3.0));
       
-      list.add(new ShieldTableEntry(Shield.BaseType.STANDARD, ItemQuality.STANDARD, 0, 100, 1.0));
-      list.add(new ShieldTableEntry(Shield.BaseType.QUICK_CHARGE, ItemQuality.STANDARD, 0, 100, 1.0));
-      list.add(new ShieldTableEntry(Shield.BaseType.HEAVY, ItemQuality.STANDARD, 0, 100, 1.0));
+      list.add(new ShieldTableEntry(Shield.BaseType.STANDARD, ItemQuality.STANDARD, 3, 100, 2.0));
+      list.add(new ShieldTableEntry(Shield.BaseType.QUICK_CHARGE, ItemQuality.STANDARD, 4, 100, 1.5));
+      list.add(new ShieldTableEntry(Shield.BaseType.HEAVY, ItemQuality.STANDARD, 4, 100, 1.5));
+      
+      list.add(new ShieldTableEntry(Shield.BaseType.STANDARD, ItemQuality.HIGH, 7, 100, 1.0));
+      list.add(new ShieldTableEntry(Shield.BaseType.QUICK_CHARGE, ItemQuality.HIGH, 8, 100, .75));
+      list.add(new ShieldTableEntry(Shield.BaseType.HEAVY, ItemQuality.HIGH, 8, 100, .75));
       return list;
    }
    
@@ -109,6 +159,17 @@ public class ShieldFactory implements ItemConstants, GUIConstants, CombatConstan
             return true;
       }
       return false;
+   }
+   
+   private static Vector<TableItemWrapper> getUpgradeTable(Shield s)
+   {
+      Vector<TableItemWrapper> list = new Vector<TableItemWrapper>();
+      list.add(new TableItemWrapper(ShieldUpgrade.HIGH_CAPACITY, 1, 100, 1.0));
+      if(s.getChargeDelay() > Shield.STANDARD_CHARGE_DELAY / 2)
+         list.add(new TableItemWrapper(ShieldUpgrade.REACTIVE, 1, 100, 1.0));
+      if(s.getMaxChargeTurns() > Shield.STANDARD_MAX_CHARGE_TIME / 2)
+         list.add(new TableItemWrapper(ShieldUpgrade.OVERCLOCKED, 1, 100, 1.0));
+      return list;
    }
    
    
