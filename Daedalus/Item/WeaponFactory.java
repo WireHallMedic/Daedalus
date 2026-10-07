@@ -11,25 +11,7 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
 {
    public static Vector<? extends TableItem> standardTable = getStandardTable();
    
-   public static void setLowQuality(Weapon w)
-   {
-      w.setName("Low-Quality " + w.getName());
-      w.setFGColor(LOW_QUALITY_COLOR);
-      Attack a = w.getAttack();
-      Damage base = a.getBaseDamage();
-      Damage random = a.getRandomDamage();
-      for(int i = 0; i < DamageType.values().length; i++)
-      {
-         DamageType type = DamageType.values()[i];
-         if(base.getValue(type) > 0)
-            base.setValue(type, Math.max(1, base.getValue(type) - 2));
-         if(random.getValue(type) > 0)
-            random.setValue(type, Math.max(1, random.getValue(type) - 1));
-      }
-   }
-   
-   // basic weapons
-   
+   // basic weapons   
    public static Weapon getBoltgun()
    {
       Weapon w = new Weapon("Boltgun");
@@ -191,6 +173,23 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
    ////////////////////////////////////////////////////
    
    
+   public static void setLowQuality(Weapon w)
+   {
+      w.setName("Scavenged " + w.getName());
+      w.setFGColor(LOW_QUALITY_COLOR);
+      Attack a = w.getAttack();
+      Damage base = a.getBaseDamage();
+      Damage random = a.getRandomDamage();
+      for(int i = 0; i < DamageType.values().length; i++)
+      {
+         DamageType type = DamageType.values()[i];
+         if(base.getValue(type) > 0)
+            base.setValue(type, Math.max(1, base.getValue(type) - 2));
+         if(random.getValue(type) > 0)
+            random.setValue(type, Math.max(1, random.getValue(type) - 1));
+      }
+   }
+   
    public static void addRandomUpgrade(Weapon w)
    {
       if(w.isMelee())
@@ -308,7 +307,10 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
       if(result.quality == ItemQuality.LOW)
          setLowQuality(w);
       if(result.quality == ItemQuality.HIGH)
+      {
+         w.setFGColor(HIGH_QUALITY_COLOR);
          addRandomUpgrade(w);
+      }
       return w;
    }
    

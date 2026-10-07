@@ -11,17 +11,6 @@ public class ShieldFactory implements ItemConstants, GUIConstants, CombatConstan
 {
    private static Vector<? extends TableItem> standardTable = getStandardTable();
    
-   public static void setLowQuality(Shield s)
-   {
-      s.setName("Low Quality " + s.getName());
-      s.setFGColor(LOW_QUALITY_COLOR);
-      if(s.getMaxDamageCapacity() > (Shield.STANDARD_MAX_DAMAGE_CAPACITY / 2))
-         s.setMaxDamageCapacity(s.getMaxDamageCapacity() - 2);
-      else
-         s.setMaxDamageCapacity(s.getMaxDamageCapacity() - 1);
-      s.fullyCharge();
-   }
-   
    public static Shield getStandardShield()
    {
       Shield s = new Shield("Shield");
@@ -83,6 +72,17 @@ public class ShieldFactory implements ItemConstants, GUIConstants, CombatConstan
       if(result.quality == ItemQuality.LOW)
          setLowQuality(s);
       return s;
+   }
+   
+   public static void setLowQuality(Shield s)
+   {
+      s.setName("Scavenged " + s.getName());
+      s.setFGColor(LOW_QUALITY_COLOR);
+      if(s.getMaxDamageCapacity() > (Shield.STANDARD_MAX_DAMAGE_CAPACITY / 2))
+         s.setMaxDamageCapacity(s.getMaxDamageCapacity() - 2);
+      else
+         s.setMaxDamageCapacity(s.getMaxDamageCapacity() - 1);
+      s.fullyCharge();
    }
    
    private static Vector<ShieldTableEntry> getStandardTable()

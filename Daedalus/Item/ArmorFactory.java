@@ -11,22 +11,6 @@ public class ArmorFactory implements ItemConstants, GUIConstants, CombatConstant
 {
    private static Vector<? extends TableItem> standardTable = getStandardTable();
    
-   public static void setLowQuality(Armor a)
-   {
-      a.setName("Low-Quality " + a.getName());
-      a.setFGColor(LOW_QUALITY_COLOR);
-
-      for(DamageType dType: DamageType.values())
-      {
-         int dmg = a.getDamageProtection(dType);
-         if(dmg > 0)
-         {
-            a.setDamageProtection(dType, Math.max(1, dmg - 1));
-         }
-      }
-      a.setMaxGadgets(Math.max(1, Math.max(1, a.getMaxGadgets() - 1)));
-   }
-   
    // basic types
    //////////////////////////////////////
    
@@ -62,6 +46,40 @@ public class ArmorFactory implements ItemConstants, GUIConstants, CombatConstant
       return a;
    }
    
+   public static void setLowQuality(Armor a)
+   {
+      a.setName("Scavenged " + a.getName());
+      a.setFGColor(LOW_QUALITY_COLOR);
+
+      for(DamageType dType: DamageType.values())
+      {
+         int dmg = a.getDamageProtection(dType);
+         if(dmg > 0)
+         {
+            a.setDamageProtection(dType, Math.max(1, dmg - 1));
+         }
+      }
+      a.setMaxGadgets(Math.max(1, Math.max(1, a.getMaxGadgets() - 1)));
+   }
+   
+   public static void setInsulated(Armor a)
+   {
+      a.setName("Insulated " + a.getName());
+
+      a.setDamageProtection(DamageType.FIRE, a.getDamageProtection(DamageType.FIRE) + 2);
+      a.setDamageProtection(DamageType.CRYO, a.getDamageProtection(DamageType.CRYO) + 2);
+      a.setDamageProtection(DamageType.CORROSION, a.getDamageProtection(DamageType.CORROSION) + 2);
+      a.setDamageProtection(DamageType.ELECTRIC, a.getDamageProtection(DamageType.ELECTRIC) + 2);
+   }
+
+   public static void setReinforced(Armor a)
+   {
+      a.setName("Reinforced " + a.getName());
+
+      a.setDamageProtection(DamageType.CONCUSSION, a.getDamageProtection(DamageType.CONCUSSION) + 2);
+      a.setDamageProtection(DamageType.PIERCE, a.getDamageProtection(DamageType.PIERCE) + 2);
+   }
+   
    public static Armor getByBaseType(Armor.BaseType baseType)
    {
       switch(baseType)
@@ -81,24 +99,38 @@ public class ArmorFactory implements ItemConstants, GUIConstants, CombatConstant
       Armor a = getByBaseType(result.type);
       if(result.quality == ItemQuality.LOW)
          setLowQuality(a);
+      if(result.quality == ItemQuality.HIGH)
+      {
+         switch(RNG.nextInt(2))
+         {
+            case 0:  setInsulated(a); break;
+            case 1:  setReinforced(a); break;
+         }
+         a.setFGColor(HIGH_QUALITY_COLOR);
+      }
       return a;
    }
    
    private static Vector<ArmorTableEntry> getStandardTable()
    {
       Vector<ArmorTableEntry> list = new Vector<ArmorTableEntry>();
-      list.add(new ArmorTableEntry(Armor.BaseType.UTILITY_HARNESS, ItemQuality.LOW, 0, 5, 2.0));
+      list.add(new ArmorTableEntry(Armor.BaseType.UTILITY_HARNESS, ItemQuality.LOW, 0, 5, 4.0));
       
-      list.add(new ArmorTableEntry(Armor.BaseType.SCOUT, ItemQuality.LOW, 2, 100, 1.0));
-      list.add(new ArmorTableEntry(Armor.BaseType.STANDARD, ItemQuality.LOW, 2, 100, 1.0));
+      list.add(new ArmorTableEntry(Armor.BaseType.SCOUT, ItemQuality.LOW, 2, 100, 2.0));
+      list.add(new ArmorTableEntry(Armor.BaseType.STANDARD, ItemQuality.LOW, 2, 100, 2.0));
       
-      list.add(new ArmorTableEntry(Armor.BaseType.UTILITY_HARNESS, ItemQuality.STANDARD, 3, 10, 0.5));
+      list.add(new ArmorTableEntry(Armor.BaseType.UTILITY_HARNESS, ItemQuality.STANDARD, 3, 10, 1.0));
       
-      list.add(new ArmorTableEntry(Armor.BaseType.SCOUT, ItemQuality.STANDARD, 5, 100, 0.5));
-      list.add(new ArmorTableEntry(Armor.BaseType.STANDARD, ItemQuality.STANDARD, 5, 100, 0.5));
-      list.add(new ArmorTableEntry(Armor.BaseType.ASSAULT, ItemQuality.LOW, 5, 10, 0.5));
+      list.add(new ArmorTableEntry(Armor.BaseType.SCOUT, ItemQuality.STANDARD, 5, 100, 1.0));
+      list.add(new ArmorTableEntry(Armor.BaseType.STANDARD, ItemQuality.STANDARD, 5, 100, 1.0));
+      list.add(new ArmorTableEntry(Armor.BaseType.ASSAULT, ItemQuality.LOW, 5, 10, 1.0));
       
-      list.add(new ArmorTableEntry(Armor.BaseType.ASSAULT, ItemQuality.STANDARD, 9, 100, .25));
+      list.add(new ArmorTableEntry(Armor.BaseType.ASSAULT, ItemQuality.STANDARD, 9, 100, 0.5));
+      
+      list.add(new ArmorTableEntry(Armor.BaseType.SCOUT, ItemQuality.HIGH, 8, 100, 0.25));
+      list.add(new ArmorTableEntry(Armor.BaseType.STANDARD, ItemQuality.HIGH, 8, 100, 0.25));
+      
+      list.add(new ArmorTableEntry(Armor.BaseType.ASSAULT, ItemQuality.HIGH, 10, 10, 0.25));
       
       
       return list;

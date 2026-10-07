@@ -11,6 +11,9 @@ public interface ItemConstants
    public static final int DEFAULT_RANDOM_SHOT_DAMAGE = 2;
    
    public static final int LOW_QUALITY_COLOR = GUIConstants.LIGHT_GREY;
+   public static final int HIGH_QUALITY_COLOR = GUIConstants.CYAN;
+   public static final int RARE_QUALITY_COLOR = GUIConstants.ORANGE;
+   public static final int UNIQUE_QUALITY_COLOR = GUIConstants.PURPLE;
    
    
    public enum ItemBase
