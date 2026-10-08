@@ -19,6 +19,7 @@ public class StatusEffectFactory implements AbilityConstants
    public static StatusEffect getHasted()
    {
       StatusEffect se = new StatusEffect("Hasted");
+      se.setMaxDuration(8);
 	   se.getStatBlock().setMoveSpeed(ActorConstants.ActionSpeed.FAST);
 	   se.getStatBlock().setAttackSpeed(ActorConstants.ActionSpeed.FAST);
 	   se.getStatBlock().setInteractSpeed(ActorConstants.ActionSpeed.FAST);
@@ -30,6 +31,7 @@ public class StatusEffectFactory implements AbilityConstants
    public static StatusEffect getSlowed()
    {
       StatusEffect se = new StatusEffect("Slowed");
+      se.setMaxDuration(8);
 	   se.getStatBlock().setMoveSpeed(ActorConstants.ActionSpeed.SLOW);
 	   se.getStatBlock().setAttackSpeed(ActorConstants.ActionSpeed.SLOW);
 	   se.getStatBlock().setInteractSpeed(ActorConstants.ActionSpeed.SLOW);

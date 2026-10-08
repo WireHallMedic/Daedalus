@@ -21,7 +21,8 @@ public class ConsumableFactory implements ItemConstants, GUIConstants, CombatCon
          case LOW:      a.setStatusEffect(StatusEffectFactory.getHealing(1)); 
                         c.setName("Small " + c.getName());
                         break;
-         case STANDARD: a.setStatusEffect(StatusEffectFactory.getHealing(2)); break;
+         case STANDARD: a.setStatusEffect(StatusEffectFactory.getHealing(2)); 
+                        break;
          case HIGH:     a.setStatusEffect(StatusEffectFactory.getHealing(4));
                         c.setName("Large " + c.getName());
                         break;
@@ -41,7 +42,8 @@ public class ConsumableFactory implements ItemConstants, GUIConstants, CombatCon
          case ItemQuality.LOW:      a = AttackFactory.getWeakExplosion(); 
                                     c.setName("Light " + c.getName());
                                     break;
-         case ItemQuality.STANDARD: a = AttackFactory.getStandardExplosion(); break; 
+         case ItemQuality.STANDARD: a = AttackFactory.getStandardExplosion();
+                                    break; 
          case ItemQuality.HIGH:     a = AttackFactory.getStrongExplosion();
                                     c.setName("Heavy " + c.getName());
                                     break;
@@ -61,9 +63,9 @@ public class ConsumableFactory implements ItemConstants, GUIConstants, CombatCon
       a.setSpecialEffect(SpecialEffect.SMOKE);
       switch(quality)
       {
-         case ItemQuality.LOW:      a.setSpecialEffectIntensity(10); 
+         case ItemQuality.STANDARD: a.setSpecialEffectIntensity(10); 
                                     break;
-         case ItemQuality.STANDARD: a.setSpecialEffectIntensity(16);  
+         case ItemQuality.HIGH:     a.setSpecialEffectIntensity(16);  
                                     c.setName("Heavy " + c.getName());
                                     break;
       }
@@ -120,7 +122,20 @@ public class ConsumableFactory implements ItemConstants, GUIConstants, CombatCon
    {
       Consumable c = new Consumable("Stims");
       Ability a = getSelfTargetingAbility("Stims");
-      a.setStatusEffect(StatusEffectFactory.getHasted());
+      int baseDuration = 8;
+      StatusEffect se = StatusEffectFactory.getHasted();
+      switch(quality)
+      {
+         case ItemQuality.LOW:      se.setMaxDuration(baseDuration);
+                                    c.setName("Light " + c.getName());
+                                    break;
+         case ItemQuality.STANDARD: se.setMaxDuration(baseDuration * 2);
+                                    break; 
+         case ItemQuality.HIGH:     se.setMaxDuration(baseDuration * 3); 
+                                    c.setName("Heavy " + c.getName());
+                                    break;
+      }
+      a.setStatusEffect(se);
       c.setAbility(a);
       return c;
    }
@@ -140,6 +155,7 @@ public class ConsumableFactory implements ItemConstants, GUIConstants, CombatCon
       {
          case MED_PATCH:      return getMedPatch();
          case SMOKE_GRENADE:  return getSmokeGrenade();
+         case CAUSTIC_SMOKE_GRENADE:  return getCausticSmokeGrenade();
          case GRENADE:        return getGrenade();
          case DECOY:          return getDecoy();
          case STIMS:          return getStims();
@@ -156,35 +172,69 @@ public class ConsumableFactory implements ItemConstants, GUIConstants, CombatCon
    }
    
    
-   public static Vector<TableItemWrapper> getStandardTable()
+   public static Vector<ConsumableTableEntry> getStandardTable()
    {
-      Vector<TableItemWrapper> list = new Vector<TableItemWrapper>();
-      list.add(new TableItemWrapper(Consumable.BaseType.GRENADE, 0, 100, 1.5));
-      list.add(new TableItemWrapper(Consumable.BaseType.SMOKE_GRENADE, 0, 100, 1.0));
-      list.add(new TableItemWrapper(Consumable.BaseType.DECOY, 0, 100, 1.0));
-      list.add(new TableItemWrapper(Consumable.BaseType.STIMS, 0, 100, 1.0));
+      Vector<ConsumableTableEntry> list = new Vector<ConsumableTableEntry>();
+      list.add(new ConsumableTableEntry(Consumable.BaseType.MED_PATCH, ItemQuality.LOW, 0, 6, 1.5));
+      list.add(new ConsumableTableEntry(Consumable.BaseType.GRENADE, ItemQuality.LOW, 0, 6, 1.5));
+      list.add(new ConsumableTableEntry(Consumable.BaseType.SMOKE_GRENADE, ItemQuality.LOW, 0, 6, 1.0));
+      list.add(new ConsumableTableEntry(Consumable.BaseType.DECOY, ItemQuality.LOW, 3, 10, 1.0));
+      list.add(new ConsumableTableEntry(Consumable.BaseType.STIMS, ItemQuality.LOW, 3, 10, 1.0));
+      // no low-quality caustic grenades
       
-      // med patches are half the table
-      double sum = 0.0;
-      for(TableItemWrapper tiw: list)
-      {
-         sum += tiw.getWeight();
-      }
-      list.add(new TableItemWrapper(Consumable.BaseType.MED_PATCH, 0, 100, sum));
+      list.add(new ConsumableTableEntry(Consumable.BaseType.MED_PATCH, ItemQuality.STANDARD, 4, 10, 1.5));
+      list.add(new ConsumableTableEntry(Consumable.BaseType.GRENADE, ItemQuality.STANDARD, 4, 10, 1.5));
+      list.add(new ConsumableTableEntry(Consumable.BaseType.SMOKE_GRENADE, ItemQuality.STANDARD, 4, 10, 1.0));
+      list.add(new ConsumableTableEntry(Consumable.BaseType.CAUSTIC_SMOKE_GRENADE, ItemQuality.STANDARD, 8, 14, 1.0));
+      list.add(new ConsumableTableEntry(Consumable.BaseType.DECOY, ItemQuality.STANDARD, 8, 14, 1.0));
+      list.add(new ConsumableTableEntry(Consumable.BaseType.STIMS, ItemQuality.STANDARD, 8, 14, 1.0));
+      
+      list.add(new ConsumableTableEntry(Consumable.BaseType.MED_PATCH, ItemQuality.HIGH, 8, 100, 1.5));
+      list.add(new ConsumableTableEntry(Consumable.BaseType.GRENADE, ItemQuality.HIGH, 8, 100, 1.5));
+      list.add(new ConsumableTableEntry(Consumable.BaseType.SMOKE_GRENADE, ItemQuality.HIGH, 8, 100, 1.0));
+      list.add(new ConsumableTableEntry(Consumable.BaseType.CAUSTIC_SMOKE_GRENADE, ItemQuality.HIGH, 12, 100, 1.0));
+      list.add(new ConsumableTableEntry(Consumable.BaseType.DECOY, ItemQuality.HIGH, 12, 100, 1.0));
+      list.add(new ConsumableTableEntry(Consumable.BaseType.STIMS, ItemQuality.HIGH, 12, 100, 1.0));
       return list;
    }
-   
    
    // function for automated test
    public static boolean standardTableContains(Consumable.BaseType type)
    {
       for(int i = 0; i < standardTable.size(); i++)
       {
-         TableItemWrapper element = (TableItemWrapper)standardTable.elementAt(i);
-         if(element.getObject() == type)
+         ConsumableTableEntry element = (ConsumableTableEntry)standardTable.elementAt(i);
+         if(element.type== type)
             return true;
       }
       return false;
+   }
+   
+   private static class ConsumableTableEntry implements TableItem
+   {
+      public Consumable.BaseType type;
+      public ItemQuality quality;
+      private int minLevel;
+   	private int maxLevel;
+   	private int weight;
+      
+      public int getMinLevel(){return minLevel;}
+   	public int getMaxLevel(){return maxLevel;}
+   	public int getWeight(){return weight;}
+   
+   
+   	public void setMinLevel(int m){minLevel = m;}
+   	public void setMaxLevel(int m){maxLevel = m;}
+   	public void setWeight(int w){weight = w;}
+      
+      public ConsumableTableEntry(Consumable.BaseType t, ItemQuality iq, int min, int max, double weightMultiplier)
+      {
+         type = t;
+         quality = iq;
+         minLevel = min;
+         maxLevel = max;
+         weight = (int)(BASE_WEIGHT * weightMultiplier);
+      }
    }
 
 }

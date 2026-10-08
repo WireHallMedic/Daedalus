@@ -11,6 +11,7 @@ public class Consumable extends Item implements ItemConstants, GUIConstants
       MED_PATCH,
       STIMS,
       SMOKE_GRENADE,
+      CAUSTIC_SMOKE_GRENADE,
       GRENADE,
       DECOY;
    }
