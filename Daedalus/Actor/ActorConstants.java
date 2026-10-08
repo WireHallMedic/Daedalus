@@ -51,5 +51,10 @@ public interface ActorConstants
       DRONE,
       BANDIT;
    }
+   
+   public enum DeathEffect
+   {
+      EXPLOSION;
+   }
 
 }

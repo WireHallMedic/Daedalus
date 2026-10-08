@@ -32,6 +32,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    private ActorPack pack;
    private Vector<StatusEffect> statusEffectList;
    private int threat;
+   private DeathEffect deathEffect;
 
 
 	public AI getAI(){return ai;}
@@ -52,6 +53,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    public boolean hasPack(){return pack != null;}
    public Vector<StatusEffect> getStatusEffectList(){return statusEffectList;}
    public int getThreat(){return threat;}
+   public DeathEffect getDeathEffect(){return deathEffect;}
 
 
 	public void setAI(AI a){ai = a;}
@@ -69,6 +71,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
    public void setCurMap(ZoneMap map){curMap = map;}
    public void setStatusEffectList(Vector<StatusEffect> list){statusEffectList = list;}
    public void setThreat(int t){threat = t;}
+   public void setDeathEffect(DeathEffect de){deathEffect = de;}
 
    
    public Actor()
@@ -101,6 +104,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
       
       statusEffectList = new Vector<StatusEffect>();
       setCurStats();
+      deathEffect = null;
       
       threat = 0;
       
@@ -376,6 +380,16 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
          dropAllItems();
       if(hasPack())
          pack.removeMember(this);
+      if(deathEffect != null)
+      {
+         switch(deathEffect)
+         {
+            case EXPLOSION :  Attack attack = AttackFactory.getStandardExplosion();
+                              attack.setTargetingType(AbilityConstants.TargetingType.RING);
+                              CombatManager.resolveAbility(this, attack, getTileLoc());
+                              break;
+         }
+      }
       Game.getCurMap().dropCorpse(new Corpse(this), this.getTileLoc());
    }
    

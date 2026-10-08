@@ -12,7 +12,7 @@ public interface ItemConstants
    
    public static final int LOW_QUALITY_COLOR = GUIConstants.LIGHT_GREY;
    public static final int HIGH_QUALITY_COLOR = GUIConstants.CYAN;
-   public static final int RARE_QUALITY_COLOR = GUIConstants.ORANGE;
+   public static final int SUPERIOR_QUALITY_COLOR = GUIConstants.ORANGE;
    public static final int UNIQUE_QUALITY_COLOR = GUIConstants.PURPLE;
    
    

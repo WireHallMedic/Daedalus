@@ -31,6 +31,7 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
       return damageDealt;
    }
    
+   // primary exposed method
    public static void resolveAbility(Actor attacker, Ability ability, Coord targetLoc, int rateOfFire)
    {
       Attack attack = null;

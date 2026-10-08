@@ -12,51 +12,94 @@ public class ConsumableFactory implements ItemConstants, GUIConstants, CombatCon
    public static Vector<? extends TableItem> standardTable = getStandardTable();
    
    
-   public static Consumable getMedPatch()
+   public static Consumable getMedPatch(ItemQuality quality)
    {
       Consumable c = new Consumable("Med-Patch");
       Ability a = getSelfTargetingAbility("Med-Patch");
-      a.setStatusEffect(StatusEffectFactory.getHealing());
+      switch(quality)
+      {
+         case LOW:      a.setStatusEffect(StatusEffectFactory.getHealing(1)); 
+                        c.setName("Small " + c.getName());
+                        break;
+         case STANDARD: a.setStatusEffect(StatusEffectFactory.getHealing(2)); break;
+         case HIGH:     a.setStatusEffect(StatusEffectFactory.getHealing(4));
+                        c.setName("Large " + c.getName());
+                        break;
+      }
       c.setAbility(a);
       return c;
    }
+   public static Consumable getMedPatch(){return getMedPatch(ItemQuality.STANDARD);}
    
-   public static Consumable getGrenade()
+   
+   public static Consumable getGrenade(ItemQuality quality)
    {
       Consumable c = new Consumable("Grenade");
       Attack a = new Attack("Grenade");
-      a.setBaseDamage(new Damage(DamageType.CONCUSSION, DEFAULT_BASE_SHOT_DAMAGE * 3));
-      a.setRandomDamage(new Damage(DamageType.CONCUSSION, DEFAULT_RANDOM_SHOT_DAMAGE * 2));
-      a.setTargetingType(AbilityConstants.TargetingType.BLAST);
+      switch(quality)
+      {
+         case ItemQuality.LOW:      a = AttackFactory.getWeakExplosion(); 
+                                    c.setName("Light " + c.getName());
+                                    break;
+         case ItemQuality.STANDARD: a = AttackFactory.getStandardExplosion(); break; 
+         case ItemQuality.HIGH:     a = AttackFactory.getStrongExplosion();
+                                    c.setName("Heavy " + c.getName());
+                                    break;
+      }
       a.setRange(5);
-      a.setHitVerb("blasts");
-      a.setImpactEffect(AbilityConstants.ImpactEffect.EXPLOSION);
-      a.setHeavy(true);
       c.setAbility(a);
       return c;
    }
+   public static Consumable getGrenade(){return getGrenade(ItemQuality.STANDARD);}
    
-   public static Consumable getSmokeGrenade()
+   
+   public static Consumable getSmokeGrenade(ItemQuality quality)
    {
       Consumable c = new Consumable("Smoke Grenade");
       Ability a = new Ability("Smoke");
       a.setRange(5);
       a.setSpecialEffect(SpecialEffect.SMOKE);
+      switch(quality)
+      {
+         case ItemQuality.LOW:      a.setSpecialEffectIntensity(8); 
+                                    c.setName("Light " + c.getName());
+                                    break;
+         case ItemQuality.STANDARD: a.setSpecialEffectIntensity(12);  
+                                    break; 
+         case ItemQuality.HIGH:     a.setSpecialEffectIntensity(16); 
+                                    c.setName("Heavy " + c.getName());
+                                    break;
+      }
       c.setAbility(a);
       return c;
    }
+   public static Consumable getSmokeGrenade(){return getSmokeGrenade(ItemQuality.STANDARD);}
    
-   public static Consumable getDecoy()
+   
+   public static Consumable getDecoy(ItemQuality quality)
    {
       Consumable c = new Consumable("Holo-Decoy");
       Ability a = new Ability("Decoy");
       a.setRange(5);
       a.setSpecialEffect(SpecialEffect.DECOY);
+      switch(quality)
+      {
+         case ItemQuality.LOW:      a.setSpecialEffectIntensity(1); 
+                                    break;
+         case ItemQuality.STANDARD: a.setSpecialEffectIntensity(2); 
+                                    c.setName("Sturdy " + c.getName()); 
+                                    break; 
+         case ItemQuality.HIGH:     a.setSpecialEffectIntensity(3); 
+                                    c.setName("Exploding " + c.getName());
+                                    break;
+      }
       c.setAbility(a);
       return c;
    }
+   public static Consumable getDecoy(){return getDecoy(ItemQuality.STANDARD);}
    
-   public static Consumable getStims()
+   
+   public static Consumable getStims(ItemQuality quality)
    {
       Consumable c = new Consumable("Stims");
       Ability a = getSelfTargetingAbility("Stims");
@@ -64,6 +107,8 @@ public class ConsumableFactory implements ItemConstants, GUIConstants, CombatCon
       c.setAbility(a);
       return c;
    }
+   public static Consumable getStims(){return getStims(ItemQuality.STANDARD);}
+   
    
    private static Ability getSelfTargetingAbility(String name)
    {

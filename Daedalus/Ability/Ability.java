@@ -16,6 +16,7 @@ public class Ability implements AbilityConstants
    private StatusEffect statusEffect;
    private ImpactEffect impactEffect;
    private SpecialEffect specialEffect;
+   private int specialEffectIntensity;
 
 
 	public String getName(){return name;}
@@ -26,6 +27,7 @@ public class Ability implements AbilityConstants
    public StatusEffect getStatusEffect(){return statusEffect;}
    public ImpactEffect getImpactEffect(){return impactEffect;}
    public SpecialEffect getSpecialEffect(){return specialEffect;}
+   public int getSpecialEffectIntensity(){return specialEffectIntensity;}
 
 
 	public void setName(String n){name = n;}
@@ -36,6 +38,7 @@ public class Ability implements AbilityConstants
    public void setStatusEffect(StatusEffect se){statusEffect = se.copy();}
    public void setImpactEffect(ImpactEffect ie){impactEffect = ie;}
    public void setSpecialEffect(SpecialEffect se){specialEffect = se;}
+   public void setSpecialEffectIntensity(int sei){specialEffectIntensity = sei;}
 
    public Ability(String n)
    {
@@ -47,6 +50,7 @@ public class Ability implements AbilityConstants
       impactEffect = null;
       specialEffect = null;
       procChance = 1.0;
+      specialEffectIntensity = 1;
    }
    
    public Vector<String> getDescriptionList()
@@ -87,7 +91,7 @@ public class Ability implements AbilityConstants
       }
       else if(targetingType == TargetingType.RING)
       {
-         for(Coord c: EngineTools.getAffectedRing(origin, getRange()))
+         for(Coord c: EngineTools.getAffectedRing(origin, 1))
             tileList.add(c);
       }
       else if(targetingType == TargetingType.CONE)
@@ -113,16 +117,27 @@ public class Ability implements AbilityConstants
          // single tiles are targeted 9-15 times, multiple tiles are targeted once each
          if(targetList.size() == 1)
          {
-            int reps = 8 + RNG.nextInt(7);
+            int reps = specialEffectIntensity + RNG.nextInt(7);
             for(int i = 0; i < reps; i++)
                targetList.add(targetList.elementAt(0));
          }
          for(Coord loc: targetList)
-            Game.getCurMap().dropSmoke(12 + RNG.nextInt(13), loc);
+            Game.getCurMap().dropSmoke(specialEffectIntensity + RNG.nextInt(13), loc);
       }
       if(specialEffect == SpecialEffect.DECOY)
       {
          Actor decoy = ActorFactory.getDecoy();
+         switch(specialEffectIntensity)
+         {
+            case 1:  break;
+            case 2:  decoy.getBaseStats().setMaxHealth(decoy.getBaseStats().getMaxHealth() * 2); 
+                     decoy.fullHeal();
+                     break;
+            case 3:  decoy.getBaseStats().setMaxHealth(decoy.getBaseStats().getMaxHealth() * 2); 
+                     decoy.fullHeal();
+                     decoy.setDeathEffect(ActorConstants.DeathEffect.EXPLOSION);
+                     break;
+         }
          Coord loc = Game.getCurMap().getActorDropLocation(targetList.elementAt(0), Game.getActorList());
          decoy.setTileLoc(loc);
          Game.addActor(decoy);
