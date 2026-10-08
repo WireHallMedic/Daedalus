@@ -696,7 +696,6 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    {
       if(isInBounds(x, y))
       {
-         corpseMap[x][y] = null;
          if(tileMap[x][y].getDurability() == Durability.FRAGILE ||
             (heavyAttack && tileMap[x][y].getDurability() == Durability.STANDARD))
          {
