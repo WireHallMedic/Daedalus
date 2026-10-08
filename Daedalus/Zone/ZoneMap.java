@@ -676,6 +676,14 @@ public class ZoneMap implements ZoneConstants, GUIConstants
          smokeMap[x][y].increment();
          if(smokeMap[x][y].isExpired())
             smokeMap[x][y] = null;
+         else
+         {  // damaging smoke
+            if(smokeMap[x][y].hasDamage() && Game.isActorAt(x, y))
+            {
+               Game.getActorAt(x, y).applyDamage(smokeMap[x][y].getDamage());
+               AnimationScriptFactory.addGroundFlash(x, y);
+            }
+         }
          updateSubmaps(x, y);
       }
    }

@@ -282,6 +282,7 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
       {
          Damage d = new Damage(CombatConstants.DamageType.FIRE, getBurning());
          applyDamage(d);
+         AnimationScriptFactory.addGroundFlash(getTileLoc());
       }
    }
    

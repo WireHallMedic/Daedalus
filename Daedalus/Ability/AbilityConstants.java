@@ -54,6 +54,7 @@ public interface AbilityConstants
    {
       ARC,
       SMOKE,
+      CAUSTIC_SMOKE,
       TELEPORT,
       DECOY;
    }

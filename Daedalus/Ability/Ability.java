@@ -112,7 +112,7 @@ public class Ability implements AbilityConstants
       Vector<Coord> targetList = getAffectedTiles(origin, target);
       if(targetList.size() == 0)
          return;
-      if(specialEffect == SpecialEffect.SMOKE)
+      if(specialEffect == SpecialEffect.SMOKE || specialEffect == SpecialEffect.CAUSTIC_SMOKE)
       {
          // single tiles are targeted 9-15 times, multiple tiles are targeted once each
          if(targetList.size() == 1)
@@ -121,8 +121,15 @@ public class Ability implements AbilityConstants
             for(int i = 0; i < reps; i++)
                targetList.add(targetList.elementAt(0));
          }
+         Smoke s = null;
          for(Coord loc: targetList)
-            Game.getCurMap().dropSmoke(specialEffectIntensity + RNG.nextInt(13), loc);
+         {
+            if(specialEffect == SpecialEffect.SMOKE)
+               s = new Smoke(specialEffectIntensity + RNG.nextInt(13));
+            else if(specialEffect == SpecialEffect.CAUSTIC_SMOKE)
+               s = Smoke.getCausticSmoke(specialEffectIntensity + RNG.nextInt(13));
+            Game.getCurMap().dropSmoke(s, loc);
+         }
       }
       if(specialEffect == SpecialEffect.DECOY)
       {

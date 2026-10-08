@@ -61,12 +61,9 @@ public class ConsumableFactory implements ItemConstants, GUIConstants, CombatCon
       a.setSpecialEffect(SpecialEffect.SMOKE);
       switch(quality)
       {
-         case ItemQuality.LOW:      a.setSpecialEffectIntensity(8); 
-                                    c.setName("Light " + c.getName());
+         case ItemQuality.LOW:      a.setSpecialEffectIntensity(10); 
                                     break;
-         case ItemQuality.STANDARD: a.setSpecialEffectIntensity(12);  
-                                    break; 
-         case ItemQuality.HIGH:     a.setSpecialEffectIntensity(16); 
+         case ItemQuality.STANDARD: a.setSpecialEffectIntensity(16);  
                                     c.setName("Heavy " + c.getName());
                                     break;
       }
@@ -74,6 +71,26 @@ public class ConsumableFactory implements ItemConstants, GUIConstants, CombatCon
       return c;
    }
    public static Consumable getSmokeGrenade(){return getSmokeGrenade(ItemQuality.STANDARD);}
+   
+   
+   public static Consumable getCausticSmokeGrenade(ItemQuality quality)
+   {
+      Consumable c = new Consumable("Caustic Smoke Grenade");
+      Ability a = new Ability("Smoke");
+      a.setRange(5);
+      a.setSpecialEffect(SpecialEffect.CAUSTIC_SMOKE);
+      switch(quality)
+      {
+         case ItemQuality.STANDARD: a.setSpecialEffectIntensity(10); 
+                                    break;
+         case ItemQuality.HIGH:     a.setSpecialEffectIntensity(16);  
+                                    c.setName("Heavy " + c.getName());
+                                    break;
+      }
+      c.setAbility(a);
+      return c;
+   }
+   public static Consumable getCausticSmokeGrenade(){return getCausticSmokeGrenade(ItemQuality.STANDARD);}
    
    
    public static Consumable getDecoy(ItemQuality quality)

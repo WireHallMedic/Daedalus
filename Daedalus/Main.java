@@ -20,7 +20,7 @@ public class Main
       Vector<Zone> zoneList = RegionBuilder.buildTestRegion();
       
       Actor a = ActorFactory.getPlayer();
-      a.addToInventory(ConsumableFactory.getGrenade());
+      a.addToInventory(ConsumableFactory.getCausticSmokeGrenade());
       a.addToInventory(ConsumableFactory.getGrenade());
       a.addToInventory(ConsumableFactory.getGrenade());
       a.addToInventory(ConsumableFactory.getStims());
