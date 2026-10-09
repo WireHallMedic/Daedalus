@@ -10,6 +10,7 @@ public class ZoneTile extends ImageTile implements ZoneConstants, GUIConstants
 	protected boolean transparent;
    protected int decorationType;
    protected Durability durability;
+   protected boolean liquid;
 
 
 	public boolean isLowPassable(){return lowPassable;}
@@ -17,6 +18,7 @@ public class ZoneTile extends ImageTile implements ZoneConstants, GUIConstants
 	public boolean isTransparent(){return transparent;}
    public int getDecorationType(){return decorationType;}
    public Durability getDurability(){return durability;}
+   public boolean isLiquid(){return liquid;}
 
 
 	public void setLowPassable(boolean l){lowPassable = l;}
@@ -24,6 +26,7 @@ public class ZoneTile extends ImageTile implements ZoneConstants, GUIConstants
 	public void setTransparent(boolean t){transparent = t;}
    public void setDecorationType(int d){decorationType = d;}
    public void setDurability(Durability d){durability = d;}
+   public void setLiquid(boolean l){liquid = l;}
 
    public ZoneTile(TileBase base)
    {
@@ -41,6 +44,7 @@ public class ZoneTile extends ImageTile implements ZoneConstants, GUIConstants
       this.decorationType = that.decorationType;
       this.name = that.name;
       this.durability = that.durability;
+      this.liquid = that.liquid;
    }
    
    public ZoneTile copy()
@@ -85,6 +89,12 @@ public class ZoneTile extends ImageTile implements ZoneConstants, GUIConstants
          case TERMINAL: 
          case EXIT:        setDurability(Durability.UNBREAKABLE); break;
          default :         durability = Durability.STANDARD; break;
+      }
+      switch(base)
+      {
+         case DEEP_LIQUID: 
+         case SHALLOW_LIQUID: setLiquid(true); break;
+         default:             setLiquid(false); break;
       }
 
    }
