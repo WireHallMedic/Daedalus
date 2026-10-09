@@ -26,6 +26,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
 	private BufferedImage[][] exploredMap;
 	private Corpse[][] corpseMap;
 	private Smoke[][] smokeMap;
+	private Fire[][] fireMap;
    private Vector<Coord> exitList;
    private static final BufferedImage BLACK_SQUARE = SQUARE_PALETTE.getTile(' ');
    private int maxThreat;
@@ -44,6 +45,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    public boolean[][] getVisibilityMap(){return visibilityMap;}
    public BufferedImage[][] getLastSeenMap(){return lastSeenMap;}
    public Smoke[][] getSmokeMap(){return smokeMap;}
+   public Fire[][] getFireMap(){return fireMap;}
    public int getMaxThreat(){return maxThreat;}
    public int getMinThreat(){return minThreat;}
    public int getLevel(){return level;}
@@ -77,6 +79,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
       exploredMap = new BufferedImage[width][height];
       corpseMap = new Corpse[width][height];
       smokeMap = new Smoke[width][height];
+      fireMap = new Fire[width][height];
       for(int x = 0; x < width; x++)
       for(int y = 0; y < height; y++)
       {
@@ -84,6 +87,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
          itemMap[x][y] = null;
          corpseMap[x][y] = null;
          smokeMap[x][y] = null;
+         fireMap[x][y] = null;
          visibilityMap[x][y] = false;
          lastSeenMap[x][y] = BLACK_SQUARE;
          exploredMap[x][y] = BLACK_SQUARE;
@@ -189,6 +193,8 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    {
       if(!isInBounds(x, y))
          return oobTile.getTileIndex();
+      if(isFireAt(x, y))
+         return fireMap[x][y].getTileIndex();
       if(isItemAt(x, y))
          return itemMap[x][y].getTileIndex();
       if(isCorpseAt(x, y))
@@ -202,6 +208,8 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    {
       if(!isInBounds(x, y))
          return oobTile.getFGColor();
+      if(isFireAt(x, y))
+         return fireMap[x][y].getFGColor();
       if(isItemAt(x, y))
          return itemMap[x][y].getFGColor();
       if(isCorpseAt(x, y))
@@ -591,6 +599,74 @@ public class ZoneMap implements ZoneConstants, GUIConstants
       return null;
    }
    public Coord getCorpseDropLocation(Coord origin){return getCorpseDropLocation(origin.x, origin.y);}
+   
+   
+   
+   // fire stuff
+   ///////////////////////////////////////
+   
+   
+   public boolean isValidLocationForFire(int x, int y)
+   {
+      return isInBounds(x, y) && 
+             tileMap[x][y].isLowPassable() &&
+             !(tileMap[x][y].isLiquid()) &&
+             !(tileMap[x][y] instanceof Exit);
+   }
+   public boolean isValidLocationForFire(Coord c){return isValidLocationForFire(c.x, c.y);}
+   
+   
+   public boolean isFireAt(int x, int y)
+   {
+      return isInBounds(x, y) && fireMap[x][y] != null;
+   }
+   public boolean isFireAt(Coord c){return isFireAt(c.x, c.y);}
+   
+   
+   public Fire getFireAt(int x, int y)
+   {
+      return fireMap[x][y];
+   }
+   public Fire getFireAt(Coord c){return getFireAt(c.x, c.y);}
+   
+   
+   public void setFireAt(Fire fire, int x, int y)
+   {
+      // new fire only overrides old one if it will last longer
+      if(isFireAt(x, y) && fire.getIntensity() > fireMap[x][y].getIntensity())
+         fireMap[x][y] = fire;
+      else
+         fireMap[x][y] = fire;
+   }
+   public void setFireAt(Fire fire, Coord c){setFireAt(fire, c.x, c.y);}
+   
+   
+   private void incrementFire(int x, int y)
+   {
+      if(fireMap[x][y] != null)
+      {
+         fireMap[x][y].increment();
+         if(fireMap[x][y].isExpired())
+            fireMap[x][y] = null;
+
+         if(Game.isActorAt(x, y))
+         {
+            Game.getActorAt(x, y).applyDamage(fireMap[x][y].getDamage());
+            AnimationScriptFactory.addGroundFlash(x, y);
+         }
+         updateSubmaps(x, y);
+      }
+   }
+   
+   public void incrementFire()
+   {
+      for(int x = 0; x < width; x++)
+      for(int y = 0; y < height; y++)
+      {
+         incrementFire(x, y);
+      }
+   }
+   
    
    
    // smoke

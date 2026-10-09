@@ -149,24 +149,25 @@ public class ConsumableFactory implements ItemConstants, GUIConstants, CombatCon
       return a;
    }
    
-   public static Consumable getByBaseType(Consumable.BaseType baseType)
+   public static Consumable getByBaseType(Consumable.BaseType baseType, ItemQuality quality)
    {
       switch(baseType)
       {
-         case MED_PATCH:      return getMedPatch();
-         case SMOKE_GRENADE:  return getSmokeGrenade();
-         case CAUSTIC_SMOKE_GRENADE:  return getCausticSmokeGrenade();
-         case GRENADE:        return getGrenade();
-         case DECOY:          return getDecoy();
-         case STIMS:          return getStims();
+         case MED_PATCH:      return getMedPatch(quality);
+         case SMOKE_GRENADE:  return getSmokeGrenade(quality);
+         case CAUSTIC_SMOKE_GRENADE:  return getCausticSmokeGrenade(quality);
+         case GRENADE:        return getGrenade(quality);
+         case DECOY:          return getDecoy(quality);
+         case STIMS:          return getStims(quality);
       }
       return null;
    }
+   public static Consumable getByBaseType(Consumable.BaseType baseType){return getByBaseType(baseType, ItemQuality.STANDARD);}
    
    public static Consumable rollConsumable(int level)
    {
-      TableItemWrapper roll = (TableItemWrapper)RNG.roll(standardTable, level);
-      Consumable.BaseType result = (Consumable.BaseType)roll.getObject();
+      ConsumableTableEntry roll = (ConsumableTableEntry)RNG.roll(standardTable, level);
+      Consumable.BaseType result = roll.type;
       
       return getByBaseType(result);
    }

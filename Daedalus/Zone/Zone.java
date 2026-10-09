@@ -48,6 +48,7 @@ public class Zone
          populate();
       }
       map.incrementSmoke();
+      map.incrementFire();
       if(oneSecondFlag)
       {
 

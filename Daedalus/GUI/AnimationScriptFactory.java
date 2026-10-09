@@ -377,7 +377,7 @@ public class AnimationScriptFactory implements ZoneConstants, GUIConstants
       return script;
    }
    
-   private static double[] getDoubleGradient(double start, double end, int length)
+   public static double[] getDoubleGradient(double start, double end, int length)
    {
       double[] gradient = new double[length];
       double curVal = start;
@@ -390,7 +390,7 @@ public class AnimationScriptFactory implements ZoneConstants, GUIConstants
       return gradient;
    }
    
-   private static int[] getColorGradient(int start, int end, int length)
+   public static int[] getColorGradient(int start, int end, int length)
    {
       int[] gradient = new int[length];
       int startRed = new Color(start).getRed();
