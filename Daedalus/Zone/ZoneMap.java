@@ -240,15 +240,16 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    {
       if(isInBounds(x, y))
       {
-         if(isItemAt(x, y))
+         if(isItemAt(x, y) && !isFireAt(x, y))
          {
             lastSeenMap[x][y] = SQUARE_PALETTE.getTile(itemMap[x][y].getTileIndex(), GREY, BLACK);
+            exploredMap[x][y] = SQUARE_PALETTE.getTile(tileMap[x][y].getTileIndex(), tileMap[x][y].getFGColor(), tileMap[x][y].getBGColor());
          }
          else 
          {
-            lastSeenMap[x][y] = SQUARE_PALETTE.getTile(tileMap[x][y].getTileIndex(), GREY, BLACK);
+            lastSeenMap[x][y] = SQUARE_PALETTE.getTile(getTileIndex(x, y), GREY, BLACK);
+            exploredMap[x][y] = SQUARE_PALETTE.getTile(getTileIndex(x, y), getFGColor(x, y), getBGColor(x, y));
          }
-         exploredMap[x][y] = SQUARE_PALETTE.getTile(tileMap[x][y].getTileIndex(), tileMap[x][y].getFGColor(), tileMap[x][y].getBGColor());
       }
    }
    
