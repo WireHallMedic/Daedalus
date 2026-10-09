@@ -418,7 +418,8 @@ public class Actor extends UnboundTile implements ActorConstants, ScriptListener
       int healthDamage = 0;
       // note how much blocked by shield
       if(hasShield())
-         ablatedDamage = getShield().applyDamage((int)(damage.getSum() * damageMultiplier));
+         ablatedDamage = getShield().applyDamage((int)(damage.getSum() * damageMultiplier), 
+                                                 (int)(damage.getValue(CombatConstants.DamageType.ELECTRIC) * damageMultiplier));
       // reduce by armor
       if(hasArmor())
          damage = getArmor().absorbDamage(damage, getVulnerability());

@@ -63,9 +63,9 @@ public class ConsumableFactory implements ItemConstants, GUIConstants, CombatCon
       a.setSpecialEffect(SpecialEffect.SMOKE);
       switch(quality)
       {
-         case ItemQuality.STANDARD: a.setSpecialEffectIntensity(10); 
+         case ItemQuality.LOW:      a.setSpecialEffectIntensity(10); 
                                     break;
-         case ItemQuality.HIGH:     a.setSpecialEffectIntensity(16);  
+         case ItemQuality.STANDARD: a.setSpecialEffectIntensity(16);  
                                     c.setName("Heavy " + c.getName());
                                     break;
       }
@@ -175,26 +175,26 @@ public class ConsumableFactory implements ItemConstants, GUIConstants, CombatCon
    public static Vector<ConsumableTableEntry> getStandardTable()
    {
       Vector<ConsumableTableEntry> list = new Vector<ConsumableTableEntry>();
-      list.add(new ConsumableTableEntry(Consumable.BaseType.MED_PATCH, ItemQuality.LOW, 0, 6, 1.5));
+      list.add(new ConsumableTableEntry(Consumable.BaseType.MED_PATCH, ItemQuality.LOW, 0, 6, 2.0));
       list.add(new ConsumableTableEntry(Consumable.BaseType.GRENADE, ItemQuality.LOW, 0, 6, 1.5));
       list.add(new ConsumableTableEntry(Consumable.BaseType.SMOKE_GRENADE, ItemQuality.LOW, 0, 6, 1.0));
       list.add(new ConsumableTableEntry(Consumable.BaseType.DECOY, ItemQuality.LOW, 3, 10, 1.0));
       list.add(new ConsumableTableEntry(Consumable.BaseType.STIMS, ItemQuality.LOW, 3, 10, 1.0));
       // no low-quality caustic grenades
       
-      list.add(new ConsumableTableEntry(Consumable.BaseType.MED_PATCH, ItemQuality.STANDARD, 4, 10, 1.5));
+      list.add(new ConsumableTableEntry(Consumable.BaseType.MED_PATCH, ItemQuality.STANDARD, 4, 10, 2.0));
       list.add(new ConsumableTableEntry(Consumable.BaseType.GRENADE, ItemQuality.STANDARD, 4, 10, 1.5));
       list.add(new ConsumableTableEntry(Consumable.BaseType.SMOKE_GRENADE, ItemQuality.STANDARD, 4, 10, 1.0));
       list.add(new ConsumableTableEntry(Consumable.BaseType.CAUSTIC_SMOKE_GRENADE, ItemQuality.STANDARD, 8, 14, 1.0));
       list.add(new ConsumableTableEntry(Consumable.BaseType.DECOY, ItemQuality.STANDARD, 8, 14, 1.0));
       list.add(new ConsumableTableEntry(Consumable.BaseType.STIMS, ItemQuality.STANDARD, 8, 14, 1.0));
       
-      list.add(new ConsumableTableEntry(Consumable.BaseType.MED_PATCH, ItemQuality.HIGH, 8, 100, 1.5));
+      list.add(new ConsumableTableEntry(Consumable.BaseType.MED_PATCH, ItemQuality.HIGH, 8, 100, 2.0));
       list.add(new ConsumableTableEntry(Consumable.BaseType.GRENADE, ItemQuality.HIGH, 8, 100, 1.5));
-      list.add(new ConsumableTableEntry(Consumable.BaseType.SMOKE_GRENADE, ItemQuality.HIGH, 8, 100, 1.0));
       list.add(new ConsumableTableEntry(Consumable.BaseType.CAUSTIC_SMOKE_GRENADE, ItemQuality.HIGH, 12, 100, 1.0));
       list.add(new ConsumableTableEntry(Consumable.BaseType.DECOY, ItemQuality.HIGH, 12, 100, 1.0));
       list.add(new ConsumableTableEntry(Consumable.BaseType.STIMS, ItemQuality.HIGH, 12, 100, 1.0));
+      // no high-quality smoke grenades
       return list;
    }
    

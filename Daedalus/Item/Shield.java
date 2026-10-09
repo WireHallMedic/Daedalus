@@ -82,14 +82,21 @@ public class Shield extends ChargeItem implements Equippable, ItemConstants, GUI
    }
    
    // returns damage absorbed
-   public int applyDamage(int damageSum)
-   {;
+   public int applyDamage(int damageSum, int electDamage)
+   {
+      // bonus electric damage is not reported as ablated
+      int bonusDamage = Math.min(electDamage / 2, getCurDamageCapacity());
+      discharge((int)(bonusDamage / damagePerCharge));
+      
       int damageAbsorbed = Math.min(damageSum, getCurDamageCapacity());
-      //setCurCharge((int)(getCurCharge() - (damageAbsorbed / damagePerCharge)));
       discharge((int)(damageAbsorbed / damagePerCharge));
       return damageAbsorbed;
    }
-   public int applyDamage(Damage damage){return applyDamage(damage.getSum());}
+   public int applyDamage(int damageSum){return applyDamage(damageSum, 0);}
+   public int applyDamage(Damage damage)
+   {
+      return applyDamage(damage.getSum(), damage.getValue(CombatConstants.DamageType.ELECTRIC));
+   }
    
    
    public Vector<String> getDescriptionList()

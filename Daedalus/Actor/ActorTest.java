@@ -121,6 +121,28 @@ public class ActorTest implements ActorConstants
    }
    
    
+   @Test public void testElectricVsShield() 
+   {
+      Shield shield = new Shield("Test Shield");
+      shield.setMaxDamageCapacity(10);
+      shield.fullyCharge();
+      a.setShield(shield);
+      Damage damage = new Damage();
+      damage.setValue(CombatConstants.DamageType.FIRE, 4);
+      
+      Assert.assertEquals("Initially shield full", 10, a.getCurShield());
+      
+      a.applyDamage(damage);
+      Assert.assertEquals("Shield absorbs 100% of non-electric damage", 6, a.getCurShield());
+      
+      shield.fullyCharge();
+      damage.setValue(CombatConstants.DamageType.FIRE, 0);
+      damage.setValue(CombatConstants.DamageType.ELECTRIC, 4);
+      a.applyDamage(damage);
+      Assert.assertEquals("Shield absorbs 150% of electric damage", 4, a.getCurShield());
+   }
+   
+   
    @Test public void testGeneratingEnemies()
    {
       for(ActorBase base: ActorBase.values())
