@@ -15,9 +15,13 @@ public class RegionBuilder implements ZoneConstants, GUIConstants, ActorConstant
       int regionHeight = 4;
       Vector<Zone> zoneList = new Vector<Zone>();
       ZoneMap[][] overlandArr = new ZoneMap[regionWidth][regionHeight];
-      MazeBuilder maze = new MazeBuilder(regionWidth, regionHeight, .5);
+      MazeBuilder maze = new MazeBuilder(regionWidth, regionHeight, .67);
+      int hideoutEntranceX = 1 + RNG.nextInt(regionWidth - 2);
       
-      ZoneMap hideout = WastelandMapFactory.getHideout();
+      int[][] mazeMap = maze.getTileIndexMap();
+      mazeMap[(hideoutEntranceX * 3) + 1][(regionHeight * 3) - 2] = 'X';
+      
+      ZoneMap hideout = WastelandMapFactory.getHideout(mazeMap);
       zoneList.add(new Zone(hideout));
       Actor a = ActorFactory.getDog("Euclid");
       zoneList.elementAt(0).getMap().dropActor(a, 8, 11, zoneList.elementAt(0).getActorList());
@@ -48,7 +52,6 @@ public class RegionBuilder implements ZoneConstants, GUIConstants, ActorConstant
       }
       
       // add hideout entrance along south wall of south zone
-      int hideoutEntranceX = 1 + RNG.nextInt(regionWidth - 2);
       ZoneMap hideoutEntranceMap = overlandArr[hideoutEntranceX][regionHeight - 1];
       MapFactory.addRandomExit(hideoutEntranceMap, 'S');
       Exit hideoutEntrance = hideoutEntranceMap.getExitByDirection(ExitDirection.SOUTH);

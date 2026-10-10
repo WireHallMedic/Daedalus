@@ -254,8 +254,7 @@ public class AI implements AIConstants, ZoneConstants
       if(Game.getCurMap().getTile(pendingTarget) instanceof Sign)
       {
          Sign sign = (Sign)Game.getCurMap().getTile(pendingTarget);
-         MainGamePanel.clearMessage();
-         MainGamePanel.addMessage(String.format("The sign reads \"%s\"", sign.getText()));
+         MainGamePanel.setTextModeText("The sign reads:\n\n" + sign.getText());
       }
       if(Game.getActorAt(pendingTarget) instanceof Pet)
       {

@@ -19,6 +19,7 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
    public static final int ACT_MODE = 1;
    public static final int TARGETING_MODE = 2;
    public static final int LOOK_MODE = 3;
+   public static final int TEXT_MODE = 4;       // hide board, for reading signs etc
    
    private static final int MESSAGE_PANEL_X_START = (BOARD_SIZE_TILES * 2) + 2;
    private static final int MESSAGE_PANEL_Y_START = 1;
@@ -33,9 +34,14 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
    private static final int HUD_PANEL_WIDTH = PANEL_WIDTH_TILES - 2;
    private static final int HUD_COLUMN_WIDTH = HUD_PANEL_WIDTH / 3;
    private static final int HUD_PANEL_HEIGHT = PANEL_HEIGHT_TILES - BOARD_SIZE_TILES - 3;
+   private static final int TEXT_PANEL_X_START = 1;
+   private static final int TEXT_PANEL_Y_START = 1;
+   private static final int TEXT_PANEL_WIDTH = BOARD_SIZE_TILES * 2;
+   private static final int TEXT_COLUMN_WIDTH = BOARD_SIZE_TILES;
    
    private BoardPanel boardPanel;
    private static String messagePanelMessage = "";
+   private static String textModeText = null;
    private static int messageCount = 0;
    private static boolean dimMessage = false;
    private static boolean persistMessage = false;
@@ -49,19 +55,34 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
    public Vector<Coord> getAffectedList(){return affectedList;}
    public Ability getPendingAbility(){return pendingAbility;}
    
-   public void setMode(int m){mode = m;}
    public void setPendingAbility(Ability a){pendingAbility = a;}
+   public static void setTextModeText(String t){textModeText = t;}
    
    public MainGamePanel(TilePalette rectPalette, TilePalette squarePalette)
    {
       super(PANEL_WIDTH_TILES, PANEL_HEIGHT_TILES, rectPalette);
       boardPanel = new BoardPanel(squarePalette, this);
       showFPS = true;
-      mode = ACT_MODE;
+      setMode(ACT_MODE);
       cursorLoc = new Coord();
       affectedList = null;
       pendingAbility = null;
       clearMessage();
+   }
+   
+   public void setMode(int m)
+   {
+      mode = m;
+      if(mode == TEXT_MODE)
+      {
+         write(TEXT_PANEL_X_START, TEXT_PANEL_Y_START, textModeText, WHITE, BLACK, TEXT_PANEL_WIDTH, TEXT_COLUMN_WIDTH);
+         textModeText = null;
+         boardPanel.setVisible(false);
+      }
+      else
+      {
+         boardPanel.setVisible(true);
+      }
    }
 
    
@@ -105,6 +126,8 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
    @Override
    public void actionPerformed(ActionEvent ae)
    {
+      if(textModeText != null)
+         setMode(TEXT_MODE);
       boardPanel.actionPerformed(ae);
       super.actionPerformed(ae);
    }
@@ -133,7 +156,7 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
    {
       BufferedImage unscaledImage = super.getUnscaledImage();
       Graphics2D g2dUnscaled = (Graphics2D)(unscaledImage.getGraphics());
-      if(boardPanel != null)
+      if(boardPanel != null && boardPanel.isVisible())
          g2dUnscaled.drawImage(boardPanel.getUnscaledImage(), palette.getTileWidth(), palette.getTileHeight(), null);
       return unscaledImage;
    }
@@ -469,7 +492,7 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
             break;
          case KeyEvent.VK_L:
             cursorLoc = Game.getPlayer().getTileLoc().copy();
-            mode = LOOK_MODE;
+            setMode(LOOK_MODE);
             break;
          case KeyEvent.VK_ENTER:
             Game.getPlayer().getAI().setPendingAction(ActorAction.CONTEXTUAL);
@@ -543,7 +566,7 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
             cursorLoc.y--;
             break;
          case KeyEvent.VK_ESCAPE:
-            mode = ACT_MODE;
+            setMode(ACT_MODE);
             clearMessage();
             MainGamePanel.addMessage("", true);
             break;
@@ -583,7 +606,7 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
             cursorLoc.y--;
             break;
          case KeyEvent.VK_ESCAPE:
-            mode = ACT_MODE;
+            setMode(ACT_MODE);
             clearMessage();
             MainGamePanel.addMessage("Attack cancelled", true);
             Game.getPlayer().getAI().clearPlan();
@@ -592,7 +615,7 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
          case KeyEvent.VK_F:
          case KeyEvent.VK_ENTER:
             Game.getPlayer().getAI().setPendingTarget(cursorLoc);
-            mode = ACT_MODE;
+            setMode(ACT_MODE);
             setNonTargetingValues();
             break;
       }
@@ -604,8 +627,17 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
          !Game.getPlayer().getTileLoc().equals(cursorLoc))
       {
          Game.getPlayer().getAI().setPendingTarget(cursorLoc);
-         mode = ACT_MODE;
+         setMode(ACT_MODE);
          setNonTargetingValues();
+      }
+   }
+   
+   private void textModeKeyPressed(KeyEvent ke)
+   {
+      // single-key actions need to set pendingTarget after seting pendingAction.
+      switch(ke.getKeyCode())
+      {
+         default: setMode(ACT_MODE);
       }
    }
       
@@ -617,6 +649,8 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
          lookModeKeyPressed(ke);
       else if(mode == TARGETING_MODE)
          targetingModeKeyPressed(ke);
+      else if(mode == TEXT_MODE)
+         textModeKeyPressed(ke);
    }
    public void keyReleased(KeyEvent ke){}
    public void keyTyped(KeyEvent ke){}
@@ -628,7 +662,7 @@ public class MainGamePanel extends DaePanel implements GUIConstants, AIConstants
          cursorLoc = Game.getPlayer().getAI().getClosestEnemy().getTileLoc();
       else
          cursorLoc = Game.getPlayer().getTileLoc();
-      mode = TARGETING_MODE;
+      setMode(TARGETING_MODE);
       clearMessage();
       if(ability != null)
          pendingAbility = ability;

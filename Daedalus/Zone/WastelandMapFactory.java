@@ -82,7 +82,7 @@ public class WastelandMapFactory extends MapFactory implements ZoneConstants, GU
       return map;
    }
    
-   public static ZoneMap getHideout()
+   public static ZoneMap getHideout(int[][] mazeMap)
    {
       String[] tileArr =  {"#######################",
                            "############....#######",
@@ -91,7 +91,7 @@ public class WastelandMapFactory extends MapFactory implements ZoneConstants, GU
                            "######...##############",
                            "####!#/################",
                            "#.........#############",
-                           "#.........#############",
+                           "#.........S############",
                            "#.........####........#",
                            "#.....................#",
                            "#.........####........#",
@@ -116,6 +116,7 @@ public class WastelandMapFactory extends MapFactory implements ZoneConstants, GU
       int switchVal = EngineTools.getUniqueNum();
       Coord airlockDoor1 = null;
       Coord airlockDoor2 = null;
+      Sign sign = null;
       for(int x = 0; x < width; x++)
       for(int y = 0; y < height; y++)
       {
@@ -142,6 +143,11 @@ public class WastelandMapFactory extends MapFactory implements ZoneConstants, GU
                         d2.setLocked(true);
                         zt = d2;
                         airlockDoor2 = new Coord(x, y);
+                        break;
+            case 'S' :  sign = new Sign();
+                        sign.setWall(true);
+                        sign.setText(mazeMap);
+                        zt = sign;
                         break;
             case '\\' : zt = new Door();
                         break;

@@ -186,6 +186,68 @@ public class MazeBuilder
 		grid[x][y].westWall = false;
 		grid[x - 1][y].eastWall = false;
 	}
+   
+   public int[][] getTileIndexMap()
+   {
+      int NS = 3 + (11 * 16);
+      int WE = 4 + (12 * 16);
+      
+      int NE = 0 + (12 * 16);
+      int NW = 9 + (13 * 16);
+      int SE = 10 + (13 * 16);
+      int SW = 15 + (11 * 16);
+      
+      int NES = 3 + (12 * 16);
+      int ESW = 2 + (12 * 16);
+      int NSW = 4 + (11 * 16);
+      int NEW = 1 + (12 * 16);
+      
+      int[][] tileIndexMap = new int[width * 3][height * 3];
+      for(int w = 0; w < width; w++)
+      for(int h = 0; h < height; h++)
+      {
+         // corners and interior
+         tileIndexMap[(w * 3) + 0][(h * 3) + 0] = SE;
+         tileIndexMap[(w * 3) + 2][(h * 3) + 0] = SW;
+         tileIndexMap[(w * 3) + 0][(h * 3) + 2] = NE;
+         tileIndexMap[(w * 3) + 2][(h * 3) + 2] = NW;
+         tileIndexMap[(w * 3) + 1][(h * 3) + 1] = ' ';
+         
+         if(grid[w][h].northWall)
+         {
+            tileIndexMap[(w * 3) + 1][(h * 3) + 0] = WE;
+         }
+         else
+         {
+            tileIndexMap[(w * 3) + 1][(h * 3) + 0] = NEW;
+         }
+         if(grid[w][h].southWall)
+         {
+            tileIndexMap[(w * 3) + 1][(h * 3) + 2] = WE;
+         }
+         else
+         {
+            tileIndexMap[(w * 3) + 1][(h * 3) + 2] = ESW;
+         }
+         if(grid[w][h].westWall)
+         {
+            tileIndexMap[(w * 3) + 0][(h * 3) + 1] = NS;
+         }
+         else
+         {
+            tileIndexMap[(w * 3) + 0][(h * 3) + 1] = NSW;
+         }
+         if(grid[w][h].eastWall)
+         {
+            tileIndexMap[(w * 3) + 2][(h * 3) + 1] = NS;
+         }
+         else
+         {
+            tileIndexMap[(w * 3) + 2][(h * 3) + 1] = NES;
+         }
+      }
+      return tileIndexMap;
+   }
 	
 	
    public void print()
@@ -241,8 +303,6 @@ public class MazeBuilder
 			}
 			System.out.println();
 		}
-		
-
    }
 	
 	
@@ -260,5 +320,11 @@ public class MazeBuilder
    		southWall = false;
    		westWall = false;
    	}
-}
+   }
+   
+   public static void main(String[] args)
+   {
+      MazeBuilder mb = new MazeBuilder(4, 4, .5);
+      mb.print();
+   }
 }

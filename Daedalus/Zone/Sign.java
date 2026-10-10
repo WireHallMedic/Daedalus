@@ -41,5 +41,19 @@ public class Sign extends ZoneTile implements ZoneConstants, GUIConstants
       setHighPassable(!wall);
    	setTransparent(!wall);
    }
+   
+   public void setText(int[][] tileIndexArray)
+   {
+      String s = " ";
+      for(int y = 0; y < tileIndexArray[0].length; y++)
+      {
+         for(int x = 0; x < tileIndexArray.length; x++)
+         {
+            s += (char)tileIndexArray[x][y];
+         }
+         s += "\n ";
+      }
+      setText(s);
+   }
       
 }
