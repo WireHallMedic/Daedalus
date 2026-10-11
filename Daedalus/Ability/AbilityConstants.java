@@ -7,6 +7,8 @@ public interface AbilityConstants
    public static final double CONE_ARC = Math.PI * (30.0 / 180.0);  // 30 degrees
    
    public static final String KNOCKBACK_TAG = "@KnockbackTag"; // dunno if checking is by address or value, this works for both
+   public static final int DEFAULT_FIRE_DURATION = 12;
+   public static final int DEFAULT_FIRE_RANDOM_DURATION = 13;
    
    public enum TargetingType
    {

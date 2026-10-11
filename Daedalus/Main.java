@@ -24,16 +24,9 @@ public class Main
          zoneList = RegionBuilder.buildWasteland();
       
       Actor a = ActorFactory.getPlayer();
-      a.addToInventory(ConsumableFactory.getCausticSmokeGrenade());
-      a.addToInventory(ConsumableFactory.getGrenade());
-      a.addToInventory(ConsumableFactory.getGrenade());
-      a.addToInventory(ConsumableFactory.getStims());
-      a.addToInventory(ConsumableFactory.getMedPatch());
-      a.addToInventory(WeaponFactory.getBaton());
-      a.addToInventory(ConsumableFactory.getDecoy(ItemConstants.ItemQuality.HIGH));
-      for(int i = 0; i < 10; i++)
-         a.addToInventory(LootFactory.roll(1));
-      a.getCurWeapon().getAttack().getBaseDamage().setValue(CombatConstants.DamageType.CRYO, 20);
+      a.addToInventory(WeaponFactory.getTestWeapon1());
+      a.addToInventory(WeaponFactory.getTestWeapon2());
+      a.addToInventory(WeaponFactory.getTestWeapon3());
       Game.setPlayer(a);
       
       

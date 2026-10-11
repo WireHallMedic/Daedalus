@@ -150,4 +150,9 @@ public class Ability implements AbilityConstants
          Game.addActor(decoy);
       }
    }
+   
+   public boolean startsFires()
+   {
+      return statusEffect != null && statusEffect.hasTag(StatusEffectTag.BURNING);
+   }
 }

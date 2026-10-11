@@ -295,6 +295,30 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
       w.getAttack().getRandomDamage().setValue(highestType, newRandom);
    }
    
+   public static Weapon getTestWeapon1()
+   {
+      Weapon w = getBoltgun();
+      w.getAttack().setProcChance(1.0);
+      w.getAttack().setStatusEffect(StatusEffectFactory.getBurning());
+      return w;
+   }
+   
+   public static Weapon getTestWeapon2()
+   {
+      Weapon w = getBoltgun();
+      w.getAttack().setProcChance(0.5);
+      w.getAttack().setStatusEffect(StatusEffectFactory.getBurning());
+      return w;
+   }
+   
+   public static Weapon getTestWeapon3()
+   {
+      Weapon w = getBeamCannon();
+      w.getAttack().setProcChance(1.0);
+      w.getAttack().setStatusEffect(StatusEffectFactory.getBurning());
+      return w;
+   }
+   
    
    // rolling
    ////////////////////////////////////////

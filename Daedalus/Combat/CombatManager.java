@@ -72,14 +72,27 @@ public class CombatManager implements CombatConstants, AbilityConstants, ZoneCon
       // process affected tiles
       for(int i = 0; i < affectedList.size(); i++)
       {
+         Coord affectedTile = affectedList.elementAt(i);
          if(ability instanceof Attack && attack.isMelee())
-            AnimationScriptFactory.addMeleeGroundFlash(affectedList.elementAt(i));
+            AnimationScriptFactory.addMeleeGroundFlash(affectedTile);
          else
-            AnimationScriptFactory.addGroundFlash(affectedList.elementAt(i));
-         if(Game.isActorAt(affectedList.elementAt(i)))
-            defenderList.add(Game.getActorAt(affectedList.elementAt(i)));
+            AnimationScriptFactory.addGroundFlash(affectedTile);
+         if(Game.isActorAt(affectedTile))
+            defenderList.add(Game.getActorAt(affectedTile));
          if(ability instanceof Attack)
-            Game.getCurMap().attackTile(affectedList.elementAt(i), attack.isHeavy());
+            Game.getCurMap().attackTile(affectedTile, attack.isHeavy());
+         if(ability.startsFires())
+         {
+            // point attacks only start fires if there's no actor in the tile
+            if(ability.getTargetingType() != TargetingType.POINT || !Game.isActorAt(affectedTile))
+            {
+               if(Game.getCurMap().isValidLocationForFire(affectedTile) && RNG.nextDouble() < ability.getProcChance())
+               {
+                  int fireDuration = DEFAULT_FIRE_DURATION + RNG.nextInt(DEFAULT_FIRE_RANDOM_DURATION);
+                  Game.getCurMap().setFireAt(new Fire(fireDuration), affectedTile);
+               }
+            }
+         }
       }
       Direction dir = Direction.getDirectionTo(attacker.getTileLoc(), targetLoc);
       AnimationScript as;
