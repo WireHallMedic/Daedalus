@@ -239,7 +239,7 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
          procChance = 1.0;
       AttackFactory.addDamageType(w.getAttack(), dType, procChance);
       w.setName(namePrefix + " " + w.getName());
-      w.appendDescription("\n\n" + descriptionDict.getEntry("+DAMAGE").format(dType.name));
+      w.appendDescription("\n\n" + descriptionDict.getEntry("+DAMAGE").replace("@TYPE", dType.name));
    }
    
    public static void improveCapacity(Weapon w)
@@ -262,7 +262,6 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
    
    public static void improveDamage(Weapon w)
    {
-      w.setName("Heavy " + w.getName());
       if(w.getRateOfFire() > 1)
          increaseRoF(w);
       else
@@ -271,6 +270,7 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
    
    public static void improveRecharge(Weapon w)
    {
+      w.setName("Quick-Charge " + w.getName());
       // most weapons improved by 1 s
       int newChargeTimePerShot = w.getChargeTimePerShot() - 2;
       // slow charging weapons (10+ s per shot) improved by 2s
@@ -286,12 +286,14 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
    
    private static void increaseRoF(Weapon w)
    {
+      w.setName("Rapid Fire " + w.getName());
       w.setRateOfFire(w.getRateOfFire() + 1);
       w.appendDescription("\n\n" + descriptionDict.getEntry("+ROF"));
    }
    
    private static void increaseHighestDamage(Weapon w)
    {
+      w.setName("Large Caliber " + w.getName());
       DamageType highestType = DamageType.values()[0];
       int highestDamage = w.getAttack().getBaseDamage().getValue(highestType);
       for(DamageType curType: DamageType.values())

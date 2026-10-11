@@ -32,7 +32,7 @@ This weapon is modified to fire additional projectiles per burst, with no loss i
 This weapon is modified to increase its damage output.
 
 @+DAMAGE
-This weapon is modified to additionally deal %s damage.
+This weapon is modified to additionally deal @TYPE damage.
 
 @+RECHARGE
 This weapon is modified with lower gauge conduits, allowing it to charge faster.

@@ -24,10 +24,8 @@ public class Main
          zoneList = RegionBuilder.buildWasteland();
       
       Actor a = ActorFactory.getPlayer();
-      a.addToInventory(WeaponFactory.getTestWeapon1());
-      a.addToInventory(WeaponFactory.getTestWeapon2());
-      a.addToInventory(WeaponFactory.getTestWeapon3());
-      a.addToInventory(WeaponFactory.getBoltgun());
+      for(int i = 0; i < 10; i++)
+         a.addToInventory(WeaponFactory.rollWeapon(100));
       Game.setPlayer(a);
       
       
