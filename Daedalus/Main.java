@@ -27,6 +27,7 @@ public class Main
       a.addToInventory(WeaponFactory.getTestWeapon1());
       a.addToInventory(WeaponFactory.getTestWeapon2());
       a.addToInventory(WeaponFactory.getTestWeapon3());
+      a.addToInventory(WeaponFactory.getBoltgun());
       Game.setPlayer(a);
       
       

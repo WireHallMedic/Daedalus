@@ -239,6 +239,7 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
          procChance = 1.0;
       AttackFactory.addDamageType(w.getAttack(), dType, procChance);
       w.setName(namePrefix + " " + w.getName());
+      w.appendDescription("\n\n" + descriptionDict.getEntry("+DAMAGE").format(dType.name));
    }
    
    public static void improveCapacity(Weapon w)
@@ -246,6 +247,7 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
       w.setName("High Capacity " + w.getName());
       int newMaxShots = Math.max((w.getMaxShots() * 3) / 2, w.getMaxShots() + 1);
       w.setMaxShots(newMaxShots);
+      w.appendDescription("\n\n" + descriptionDict.getEntry("+CAPACITY"));
    }
    
    public static void improveRange(Weapon w)
@@ -255,6 +257,7 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
       if(w.getAttack().getRange() <= 5)
          newRange = w.getAttack().getRange() + 1;
       w.getAttack().setRange(newRange);
+      w.appendDescription("\n\n" + descriptionDict.getEntry("+RANGE"));
    }
    
    public static void improveDamage(Weapon w)
@@ -278,11 +281,13 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
          newChargeTimePerShot = w.getChargeTimePerShot() - 1;
       newChargeTimePerShot = Math.max(2, newChargeTimePerShot);
       w.setChargeTimePerShot(newChargeTimePerShot);
+      w.appendDescription("\n\n" + descriptionDict.getEntry("+RECHARGE"));
    }
    
    private static void increaseRoF(Weapon w)
    {
       w.setRateOfFire(w.getRateOfFire() + 1);
+      w.appendDescription("\n\n" + descriptionDict.getEntry("+ROF"));
    }
    
    private static void increaseHighestDamage(Weapon w)
@@ -301,6 +306,7 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
       int newRandom = w.getAttack().getRandomDamage().getValue(highestType) + 1;
       w.getAttack().getBaseDamage().setValue(highestType, newBase);
       w.getAttack().getRandomDamage().setValue(highestType, newRandom);
+      w.appendDescription("\n\n" + descriptionDict.getEntry("+HIGHEST DAMAGE"));
    }
    
    public static Weapon getTestWeapon1()

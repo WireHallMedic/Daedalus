@@ -28,6 +28,7 @@ public class TextDictionary
          if(entry.key.equals(key))
             return entry.value;
       }
+      System.out.println("No textDict entry found for " + key);
       return "";
    }
    

@@ -98,32 +98,36 @@ public class InventoryPanel extends SelectionPanel implements ActionListener, GU
    
    private void writeItem(Item item, int colStartX)
    {
-      Vector<String> descList = new Vector<String>();
+      Vector<String> summaryList = new Vector<String>();
       int nameColor = WHITE;
       if(item != null)
       {
          nameColor = item.getFGColor();
          if(item instanceof Equippable)
          {
-            descList = ((Equippable)item).getSummaryList();
+            summaryList = ((Equippable)item).getSummaryList();
          }
       }
       
-      if(descList.size() > 0)
+      if(summaryList.size() > 0)
       {
-         write(colStartX, 4, descList.elementAt(0), nameColor, UI_BG_COLOR, COLUMN_WIDTH, 1);
+         write(colStartX, 4, summaryList.elementAt(0), nameColor, UI_BG_COLOR, COLUMN_WIDTH, 1);
       }
       else
       {
          write(colStartX, 4, "", nameColor, UI_BG_COLOR, COLUMN_WIDTH, 1);
       }
-      for(int i = 1; i < PANEL_HEIGHT_TILES - 6; i++)
-      {
-         if(i < descList.size())
-            write(colStartX, i + 4, descList.elementAt(i), WHITE, UI_BG_COLOR, COLUMN_WIDTH, 1);
-         else
-            write(colStartX, i + 4, "", WHITE, UI_BG_COLOR, COLUMN_WIDTH, 1);
-      }
+      
+      for(int i = 1; i < summaryList.size(); i++)
+         write(colStartX, i + 4, summaryList.elementAt(i), WHITE, UI_BG_COLOR, COLUMN_WIDTH, 1);
+      
+      int curRow = 4 + summaryList.size();
+      write(colStartX, curRow, "", WHITE, UI_BG_COLOR, COLUMN_WIDTH, 1);
+      curRow++;
+      String description = item.getDescription();
+      int remainingRows = PANEL_HEIGHT_TILES - curRow - 2;
+      write(colStartX, curRow, description, WHITE, UI_BG_COLOR, COLUMN_WIDTH, remainingRows);
+
    }
    
    @Override
