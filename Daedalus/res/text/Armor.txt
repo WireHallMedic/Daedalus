@@ -1,0 +1,27 @@
+@HARNESS
+While it doesn't provide any physical protection, a utility harness contains a microreactor to power weapons and shields, as well as several ports for gadgets.
+
+@SCOUT
+Scout armor trades some of the typical physical protection for additional gadget slots. As with all armors, it has a microreactor for charging weapons, shields, and gadgets.
+
+@STANDARD
+Body armor which provides protection against physical attacks. As with all armors, it has a microreactor for charging weapons, shields, and gadgets.
+
+@ASSAULT
+Assault armor provides heavy protection against physical attacks, at the expense of some gadget ports. As with all armors, it has a microreactor for charging weapons, shields, and gadgets.
+
+@+SCAVENGED
+This armor is built from scavenged and repurposed parts, and is less effective than a manufactured version.
+
+@+REINFORCED
+This armor has been strengthened to provide additional protection from physical attacks.
+
+@+INSULATED
+Special materials used in the construction of this armor provide protection against energy attacks.
+
+@+ENGINEERS
+This armor has been crafted with additional gadget ports.
+
+@+ELITE
+This expertly-crafted armor has additional protection against all types of damage.
+
