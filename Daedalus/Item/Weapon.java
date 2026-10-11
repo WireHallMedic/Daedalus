@@ -59,9 +59,9 @@ public class Weapon extends ChargeItem implements Equippable, ItemConstants, GUI
    
    public boolean isMelee(){return attack.isMelee();}
    
-   public Vector<String> getDescriptionList()
+   public Vector<String> getSummaryList()
    {
-      Vector<String> list = attack.getDescriptionList();
+      Vector<String> list = attack.getSummaryList();
       list.removeElementAt(0);
       list.insertElementAt(getName(), 0);
       list.add("Rate of Fire: " + getRateOfFire());

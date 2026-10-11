@@ -105,7 +105,7 @@ public class InventoryPanel extends SelectionPanel implements ActionListener, GU
          nameColor = item.getFGColor();
          if(item instanceof Equippable)
          {
-            descList = ((Equippable)item).getDescriptionList();
+            descList = ((Equippable)item).getSummaryList();
          }
       }
       

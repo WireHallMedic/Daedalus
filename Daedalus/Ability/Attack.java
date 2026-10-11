@@ -38,9 +38,9 @@ public class Attack extends Ability implements AbilityConstants, CombatConstants
       setHitVerb("strikes");
    }
    
-   public Vector<String> getDescriptionList()
+   public Vector<String> getSummaryList()
    {
-      Vector<String> list = super.getDescriptionList();
+      Vector<String> list = super.getSummaryList();
       list.add("Damage:");
       for(DamageType damageType: DamageType.values())
       {

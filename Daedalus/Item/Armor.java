@@ -121,7 +121,7 @@ public class Armor extends ChargeItem implements Equippable, ItemConstants, GUIC
    }
    
    
-   public Vector<String> getDescriptionList()
+   public Vector<String> getSummaryList()
    {
       Vector<String> list = new Vector<String>();
       list.add(getName());

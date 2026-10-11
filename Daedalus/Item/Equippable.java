@@ -5,5 +5,5 @@ import java.util.*;
 public interface Equippable
 {
    public boolean isDroppable();
-   public Vector<String> getDescriptionList();
+   public Vector<String> getSummaryList();
 }

@@ -53,7 +53,7 @@ public class Ability implements AbilityConstants
       specialEffectIntensity = 1;
    }
    
-   public Vector<String> getDescriptionList()
+   public Vector<String> getSummaryList()
    {
       Vector<String> list = new Vector<String>();
       list.add(getName());
