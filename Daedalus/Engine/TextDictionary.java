@@ -14,6 +14,17 @@ public class TextDictionary
       entryList = new Vector<TextDictObj>();
    }
    
+   public String getEntry(String key)
+   {
+      key = key.toUpperCase();
+      for(TextDictObj entry: entryList)
+      {
+         if(entry.key.equals(key))
+            return entry.value;
+      }
+      return "";
+   }
+   
    
    public void load(String fileName)
    {
