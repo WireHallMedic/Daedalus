@@ -14,7 +14,7 @@ s#k0
 s#j0
 s#l0
 !74;u
-a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!3758;g
+a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!3801;g
 %\011Daedalus%sAbility%sAbility.java
 %\011Daedalus%sAbility%sAbilityConstants.java
 %\011Daedalus%sAbility%sAttack.java
@@ -49,6 +49,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!3758;
 %\011Daedalus%sEngine%sStraightLine.java
 %\011Daedalus%sEngine%sTableItem.java
 %\011Daedalus%sEngine%sTableItemWrapper.java
+%\011Daedalus%sEngine%sTextDictionary.java
 %\011Daedalus%sEngine%sVect.java
 %\011Daedalus%sGUI%sAnimationManager.java
 %\011Daedalus%sGUI%sAnimationScript.java
@@ -117,7 +118,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!3758;
 %\011Daedalus%sZone%sZoneMap.java
 %\011Daedalus%sZone%sZoneTile.java
 %\011Daedalus%sZone%sZoneViewer.java
-!3758;f
+!3801;f
 %\011Daedalus%sAbility%sAbility.java
 %\011Daedalus%sAbility%sAbilityConstants.java
 %\011Daedalus%sAbility%sAttack.java
@@ -152,6 +153,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!3758;
 %\011Daedalus%sEngine%sStraightLine.java
 %\011Daedalus%sEngine%sTableItem.java
 %\011Daedalus%sEngine%sTableItemWrapper.java
+%\011Daedalus%sEngine%sTextDictionary.java
 %\011Daedalus%sEngine%sVect.java
 %\011Daedalus%sGUI%sAnimationManager.java
 %\011Daedalus%sGUI%sAnimationScript.java
