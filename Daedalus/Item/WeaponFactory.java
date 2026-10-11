@@ -10,6 +10,7 @@ import java.util.*;
 public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstants
 {
    public static Vector<? extends TableItem> standardTable = getStandardTable();
+   public static TextDictionary descriptionDict = new TextDictionary("Daedalus/res/Text/Weapons.txt");
    
    // basic weapons   
    public static Weapon getBoltgun()
@@ -23,6 +24,7 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
       a.setHitVerb("shoots");
       w.setMaxShots(6);
       w.fullyCharge();
+      w.setDescription(descriptionDict.getEntry(w.getName()));
       return w;
    }
    
@@ -39,6 +41,7 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
       a.setHitVerb("blasts");
       w.setMaxShots(4);
       w.fullyCharge();
+      w.setDescription(descriptionDict.getEntry(w.getName()));
       return w;
    }
    
@@ -55,6 +58,7 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
       w.setRateOfFire(3);
       w.setMaxShots(4);
       w.fullyCharge();
+      w.setDescription(descriptionDict.getEntry(w.getName()));
       return w;
    }
    
@@ -73,6 +77,7 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
       w.setMaxShots(1);
       w.setChargeTimePerShot(10);
       w.fullyCharge();
+      w.setDescription(descriptionDict.getEntry(w.getName()));
       return w;
    }
    
@@ -89,6 +94,7 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
       w.setMaxShots(2);
       w.setChargeTimePerShot(10);
       w.fullyCharge();
+      w.setDescription(descriptionDict.getEntry(w.getName()));
       return w;
    }
    
@@ -103,6 +109,7 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
       a.setHitVerb("strikes");
       w.setAlwaysCharged(true);
       w.fullyCharge();
+      w.setDescription(descriptionDict.getEntry("BATON"));
       return w;
    }
    
@@ -188,6 +195,7 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
          if(random.getValue(type) > 0)
             random.setValue(type, Math.max(1, random.getValue(type) - 1));
       }
+      w.appendDescription("\n\n" + descriptionDict.getEntry("SCAVENGED"));
    }
    
    public static void addRandomUpgrade(Weapon w)
@@ -235,14 +243,14 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
    
    public static void improveCapacity(Weapon w)
    {
-      w.setName("High-Capacity " + w.getName());
+      w.setName("High Capacity " + w.getName());
       int newMaxShots = Math.max((w.getMaxShots() * 3) / 2, w.getMaxShots() + 1);
       w.setMaxShots(newMaxShots);
    }
    
    public static void improveRange(Weapon w)
    {
-      w.setName("Long-Range " + w.getName());
+      w.setName("Long Range " + w.getName());
       int newRange = w.getAttack().getRange() + 2;
       if(w.getAttack().getRange() <= 5)
          newRange = w.getAttack().getRange() + 1;

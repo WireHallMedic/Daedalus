@@ -14,6 +14,12 @@ public class TextDictionary
       entryList = new Vector<TextDictObj>();
    }
    
+   public TextDictionary(String fileName)
+   {
+      this();
+      load(fileName);
+   }
+   
    public String getEntry(String key)
    {
       key = key.toUpperCase();

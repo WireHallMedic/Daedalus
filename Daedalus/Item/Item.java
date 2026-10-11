@@ -6,12 +6,15 @@ import Daedalus.Engine.*;
 public class Item extends ImageTile implements ItemConstants, GUIConstants
 {
 	private String name;
+   private String description;
 
 
 	public String getName(){return name;}
+   public String getDescription(){return description;}
 
 
 	public void setName(String n){name = n;}
+   public void setDescription(String d){description = d;}
 
 
    public Item(String name, int tileIndex, int fgColor)
@@ -21,11 +24,17 @@ public class Item extends ImageTile implements ItemConstants, GUIConstants
       setTileIndex(tileIndex);
       setFGColor(fgColor);
       setBGColor(TRANSPARENT);
+      description = "<No Description>";
    }
    public Item(String name, int tileIndex){this(name, tileIndex, WHITE);}
    public Item(String name, ItemBase base){this(name, base.tileIndex, WHITE);}
    public Item(String name, ItemBase base, int fgColor){this(name, base.tileIndex, fgColor);}
    
+   
+   public void appendDescription(String str)
+   {
+      description = description + str;
+   }
    
    public String getNameWithParticle()
    {

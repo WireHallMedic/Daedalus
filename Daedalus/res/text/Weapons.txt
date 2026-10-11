@@ -1,0 +1,38 @@
+@AUTOGUN
+Autoguns fire a rapid series of projectiles. While the damage of each is lower than single-shot weapons, the cumulative effect is greater.
+
+@SCATTERGUN
+Scatterguns project a cone of energy, allowing the weilder to hit several targets with a single shot. However, the energy intensity drops off with distance.
+
+@BOLTGUN
+Boltguns concentrate all their energy into a single slug of energy, which impacts the target. Boltguns have better range than other comparable weapons.
+
+@PLASMA CANNON
+Plasma cannons fire an unstable ball of energy which detonates on impact, causing significant damage over an area. The extreme amount of energy per shot means longer charge times and fewer maximum shots per charge.
+
+@BEAM CANNON
+Beam cannons fire a powerful ray of concentrated energy, which affects everything in a line. The extreme amount of energy per shot means longer charge times and fewer maximum shots per charge.
+
+@BATON
+A combat baton is a mace-like club which projects an energy field around the weighted end. As it requires much less power than if the energy were to be projected over a distance, combat batons do not need to recharge between strikes.
+
+@SCAVENGED
+This weapon is built from scavenged and repurposed parts, and is less effective than a manufactured version.
+
+@+RANGE
+This weapon is modified for improved range.
+
+@+CAPACITY
+This weapon has additional capacitors, allowing for a higher maximum capacity.
+
+@+ROF
+This weapon is modified to fire additional projectiles per burst, with no loss in individual power.
+
+@+HIGHEST DAMAGE
+This weapon is modified to increase its damage output.
+
+@+DAMAGE
+This weapon is modified to additionally deal %s damage.
+
+@+RECHARGE
+This weapon is modified with lower gauge conduits, allowing it to charge faster.
