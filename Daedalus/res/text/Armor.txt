@@ -10,7 +10,7 @@ Body armor which provides protection against physical attacks. As with all armor
 @ASSAULT
 Assault armor provides heavy protection against physical attacks, at the expense of some gadget ports. As with all armors, it has a microreactor for charging weapons, shields, and gadgets.
 
-@+SCAVENGED
+@SCAVENGED
 This armor is built from scavenged and repurposed parts, and is less effective than a manufactured version.
 
 @+REINFORCED

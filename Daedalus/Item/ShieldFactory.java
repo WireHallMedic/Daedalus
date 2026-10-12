@@ -10,8 +10,8 @@ import java.util.*;
 public class ShieldFactory implements ItemConstants, GUIConstants, CombatConstants
 {
    private static Vector<? extends TableItem> standardTable = getStandardTable();
-   
    private enum ShieldUpgrade{REACTIVE, HIGH_CAPACITY, OVERCLOCKED};
+   public static TextDictionary descriptionDict = new TextDictionary("Daedalus/res/Text/Shield.txt");
    
    public static Shield getStandardShield()
    {
@@ -19,6 +19,7 @@ public class ShieldFactory implements ItemConstants, GUIConstants, CombatConstan
       s.setMaxDamageCapacity(Shield.STANDARD_MAX_DAMAGE_CAPACITY);
       s.setChargeDelay(Shield.STANDARD_CHARGE_DELAY);
       s.setMaxChargeTurns(Shield.STANDARD_MAX_CHARGE_TIME);
+      s.setDescription(descriptionDict.getEntry("STANDARD"));
       return s;
    }
    
@@ -28,6 +29,7 @@ public class ShieldFactory implements ItemConstants, GUIConstants, CombatConstan
       s.setMaxDamageCapacity(Shield.STANDARD_MAX_DAMAGE_CAPACITY * 2);
       s.setChargeDelay(Shield.STANDARD_CHARGE_DELAY * 2);
       s.setMaxChargeTurns(Shield.STANDARD_MAX_CHARGE_TIME * 2);
+      s.setDescription(descriptionDict.getEntry("HEAVY"));
       return s;
    }
    
@@ -37,6 +39,7 @@ public class ShieldFactory implements ItemConstants, GUIConstants, CombatConstan
       s.setMaxDamageCapacity(Shield.STANDARD_MAX_DAMAGE_CAPACITY / 2);
       s.setChargeDelay(Shield.STANDARD_CHARGE_DELAY / 2);
       s.setMaxChargeTurns(Shield.STANDARD_MAX_CHARGE_TIME / 2);
+      s.setDescription(descriptionDict.getEntry("QUICK"));
       return s;
    }
    
@@ -76,6 +79,7 @@ public class ShieldFactory implements ItemConstants, GUIConstants, CombatConstan
       else
          s.setMaxDamageCapacity(s.getMaxDamageCapacity() - 1);
       s.fullyCharge();
+      s.appendDescription("\n\n" + descriptionDict.getEntry("SCAVENGED"));
    }
    
    public static void setReactive(Shield s)
@@ -83,6 +87,7 @@ public class ShieldFactory implements ItemConstants, GUIConstants, CombatConstan
       s.setName("Reactive " + s.getName());
       s.setChargeDelay(s.getChargeDelay() - 4);
       s.fullyCharge();
+      s.appendDescription("\n\n" + descriptionDict.getEntry("+REACTIVE"));
    }
    
    public static void setHighCapacity(Shield s)
@@ -90,6 +95,7 @@ public class ShieldFactory implements ItemConstants, GUIConstants, CombatConstan
       s.setName("High-Capacity " + s.getName());
       s.setMaxDamageCapacity(s.getMaxDamageCapacity() + (Shield.STANDARD_MAX_DAMAGE_CAPACITY / 2));
       s.fullyCharge();
+      s.appendDescription("\n\n" + descriptionDict.getEntry("+HIGH CAPACITY"));
    }
    
    public static void setOverclocked(Shield s)
@@ -97,6 +103,7 @@ public class ShieldFactory implements ItemConstants, GUIConstants, CombatConstan
       s.setName("Overclocked " + s.getName());
       s.setMaxChargeTurns(s.getMaxChargeTurns() - (Shield.STANDARD_MAX_CHARGE_TIME / 4));
       s.fullyCharge();
+      s.appendDescription("\n\n" + descriptionDict.getEntry("+OVERCLOCKED"));
    }
    
    // rolling

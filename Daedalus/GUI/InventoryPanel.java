@@ -98,15 +98,19 @@ public class InventoryPanel extends SelectionPanel implements ActionListener, GU
    
    private void writeItem(Item item, int colStartX)
    {
+      if(item == null)
+      {
+         write(colStartX, 4, "", WHITE, UI_BG_COLOR, COLUMN_WIDTH, PANEL_HEIGHT_TILES - 4);
+         return;
+      }
+      
       Vector<String> summaryList = new Vector<String>();
       int nameColor = WHITE;
-      if(item != null)
+
+      nameColor = item.getFGColor();
+      if(item instanceof Equippable)
       {
-         nameColor = item.getFGColor();
-         if(item instanceof Equippable)
-         {
-            summaryList = ((Equippable)item).getSummaryList();
-         }
+         summaryList = ((Equippable)item).getSummaryList();
       }
       
       if(summaryList.size() > 0)

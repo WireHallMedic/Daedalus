@@ -11,6 +11,7 @@ public class ArmorFactory implements ItemConstants, GUIConstants, CombatConstant
 {
    private static Vector<? extends TableItem> standardTable = getStandardTable();
    private static Vector<? extends TableItem> upgradeTable = getUpgradeTable();
+   public static TextDictionary descriptionDict = new TextDictionary("Daedalus/res/Text/Armor.txt");
    
    private enum ArmorUpgrade{REINFORCED, INSULATED, ENGINEERS, ELITE};
    
@@ -20,13 +21,17 @@ public class ArmorFactory implements ItemConstants, GUIConstants, CombatConstant
    public static Armor getUtilityHarness()
    {
       Armor a = new Armor("Utility Harness");
+      a.setDescription(descriptionDict.getEntry("HARNESS"));
       return a;
    }
 
    public static Armor getScoutArmor()
    {
       Armor a = new Armor("Scout Armor");
+      a.setDamageProtection(DamageType.CONCUSSION, 1);
+      a.setDamageProtection(DamageType.PIERCE, 1);
       a.setMaxGadgets(Armor.DEFAULT_GADGET_SLOTS + 1);
+      a.setDescription(descriptionDict.getEntry("SCOUT"));
       return a;
    }
 
@@ -35,6 +40,7 @@ public class ArmorFactory implements ItemConstants, GUIConstants, CombatConstant
       Armor a = new Armor("Standard Armor");
       a.setDamageProtection(DamageType.CONCUSSION, 2);
       a.setDamageProtection(DamageType.PIERCE, 2);
+      a.setDescription(descriptionDict.getEntry("STANDARD"));
       return a;
    }
 
@@ -46,8 +52,25 @@ public class ArmorFactory implements ItemConstants, GUIConstants, CombatConstant
       a.setDamageProtection(DamageType.CONCUSSION, 4);
       a.setDamageProtection(DamageType.PIERCE, 4);
       a.setMaxGadgets(Armor.DEFAULT_GADGET_SLOTS - 1);
+      a.setDescription(descriptionDict.getEntry("ASSAULT"));
       return a;
    }
+   
+   public static Armor getByBaseType(Armor.BaseType baseType)
+   {
+      switch(baseType)
+      {
+         case UTILITY_HARNESS:   return getUtilityHarness();
+         case SCOUT:             return getScoutArmor();
+         case STANDARD:          return getStandardArmor();
+         case ASSAULT:           return getAssaultArmor();
+      }
+      return null;
+   }
+   
+   
+   // modifiers
+   ////////////////////////////////////////////////////////////
    
    public static void setLowQuality(Armor a)
    {
@@ -63,6 +86,7 @@ public class ArmorFactory implements ItemConstants, GUIConstants, CombatConstant
          }
       }
       a.setMaxGadgets(Math.max(1, Math.max(1, a.getMaxGadgets() - 1)));
+      a.appendDescription("\n\n" + descriptionDict.getEntry("SCAVENGED"));
    }
    
    public static void setInsulated(Armor a)
@@ -73,6 +97,7 @@ public class ArmorFactory implements ItemConstants, GUIConstants, CombatConstant
       a.setDamageProtection(DamageType.CRYO, a.getDamageProtection(DamageType.CRYO) + 2);
       a.setDamageProtection(DamageType.CORROSION, a.getDamageProtection(DamageType.CORROSION) + 2);
       a.setDamageProtection(DamageType.ELECTRIC, a.getDamageProtection(DamageType.ELECTRIC) + 2);
+      a.appendDescription("\n\n" + descriptionDict.getEntry("+INSULATED"));
    }
 
    public static void setReinforced(Armor a)
@@ -81,13 +106,15 @@ public class ArmorFactory implements ItemConstants, GUIConstants, CombatConstant
 
       a.setDamageProtection(DamageType.CONCUSSION, a.getDamageProtection(DamageType.CONCUSSION) + 2);
       a.setDamageProtection(DamageType.PIERCE, a.getDamageProtection(DamageType.PIERCE) + 2);
+      a.appendDescription("\n\n" + descriptionDict.getEntry("+REINFORCED"));
    }
 
    public static void setExtraGadgets(Armor a)
    {
       a.setName("Engineer's " + a.getName());
 
-      a.setMaxGadgets(Math.min(1, Math.max(5, a.getMaxGadgets() + 1)));
+      a.setMaxGadgets(Math.min(5, a.getMaxGadgets() + 1));
+      a.appendDescription("\n\n" + descriptionDict.getEntry("+ENGINEERS"));
    }
    
    public static void setElite(Armor a)
@@ -98,19 +125,12 @@ public class ArmorFactory implements ItemConstants, GUIConstants, CombatConstant
       {
          a.setDamageProtection(dType, a.getDamageProtection(dType) + 1);
       }
+      a.appendDescription("\n\n" + descriptionDict.getEntry("+ELITE"));
    }
    
-   public static Armor getByBaseType(Armor.BaseType baseType)
-   {
-      switch(baseType)
-      {
-         case UTILITY_HARNESS:   return getUtilityHarness();
-         case SCOUT:             return getScoutArmor();
-         case STANDARD:          return getStandardArmor();
-         case ASSAULT:           return getAssaultArmor();
-      }
-      return null;
-   }
+   
+   // rolling
+   //////////////////////////////////////////////////////
    
    public static Armor rollArmor(int level)
    {
@@ -147,8 +167,8 @@ public class ArmorFactory implements ItemConstants, GUIConstants, CombatConstant
       Vector<ArmorTableEntry> list = new Vector<ArmorTableEntry>();
       list.add(new ArmorTableEntry(Armor.BaseType.UTILITY_HARNESS, ItemQuality.LOW, 0, 5, 4.0));
       
-      list.add(new ArmorTableEntry(Armor.BaseType.SCOUT, ItemQuality.LOW, 2, 100, 2.0));
-      list.add(new ArmorTableEntry(Armor.BaseType.STANDARD, ItemQuality.LOW, 2, 100, 2.0));
+      list.add(new ArmorTableEntry(Armor.BaseType.SCOUT, ItemQuality.LOW, 2, 7, 2.0));
+      list.add(new ArmorTableEntry(Armor.BaseType.STANDARD, ItemQuality.LOW, 2, 7, 2.0));
       
       list.add(new ArmorTableEntry(Armor.BaseType.UTILITY_HARNESS, ItemQuality.STANDARD, 3, 10, 1.0));
       

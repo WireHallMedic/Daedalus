@@ -25,7 +25,7 @@ public class Main
       
       Actor a = ActorFactory.getPlayer();
       for(int i = 0; i < 10; i++)
-         a.addToInventory(WeaponFactory.rollWeapon(100));
+         a.addToInventory(ArmorFactory.rollArmor(100));
       Game.setPlayer(a);
       
       
