@@ -11,7 +11,7 @@ public class ArmorFactory implements ItemConstants, GUIConstants, CombatConstant
 {
    private static Vector<? extends TableItem> standardTable = getStandardTable();
    private static Vector<? extends TableItem> upgradeTable = getUpgradeTable();
-   public static TextDictionary descriptionDict = new TextDictionary("Daedalus/res/Text/Armor.txt");
+   public static TextDictionary descriptionDict = new TextDictionary("Daedalus/res/Text/Armors.txt");
    
    private enum ArmorUpgrade{REINFORCED, INSULATED, ENGINEERS, ELITE};
    

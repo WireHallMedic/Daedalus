@@ -11,7 +11,7 @@ public class ShieldFactory implements ItemConstants, GUIConstants, CombatConstan
 {
    private static Vector<? extends TableItem> standardTable = getStandardTable();
    private enum ShieldUpgrade{REACTIVE, HIGH_CAPACITY, OVERCLOCKED};
-   public static TextDictionary descriptionDict = new TextDictionary("Daedalus/res/Text/Shield.txt");
+   public static TextDictionary descriptionDict = new TextDictionary("Daedalus/res/Text/Shields.txt");
    
    public static Shield getStandardShield()
    {

@@ -10,6 +10,7 @@ import java.util.*;
 public class ConsumableFactory implements ItemConstants, GUIConstants, CombatConstants, AbilityConstants
 {
    public static Vector<? extends TableItem> standardTable = getStandardTable();
+   public static TextDictionary descriptionDict = new TextDictionary("Daedalus/res/Text/Consumables.txt");
    
    
    public static Consumable getMedPatch(ItemQuality quality)
@@ -28,6 +29,7 @@ public class ConsumableFactory implements ItemConstants, GUIConstants, CombatCon
                         break;
       }
       c.setAbility(a);
+      c.setDescription(descriptionDict.getEntry("MED-PATCH"));
       return c;
    }
    public static Consumable getMedPatch(){return getMedPatch(ItemQuality.STANDARD);}
@@ -50,6 +52,7 @@ public class ConsumableFactory implements ItemConstants, GUIConstants, CombatCon
       }
       a.setRange(5);
       c.setAbility(a);
+      c.setDescription(descriptionDict.getEntry("GRENADE"));
       return c;
    }
    public static Consumable getGrenade(){return getGrenade(ItemQuality.STANDARD);}
@@ -70,6 +73,7 @@ public class ConsumableFactory implements ItemConstants, GUIConstants, CombatCon
                                     break;
       }
       c.setAbility(a);
+      c.setDescription(descriptionDict.getEntry("SMOKE"));
       return c;
    }
    public static Consumable getSmokeGrenade(){return getSmokeGrenade(ItemQuality.STANDARD);}
@@ -90,6 +94,7 @@ public class ConsumableFactory implements ItemConstants, GUIConstants, CombatCon
                                     break;
       }
       c.setAbility(a);
+      c.setDescription(descriptionDict.getEntry("CAUSTIC"));
       return c;
    }
    public static Consumable getCausticSmokeGrenade(){return getCausticSmokeGrenade(ItemQuality.STANDARD);}
@@ -104,11 +109,14 @@ public class ConsumableFactory implements ItemConstants, GUIConstants, CombatCon
       switch(quality)
       {
          case ItemQuality.LOW:      a.setSpecialEffectIntensity(1); 
+                                    c.setDescription(descriptionDict.getEntry("DECOY"));
                                     break;
          case ItemQuality.STANDARD: a.setSpecialEffectIntensity(2); 
+                                    c.setDescription(descriptionDict.getEntry("STURDY DECOY"));
                                     c.setName("Sturdy " + c.getName()); 
                                     break; 
          case ItemQuality.HIGH:     a.setSpecialEffectIntensity(3); 
+                                    c.setDescription(descriptionDict.getEntry("EXPLODING DECOY"));
                                     c.setName("Exploding " + c.getName());
                                     break;
       }
@@ -137,6 +145,7 @@ public class ConsumableFactory implements ItemConstants, GUIConstants, CombatCon
       }
       a.setStatusEffect(se);
       c.setAbility(a);
+      c.setDescription(descriptionDict.getEntry("STIM"));
       return c;
    }
    public static Consumable getStims(){return getStims(ItemQuality.STANDARD);}
