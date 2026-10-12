@@ -1,0 +1,23 @@
+@MED-PATCH
+A flexible, adhesive patch that dispenses microscopic med-drones into the body. These drones repair tissue for a brief duration, before going inert to later be expelled by the body. Larger med-patches dispense more drones, healing injuries more quickly.
+
+@GRENADE
+A single-use explosive that detonates after a short delay. Heavier grenades have more explosive power.
+
+@SMOKE
+A single-use device that emits a cloud of thick smoke, which obscures sight. Heavier smoke grenades emit more and longer-lasting smoke.
+
+@CAUSTIC
+A single-use device that emits a cloud of thick smoke, which obscures sight and deals corrosive damage. Heavier smoke grenades emit more and longer-lasting smoke.
+
+@DECOY
+A one-use puck that projects a hardlight image of the user.
+
+@STURDY DECOY
+A one-use puck that projects a hardlight image of the user. This decoy is harder to damage than base models.
+
+@EXPLODING DECOY
+A one-use puck that projects a hardlight image of the user. Not only is this decoy is harder to damage than base models, it detonates instead of dissipating.
+
+@STIMS
+A dose of combat drugs in an impact syringe. Stims cause neurons to fire faster, slowing the user's perception of time, allowing them to act and react more quickly. Heavier doses last longer.

@@ -1,0 +1,20 @@
+@STANDARD
+Shields project a field of ablative energy around the user, which recharges over time.
+
+@HEAVY
+Shields project a field of ablative energy around the user, which recharges over time. Heavy shields can absorb more damage than others, but have a longer delay before they begin recharging.
+
+@QUICK
+Shields project a field of ablative energy around the user, which recharges over time. Quick-charge shields recharge with less delay and more quickly than other types, but have a lower total capacity.
+
+@SCAVENGED
+This shield is built from scavenged and repurposed parts, and is less effective than a manufactured version.
+
+@+REACTIVE
+This shield is modified to begin recharging more quickly.
+
+@+HIGH CAPACITY
+This shield is modified to project a stronger energy field around the user.
+
+@+OVERCLOCKED
+This shield has been modified to charge more quickly.

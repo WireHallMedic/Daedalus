@@ -27,9 +27,15 @@ public class InventoryPanel extends SelectionPanel implements ActionListener, GU
       inventory = null;
       setHeader("Inventory");
       setFooter("[D]rop, [ENTER] to Equip or Use, [ESC] to exit");
-      write(listStartX, 3, "       Stored", UI_FG_COLOR, UI_BG_COLOR, COLUMN_WIDTH, 1);
-      write(DESCRIPTION_COLUMN_X_START, 3, "       Selected", UI_FG_COLOR, UI_BG_COLOR, COLUMN_WIDTH, 1);
-      write(EQUIPPED_COLUMN_X_START, 3, "       Equipped", UI_FG_COLOR, UI_BG_COLOR, COLUMN_WIDTH, 1);
+      String str = "Stored";
+      int inset = (COLUMN_WIDTH - str.length()) / 2;
+      write(listStartX + inset, 3, str, UI_FG_COLOR, UI_BG_COLOR, str.length(), 1);
+      str = "Selected";
+      inset = (COLUMN_WIDTH - str.length()) / 2;
+      write(DESCRIPTION_COLUMN_X_START + inset, 3, str, UI_FG_COLOR, UI_BG_COLOR, str.length(), 1);
+      str = "Equipped";
+      inset = (COLUMN_WIDTH - str.length()) / 2;
+      write(EQUIPPED_COLUMN_X_START + inset, 3, str, UI_FG_COLOR, UI_BG_COLOR, str.length(), 1);
    }
    
    @Override
@@ -89,18 +95,22 @@ public class InventoryPanel extends SelectionPanel implements ActionListener, GU
       {
          if(inventory.getItem(curIndex) instanceof Weapon)
             writeItem(Game.getPlayer().getCurWeapon(), EQUIPPED_COLUMN_X_START);
-         if(inventory.getItem(curIndex) instanceof Shield)
+         else if(inventory.getItem(curIndex) instanceof Shield)
             writeItem(Game.getPlayer().getShield(), EQUIPPED_COLUMN_X_START);
-         if(inventory.getItem(curIndex) instanceof Armor)
+         else if(inventory.getItem(curIndex) instanceof Armor)
             writeItem(Game.getPlayer().getArmor(), EQUIPPED_COLUMN_X_START);
+         else
+            writeItem(null, EQUIPPED_COLUMN_X_START);
       }
    }
    
    private void writeItem(Item item, int colStartX)
    {
+      colStartX += 1;
+      int colWidth = COLUMN_WIDTH - 1;
       if(item == null)
       {
-         write(colStartX, 4, "", WHITE, UI_BG_COLOR, COLUMN_WIDTH, PANEL_HEIGHT_TILES - 4);
+         write(colStartX, 4, "", WHITE, UI_BG_COLOR, colWidth, PANEL_HEIGHT_TILES - 4);
          return;
       }
       
@@ -115,22 +125,22 @@ public class InventoryPanel extends SelectionPanel implements ActionListener, GU
       
       if(summaryList.size() > 0)
       {
-         write(colStartX, 4, summaryList.elementAt(0), nameColor, UI_BG_COLOR, COLUMN_WIDTH, 1);
+         write(colStartX, 4, summaryList.elementAt(0), nameColor, UI_BG_COLOR, colWidth, 1);
       }
       else
       {
-         write(colStartX, 4, "", nameColor, UI_BG_COLOR, COLUMN_WIDTH, 1);
+         write(colStartX, 4, "", nameColor, UI_BG_COLOR, colWidth, 1);
       }
       
       for(int i = 1; i < summaryList.size(); i++)
-         write(colStartX, i + 4, summaryList.elementAt(i), WHITE, UI_BG_COLOR, COLUMN_WIDTH, 1);
+         write(colStartX, i + 4, summaryList.elementAt(i), WHITE, UI_BG_COLOR, colWidth, 1);
       
       int curRow = 4 + summaryList.size();
-      write(colStartX, curRow, "", WHITE, UI_BG_COLOR, COLUMN_WIDTH, 1);
+      write(colStartX, curRow, "", WHITE, UI_BG_COLOR, colWidth, 1);
       curRow++;
       String description = item.getDescription();
       int remainingRows = PANEL_HEIGHT_TILES - curRow - 2;
-      write(colStartX, curRow, description, WHITE, UI_BG_COLOR, COLUMN_WIDTH, remainingRows);
+      write(colStartX, curRow, description, WHITE, UI_BG_COLOR, colWidth, remainingRows);
 
    }
    

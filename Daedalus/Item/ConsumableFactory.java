@@ -145,7 +145,7 @@ public class ConsumableFactory implements ItemConstants, GUIConstants, CombatCon
       }
       a.setStatusEffect(se);
       c.setAbility(a);
-      c.setDescription(descriptionDict.getEntry("STIM"));
+      c.setDescription(descriptionDict.getEntry("STIMS"));
       return c;
    }
    public static Consumable getStims(){return getStims(ItemQuality.STANDARD);}
