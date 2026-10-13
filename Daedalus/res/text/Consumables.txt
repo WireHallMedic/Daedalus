@@ -4,6 +4,9 @@ A flexible, adhesive patch that dispenses microscopic med-drones into the body. 
 @GRENADE
 A single-use explosive that detonates after a short delay. Heavier grenades have more explosive power.
 
+@+ELEMENT
+This grenade deals @TYPE damage.
+
 @SMOKE
 A single-use device that emits a cloud of thick smoke, which obscures sight. Heavier smoke grenades emit more and longer-lasting smoke.
 

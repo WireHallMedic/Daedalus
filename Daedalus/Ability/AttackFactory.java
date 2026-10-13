@@ -69,4 +69,29 @@ public class AttackFactory implements CombatConstants, ItemConstants, AbilityCon
          }
       }
    }
+   
+   // switches damage type, improves it a little, 
+   public static void changeGrenadeDamageType(Attack a, DamageType dType, double procChance)
+   {
+      Damage baseDamage = a.getBaseDamage();
+      Damage randomDamage = a.getRandomDamage();
+      int oldBase = baseDamage.getValue(DamageType.CONCUSSION);
+      int oldRandom = randomDamage.getValue(DamageType.CONCUSSION);
+      baseDamage.setValue(DamageType.CONCUSSION, 0);
+      randomDamage.setValue(DamageType.CONCUSSION, 0);
+      baseDamage.setValue(dType, oldBase + 2);
+      randomDamage.setValue(dType, oldRandom + 1);
+      
+      if(procChance > 0.0)
+      {
+         a.setProcChance(procChance);
+         switch(dType)
+         {
+            case DamageType.FIRE: a.setStatusEffect(StatusEffectFactory.getBurning()); break;
+            case DamageType.CRYO: a.setStatusEffect(StatusEffectFactory.getSlowed()); break;
+            case DamageType.CORROSION: a.setStatusEffect(StatusEffectFactory.getVulnerable()); break;
+            case DamageType.ELECTRIC: a.setSpecialEffect(SpecialEffect.ARC); break;
+         }
+      }
+   }
 }

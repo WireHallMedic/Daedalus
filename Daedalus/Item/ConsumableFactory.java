@@ -56,6 +56,43 @@ public class ConsumableFactory implements ItemConstants, GUIConstants, CombatCon
       return c;
    }
    public static Consumable getGrenade(){return getGrenade(ItemQuality.STANDARD);}
+      
+   
+   // no low-quality elemental grenades
+   public static Consumable getElementalGrenade(ItemQuality quality)
+   {
+      Consumable c = new Consumable("Grenade");
+      Attack a = new Attack("Grenade");
+
+      switch(quality)
+      {
+         case ItemQuality.STANDARD: a = AttackFactory.getWeakExplosion();
+                                    break;
+         case ItemQuality.HIGH:     a = AttackFactory.getStandardExplosion();
+                                    break; 
+      }
+      
+      DamageType dType = null;
+      switch(RNG.nextInt(4))
+      {
+         case 0:  dType = DamageType.FIRE; break;
+         case 1:  dType = DamageType.CRYO; break;
+         case 2:  dType = DamageType.CORROSION; break;
+         case 3:  dType = DamageType.ELECTRIC; break;
+      }
+      AttackFactory.changeGrenadeDamageType(a, dType, 1.0);
+      if(quality == ItemQuality.STANDARD)
+         c.setName("Light " + dType.name + " Grenade");
+      else if(quality == ItemQuality.HIGH)
+         c.setName(dType.name + " Grenade");
+
+      a.setRange(5);
+      c.setAbility(a);
+      c.setDescription(descriptionDict.getEntry("GRENADE"));
+      c.appendDescription("\n\n" + descriptionDict.getEntry("+ELEMENT").replace("@TYPE", dType.name));
+      return c;
+   }
+   public static Consumable getElementalGrenade(){return getElementalGrenade(ItemQuality.STANDARD);}
    
    
    public static Consumable getSmokeGrenade(ItemQuality quality)
