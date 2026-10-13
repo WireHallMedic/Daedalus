@@ -200,9 +200,10 @@ public class ConsumableFactory implements ItemConstants, GUIConstants, CombatCon
       switch(baseType)
       {
          case MED_PATCH:      return getMedPatch(quality);
-         case SMOKE_GRENADE:  return getSmokeGrenade(quality);
-         case CAUSTIC_SMOKE_GRENADE:  return getCausticSmokeGrenade(quality);
          case GRENADE:        return getGrenade(quality);
+         case SMOKE_GRENADE:  return getSmokeGrenade(quality);
+         case CAUSTIC_SMOKE_GRENADE: return getCausticSmokeGrenade(quality);
+         case ELEMENTAL_GRENADE: return getElementalGrenade(quality);
          case DECOY:          return getDecoy(quality);
          case STIMS:          return getStims(quality);
       }
@@ -231,6 +232,7 @@ public class ConsumableFactory implements ItemConstants, GUIConstants, CombatCon
       
       list.add(new ConsumableTableEntry(Consumable.BaseType.MED_PATCH, ItemQuality.STANDARD, 4, 10, 2.0));
       list.add(new ConsumableTableEntry(Consumable.BaseType.GRENADE, ItemQuality.STANDARD, 4, 10, 1.5));
+      list.add(new ConsumableTableEntry(Consumable.BaseType.ELEMENTAL_GRENADE, ItemQuality.STANDARD, 4, 10, 1.5));
       list.add(new ConsumableTableEntry(Consumable.BaseType.SMOKE_GRENADE, ItemQuality.STANDARD, 4, 10, 1.0));
       list.add(new ConsumableTableEntry(Consumable.BaseType.CAUSTIC_SMOKE_GRENADE, ItemQuality.STANDARD, 8, 14, 1.0));
       list.add(new ConsumableTableEntry(Consumable.BaseType.DECOY, ItemQuality.STANDARD, 8, 14, 1.0));
@@ -238,6 +240,7 @@ public class ConsumableFactory implements ItemConstants, GUIConstants, CombatCon
       
       list.add(new ConsumableTableEntry(Consumable.BaseType.MED_PATCH, ItemQuality.HIGH, 8, 100, 2.0));
       list.add(new ConsumableTableEntry(Consumable.BaseType.GRENADE, ItemQuality.HIGH, 8, 100, 1.5));
+      list.add(new ConsumableTableEntry(Consumable.BaseType.ELEMENTAL_GRENADE, ItemQuality.HIGH, 8, 100, 1.5));
       list.add(new ConsumableTableEntry(Consumable.BaseType.CAUSTIC_SMOKE_GRENADE, ItemQuality.HIGH, 12, 100, 1.0));
       list.add(new ConsumableTableEntry(Consumable.BaseType.DECOY, ItemQuality.HIGH, 12, 100, 1.0));
       list.add(new ConsumableTableEntry(Consumable.BaseType.STIMS, ItemQuality.HIGH, 12, 100, 1.0));
