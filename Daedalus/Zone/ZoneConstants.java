@@ -11,6 +11,13 @@ public interface ZoneConstants
    public static final int[][] RECT_DIAG = {{-1, 0, 10}, {0, -1, 10}, {1, 0, 10}, {0, 1, 10},
                                             {-1, -1, 14}, {-1, 1, 14}, {1, -1, 14}, {1, 1, 14}};
    
+   public static final int BITMASK_NORTH = 1;
+   public static final int BITMASK_EAST = 2;
+   public static final int BITMASK_SOUTH = 4;
+   public static final int BITMASK_WEST = 8;
+   public static final int BITMASK_UP = 16;
+   public static final int BITMASK_DOWN = 32;
+   
    public enum TileBase
    {
       CLEAR          ("Clear", true, true, true, FontConstants.SMALL_BULLET_TILE),

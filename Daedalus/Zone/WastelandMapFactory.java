@@ -14,7 +14,7 @@ public class WastelandMapFactory extends MapFactory implements ZoneConstants, GU
    public static final int DEFAULT_WIDTH = 60;
    public static final int DEFAULT_HEIGHT = 50;
    
-   public static ZoneMap getBasicMap(int level)
+   public static ZoneMap getBasicMap(int level, int exits)
    {
       ZoneMap map = new ZoneMap(DEFAULT_WIDTH, DEFAULT_HEIGHT);
       map.setName("Wasteland");
@@ -22,6 +22,22 @@ public class WastelandMapFactory extends MapFactory implements ZoneConstants, GU
       map.setMinThreat(3);
       map.setLevel(level);
       setJaggedBorder(map, 3, new ZoneTile(ZoneConstants.TileBase.WALL));
+      
+      if((exits & BITMASK_NORTH) == BITMASK_NORTH)
+         addRandomExit(map, 'N');
+      if((exits & BITMASK_EAST) == BITMASK_EAST)
+         addRandomExit(map, 'E');
+      if((exits & BITMASK_SOUTH) == BITMASK_SOUTH)
+         addRandomExit(map, 'S');
+      if((exits & BITMASK_WEST) == BITMASK_WEST)
+         addRandomExit(map, 'W');
+      // hideout entrance
+      if((exits & BITMASK_DOWN) == BITMASK_DOWN)
+      {
+         addRandomExit(map, 'S');
+         Exit hideoutEntrance = map.getExitByDirection(ExitDirection.SOUTH);
+         hideoutEntrance.setExitDirection('D');
+      }
       
       for(int x = 0; x < 3; x++)
       for(int y = 0; y < 3; y++)
@@ -78,6 +94,7 @@ public class WastelandMapFactory extends MapFactory implements ZoneConstants, GU
       MapFactory.addCrates(map, 5, 5, map.getWidth() - 10, map.getHeight() - 10, randomCrates);
       
       fillUnreachable(map, new ZoneTile(ZoneConstants.TileBase.WALL));
+      map.setExitList();
       // not painted as we want to add exits first
       return map;
    }

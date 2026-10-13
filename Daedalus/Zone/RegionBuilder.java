@@ -15,11 +15,28 @@ public class RegionBuilder implements ZoneConstants, GUIConstants, ActorConstant
       int regionHeight = 4;
       Vector<Zone> zoneList = new Vector<Zone>();
       ZoneMap[][] overlandArr = new ZoneMap[regionWidth][regionHeight];
+      int[][] exits = new int[regionWidth][regionHeight];
       MazeBuilder maze = new MazeBuilder(regionWidth, regionHeight, .67);
       int hideoutEntranceX = 1 + RNG.nextInt(regionWidth - 2);
       
       int[][] mazeMap = maze.getTileIndexMap();
       mazeMap[(hideoutEntranceX * 3) + 1][(regionHeight * 3) - 2] = 'X';
+      
+      // calc exits
+      for(int x = 0; x < regionWidth; x++)
+      for(int y = 0; y < regionHeight; y++)
+      {
+         if(maze.exitsNorth(x, y))
+            exits[x][y] += BITMASK_NORTH;
+         if(maze.exitsEast(x, y))
+            exits[x][y] += BITMASK_EAST;
+         if(maze.exitsSouth(x, y))
+            exits[x][y] += BITMASK_SOUTH;
+         if(maze.exitsWest(x, y))
+            exits[x][y] += BITMASK_WEST;
+         if(x == hideoutEntranceX && y == regionHeight - 1)
+            exits[x][y] += BITMASK_DOWN;
+      }
       
       ZoneMap hideout = WastelandMapFactory.getHideout(mazeMap);
       zoneList.add(new Zone(hideout));
@@ -27,35 +44,16 @@ public class RegionBuilder implements ZoneConstants, GUIConstants, ActorConstant
       zoneList.elementAt(0).getMap().dropActor(a, 8, 11, zoneList.elementAt(0).getActorList());
       zoneList.elementAt(0).getActorList().add(a);
       
-      // add exits
+      // create main area
       for(int x = 0; x < regionWidth; x++)
       for(int y = 0; y < regionHeight; y++)
       {
-         overlandArr[x][y] = WastelandMapFactory.getBasicMap(regionHeight - y);
-         if(maze.exitsNorth(x, y))
-         {
-            MapFactory.addRandomExit(overlandArr[x][y], 'N');
-         }
-         if(maze.exitsEast(x, y))
-         {
-            MapFactory.addRandomExit(overlandArr[x][y], 'E');
-         }
-         if(maze.exitsSouth(x, y))
-         {
-            MapFactory.addRandomExit(overlandArr[x][y], 'S');
-         }
-         if(maze.exitsWest(x, y))
-         {
-            MapFactory.addRandomExit(overlandArr[x][y], 'W');
-         }
-         overlandArr[x][y].setExitList();
+         overlandArr[x][y] = WastelandMapFactory.getBasicMap(regionHeight - y, exits[x][y]);
       }
       
-      // add hideout entrance along south wall of south zone
+      // connect hideout exit
       ZoneMap hideoutEntranceMap = overlandArr[hideoutEntranceX][regionHeight - 1];
-      MapFactory.addRandomExit(hideoutEntranceMap, 'S');
-      Exit hideoutEntrance = hideoutEntranceMap.getExitByDirection(ExitDirection.SOUTH);
-      hideoutEntrance.setExitDirection('D');
+      Exit hideoutEntrance = hideoutEntranceMap.getExitByDirection(ExitDirection.DOWN);
       hideoutEntrance.pair(hideout.getExitByDirection(ExitDirection.UP));
       
       // link exits and paint
