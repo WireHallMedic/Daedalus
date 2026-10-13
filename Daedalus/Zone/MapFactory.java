@@ -114,6 +114,44 @@ public class MapFactory implements ZoneConstants, GUIConstants
       }
    }
    
+   // uses spiralsearch to make tightly grouped scatter
+   public static void addTightScatter(ZoneMap map, int startX, int startY, int width, int height, int count, ZoneTile scatterTile)
+   {
+      boolean[][] scatterMap = new boolean[width][height];
+      Coord centerLoc = new Coord(width / 2, height / 2);
+      scatterMap[centerLoc.x][centerLoc.y] = true;
+      
+      boolean[][] prospectMap = new boolean[width][height];
+      for(int x = 0; x < width; x++)
+      for(int y = 0; y < height; y++)
+      {
+         prospectMap[x][y] = true;
+         scatterMap[x][y] = false;
+      }
+      scatterMap[centerLoc.x][centerLoc.y] = true;
+      
+      SpiralSearch search = null;
+      Coord target = null;
+      for(int i = 0; i < count; i++)
+      {
+         search = new SpiralSearch(prospectMap, centerLoc, false, true);
+         target = search.getNext();
+         while(target != null)
+         {
+            if(!scatterMap[target.x][target.y])
+            {
+               scatterMap[target.x][target.y] = true;
+               break;
+            }
+            target = search.getNext();
+         }
+      }
+      for(int x = 0; x < width; x++)
+      for(int y = 0; y < height; y++)
+         if(scatterMap[x][y])
+            map.setTile(x + startX, y + startY, scatterTile.copy());
+   }
+   
    // adds a tile to a location entirely surrounded by lowpassable
    public static void addRandomTile(ZoneMap map, ZoneTile tile)
    {

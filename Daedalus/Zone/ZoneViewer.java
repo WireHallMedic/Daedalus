@@ -57,10 +57,8 @@ public class ZoneViewer extends DaePanel implements MouseListener, GUIConstants,
    
    private void generateMap()
    {
-      zoneMap = WastelandMapFactory.getBasicMap(1, 0);
+      zoneMap = WastelandMapFactory.getBasicMap(1, BITMASK_NORTH + BITMASK_EAST + BITMASK_WEST + BITMASK_SOUTH);
       
-      // add hideout entrance along south wall of south zone
-      MapFactory.addRandomExit(zoneMap, 'S');
       Exit hideoutEntrance = zoneMap.getExitByDirection(ExitDirection.SOUTH);
       hideoutEntrance.setExitDirection('D');
       zoneMap.setExitList();

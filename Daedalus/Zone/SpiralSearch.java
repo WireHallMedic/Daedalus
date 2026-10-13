@@ -11,7 +11,13 @@
 //
 //  The algorithm only processes a couple tiles ahead of where getNext() is to maintain
 //  performance and limit unnecessary memory usage.
-//
+//  
+//  Passing in true for randomizeSearchStart randomizes where in the search pattern the
+//  algorithm starts. This position remains the same for each iteration.
+//  
+//  
+//  
+//  
 //  Copyright 2019 Michael Widler
 //  Free for private or public use. No warranty is implied or expressed.
 //
@@ -27,16 +33,20 @@ public class SpiralSearch implements ZoneConstants
 {
    private boolean[][] searchArea;
    private boolean[][] alreadySearched;
-   private boolean searchDiagonal = false;
+   private boolean searchDiagonal;
+   private int searchStartIndex;
    private CoordQueue coordQueue;
    
    
    // Constructor. Sets the paramaters of the search, and primes the queue.
-   public SpiralSearch(boolean area[][], int startX, int startY, boolean diag)
+   public SpiralSearch(boolean area[][], int startX, int startY, boolean diag, boolean randomizeSearchStart)
    {
       searchArea = new boolean[area.length][area[0].length];
       alreadySearched = new boolean[area.length][area[0].length];
       searchDiagonal = diag;
+      int searchStartIndex = 0;
+      if(randomizeSearchStart)
+         searchStartIndex = RNG.nextInt(getSearchPattern().length);
       
       for(int x = 0; x < area.length; x++)
       for(int y = 0; y < area[0].length; y++)
@@ -47,9 +57,10 @@ public class SpiralSearch implements ZoneConstants
       search(startX, startY);
    }
    
-   public SpiralSearch(boolean area[][], Coord startLoc, boolean diag){this(area, startLoc.x, startLoc.y, diag);}
+   public SpiralSearch(boolean area[][], Coord startLoc, boolean diag, boolean randomize){this(area, startLoc.x, startLoc.y, diag, randomize);}
    public SpiralSearch(boolean area[][], Coord startLoc){this(area, startLoc.x, startLoc.y, true);}
    public SpiralSearch(boolean area[][], int startX, int startY){this(area, startX, startY, true);}
+   public SpiralSearch(boolean area[][], int startX, int startY, boolean diag){this(area, startX, startY, diag, false);}
    
    // returns the next coord in the queue
    public Coord getNext()
@@ -77,9 +88,10 @@ public class SpiralSearch implements ZoneConstants
       int x2;
       int y2;
       
-      int[][] searchPattern = getSearchPattern(y);
-      for(int[] cell : searchPattern)
+      int[][] searchPattern = getSearchPattern();
+      for(int i = 0; i < searchPattern.length; i++)
       {
+         int[] cell = searchPattern[(i + searchStartIndex) % searchPattern.length];
          x2 = x + cell[0];
          y2 = y + cell[1];
          if(isInBounds(x2, y2) && !alreadySearched[x2][y2] && searchArea[x2][y2])
@@ -90,8 +102,8 @@ public class SpiralSearch implements ZoneConstants
       }
    }
    
-   // returns the search patter to use based on mode and location
-   private int[][] getSearchPattern(int y)
+   // returns the search pattern to use based on mode and location
+   private int[][] getSearchPattern()
    {
       int[][] searchPattern = null;
       if(searchDiagonal)

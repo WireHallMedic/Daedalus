@@ -38,46 +38,39 @@ public class WastelandMapFactory extends MapFactory implements ZoneConstants, GU
          Exit hideoutEntrance = map.getExitByDirection(ExitDirection.SOUTH);
          hideoutEntrance.setExitDirection('D');
       }
-      
+
       for(int x = 0; x < 3; x++)
       for(int y = 0; y < 3; y++)
       {
-         if(RNG.nextDouble() < .5)
+         // random clusters
+         if(RNG.nextDouble() < .75)
          {
             int startingX = (x * (DEFAULT_WIDTH / 3)) + 1;
             int startingY = (y * (DEFAULT_HEIGHT / 3)) + 1;
-            int featureWidth = 4 + RNG.nextInt(3);
-            int featureHeight = 4 + RNG.nextInt(3);
+            int featureWidth = 3 + RNG.nextInt(3);
+            int featureHeight = 3 + RNG.nextInt(3);
             int plusX = RNG.nextInt((DEFAULT_WIDTH / 3) - featureWidth - 2);
             int plusY = RNG.nextInt((DEFAULT_HEIGHT / 3) - featureHeight - 2);
             startingX += plusX;
             startingY += plusY;
-            
-            switch(RNG.nextInt(6))
-            {
-               case 0:  addScatter(map, startingX, startingY, featureWidth, featureHeight, .2, 
-                           new ZoneTile(ZoneConstants.TileBase.WALL));
-                        break;
-               case 1:  addScatter(map, startingX, startingY, featureWidth, featureHeight, .4, 
-                           new ZoneTile(ZoneConstants.TileBase.WALL));
-                        break;
-               case 2:  addScatter(map, startingX, startingY, featureWidth, featureHeight, .2, 
-                           new ZoneTile(ZoneConstants.TileBase.LOW_WALL));
-                        break;
-               case 3:  addScatter(map, startingX, startingY, featureWidth, featureHeight, .4, 
-                           new ZoneTile(ZoneConstants.TileBase.LOW_WALL));
-                        break;
-               case 4:  addScatter(map, startingX, startingY, featureWidth, featureHeight, .1, 
-                           new ZoneTile(ZoneConstants.TileBase.LOW_WALL));
-                        addScatter(map, startingX, startingY, featureWidth, featureHeight, .1, 
-                           new ZoneTile(ZoneConstants.TileBase.WALL));
-               case 5:  addScatter(map, startingX, startingY, featureWidth, featureHeight, .2, 
-                           new ZoneTile(ZoneConstants.TileBase.LOW_WALL));
-                        addScatter(map, startingX, startingY, featureWidth, featureHeight, .2, 
-                           new ZoneTile(ZoneConstants.TileBase.WALL));
-            }
+            if(x == 0)
+               startingX = Math.max(startingX, 4);
+            if(y == 0)
+               startingY = Math.max(startingY, 4);
+            if(x == 2)
+               startingX = Math.min(startingX, DEFAULT_WIDTH - (featureWidth + 4));
+            if(y == 2)
+               startingY = Math.min(startingY, DEFAULT_HEIGHT - (featureHeight + 4));
+            int halfMaxCount = (featureWidth * featureHeight) / 2;
+            int count = RNG.nextInt(halfMaxCount) + halfMaxCount;
+            addTightScatter(map, startingX, startingY, featureWidth, featureHeight, count + RNG.nextInt(4), 
+                            new ZoneTile(ZoneConstants.TileBase.LOW_WALL));
+            addTightScatter(map, startingX, startingY, featureWidth, featureHeight, count, 
+                            new ZoneTile(ZoneConstants.TileBase.WALL));
          }
          
+
+         // random individual rocks
          int randomRocks = RNG.nextInt(7) + 7;
          for(int i = 0; i < randomRocks; i++)
          {
