@@ -30,6 +30,7 @@ public class Chest extends ToggleTile implements ZoneConstants, GUIConstants, Lo
    public Chest(int lvl)
    {
       super(TileBase.CHEST, TileBase.OPEN_CHEST);
+      setFGColor(ItemConstants.HIGH_QUALITY_COLOR);
       oneToggleOnly = true;
       dispensedLoot = false;
       lootQuality = LootFactory.CHEST_LOOT;

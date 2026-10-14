@@ -122,6 +122,26 @@ public class GUITools implements GUIConstants, FontConstants
       return new Color(red, green, blue).getRGB();
    }
    
+   public static int[] getColorGradient(int start, int end, int length)
+   {
+      int[] gradient = new int[length];
+      int startRed = new Color(start).getRed();
+      int startGreen = new Color(start).getGreen();
+      int startBlue = new Color(start).getBlue();
+      int endRed = new Color(end).getRed();
+      int endGreen = new Color(end).getGreen();
+      int endBlue = new Color(end).getBlue();
+      int redStep = (endRed - startRed) / length;
+      int greenStep = (endGreen - startGreen) / length;
+      int blueStep = (endBlue - startBlue) / length;
+
+      for(int i = 0; i < length; i++)
+      {
+         gradient[i] = new Color(startRed + (redStep * i), startGreen + (greenStep * i), startBlue + (blueStep * i)).getRGB();
+      }
+      return gradient;
+   }
+   
    // returns the value of a point between two values.  For example, if the passed values are 2 and 4, and the xOffset
    // is .5 (halfway between the two), this will return 3.
    public static double interpolateLinear(double p1, double p2, double xOff)

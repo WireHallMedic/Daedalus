@@ -69,7 +69,6 @@ public class WastelandMapFactory extends MapFactory implements ZoneConstants, GU
                             new ZoneTile(ZoneConstants.TileBase.WALL));
          }
          
-
          // random individual rocks
          int randomRocks = RNG.nextInt(7) + 7;
          for(int i = 0; i < randomRocks; i++)
@@ -88,8 +87,89 @@ public class WastelandMapFactory extends MapFactory implements ZoneConstants, GU
       
       fillUnreachable(map, new ZoneTile(ZoneConstants.TileBase.WALL));
       map.setExitList();
-      // not painted as we want to add exits first
+      
+      MapPainter.paintWastelandOverworld(map);
+      
       return map;
+   }
+   
+   public static void setCrashedShip(ZoneMap map)
+   {
+      String[] tileArr =  {"           1111111      ",
+                           "         122###|####    ",
+                           "       12233#?c.ccc##   ",
+                           "     1223333#?c....c##  ",
+                           "   122333344###|####### ",
+                           "112233444455###.......::",
+                           "112233444455###.......::",
+                           "   122333344###/####### ",
+                           "     1223333#?c....c##  ",
+                           "       12233#?c.ccc##   ",
+                           "         122###/####    ",
+                           "           1111111      "};
+      int width = tileArr[0].length();
+      int height = tileArr.length;
+      int yStart = 4 + RNG.nextInt(4);
+      int xStart = 5 + RNG.nextInt(map.getWidth() - (width + 10));
+      
+      int baseScorchColor = GUITools.dimColor(WASTELAND_GROUND_BG, .33);
+      int[] scorchArr = GUITools.getColorGradient(baseScorchColor, BLACK, 6);
+      
+      ZoneTile zt = null;
+      for(int x = 0; x < width; x++)
+      for(int y = 0; y < height; y++)
+      {
+         switch(tileArr[y].charAt(x))
+         {
+            case '#' :  zt = new ZoneTile(TileBase.WALL);
+                        break;
+            case '.' :  zt = new ZoneTile(TileBase.CLEAR);
+                        break;
+            case '1' :  ;
+            case '2' :  ;
+            case '3' :  ;
+            case '4' :  ;
+            case '5' :  zt = new ZoneTile(TileBase.ROUGH);
+                        zt.setBGColor(scorchArr[tileArr[y].charAt(x) - '1']);
+                        break;
+            case ':' :  zt = new ZoneTile(TileBase.BARS);
+                        break;
+            case '/' :  Door d1 = new Door();
+                        d1.toggle();
+                        zt = d1;
+                        break;
+            case '|' :  Door d2 = new Door();
+                        zt = d2;
+                        break;
+            case 'c' :  zt = Chest.getCrate(1);
+                        break;
+            case '?' :  zt = new Chest(1);
+                        break;
+            case ' ' :  zt = null;
+                        break;
+         }
+         if(zt != null)
+            map.setTile(x + xStart, y + yStart, zt);
+      }
+      // break stuff
+      for(int x = 0; x < width; x++)
+      for(int y = 0; y < height; y++)
+      {
+         // break inner door in case of items dropping
+         if(RNG.nextDouble() < .1 || y == 4 && tileArr[y].charAt(x) == '|')
+         {
+            switch(tileArr[y].charAt(x))
+            {
+               case '#' :  
+               case ':' :
+               case '/' :
+               case '|' :
+               case 'c' :
+               case '.' :  map.attackTile(x + xStart, y + yStart, true);
+                           break;
+            }
+         }
+      }
    }
    
    public static ZoneMap getHideout(int[][] mazeMap)

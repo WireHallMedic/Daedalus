@@ -68,7 +68,7 @@ public class RegionBuilder implements ZoneConstants, GUIConstants, ActorConstant
          {
             overlandArr[x][y].getExitByDirection(ExitDirection.EAST).pair(overlandArr[x+1][y].getExitByDirection(ExitDirection.WEST));
          }
-         MapPainter.paintWastelandOverworld(overlandArr[x][y]);
+         //MapPainter.paintWastelandOverworld(overlandArr[x][y]);
          zoneList.add(new Zone(overlandArr[x][y]));
       }
       

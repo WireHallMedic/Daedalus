@@ -392,22 +392,7 @@ public class AnimationScriptFactory implements ZoneConstants, GUIConstants
    
    public static int[] getColorGradient(int start, int end, int length)
    {
-      int[] gradient = new int[length];
-      int startRed = new Color(start).getRed();
-      int startGreen = new Color(start).getGreen();
-      int startBlue = new Color(start).getBlue();
-      int endRed = new Color(end).getRed();
-      int endGreen = new Color(end).getGreen();
-      int endBlue = new Color(end).getBlue();
-      int redStep = (endRed - startRed) / length;
-      int greenStep = (endGreen - startGreen) / length;
-      int blueStep = (endBlue - startBlue) / length;
-
-      for(int i = 0; i < length; i++)
-      {
-         gradient[i] = new Color(startRed + (redStep * i), startGreen + (greenStep * i), startBlue + (blueStep * i)).getRGB();
-      }
-      return gradient;
+      return GUITools.getColorGradient(start, end, length);
    }
    
    private static double[] prepend(double val, int count, double[] original)
