@@ -14,7 +14,7 @@ public class WastelandMapFactory extends MapFactory implements ZoneConstants, GU
    public static final int DEFAULT_WIDTH = 60;
    public static final int DEFAULT_HEIGHT = 50;
    
-   public static ZoneMap getBasicMap(int level, int exits)
+   public static ZoneMap getUnpaintedBasicMap(int level, int exits)
    {
       ZoneMap map = new ZoneMap(DEFAULT_WIDTH, DEFAULT_HEIGHT);
       map.setName("Wasteland");
@@ -88,6 +88,13 @@ public class WastelandMapFactory extends MapFactory implements ZoneConstants, GU
       fillUnreachable(map, new ZoneTile(ZoneConstants.TileBase.WALL));
       map.setExitList();
       
+      return map;
+   }
+   
+   public static ZoneMap getBasicMap(int level, int exits)
+   {
+      ZoneMap map = getUnpaintedBasicMap(level, exits);
+      
       MapPainter.paintWastelandOverworld(map);
       
       return map;
@@ -122,8 +129,12 @@ public class WastelandMapFactory extends MapFactory implements ZoneConstants, GU
          switch(tileArr[y].charAt(x))
          {
             case '#' :  zt = new ZoneTile(TileBase.WALL);
+                        zt.setBGColor(GREY);
+                        zt.setFGColor(METAL);
+                        zt.setName("Crashed Ship");
                         break;
             case '.' :  zt = new ZoneTile(TileBase.CLEAR);
+                        zt.setBGColor(GREY);
                         break;
             case '1' :  ;
             case '2' :  ;
@@ -131,19 +142,26 @@ public class WastelandMapFactory extends MapFactory implements ZoneConstants, GU
             case '4' :  ;
             case '5' :  zt = new ZoneTile(TileBase.ROUGH);
                         zt.setBGColor(scorchArr[tileArr[y].charAt(x) - '1']);
+                        zt.setFGColor(WASTELAND_GROUND_FG);
                         break;
             case ':' :  zt = new ZoneTile(TileBase.BARS);
+                        zt.setBGColor(GREY);
+                        zt.setName("Viewing Pane");
                         break;
             case '/' :  Door d1 = new Door();
                         d1.toggle();
                         zt = d1;
+                        zt.setBGColor(GREY);
                         break;
             case '|' :  Door d2 = new Door();
                         zt = d2;
+                        zt.setBGColor(GREY);
                         break;
             case 'c' :  zt = Chest.getCrate(1);
+                        zt.setBGColor(GREY);
                         break;
             case '?' :  zt = new Chest(1);
+                        zt.setBGColor(GREY);
                         break;
             case ' ' :  zt = null;
                         break;
@@ -170,6 +188,15 @@ public class WastelandMapFactory extends MapFactory implements ZoneConstants, GU
             }
          }
       }
+   }
+   
+   public static ZoneMap getCrashedShipMap(int level, int exits)
+   {
+      ZoneMap map = getUnpaintedBasicMap(level, exits);
+      setCrashedShip(map);
+      MapPainter.paintWastelandOverworld(map);
+      
+      return map;
    }
    
    public static ZoneMap getHideout(int[][] mazeMap)

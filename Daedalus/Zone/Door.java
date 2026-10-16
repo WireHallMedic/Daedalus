@@ -10,5 +10,6 @@ public class Door extends ToggleTile implements ZoneConstants, GUIConstants
    public Door()
    {
       super(TileBase.DOOR, TileBase.OPEN_DOOR);
+      setFGColor(METAL);
    }
 }

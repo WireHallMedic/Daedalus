@@ -67,7 +67,14 @@ public interface GUIConstants
    public static final int STONE = new Color(200, 200, 200).getRGB();
    public static final int ACID = new Color(154, 205, 50).getRGB();
    public static final int LOCKED_COLOR = LIGHT_GREY;
-   public static final int WOOD = BEIGE;
-   public static final int SMOKE  = new Color(0, 0, 0, 127).getRGB();
-   public static final int CAUSTIC_SMOKE  = new Color(154, 205, 50, 127).getRGB();
+   public static final int WOOD_BG = new Color(139, 69, 19).getRGB();
+   public static final int WOOD_FG = new Color(139, 69, 19).brighter().getRGB();
+   public static final int SMOKE = new Color(0, 0, 0, 127).getRGB();
+   public static final int CAUSTIC_SMOKE = new Color(154, 205, 50, 127).getRGB();
+   public static final int BONE = new Color(238, 220, 130).getRGB();
+   public static final int COOKED_MEAT = new Color(128, 0, 0).getRGB();
+   public static final int METAL = new Color(192, 192, 192).getRGB();
+   public static final int BLOOD = new Color(205, 0, 0).getRGB();
+   public static final int GOLD = new Color(255, 215, 0).getRGB();
+   public static final int ICE = new Color(176, 226, 255).getRGB();
 }

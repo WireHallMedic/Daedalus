@@ -57,7 +57,7 @@ public class Chest extends ToggleTile implements ZoneConstants, GUIConstants, Lo
       Chest crate = new Chest(lvl);
       crate.setName("Crate");
       crate.lootQuality = LootFactory.CRATE_LOOT;
-      crate.setFGColor(GUIConstants.WOOD);
+      crate.setFGColor(GUIConstants.WOOD_FG);
       crate.setDurability(Durability.FRAGILE);
       return crate;
    }
