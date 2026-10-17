@@ -18,6 +18,9 @@ public interface ZoneConstants
    public static final int BITMASK_UP = 16;
    public static final int BITMASK_DOWN = 32;
    
+   public static final int DECORATION_NONE = 0;
+   public static final int DECORATION_PATH = 1;
+   
    public enum TileBase
    {
       CLEAR          ("Clear", true, true, true, FontConstants.SMALL_BULLET_TILE),

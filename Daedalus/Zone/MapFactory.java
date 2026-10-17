@@ -51,6 +51,32 @@ public class MapFactory implements ZoneConstants, GUIConstants
       return (double)pathable / (double)total;
    }
    
+   public static Coord getNearestLowPassable(ZoneMap map, Coord startLoc, int searchRadius)
+   {
+      int searchDiameter = searchRadius + searchRadius + 1;
+      Coord centerLoc = new Coord(searchDiameter / 2, searchDiameter / 2);
+      
+      boolean[][] prospectMap = new boolean[searchDiameter][searchDiameter];
+      for(int x = 0; x < searchDiameter; x++)
+      for(int y = 0; y < searchDiameter; y++)
+      {
+         prospectMap[x][y] = true;
+      }
+      
+      SpiralSearch search = new SpiralSearch(prospectMap, centerLoc, false, true);
+      Coord target = search.getNext();
+      while(target != null)
+      {
+         if(map.isLowPassable(target.x + startLoc.x - searchRadius, target.y + startLoc.y - searchRadius))
+            break;
+         target = search.getNext();
+      }
+      if(target == null)
+         return null;
+      return new Coord(target.x + startLoc.x - searchRadius, target.y + startLoc.y - searchRadius);
+   }
+   public static Coord getNearestLowPassable(ZoneMap map, Coord startLoc){return getNearestLowPassable(map, startLoc, 5);}
+   
    
    public static void pairExits(ZoneMap z1, ZoneMap z2, ExitDirection dirFromZ1)
    {
@@ -275,6 +301,89 @@ public class MapFactory implements ZoneConstants, GUIConstants
                break;
             }
          }
+      }
+   }
+   
+   
+   public static void addExitPaths(ZoneMap map)
+   {
+      int crossroadCount = 1;
+      if(map.getExitList().size() == 3)
+         crossroadCount += RNG.nextInt(2);
+      if(map.getExitList().size() > 3)
+         crossroadCount = 2;
+      
+      Coord[] crossroadList = new Coord[crossroadCount];
+      for(int i = 0; i < crossroadList.length; i++)
+      {
+         int crossroadsX = (map.getWidth() / 4) + RNG.nextInt(map.getWidth() / 2);
+         int crossroadsY = (map.getHeight() / 4) + RNG.nextInt(map.getHeight() / 2);
+         crossroadList[i] = getNearestLowPassable(map, new Coord(crossroadsX, crossroadsY), 5);
+      }
+      
+      // connect exits to closest crossroads
+      for(Coord exitLoc: map.getExitList())
+      {
+         Coord crossroads = crossroadList[0];
+         for(int i = 1; i < crossroadList.length; i++)
+         {
+            if(EngineTools.getAngbandDistance(crossroads, exitLoc) > EngineTools.getAngbandDistance(crossroadList[i], exitLoc))
+               crossroads = crossroadList[i];
+         }
+         addPath(map, crossroads, exitLoc, true);
+      }
+      // connect crossroads to each other
+      for(int i = 0; i < crossroadList.length - 1; i++)
+      {
+         Coord curCrossroad = crossroadList[i];
+         Coord nextCrossroad = crossroadList[i + 1];
+         for(int j = i + 1; j < crossroadList.length; j++)
+            if(EngineTools.getAngbandDistance(curCrossroad, nextCrossroad) > EngineTools.getAngbandDistance(curCrossroad, crossroadList[j]))
+               nextCrossroad = crossroadList[j];
+         addPath(map, curCrossroad, nextCrossroad, true);
+      }
+   }
+   
+   
+   public static void addPath(ZoneMap map, Coord point1, Coord point2, boolean addBend)
+   {
+     addPathBase(map, map.getFullLowPassMap(), point1, point2, addBend);
+   }
+   public static void addPath(ZoneMap map, Coord point1, Coord point2){addPath(map, point1, point2, false);}
+   
+   // the passMap is not memoized in ZoneMap, so we don't want to generate it a lot
+   private static void addPathBase(ZoneMap map, boolean[][] lowPassMap, Coord point1, Coord point2, boolean addBend)
+   {
+      if(lowPassMap == null)
+         lowPassMap = map.getFullLowPassMap();
+      AStar pathSearch = new AStar();
+      Vector<Coord> basePath = pathSearch.path(lowPassMap, point1, point2);
+      
+      if(addBend)
+      {
+         Coord bend = basePath.elementAt(basePath.size() / 2);
+         Vect modVect = new Vect(point1, point2);
+         modVect.angle += Math.PI / 2.0;
+         if(RNG.nextBoolean())
+            modVect.angle += Math.PI;
+         modVect.magnitude = RNG.nextDouble() * (basePath.size() / 4.0);
+         Vect bendVect = bend.getAsVect();
+         bendVect.add(modVect);
+         bend = getNearestLowPassable(map, bendVect.getAsCoord(), 5);
+         addPathBase(map, lowPassMap, point1, bend, false);
+         addPathBase(map, lowPassMap, bend, point2, false);
+      }
+      else
+      {
+         for(Coord c: basePath)
+         {
+            if(!(map.getTile(c) instanceof Exit))
+               map.getTile(c).setDecorationType(DECORATION_PATH);
+         }
+         if(!(map.getTile(point2) instanceof Exit))
+            map.getTile(point1).setDecorationType(DECORATION_PATH);
+         if(!(map.getTile(point2) instanceof Exit))
+            map.getTile(point1).setDecorationType(DECORATION_PATH);
       }
    }
 

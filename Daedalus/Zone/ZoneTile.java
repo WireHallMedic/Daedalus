@@ -32,7 +32,7 @@ public class ZoneTile extends ImageTile implements ZoneConstants, GUIConstants
    {
       super(SQUARE_PALETTE);
       set(base, WHITE, BLACK);
-      decorationType = 0;
+      decorationType = DECORATION_NONE;
    }
    
    public ZoneTile(ZoneTile that)

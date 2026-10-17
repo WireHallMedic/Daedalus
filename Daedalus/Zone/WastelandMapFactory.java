@@ -88,6 +88,9 @@ public class WastelandMapFactory extends MapFactory implements ZoneConstants, GU
       fillUnreachable(map, new ZoneTile(ZoneConstants.TileBase.WALL));
       map.setExitList();
       
+      // add paths
+      addExitPaths(map);
+      
       return map;
    }
    

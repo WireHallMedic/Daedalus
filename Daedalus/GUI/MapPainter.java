@@ -31,6 +31,11 @@ public class MapPainter implements ZoneConstants, GUIConstants
                               break;
             }
          }
+         if(map.getTile(x, y).getDecorationType() == DECORATION_PATH)
+         {
+            map.getTile(x, y).setFGColor(WASTELAND_PATH_FG);
+            map.getTile(x, y).setBGColor(BLACK);
+         }
       }
       applyNoiseToFloor(map, noiseStepSize);
    }

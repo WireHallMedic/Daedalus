@@ -149,6 +149,16 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    public void toggle(Coord c){toggle(c.x, c.y);}
    
    
+   public boolean[][] getFullLowPassMap()
+   {
+      boolean[][] lpm = new boolean[width][height];
+      for(int x = 0; x < width; x++)
+      for(int y = 0; y < height; y++)
+         lpm[x][y] = isLowPassable(x, y);
+      return lpm;
+   }
+   
+   
    // tile and image stuff
    ////////////////////////////////////////////////
    
