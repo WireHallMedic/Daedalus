@@ -293,8 +293,8 @@ public class MapFactory implements ZoneConstants, GUIConstants
       {
          for(int j = 0; j < maxTries; j++)
          {
-            int xLoc = RNG.nextInt(x + width);
-            int yLoc = RNG.nextInt(y + height);
+            int xLoc = x + RNG.nextInt(width);
+            int yLoc = y + RNG.nextInt(height);
             if(!map.wouldBlockPathing(xLoc, yLoc))
             {
                map.setTile(xLoc, yLoc, Chest.getCrate(map.getLevel()));
@@ -359,6 +359,9 @@ public class MapFactory implements ZoneConstants, GUIConstants
       AStar pathSearch = new AStar();
       Vector<Coord> basePath = pathSearch.path(lowPassMap, point1, point2);
       
+      if(basePath.size() == 0)
+         return;
+         
       if(addBend)
       {
          Coord bend = basePath.elementAt(basePath.size() / 2);

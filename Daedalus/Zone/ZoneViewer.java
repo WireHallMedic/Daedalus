@@ -68,6 +68,7 @@ public class ZoneViewer extends DaePanel implements MouseListener, GUIConstants,
    public void mouseExited(MouseEvent me){}
    public void mouseClicked(MouseEvent me)
    {
+      //RNG.setSeed(1792253081619L);
       generateMap();
       //printToConsole();
    }
