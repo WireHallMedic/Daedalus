@@ -318,13 +318,13 @@ public class ZoneMap implements ZoneConstants, GUIConstants
          return true;
       if(!(isLowPassable(x, y + 1) || isLowPassable(x, y - 1)))
          return true;
-      if(!(isLowPassable(x, y - 1) || isLowPassable(x + 1, y)))
+      if(!(isLowPassable(x, y - 1) || isLowPassable(x + 1, y)) && isLowPassable(x + 1, y - 1))
          return true;
-      if(!(isLowPassable(x, y - 1) || isLowPassable(x - 1, y)))
+      if(!(isLowPassable(x, y - 1) || isLowPassable(x - 1, y)) && isLowPassable(x - 1, y - 1))
          return true;
-      if(!(isLowPassable(x, y + 1) || isLowPassable(x + 1, y)))
+      if(!(isLowPassable(x, y + 1) || isLowPassable(x + 1, y)) && isLowPassable(x + 1, y + 1))
          return true;
-      if(!(isLowPassable(x, y + 1) || isLowPassable(x - 1, y)))
+      if(!(isLowPassable(x, y + 1) || isLowPassable(x - 1, y)) && isLowPassable(x - 1, y + 1))
          return true;
       return false;
    }

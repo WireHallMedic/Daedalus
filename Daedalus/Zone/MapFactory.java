@@ -11,7 +11,66 @@ import Daedalus.Engine.*;
 
 public class MapFactory implements ZoneConstants, GUIConstants
 {
-
+   // adds a sign at the nearest tile that doesn't block ground movement and is ortho-adacent to at least one wall
+   public static void dropSign(ZoneMap map, Coord startLoc, String text)
+   {
+      int searchRadius = 5;
+      int searchDiameter = searchRadius + searchRadius + 1;
+      Coord centerLoc = new Coord(searchDiameter / 2, searchDiameter / 2);
+      
+      boolean[][] prospectMap = new boolean[searchDiameter][searchDiameter];
+      for(int x = 0; x < searchDiameter; x++)
+      for(int y = 0; y < searchDiameter; y++)
+      {
+         prospectMap[x][y] = true;
+      }
+      
+      SpiralSearch search = new SpiralSearch(prospectMap, centerLoc, false, true);
+      Coord target = search.getNext();
+      while(target != null)
+      {  
+         target.x = target.x + startLoc.x - searchRadius;
+         target.y = target.y + startLoc.y - searchRadius;
+         if(map.isLowPassable(target) && 
+            !map.wouldBlockPathing(target) &&
+            countLowPassNeighbors(map, target) < 4)
+         {
+            // don't drop adj to exit or on path
+            if(!(map.getTile(target.x + 1, target.y) instanceof Exit) &&
+               !(map.getTile(target.x - 1, target.y) instanceof Exit) &&
+               !(map.getTile(target.x, target.y + 1) instanceof Exit) &&
+               !(map.getTile(target.x, target.y - 1) instanceof Exit) &&
+               map.getTile(target).getDecorationType() != DECORATION_PATH)
+               break;
+         }
+         target = search.getNext();
+      }
+      if(target == null)
+         return;
+      Sign sign = new Sign(text);
+      sign.setBGColor(map.getTile(target).getBGColor());
+      map.setTile(target, sign);
+   }
+   public static void dropSign(ZoneMap map, int x, int y, String text){dropSign(map, new Coord(x, y), text);}
+   
+   
+   // returns the number of ortho-adjacent low-pass neighbors
+   public static int countLowPassNeighbors(ZoneMap map, int x, int y)
+   {
+      int count = 0;
+      if(map.getTile(x + 1, y).isLowPassable())
+         count++;
+      if(map.getTile(x - 1, y).isLowPassable())
+         count++;
+      if(map.getTile(x, y + 1).isLowPassable())
+         count++;
+      if(map.getTile(x, y - 1).isLowPassable())
+         count++;
+      return count;
+   }
+   public static int countLowPassNeighbors(ZoneMap map, Coord c){return countLowPassNeighbors(map, c.x, c.y);}
+   
+   
    public static double getPassableRatio(ZoneMap map)
    {
       // create passable map

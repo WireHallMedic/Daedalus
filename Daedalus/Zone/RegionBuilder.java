@@ -18,6 +18,9 @@ public class RegionBuilder implements ZoneConstants, GUIConstants, ActorConstant
       int[][] exits = new int[regionWidth][regionHeight];
       MazeBuilder maze = new MazeBuilder(regionWidth, regionHeight, .67);
       int hideoutEntranceX = 1 + RNG.nextInt(regionWidth - 2);
+      int crashedShipX = 1 + RNG.nextInt(regionWidth - 2);
+      int hogtownEntranceY = 1 + RNG.nextInt(regionHeight - 2);
+      int dumpZoneEntranceY = 1 + RNG.nextInt(regionHeight - 2);
       
       int[][] mazeMap = maze.getTileIndexMap();
       mazeMap[(hideoutEntranceX * 3) + 1][(regionHeight * 3) - 2] = 'X';
@@ -34,9 +37,10 @@ public class RegionBuilder implements ZoneConstants, GUIConstants, ActorConstant
             exits[x][y] += BITMASK_SOUTH;
          if(maze.exitsWest(x, y))
             exits[x][y] += BITMASK_WEST;
-         if(x == hideoutEntranceX && y == regionHeight - 1)
-            exits[x][y] += BITMASK_DOWN;
       }
+      exits[hideoutEntranceX][regionHeight - 1] += BITMASK_DOWN;
+      exits[0][hogtownEntranceY] += BITMASK_WEST;
+      exits[regionWidth - 1][dumpZoneEntranceY] += BITMASK_EAST;
       
       ZoneMap hideout = WastelandMapFactory.getHideout(mazeMap);
       zoneList.add(new Zone(hideout));
@@ -48,7 +52,28 @@ public class RegionBuilder implements ZoneConstants, GUIConstants, ActorConstant
       for(int x = 0; x < regionWidth; x++)
       for(int y = 0; y < regionHeight; y++)
       {
-         overlandArr[x][y] = WastelandMapFactory.getBasicMap(regionHeight - y, exits[x][y]);
+         if(y == 0 && x == crashedShipX)
+            overlandArr[x][y] = WastelandMapFactory.getBasicMap(1, exits[x][y]);
+         else
+            overlandArr[x][y] = WastelandMapFactory.getBasicMap(1, exits[x][y]);
+      }
+      
+      // add signs
+      ZoneMap map = overlandArr[0][hogtownEntranceY];
+      for(int y = 0; y < map.getHeight(); y++)
+      {
+         if(map.getTile(0, y) instanceof Exit)
+         {
+            MapFactory.dropSign(map, 0, y, "       Hogtown\nNo Poor People Allowed");
+         }
+      }
+      map = overlandArr[regionWidth - 1][dumpZoneEntranceY];
+      for(int y = 0; y < map.getHeight(); y++)
+      {
+         if(map.getTile(map.getWidth() - 1, y) instanceof Exit)
+         {
+            MapFactory.dropSign(map, map.getWidth() - 1, y, "Dump Zone");
+         }
       }
       
       // connect hideout exit

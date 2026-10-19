@@ -58,6 +58,11 @@ public class ZoneViewer extends DaePanel implements MouseListener, GUIConstants,
    private void generateMap()
    {
       zoneMap = WastelandMapFactory.getCrashedShipMap(1, BITMASK_EAST + BITMASK_WEST + BITMASK_SOUTH);
+      for(int y = 0; y < zoneMap.getHeight(); y++)
+      {
+         if(zoneMap.getTile(0, y) instanceof Exit)
+            MapFactory.dropSign(zoneMap, 0, y, "Test Sign");
+      }
       update();
       this.repaint();
    }
