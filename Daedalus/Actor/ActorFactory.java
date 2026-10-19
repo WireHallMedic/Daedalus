@@ -70,6 +70,20 @@ public class ActorFactory implements ActorConstants, GUIConstants, AIConstants
       return a;
    }
    
+   public static Actor getSecurityGuard()
+   {
+      Actor a = new Actor("Security Guard");
+      a.setTileIndex('s');
+      a.setFGColor(LIGHT_GREY);
+      a.getBaseStats().setMaxHealth(BASE_NPC_HEALTH);
+      a.setAI(new StandardAI(a));
+      a.setCurWeapon(WeaponFactory.getScattergun());
+      Shield s = ShieldFactory.getStandardShield();
+      a.setShield(s);
+      a.fullHeal();
+      return a;
+   }
+   
    public static Actor getJackal()
    {
       Actor a = new Actor("Jackal");
@@ -144,8 +158,9 @@ public class ActorFactory implements ActorConstants, GUIConstants, AIConstants
          case JACKAL :  return getJackal();
          case ROACH :   return getRoach();
          case LOUSE :   return getLouse();
-         case DRONE :   return getDrone();
          case BANDIT :  return getBandit();
+         case DRONE :   return getDrone();
+         case SECURITY_GUARD : return getSecurityGuard();
          default :      throw new Error("EnemyBase " + base + " does not have a case in ActorFactory.getActor().");
       }
    }

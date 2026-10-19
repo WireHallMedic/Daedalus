@@ -110,13 +110,13 @@ public class WastelandMapFactory extends MapFactory implements ZoneConstants, GU
                            "       12233#?c.ccc##   ",
                            "     1223333#?c....c##  ",
                            "   122333344###|####### ",
-                           "112233444455###.......::",
-                           "112233444455###.......::",
+                           "112233444455###..D.D..::",
+                           "112233444455###.....S.::",
                            "   122333344###/####### ",
                            "     1223333#?c....c##  ",
                            "       12233#?c.ccc##   ",
                            "         122###/####    ",
-                           "           1111111      "};
+                           "          d1111111d     "};
       int width = tileArr[0].length();
       int height = tileArr.length;
       int yStart = 4 + RNG.nextInt(4);
@@ -136,6 +136,8 @@ public class WastelandMapFactory extends MapFactory implements ZoneConstants, GU
                         zt.setFGColor(METAL);
                         zt.setName("Crashed Ship");
                         break;
+            case 'D' :  // spawn tile
+            case 'S' :  // spawn tile
             case '.' :  zt = new ZoneTile(TileBase.CLEAR);
                         zt.setBGColor(GREY);
                         break;
@@ -166,11 +168,16 @@ public class WastelandMapFactory extends MapFactory implements ZoneConstants, GU
             case '?' :  zt = new Chest(1);
                         zt.setBGColor(GREY);
                         break;
+            case 'd' :  // spawn tile
             case ' ' :  zt = null;
                         break;
          }
          if(zt != null)
             map.setTile(x + xStart, y + yStart, zt);
+         if(tileArr[y].charAt(x) == 'D' || tileArr[y].charAt(x) == 'd')
+            map.addSpawnPoint(new SpawnPoint(x + xStart, y + yStart, ActorConstants.ActorBase.DRONE));
+         if(tileArr[y].charAt(x) == 'S')
+            map.addSpawnPoint(new SpawnPoint(x + xStart, y + yStart, ActorConstants.ActorBase.SECURITY_GUARD));
       }
       // break stuff
       for(int x = 0; x < width; x++)

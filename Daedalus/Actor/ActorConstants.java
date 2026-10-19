@@ -49,6 +49,7 @@ public interface ActorConstants
       ROACH,
       LOUSE,
       DRONE,
+      SECURITY_GUARD,
       BANDIT;
    }
    
