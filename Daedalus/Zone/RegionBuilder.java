@@ -53,7 +53,7 @@ public class RegionBuilder implements ZoneConstants, GUIConstants, ActorConstant
       for(int y = 0; y < regionHeight; y++)
       {
          if(y == 0 && x == crashedShipX)
-            overlandArr[x][y] = WastelandMapFactory.getBasicMap(1, exits[x][y]);
+            overlandArr[x][y] = WastelandMapFactory.getCrashedShipMap(1, exits[x][y]);
          else
             overlandArr[x][y] = WastelandMapFactory.getBasicMap(1, exits[x][y]);
       }
@@ -64,7 +64,7 @@ public class RegionBuilder implements ZoneConstants, GUIConstants, ActorConstant
       {
          if(map.getTile(0, y) instanceof Exit)
          {
-            MapFactory.dropSign(map, 0, y, "       Hogtown\nNo Poor People Allowed");
+            MapFactory.dropSign(map, 0, y, "         Hogtown\n  No Poor People Allowed");
          }
       }
       map = overlandArr[regionWidth - 1][dumpZoneEntranceY];
@@ -89,7 +89,8 @@ public class RegionBuilder implements ZoneConstants, GUIConstants, ActorConstant
          {
             overlandArr[x][y].getExitByDirection(ExitDirection.SOUTH).pair(overlandArr[x][y+1].getExitByDirection(ExitDirection.NORTH));
          }
-         if(overlandArr[x][y].getExitByDirection(ExitDirection.EAST) != null)
+         // don't catch the exit to Dump Zone
+         if(overlandArr[x][y].getExitByDirection(ExitDirection.EAST) != null && x < regionWidth - 1)
          {
             overlandArr[x][y].getExitByDirection(ExitDirection.EAST).pair(overlandArr[x+1][y].getExitByDirection(ExitDirection.WEST));
          }

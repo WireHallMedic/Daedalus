@@ -26,15 +26,16 @@ public class MapPainter implements ZoneConstants, GUIConstants
                case ROUGH :   map.getTile(x, y).setFGColor(WASTELAND_GROUND_FG);
                               break;
                case WALL :
-               case LOW_WALL: 
-                              map.getTile(x, y).setFGColor(STONE);
+               case LOW_WALL: map.getTile(x, y).setFGColor(STONE);
+                              break;
+               case EXIT:     map.getTile(x, y).setBGColor(WASTELAND_PATH_FG);
                               break;
             }
          }
          if(map.getTile(x, y).getDecorationType() == DECORATION_PATH)
          {
             map.getTile(x, y).setFGColor(WASTELAND_PATH_FG);
-            map.getTile(x, y).setBGColor(BLACK);
+            map.getTile(x, y).setBGColor(WASTELAND_PATH_BG);
          }
       }
       applyNoiseToFloor(map, noiseStepSize);

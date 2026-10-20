@@ -27,6 +27,8 @@ public class Main
       for(int i = 0; i < 10; i++)
          a.addToInventory(ConsumableFactory.getElementalGrenade());
       a.addToInventory(ConsumableFactory.getStims());
+      a.getBaseStats().setMaxHealth(100);
+      a.fullHeal();
       Game.setPlayer(a);
       
       
