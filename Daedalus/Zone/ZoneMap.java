@@ -34,6 +34,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    private int level;
    private Vector<SpawnPoint> spawnPointList;
    private Vector<EventTrigger> eventTriggerList;
+   private Vector<Room> roomList;
 
 
    public String getName(){return name;}
@@ -51,6 +52,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    public int getLevel(){return level;}
    public Vector<SpawnPoint> getSpawnPointList(){return spawnPointList;}
    public Vector<EventTrigger> getEventTriggerList(){return eventTriggerList;}
+   public Vector<Room> getRoomList(){return roomList;}
 
 
    public void setName(String n){name = n;}
@@ -64,6 +66,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
    public void setLevel(int l){level = l;}
    public void setSpawnPointList(Vector<SpawnPoint> spl){spawnPointList = spl;}
    public void setEventTriggerList(Vector<EventTrigger> etl){eventTriggerList = etl;}
+   public void setRoomList(Vector<Room> rl){roomList = rl;}
 
 
    public ZoneMap(int w, int h)
@@ -98,6 +101,7 @@ public class ZoneMap implements ZoneConstants, GUIConstants
       level = 0;
       spawnPointList = new Vector<SpawnPoint>();
       eventTriggerList = new Vector<EventTrigger>();
+      roomList = new Vector<Room>();
    }
    
    
@@ -329,6 +333,43 @@ public class ZoneMap implements ZoneConstants, GUIConstants
       return false;
    }
    public boolean wouldBlockPathing(Coord c){return wouldBlockPathing(c.x, c.y);}
+   
+   
+   /*
+   Check for the following and their rotations:
+   
+    .     # 
+   ###   .#.
+    .     # 
+   
+   */
+   public boolean canPlaceDoor(int x, int y)
+   {
+      return canPlaceDoorHorizontally(x, y) ^ canPlaceDoorVertically(x, y); 
+   }
+   public boolean canPlaceDoor(Coord c){return canPlaceDoor(c.x, c.y);}
+   
+   private boolean canPlaceDoorHorizontally(int x, int y)
+   {
+      if(getTile(x + 1, y) instanceof Door ||
+         getTile(x - 1, y) instanceof Door)
+         return false;
+      return getTile(x, y + 1).isLowPassable() &&
+             getTile(x, y - 1).isLowPassable() &&
+             !getTile(x + 1, y).isLowPassable() &&
+             !getTile(x - 1, y).isLowPassable();
+   }
+   
+   private boolean canPlaceDoorVertically(int x, int y)
+   {
+      if(getTile(x, y + 1) instanceof Door ||
+         getTile(x, y - 1) instanceof Door)
+         return false;
+      return getTile(x + 1, y).isLowPassable() &&
+             getTile(x - 1, y).isLowPassable() &&
+             !getTile(x, y + 1).isLowPassable() &&
+             !getTile(x, y + 1).isLowPassable() ;
+   }
    
    
    // actor stuff
