@@ -14,7 +14,7 @@ s#k0
 s#j0
 s#l0
 !74;u
-a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!3839;g
+a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!3920;g
 %\011Daedalus%sAbility%sAbility.java
 %\011Daedalus%sAbility%sAbilityConstants.java
 %\011Daedalus%sAbility%sAttack.java
@@ -97,6 +97,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!3839;
 %\011Daedalus%sZone%sAStar.java
 %\011Daedalus%sZone%sAStarNode.java
 %\011Daedalus%sZone%sAStarOpenList.java
+%\011Daedalus%sZone%sBinarySpacePartitioning.java
 %\011Daedalus%sZone%sChest.java
 %\011Daedalus%sZone%sDoor.java
 %\011Daedalus%sZone%sEventTrigger.java
@@ -107,6 +108,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!3839;
 %\011Daedalus%sZone%sMapFactory.java
 %\011Daedalus%sZone%sMazeBuilder.java
 %\011Daedalus%sZone%sRegionBuilder.java
+%\011Daedalus%sZone%sRoom.java
 %\011Daedalus%sZone%sSign.java
 %\011Daedalus%sZone%sSmoke.java
 %\011Daedalus%sZone%sSpawnPoint.java
@@ -119,7 +121,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!3839;
 %\011Daedalus%sZone%sZoneMap.java
 %\011Daedalus%sZone%sZoneTile.java
 %\011Daedalus%sZone%sZoneViewer.java
-!3839;f
+!3920;f
 %\011Daedalus%sAbility%sAbility.java
 %\011Daedalus%sAbility%sAbilityConstants.java
 %\011Daedalus%sAbility%sAttack.java
@@ -202,6 +204,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!3839;
 %\011Daedalus%sZone%sAStar.java
 %\011Daedalus%sZone%sAStarNode.java
 %\011Daedalus%sZone%sAStarOpenList.java
+%\011Daedalus%sZone%sBinarySpacePartitioning.java
 %\011Daedalus%sZone%sChest.java
 %\011Daedalus%sZone%sDoor.java
 %\011Daedalus%sZone%sEventTrigger.java
@@ -212,6 +215,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!3839;
 %\011Daedalus%sZone%sMapFactory.java
 %\011Daedalus%sZone%sMazeBuilder.java
 %\011Daedalus%sZone%sRegionBuilder.java
+%\011Daedalus%sZone%sRoom.java
 %\011Daedalus%sZone%sSign.java
 %\011Daedalus%sZone%sSmoke.java
 %\011Daedalus%sZone%sSpawnPoint.java
