@@ -100,6 +100,37 @@ public class MapFactory implements ZoneConstants, GUIConstants
       return getBSPMap(width, height, minRoomDiameter, maxRoomDiameter, .5);
    }
    
+   public static ZoneMap getCatacombMap(int width, int height, int minRoomDiameter, int maxRoomDiameter, double extraConnectivity)
+   {
+      ZoneMap map = new ZoneMap(width, height);
+      Vector<Room> roomList = BinarySpacePartitioning.partition(width, height, minRoomDiameter + 2, maxRoomDiameter + 2);
+      Vector<Room> subroomList = new Vector<Room>();
+      for(Room curRoom: roomList)
+      {
+         if(!curRoom.isParent)
+         {
+            Room r = curRoom.copy();
+            r.origin.x += 1;
+            r.origin.y += 1;
+            r.size.x -= 2;
+            r.size.y -= 2;
+            subroomList.add(r);
+         }
+      }
+      
+      for(int x = 0; x < width; x++)
+      for(int y = 0; y < height; y++)
+         map.setTile(x, y, new ZoneTile(TileBase.WALL));
+         
+      for(Room r: subroomList)
+      for(int x = r.origin.x; x < r.origin.x + r.size.x; x++)
+      for(int y = r.origin.y; y < r.origin.y + r.size.y; y++)
+         map.setTile(x, y, new ZoneTile(TileBase.CLEAR));
+      
+      map.setRoomList(subroomList);
+      return map;
+   }
+   
    
    // adds a sign at the nearest tile that doesn't block ground movement and is ortho-adacent to at least one wall
    public static void dropSign(ZoneMap map, Coord startLoc, String text)

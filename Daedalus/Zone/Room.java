@@ -30,6 +30,20 @@ public class Room
       isParent = false;
    }
    
+   // copy constructor
+   public Room(Room that)
+   {
+      origin = that.origin.copy();
+      size = that.size.copy();
+      iteration = that.iteration;
+      isParent = that.isParent;
+   }
+   
+   public Room copy()
+   {
+      return new Room(this);
+   }
+   
    // checks if the room contains the passed location
    public boolean contains(Coord loc){return contains(loc.x, loc.y);}
    public boolean contains(int x, int y)

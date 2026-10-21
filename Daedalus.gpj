@@ -14,7 +14,7 @@ s#k0
 s#j0
 s#l0
 !74;u
-a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!3920;g
+a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!3960;g
 %\011Daedalus%sAbility%sAbility.java
 %\011Daedalus%sAbility%sAbilityConstants.java
 %\011Daedalus%sAbility%sAttack.java
@@ -98,6 +98,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!3920;
 %\011Daedalus%sZone%sAStarNode.java
 %\011Daedalus%sZone%sAStarOpenList.java
 %\011Daedalus%sZone%sBinarySpacePartitioning.java
+%\011Daedalus%sZone%sBSPMapFactory.java
 %\011Daedalus%sZone%sChest.java
 %\011Daedalus%sZone%sDoor.java
 %\011Daedalus%sZone%sEventTrigger.java
@@ -121,7 +122,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!3920;
 %\011Daedalus%sZone%sZoneMap.java
 %\011Daedalus%sZone%sZoneTile.java
 %\011Daedalus%sZone%sZoneViewer.java
-!3920;f
+!3960;f
 %\011Daedalus%sAbility%sAbility.java
 %\011Daedalus%sAbility%sAbilityConstants.java
 %\011Daedalus%sAbility%sAttack.java
@@ -205,6 +206,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!3920;
 %\011Daedalus%sZone%sAStarNode.java
 %\011Daedalus%sZone%sAStarOpenList.java
 %\011Daedalus%sZone%sBinarySpacePartitioning.java
+%\011Daedalus%sZone%sBSPMapFactory.java
 %\011Daedalus%sZone%sChest.java
 %\011Daedalus%sZone%sDoor.java
 %\011Daedalus%sZone%sEventTrigger.java
