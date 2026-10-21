@@ -63,7 +63,7 @@ public class ZoneViewer extends DaePanel implements MouseListener, GUIConstants,
 //          if(zoneMap.getTile(0, y) instanceof Exit)
 //             MapFactory.dropSign(zoneMap, 0, y, "Test Sign");
 //       }
-      zoneMap = MapFactory.getCatacombMap(60, 40, 5, 15, .25);
+      zoneMap = BSPMapFactory.getCatacombMap(60, 40, 5, 15, .25);
       update();
       this.repaint();
    }
