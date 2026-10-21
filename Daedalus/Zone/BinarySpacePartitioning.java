@@ -32,7 +32,7 @@ public class BinarySpacePartitioning
    public static void setPartitionChance(double pc){partitionChance = pc;}
     
    // the main function
-   public static Vector<Room> partition(int x, int y, int minRoomDiameter, int maxRoomDiameter)
+   public static Vector<Room> partition(int width, int height, int minRoomDiameter, int maxRoomDiameter)
    {
       Vector<Room> roomList = new Vector<Room>();
       Room[] addRooms;
@@ -43,7 +43,7 @@ public class BinarySpacePartitioning
    
       Room startRoom = new Room();
       startRoom.origin = new Coord(0, 0);
-      startRoom.size = new Coord(x, y);
+      startRoom.size = new Coord(width, height);
       startRoom.iteration = 0;
       roomList.add(startRoom);
    
