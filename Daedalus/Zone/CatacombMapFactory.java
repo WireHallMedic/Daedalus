@@ -25,8 +25,8 @@ public class CatacombMapFactory extends BSPMapFactory
       {
          if(!curRoom.isParent)
          {
-            Room r = curRoom.copy();
             // make smaller copy
+            Room r = curRoom.copy();
             r.origin.x += 1;
             r.origin.y += 1;
             r.size.x = Math.min(r.size.x, innerRoomMaxDiameter);
@@ -92,6 +92,12 @@ public class CatacombMapFactory extends BSPMapFactory
    
    private static void addHorizontalTunnel(Room roomA, Room roomB, ZoneMap map, Vector<Room> subroomList)
    {
+      Room subroomA = roomA;
+      if(!roomA.isParent)
+         subroomA = getSubroom(roomA, subroomList);
+      Room subroomB = roomB;
+      if(!roomB.isParent)
+         subroomB = getSubroom(roomB, subroomList);
       Vector<Coord> straightConnectionList = new Vector<Coord>();
       int xStart = roomB.origin.x;
       for(int y = roomA.origin.y; y < roomA.origin.y + roomA.size.y; y++)
@@ -100,7 +106,7 @@ public class CatacombMapFactory extends BSPMapFactory
          boolean foundRight = false;
          for(int x = xStart; x > roomA.origin.x; x--)
          {
-            if(map.getTile(x, y).isLowPassable())
+            if(map.getTile(x, y).isLowPassable() && subroomA.contains(x, y))
             {
                foundLeft = true;
                break;
@@ -108,7 +114,7 @@ public class CatacombMapFactory extends BSPMapFactory
          }
          for(int x = xStart; x < roomB.origin.x + roomB.size.x; x++)
          {
-            if(map.getTile(x, y).isLowPassable())
+            if(map.getTile(x, y).isLowPassable() && subroomB.contains(x, y))
             {
                foundRight = true;
                break;
@@ -132,15 +138,11 @@ public class CatacombMapFactory extends BSPMapFactory
       }
       else //needs z-connection
       {
-         Room subroomA = null;
-         Room subroomB = null;
-         for(Room prospectiveChild: subroomList)
-         {
-            if(roomA.contains(prospectiveChild.origin))
-               subroomA = prospectiveChild;
-            if(roomB.contains(prospectiveChild.origin))
-               subroomB = prospectiveChild;
-         }
+         // z-connections require subrooms
+         if(roomA.isParent)
+            subroomA = getSubroom(roomA, subroomList);
+         if(roomB.isParent)
+            subroomB = getSubroom(roomB, subroomList);
          connectWithZ(subroomA, subroomB, map, true);
       }
    }
@@ -148,15 +150,21 @@ public class CatacombMapFactory extends BSPMapFactory
    
    private static void addVerticalTunnel(Room roomA, Room roomB, ZoneMap map, Vector<Room> subroomList)
    {
+      Room subroomA = roomA;
+      if(!roomA.isParent)
+         subroomA = getSubroom(roomA, subroomList);
+      Room subroomB = roomB;
+      if(!roomB.isParent)
+         subroomB = getSubroom(roomB, subroomList);
       Vector<Coord> straightConnectionList = new Vector<Coord>();
-      int yStart = roomB.origin.y;
+      int yStart = roomB.origin.y - 1;
       for(int x = roomA.origin.x; x < roomA.origin.x + roomA.size.x; x++)
       {
          boolean foundUpper = false;
          boolean foundLower = false;
          for(int y = yStart; y > roomA.origin.y; y--)
          {
-            if(map.getTile(x, y).isLowPassable())
+            if(map.getTile(x, y).isLowPassable() && subroomA.contains(x, y))
             {
                foundUpper = true;
                break;
@@ -164,7 +172,7 @@ public class CatacombMapFactory extends BSPMapFactory
          }
          for(int y = yStart; y < roomB.origin.y + roomB.size.y; y++)
          {
-            if(map.getTile(x, y).isLowPassable())
+            if(map.getTile(x, y).isLowPassable() && subroomB.contains(x, y))
             {
                foundLower = true;
                break;
@@ -173,7 +181,7 @@ public class CatacombMapFactory extends BSPMapFactory
          if(foundUpper && foundLower)
             straightConnectionList.add(new Coord(x, yStart));
       }
-
+      
       if(straightConnectionList.size() > 0)
       {
          Coord tunnelLoc = straightConnectionList.elementAt(RNG.nextInt(straightConnectionList.size()));
@@ -188,15 +196,11 @@ public class CatacombMapFactory extends BSPMapFactory
       }
       else //needs z-connection
       {
-         Room subroomA = null;
-         Room subroomB = null;
-         for(Room prospectiveChild: subroomList)
-         {
-            if(roomA.contains(prospectiveChild.origin))
-               subroomA = prospectiveChild;
-            if(roomB.contains(prospectiveChild.origin))
-               subroomB = prospectiveChild;
-         }
+         // z-connections require subrooms
+         if(roomA.isParent)
+            subroomA = getSubroom(roomA, subroomList);
+         if(roomB.isParent)
+            subroomB = getSubroom(roomB, subroomList);
          connectWithZ(subroomA, subroomB, map, false);
       }
    }
@@ -205,12 +209,12 @@ public class CatacombMapFactory extends BSPMapFactory
    {
       if(horizontal)
       {
-         int tunnelXStart = subroomA.origin.x + subroomA.size.x;
+         int tunnelXStart = subroomA.origin.x + subroomA.size.x - 1;
          int connectingColumn = subroomA.origin.x + subroomA.size.x + 1;
          connectingColumn += RNG.nextInt(subroomB.origin.x - (subroomA.origin.x + subroomA.size.x) - 2);
-         int tunnelXEnd = subroomB.origin.x - 1;
+         int tunnelXEnd = subroomB.origin.x;
          int yA = subroomA.origin.y + 1 + RNG.nextInt(subroomA.size.y - 2);
-         int yB = subroomB.origin.y + 1 + RNG.nextInt(subroomA.size.y - 2);
+         int yB = subroomB.origin.y + 1 + RNG.nextInt(subroomB.size.y - 2);
          int stepDir = 1;
          if(yA > yB)
             stepDir = -1;
@@ -223,12 +227,12 @@ public class CatacombMapFactory extends BSPMapFactory
       }
       else // vertical
       {
-         int tunnelYStart = subroomA.origin.y + subroomA.size.y;
+         int tunnelYStart = subroomA.origin.y + subroomA.size.y - 1;
          int connectingRow = subroomA.origin.y + subroomA.size.y + 1;
          connectingRow += RNG.nextInt(subroomB.origin.y - (subroomA.origin.y + subroomA.size.y) - 2);
-         int tunnelYEnd = subroomB.origin.y - 1;
+         int tunnelYEnd = subroomB.origin.y;
          int xA = subroomA.origin.x + 1 + RNG.nextInt(subroomA.size.x - 2);
-         int xB = subroomB.origin.x + 1 + RNG.nextInt(subroomA.size.x - 2);
+         int xB = subroomB.origin.x + 1 + RNG.nextInt(subroomB.size.x - 2);
          int stepDir = 1;
          if(xA > xB)
             stepDir = -1;

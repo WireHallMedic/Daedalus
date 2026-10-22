@@ -127,4 +127,12 @@ public class Room
       return cell;
    }
    
+   public String toString()
+   {
+      String parentString = "Not Parent";
+      if(isParent)
+         parentString = "Parent";
+      return "(origin " + origin + ", size " + size + ", " + parentString + ")";
+   }
+   
 }
