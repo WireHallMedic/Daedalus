@@ -852,8 +852,30 @@ public class ZoneMap implements ZoneConstants, GUIConstants
       eventTriggerList.add(et);
    }
    
-   // test map
+   // testing
    ////////////////////////////////////////
+   
+   public boolean hasFullConnectivity()
+   {
+      Coord startSearch = null;
+      for(int x = 0; x < width && startSearch == null; x++)
+      for(int y = 0; y < height && startSearch == null; y++)
+      {
+         if(getTile(x, y).isPathable())
+            startSearch = new Coord(x, y);
+      }
+      boolean[][] contMap = new boolean[width][height];
+      for(int x = 0; x < width && startSearch == null; x++)
+      for(int y = 0; y < height && startSearch == null; y++)
+         contMap[x][y] = getTile(x, y).isPathable();
+      
+      boolean[][] floodMap = FloodFill.fill(contMap, startSearch);
+      for(int x = 0; x < width && startSearch == null; x++)
+      for(int y = 0; y < height && startSearch == null; y++)
+         if(contMap[x][y] != floodMap[x][y])
+            return false;
+      return true;
+   }
    
    public static ZoneMap getTestMap()
    {

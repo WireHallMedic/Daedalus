@@ -64,6 +64,7 @@ public class ZoneViewer extends DaePanel implements MouseListener, GUIConstants,
       zoneMap = CatacombMapFactory.getCatacombMap(60, 50, 15, 20, 5, 12);
       //zoneMap = BSPMapFactory.getBSPMap(60, 50, 5, 20);
       update();
+      System.out.println("Full Connectivity: " + zoneMap.hasFullConnectivity());
       this.repaint();
    }
    
