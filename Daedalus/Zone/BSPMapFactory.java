@@ -101,20 +101,35 @@ public class BSPMapFactory extends MapFactory
    }
    
    
-   public static ZoneMap getCatacombMap(int width, int height, int minRoomDiameter, int maxRoomDiameter, double extraConnectivity)
+   public static ZoneMap getCatacombMap(int width, int height, 
+                                        int outerRoomMinDiameter, int outerRoomMaxDiameter, 
+                                        int innerRoomMinDiameter, int innerRoomMaxDiameter, 
+                                        double extraConnectivity)
    {
       ZoneMap map = new ZoneMap(width, height);
-      Vector<Room> roomList = BinarySpacePartitioning.partition(width, height, minRoomDiameter + 2, maxRoomDiameter + 2);
+      innerRoomMaxDiameter = Math.min(innerRoomMaxDiameter, outerRoomMaxDiameter - 3);
+      innerRoomMinDiameter = Math.min(innerRoomMinDiameter, outerRoomMinDiameter - 3);
+      Vector<Room> roomList = BinarySpacePartitioning.partition(width, height, outerRoomMinDiameter, outerRoomMaxDiameter);
       Vector<Room> subroomList = new Vector<Room>();
       for(Room curRoom: roomList)
       {
          if(!curRoom.isParent)
          {
             Room r = curRoom.copy();
+            // make smaller copy
             r.origin.x += 1;
             r.origin.y += 1;
-            r.size.x -= 2;
-            r.size.y -= 2;
+            r.size.x -= 3;
+            r.size.y -= 3;
+            
+            // randomize size and position
+            int xTrim = RNG.nextInt(r.size.x - innerRoomMinDiameter + 1);
+            r.size.x -= xTrim;
+            r.origin.x += RNG.nextInt(xTrim + 1);
+            int yTrim = RNG.nextInt(r.size.y - innerRoomMinDiameter + 1);
+            r.size.y -= yTrim;
+            r.origin.y += RNG.nextInt(yTrim + 1);
+
             subroomList.add(r);
          }
       }
@@ -143,80 +158,103 @@ public class BSPMapFactory extends MapFactory
       map.setRoomList(subroomList);
       return map;
    }
+   public static ZoneMap getCatacombMap(int width, int height, 
+                                        int outerRoomMinDiameter, int outerRoomMaxDiameter, 
+                                        int innerRoomMinDiameter, int innerRoomMaxDiameter)
+   {
+      return getCatacombMap(width, height, outerRoomMinDiameter, outerRoomMaxDiameter,
+                            innerRoomMinDiameter, innerRoomMaxDiameter, .5);
+   }
 
    
    private static void addHorizontalTunnel(Room roomA, Room roomB, ZoneMap map)
    {
-      Vector<Coord> prospectListA = new Vector<Coord>();
-      Vector<Coord> prospectListB = new Vector<Coord>();
       Vector<Coord> straightConnectionList = new Vector<Coord>();
-
-      // rightmost possiblities of roomA
-      for(int x = roomA.origin.x + roomA.size.x - 1; x > roomA.origin.x && prospectListA.size() == 0; x--)
+      int xStart = roomB.origin.x;
       for(int y = roomA.origin.y; y < roomA.origin.y + roomA.size.y; y++)
       {
-         if(map.getTile(x, y).isLowPassable())
-            prospectListA.add(new Coord(x, y));
+         boolean foundLeft = false;
+         boolean foundRight = false;
+         for(int x = xStart; x > roomA.origin.x; x--)
+         {
+            if(map.getTile(x, y).isLowPassable())
+            {
+               foundLeft = true;
+               break;
+            }
+         }
+         for(int x = xStart; x < roomB.origin.x + roomB.size.x; x++)
+         {
+            if(map.getTile(x, y).isLowPassable())
+            {
+               foundRight = true;
+               break;
+            }
+         }
+         if(foundRight && foundLeft)
+            straightConnectionList.add(new Coord(xStart, y));
       }
-      // leftmost possiblities of roomB
-      for(int x = roomB.origin.x; x < roomB.origin.x + roomB.size.x && prospectListB.size() == 0; x++)
-      for(int y = roomB.origin.y; y < roomB.origin.y + roomB.size.y; y++)
-      {
-         if(map.getTile(x, y).isLowPassable())
-            prospectListB.add(new Coord(x, y));
-      }
-      // make list of straight connections
-      for(Coord coordA: prospectListA)
-      for(Coord coordB: prospectListB)
-         if(coordA.y == coordB.y)
-            straightConnectionList.add(coordA);
+
       if(straightConnectionList.size() > 0)
       {
          Coord tunnelLoc = straightConnectionList.elementAt(RNG.nextInt(straightConnectionList.size()));
-         tunnelLoc.x += 1;
-         while(!(map.getTile(tunnelLoc).isLowPassable() && roomB.contains(tunnelLoc)))
+         tunnelLoc.x--;
+         while(!map.getTile(tunnelLoc).isLowPassable())
+            tunnelLoc.x--;
+         tunnelLoc.x++;
+         while(!map.getTile(tunnelLoc).isLowPassable())
          {
             map.setTile(tunnelLoc, new ZoneTile(TileBase.CLEAR));
-            tunnelLoc.x += 1;
+            tunnelLoc.x++;
          }
       }
+      else
+         throw new Error("Unable to make straight horizontal connection.");
    }
 
    
    private static void addVerticalTunnel(Room roomA, Room roomB, ZoneMap map)
    {
-      Vector<Coord> prospectListA = new Vector<Coord>();
-      Vector<Coord> prospectListB = new Vector<Coord>();
       Vector<Coord> straightConnectionList = new Vector<Coord>();
-
-      // bottommost possiblities of roomA
-      for(int y = roomA.origin.y + roomA.size.y - 1; y > roomA.origin.y && prospectListA.size() == 0; y--)
+      int yStart = roomB.origin.y;
       for(int x = roomA.origin.x; x < roomA.origin.x + roomA.size.x; x++)
       {
-         if(map.getTile(x, y).isLowPassable())
-            prospectListA.add(new Coord(x, y));
+         boolean foundUpper = false;
+         boolean foundLower = false;
+         for(int y = yStart; y > roomA.origin.y; y--)
+         {
+            if(map.getTile(x, y).isLowPassable())
+            {
+               foundUpper = true;
+               break;
+            }
+         }
+         for(int y = yStart; y < roomB.origin.y + roomB.size.y; y++)
+         {
+            if(map.getTile(x, y).isLowPassable())
+            {
+               foundLower = true;
+               break;
+            }
+         }
+         if(foundUpper && foundLower)
+            straightConnectionList.add(new Coord(x, yStart));
       }
-      // topmost possiblities of roomB
-      for(int y = roomB.origin.y; y < roomB.origin.y + roomB.size.y && prospectListB.size() == 0; y++)
-      for(int x = roomB.origin.x; x < roomB.origin.x + roomB.size.x; x++)
-      {
-         if(map.getTile(x, y).isLowPassable())
-            prospectListB.add(new Coord(x, y));
-      }
-      // make list of straight connections
-      for(Coord coordA: prospectListA)
-      for(Coord coordB: prospectListB)
-         if(coordA.x == coordB.x)
-            straightConnectionList.add(coordA);
+
       if(straightConnectionList.size() > 0)
       {
          Coord tunnelLoc = straightConnectionList.elementAt(RNG.nextInt(straightConnectionList.size()));
-         tunnelLoc.y += 1;
-         while(!(map.getTile(tunnelLoc).isLowPassable() && roomB.contains(tunnelLoc)))
+         tunnelLoc.y--;
+         while(!map.getTile(tunnelLoc).isLowPassable())
+            tunnelLoc.y--;
+         tunnelLoc.y++;
+         while(!map.getTile(tunnelLoc).isLowPassable())
          {
             map.setTile(tunnelLoc, new ZoneTile(TileBase.CLEAR));
-            tunnelLoc.y += 1;
+            tunnelLoc.y++;
          }
       }
+      else //needs z-connection
+         throw new Error("Unable to make straight vertical connection.");
    }
 }
