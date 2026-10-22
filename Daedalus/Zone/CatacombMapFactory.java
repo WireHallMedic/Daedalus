@@ -241,5 +241,25 @@ public class CatacombMapFactory extends BSPMapFactory
       }
    }
 
+   
+   public static int countExits(Room r, ZoneMap map)
+   {
+      int exits = 0;
+      for(int x = r.origin.x - 1; x <= r.origin.x + r.size.x; x++)
+      {
+         if(map.getTile(x, r.origin.y - 1).isPathable())
+            exits++;
+         if(map.getTile(x, r.origin.y + r.size.y).isPathable())
+            exits++;
+      }
+      for(int y = r.origin.y - 1; y <= r.origin.y + r.size.y; y++)
+      {
+         if(map.getTile(r.origin.x - 1, y).isPathable())
+            exits++;
+         if(map.getTile(r.origin.x + r.size.x, y).isPathable())
+            exits++;
+      }
+      return exits;
+   }
 
 }

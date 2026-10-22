@@ -92,12 +92,32 @@ public class BSPMapFactory extends MapFactory
          if(doorProspect.size() > 0)
             map.setTile(doorProspect.elementAt(RNG.nextInt(doorProspect.size())), new Door());
       }
-      
       return map;
    }
    public static ZoneMap getBSPMap(int width, int height, int minRoomDiameter, int maxRoomDiameter)
    {
       return getBSPMap(width, height, minRoomDiameter, maxRoomDiameter, .5);
+   }
+   
+   
+   public static int countExits(Room r, ZoneMap map)
+   {
+      int exits = 0;
+      for(int x = r.origin.x; x <= r.origin.x + r.size.x; x++)
+      {
+         if(map.getTile(x, r.origin.y).isPathable())
+            exits++;
+         if(map.getTile(x, r.origin.y + r.size.y).isPathable())
+            exits++;
+      }
+      for(int y = r.origin.y; y <= r.origin.y + r.size.y; y++)
+      {
+         if(map.getTile(r.origin.x, y).isPathable())
+            exits++;
+         if(map.getTile(r.origin.x + r.size.x, y).isPathable())
+            exits++;
+      }
+      return exits;
    }
    
 }
