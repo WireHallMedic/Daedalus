@@ -119,16 +119,17 @@ public class BSPMapFactory extends MapFactory
             // make smaller copy
             r.origin.x += 1;
             r.origin.y += 1;
-            r.size.x -= 3;
-            r.size.y -= 3;
+            r.size.x = Math.min(r.size.x, innerRoomMaxDiameter);
+            r.size.y = Math.min(r.size.y, innerRoomMaxDiameter);
             
             // randomize size and position
-            int xTrim = RNG.nextInt(r.size.x - innerRoomMinDiameter + 1);
-            r.size.x -= xTrim;
-            r.origin.x += RNG.nextInt(xTrim + 1);
-            int yTrim = RNG.nextInt(r.size.y - innerRoomMinDiameter + 1);
-            r.size.y -= yTrim;
-            r.origin.y += RNG.nextInt(yTrim + 1);
+            r.size.x -= RNG.nextInt(r.size.x - innerRoomMinDiameter + 1);
+            int xSpace = (curRoom.size.x - 3) - r.size.x;
+            r.origin.x += RNG.nextInt(xSpace + 1);
+            
+            r.size.y -= RNG.nextInt(r.size.y - innerRoomMinDiameter + 1);
+            int ySpace = (curRoom.size.y - 3) - r.size.y;
+            r.origin.y += RNG.nextInt(ySpace + 1);
 
             subroomList.add(r);
          }
@@ -150,11 +151,10 @@ public class BSPMapFactory extends MapFactory
       {
          boolean horizontallyAdj = roomList.elementAt(i).isHorizontallyAdjacent(roomList.elementAt(i + 1));
          if(horizontallyAdj)
-            addHorizontalTunnel(roomList.elementAt(i), roomList.elementAt(i + 1), map);
+            addHorizontalTunnel(roomList.elementAt(i), roomList.elementAt(i + 1), map, subroomList);
          else
-            addVerticalTunnel(roomList.elementAt(i), roomList.elementAt(i + 1), map);
+            addVerticalTunnel(roomList.elementAt(i), roomList.elementAt(i + 1), map, subroomList);
       }
-         
       map.setRoomList(subroomList);
       return map;
    }
@@ -167,7 +167,7 @@ public class BSPMapFactory extends MapFactory
    }
 
    
-   private static void addHorizontalTunnel(Room roomA, Room roomB, ZoneMap map)
+   private static void addHorizontalTunnel(Room roomA, Room roomB, ZoneMap map, Vector<Room> subroomList)
    {
       Vector<Coord> straightConnectionList = new Vector<Coord>();
       int xStart = roomB.origin.x;
@@ -198,7 +198,6 @@ public class BSPMapFactory extends MapFactory
       if(straightConnectionList.size() > 0)
       {
          Coord tunnelLoc = straightConnectionList.elementAt(RNG.nextInt(straightConnectionList.size()));
-         tunnelLoc.x--;
          while(!map.getTile(tunnelLoc).isLowPassable())
             tunnelLoc.x--;
          tunnelLoc.x++;
@@ -208,12 +207,23 @@ public class BSPMapFactory extends MapFactory
             tunnelLoc.x++;
          }
       }
-      else
-         throw new Error("Unable to make straight horizontal connection.");
+      else //needs z-connection
+      {
+         Room subroomA = null;
+         Room subroomB = null;
+         for(Room prospectiveChild: subroomList)
+         {
+            if(roomA.contains(prospectiveChild.origin))
+               subroomA = prospectiveChild;
+            if(roomB.contains(prospectiveChild.origin))
+               subroomB = prospectiveChild;
+         }
+         connectWithZ(subroomA, subroomB, map, true);
+      }
    }
 
    
-   private static void addVerticalTunnel(Room roomA, Room roomB, ZoneMap map)
+   private static void addVerticalTunnel(Room roomA, Room roomB, ZoneMap map, Vector<Room> subroomList)
    {
       Vector<Coord> straightConnectionList = new Vector<Coord>();
       int yStart = roomB.origin.y;
@@ -244,7 +254,6 @@ public class BSPMapFactory extends MapFactory
       if(straightConnectionList.size() > 0)
       {
          Coord tunnelLoc = straightConnectionList.elementAt(RNG.nextInt(straightConnectionList.size()));
-         tunnelLoc.y--;
          while(!map.getTile(tunnelLoc).isLowPassable())
             tunnelLoc.y--;
          tunnelLoc.y++;
@@ -255,6 +264,57 @@ public class BSPMapFactory extends MapFactory
          }
       }
       else //needs z-connection
-         throw new Error("Unable to make straight vertical connection.");
+      {
+         Room subroomA = null;
+         Room subroomB = null;
+         for(Room prospectiveChild: subroomList)
+         {
+            if(roomA.contains(prospectiveChild.origin))
+               subroomA = prospectiveChild;
+            if(roomB.contains(prospectiveChild.origin))
+               subroomB = prospectiveChild;
+         }
+         connectWithZ(subroomA, subroomB, map, false);
+      }
+   }
+   
+   private static void connectWithZ(Room subroomA, Room subroomB, ZoneMap map, boolean horizontal)
+   {
+      if(horizontal)
+      {
+         int tunnelXStart = subroomA.origin.x + subroomA.size.x;
+         int connectingColumn = subroomA.origin.x + subroomA.size.x + 1;
+         connectingColumn += RNG.nextInt(subroomB.origin.x - (subroomA.origin.x + subroomA.size.x) - 2);
+         int tunnelXEnd = subroomB.origin.x - 1;
+         int yA = subroomA.origin.y + 1 + RNG.nextInt(subroomA.size.y - 2);
+         int yB = subroomB.origin.y + 1 + RNG.nextInt(subroomA.size.y - 2);
+         int stepDir = 1;
+         if(yA > yB)
+            stepDir = -1;
+         for(int x = tunnelXStart; x <= connectingColumn; x++)
+            map.setTile(x, yA, new ZoneTile(TileBase.CLEAR));
+         for(int x = connectingColumn; x <= tunnelXEnd; x++)
+            map.setTile(x, yB, new ZoneTile(TileBase.CLEAR));
+         for(int y = yA; y != yB; y += stepDir)
+            map.setTile(connectingColumn, y, new ZoneTile(TileBase.CLEAR));
+      }
+      else // vertical
+      {
+         int tunnelYStart = subroomA.origin.y + subroomA.size.y;
+         int connectingRow = subroomA.origin.y + subroomA.size.y + 1;
+         connectingRow += RNG.nextInt(subroomB.origin.y - (subroomA.origin.y + subroomA.size.y) - 2);
+         int tunnelYEnd = subroomB.origin.y - 1;
+         int xA = subroomA.origin.x + 1 + RNG.nextInt(subroomA.size.x - 2);
+         int xB = subroomB.origin.x + 1 + RNG.nextInt(subroomA.size.x - 2);
+         int stepDir = 1;
+         if(xA > xB)
+            stepDir = -1;
+         for(int y = tunnelYStart; y <= connectingRow; y++)
+            map.setTile(xA, y, new ZoneTile(TileBase.CLEAR));
+         for(int y = connectingRow; y <= tunnelYEnd; y++)
+            map.setTile(xB, y, new ZoneTile(TileBase.CLEAR));
+         for(int x = xA; x != xB; x += stepDir)
+            map.setTile(x, connectingRow, new ZoneTile(TileBase.CLEAR));
+      }
    }
 }

@@ -16,7 +16,7 @@ public class MapFactoryTest implements ZoneConstants
    }
 
 
-   /** A test that always fails. **/
+   
    @Test public void testWastelandExitBlocking() 
    {
       int overwrittenExitMaps = 0;
@@ -34,5 +34,15 @@ public class MapFactoryTest implements ZoneConstants
          }
       }
       Assert.assertEquals("0/1000 generated maps fill exits as unreachable", 0, overwrittenExitMaps);
+   }
+
+   
+   @Test public void testGenerationWithoutError() 
+   {
+      ZoneMap map = null;
+      for(int i = 0; i < 100; i++)
+         map = BSPMapFactory.getCatacombMap(100, 100, 20, 20, 5, 10, .75);
+      for(int i = 0; i < 100; i++)
+         map = BSPMapFactory.getBSPMap(100, 100, 10, 30, .75);
    }
 }
