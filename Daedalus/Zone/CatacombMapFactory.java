@@ -262,4 +262,12 @@ public class CatacombMapFactory extends BSPMapFactory
       return exits;
    }
 
+
+   public static Room getSubroom(Room parent, Vector<Room> subroomList)
+   {
+      for(Room prospect: subroomList)
+         if(parent.contains(prospect.origin))
+            return prospect;
+      return null;
+   }
 }
