@@ -11,6 +11,7 @@ Free for private or public use. No warranty is implied or expressed.
 package Daedalus.Engine;
 
 import java.util.Vector;
+import Daedalus.Zone.ZoneConstants;
 
 
 public class Coord
@@ -74,6 +75,11 @@ public class Coord
    {
       this.x += that.x;
       this.y += that.y;
+   }
+   
+   public void add(ZoneConstants.Direction dir)
+   {
+      add(dir.getAsCoord());
    }
    
    // subtracts another Coord from this one

@@ -57,12 +57,10 @@ public class ZoneViewer extends DaePanel implements MouseListener, GUIConstants,
    
    private void generateMap()
    {
-//       zoneMap = WastelandMapFactory.getCrashedShipMap(1, BITMASK_EAST + BITMASK_WEST + BITMASK_SOUTH);
-//       for(int y = 0; y < zoneMap.getHeight(); y++)
-//       {
-//          if(zoneMap.getTile(0, y) instanceof Exit)
-//             MapFactory.dropSign(zoneMap, 0, y, "Test Sign");
-//       }
+      long seed = System.currentTimeMillis();
+      seed = 1792689411780L;
+      RNG.setSeed(seed);
+      System.out.println("Seed: " + seed);
       zoneMap = CatacombMapFactory.getCatacombMap(60, 50, 15, 20, 5, 12);
       //zoneMap = BSPMapFactory.getBSPMap(60, 50, 5, 20);
       update();
