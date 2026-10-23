@@ -411,6 +411,7 @@ public class MapFactory implements ZoneConstants, GUIConstants
    }
    public static void addPath(ZoneMap map, Coord point1, Coord point2){addPath(map, point1, point2, false);}
    
+   
    // the passMap is not memoized in ZoneMap, so we don't want to generate it a lot
    private static void addPathBase(ZoneMap map, boolean[][] lowPassMap, Coord point1, Coord point2, boolean addBend)
    {

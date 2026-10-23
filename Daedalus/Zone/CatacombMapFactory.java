@@ -67,15 +67,13 @@ public class CatacombMapFactory extends BSPMapFactory
       }
       // add random passages
       Vector<Room> bigRoomList = new Vector<Room>();
-      for(Room curRoom: roomList)
-         if(!curRoom.isParent)
-            bigRoomList.add(curRoom);
+      for(Room curRoom: subroomList)
+         bigRoomList.add(curRoom);
       bigRoomList.sort((a, b) -> (a.size.x * a.size.y) - (b.size.x * b.size.y));
       int roomsToCheck = Math.min((int)(bigRoomList.size() * extraConnectivity), bigRoomList.size());
       for(int i = 0; i < roomsToCheck; i++)
       {
-         Room curRoom = bigRoomList.elementAt(i);
-         Vector<Coord> doorProspect = new Vector<Coord>();
+         addRandomTunnel(bigRoomList.elementAt(i), map);
       }
       
       map.setRoomList(subroomList);
@@ -273,5 +271,108 @@ public class CatacombMapFactory extends BSPMapFactory
          if(parent.contains(prospect.origin))
             return prospect;
       return null;
+   }
+   
+   
+   public static void addRandomTunnel(Room room, ZoneMap map)
+   {
+      Vector<Coord> startList = new Vector<Coord>();
+      Vector<Coord> endList = new Vector<Coord>();
+      boolean hasNorthTunnel = hasNorthTunnel(room, map);
+      boolean hasEastTunnel = hasEastTunnel(room, map);
+      boolean hasSouthTunnel = hasSouthTunnel(room, map);
+      boolean hasWestTunnel = hasWestTunnel(room, map);
+      
+      for(int x = room.origin.x; x < room.origin.x + room.size.x; x++)
+      {
+         if(!hasNorthTunnel)
+         for(int y = room.origin.y - 1; y > 0; y--)
+         {
+            if(map.getTile(x, y).isPathable())
+            {
+               startList.add(new Coord(x, y + 1));
+               endList.add(new Coord(x, room.origin.y - 1));
+            }
+         }
+         if(!hasSouthTunnel)
+         for(int y = room.origin.y + room.size.y; y < map.getHeight(); y++)
+         {
+            if(map.getTile(x, y).isPathable())
+            {
+               startList.add(new Coord(x, room.origin.y + room.size.y));
+               endList.add(new Coord(x, y - 1));
+            }
+         }
+      }
+      for(int y = room.origin.y; y < room.origin.y + room.size.y; y++)
+      {
+         if(!hasWestTunnel)
+         for(int x = room.origin.x - 1; x > 0; x--)
+         {
+            if(map.getTile(x, y).isPathable())
+            {
+               startList.add(new Coord(x + 1, y));
+               endList.add(new Coord(room.origin.x - 1, y));
+            }
+         }
+         if(!hasEastTunnel)
+         for(int x = room.origin.x + room.size.x; x < map.getWidth(); x++)
+         {
+            if(map.getTile(x, y).isPathable())
+            {
+               startList.add(new Coord(room.origin.x + room.size.x, y));
+               endList.add(new Coord(x - 1, y));
+            }
+         }
+      }
+      if(startList.size() > 0)
+      {
+         int roll = RNG.nextInt(startList.size());
+         Coord start = startList.elementAt(roll);
+         Coord end = endList.elementAt(roll);
+         
+         if(start.x == end.x) // vertical tunnel
+         {
+            for(int y = start.y; y <= end.y; y++)
+               map.setTile(start.x, y, new ZoneTile(TileBase.CLEAR));
+         }
+         else  // horizontal tunnel
+         {
+            for(int x = start.x; x <= end.x; x++)
+               map.setTile(x, start.y, new ZoneTile(TileBase.CLEAR));
+         }
+      }
+   }
+   
+   private static boolean hasNorthTunnel(Room room, ZoneMap map)
+   {
+      for(int x = room.origin.x; x < room.origin.x + room.size.x; x++)
+         if(map.getTile(x, room.origin.y - 1).isPathable())
+            return true;
+      return false;
+   }
+   
+   private static boolean hasEastTunnel(Room room, ZoneMap map)
+   {
+      for(int y = room.origin.y; y < room.origin.y + room.size.y; y++)
+         if(map.getTile(room.origin.x + room.size.x, y).isPathable())
+            return true;
+      return false;
+   }
+   
+   private static boolean hasSouthTunnel(Room room, ZoneMap map)
+   {
+      for(int x = room.origin.x; x < room.origin.x + room.size.x; x++)
+         if(map.getTile(x, room.origin.y + room.size.y).isPathable())
+            return true;
+      return false;
+   }
+   
+   private static boolean hasWestTunnel(Room room, ZoneMap map)
+   {
+      for(int y = room.origin.y; y < room.origin.y + room.size.y; y++)
+         if(map.getTile(room.origin.x - 1, y).isPathable())
+            return true;
+      return false;
    }
 }
