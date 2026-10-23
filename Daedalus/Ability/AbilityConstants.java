@@ -30,9 +30,9 @@ public interface AbilityConstants
    public enum StatusEffectTag
    {
       HEALING     (FontConstants.HEART_TILE, GUIConstants.RED),
-      HASTED      (FontConstants.UP_TRIANGLE_TILE, GUIConstants.LIGHT_BLUE),
+      HASTED      (FontConstants.UP_ARROW_TILE, GUIConstants.LIGHT_BLUE),
       ENTANGLED   ('&', GUIConstants.RED),
-      SLOWED      (FontConstants.DOWN_TRIANGLE_TILE, GUIConstants.VIVID_RED),
+      SLOWED      (FontConstants.DOWN_ARROW_TILE, GUIConstants.VIVID_YELLOW),
       BURNING     ('^', GUIConstants.ORANGE),                     // hightest, not additive
       VULNERABLE  (FontConstants.HEART_TILE, GUIConstants.ACID);  // hightest, not additive
       
