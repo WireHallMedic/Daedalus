@@ -78,6 +78,7 @@ public class CatacombMapFactory extends BSPMapFactory
       
       map.setRoomList(subroomList);
       setKeyTraversalTiles(map, map.getRoomList());
+      System.out.println("Subroom count: " + subroomList.size());
       return map;
    }
    public static ZoneMap getCatacombMap(int width, int height, 
@@ -293,6 +294,7 @@ public class CatacombMapFactory extends BSPMapFactory
             {
                startList.add(new Coord(x, y + 1));
                endList.add(new Coord(x, room.origin.y - 1));
+               break;
             }
          }
          if(!hasSouthTunnel)
@@ -302,6 +304,7 @@ public class CatacombMapFactory extends BSPMapFactory
             {
                startList.add(new Coord(x, room.origin.y + room.size.y));
                endList.add(new Coord(x, y - 1));
+               break;
             }
          }
       }
@@ -314,6 +317,7 @@ public class CatacombMapFactory extends BSPMapFactory
             {
                startList.add(new Coord(x + 1, y));
                endList.add(new Coord(room.origin.x - 1, y));
+               break;
             }
          }
          if(!hasEastTunnel)
@@ -323,6 +327,7 @@ public class CatacombMapFactory extends BSPMapFactory
             {
                startList.add(new Coord(room.origin.x + room.size.x, y));
                endList.add(new Coord(x - 1, y));
+               break;
             }
          }
       }
@@ -335,12 +340,22 @@ public class CatacombMapFactory extends BSPMapFactory
          if(start.x == end.x) // vertical tunnel
          {
             for(int y = start.y; y <= end.y; y++)
+            {
                map.setTile(start.x, y, new ZoneTile(TileBase.CLEAR));
+               map.getTile(start.x, y).setBGColor(BLUE);
+               if(map.getTile(start.x - 1, y).isPathable() || map.getTile(start.x + 1, y).isPathable())
+                  break;
+            }
          }
          else  // horizontal tunnel
          {
             for(int x = start.x; x <= end.x; x++)
+            {
                map.setTile(x, start.y, new ZoneTile(TileBase.CLEAR));
+               map.getTile(x, start.y).setBGColor(BLUE);
+               if(map.getTile(x, start.y - 1).isPathable() || map.getTile(x, start.y + 1).isPathable())
+                  break;
+            }
          }
       }
    }
