@@ -191,6 +191,9 @@ public class CatacombMapFactory extends BSPMapFactory
          while(!map.getTile(tunnelLoc).isLowPassable())
          {
             map.setTile(tunnelLoc, new ZoneTile(TileBase.CLEAR));
+            if(map.getTile(tunnelLoc.x - 1, tunnelLoc.y).isPathable() ||
+               map.getTile(tunnelLoc.x + 1, tunnelLoc.y).isPathable())
+               break;
             tunnelLoc.y++;
          }
       }
