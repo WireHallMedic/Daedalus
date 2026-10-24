@@ -77,6 +77,7 @@ public class CatacombMapFactory extends BSPMapFactory
       }
       
       map.setRoomList(subroomList);
+      setKeyTraversalTiles(map, map.getRoomList());
       return map;
    }
    public static ZoneMap getCatacombMap(int width, int height, 
@@ -374,5 +375,29 @@ public class CatacombMapFactory extends BSPMapFactory
          if(map.getTile(room.origin.x - 1, y).isPathable())
             return true;
       return false;
+   }
+   
+   public static void setKeyTraversalTiles(ZoneMap map, Vector<Room> roomList)
+   {
+      for(Room r: roomList)
+         setKeyTraversalTiles(map, r);
+   }
+   
+   public static void setKeyTraversalTiles(ZoneMap map, Room room)
+   {
+      for(int x = room.origin.x; x < room.origin.x + room.size.x; x++)
+      {
+         if(map.getTile(x, room.origin.y - 1).isPathable())
+            map.getTile(x, room.origin.y).setKeyTraversalTile(true);
+         if(map.getTile(x, room.origin.y + room.size.y).isPathable())
+            map.getTile(x, room.origin.y + room.size.y - 1).setKeyTraversalTile(true);
+      }
+      for(int y = room.origin.y; y < room.origin.y + room.size.y; y++)
+      {
+         if(map.getTile(room.origin.x - 1, y).isPathable())
+            map.getTile(room.origin.x, y).setKeyTraversalTile(true);
+         if(map.getTile(room.origin.x + room.size.x, y).isPathable())
+            map.getTile(room.origin.x + room.size.x - 1, y).setKeyTraversalTile(true);
+      }
    }
 }
