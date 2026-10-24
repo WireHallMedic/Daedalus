@@ -78,7 +78,6 @@ public class CatacombMapFactory extends BSPMapFactory
       
       map.setRoomList(subroomList);
       setKeyTraversalTiles(map, map.getRoomList());
-      System.out.println("Subroom count: " + subroomList.size());
       return map;
    }
    public static ZoneMap getCatacombMap(int width, int height, 
@@ -290,7 +289,8 @@ public class CatacombMapFactory extends BSPMapFactory
       
       for(int x = room.origin.x; x < room.origin.x + room.size.x; x++)
       {
-         if(!hasNorthTunnel)
+         if(!hasNorthTunnel &&
+            !map.getTile(x + 1, room.origin.y - 1).isPathable() && !map.getTile(x - 1, room.origin.y - 1).isPathable())
          for(int y = room.origin.y - 1; y > 0; y--)
          {
             if(map.getTile(x, y).isPathable())
@@ -300,7 +300,8 @@ public class CatacombMapFactory extends BSPMapFactory
                break;
             }
          }
-         if(!hasSouthTunnel)
+         if(!hasSouthTunnel &&
+            !map.getTile(x + 1, room.origin.y + room.size.y).isPathable() && !map.getTile(x - 1, room.origin.y + room.size.y).isPathable())
          for(int y = room.origin.y + room.size.y; y < map.getHeight(); y++)
          {
             if(map.getTile(x, y).isPathable())
@@ -313,7 +314,8 @@ public class CatacombMapFactory extends BSPMapFactory
       }
       for(int y = room.origin.y; y < room.origin.y + room.size.y; y++)
       {
-         if(!hasWestTunnel)
+         if(!hasWestTunnel &&
+            !map.getTile(room.origin.x - 1, y + 1).isPathable() && !map.getTile(room.origin.x - 1, y - 1).isPathable())
          for(int x = room.origin.x - 1; x > 0; x--)
          {
             if(map.getTile(x, y).isPathable())
@@ -323,7 +325,8 @@ public class CatacombMapFactory extends BSPMapFactory
                break;
             }
          }
-         if(!hasEastTunnel)
+         if(!hasEastTunnel &&
+            !map.getTile(room.origin.x + room.size.x, y + 1).isPathable() && !map.getTile(room.origin.x + room.size.x, y - 1).isPathable())
          for(int x = room.origin.x + room.size.x; x < map.getWidth(); x++)
          {
             if(map.getTile(x, y).isPathable())
