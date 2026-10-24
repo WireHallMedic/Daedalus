@@ -12,4 +12,11 @@ public class Door extends ToggleTile implements ZoneConstants, GUIConstants
       super(TileBase.DOOR, TileBase.OPEN_DOOR);
       setFGColor(METAL);
    }
+   
+   
+   @Override
+   public boolean isKeyTraversalTile()
+   {
+      return true;
+   }
 }

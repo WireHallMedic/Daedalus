@@ -37,6 +37,13 @@ public class Exit extends ZoneTile implements ZoneConstants, GUIConstants
       this.mate = that.mate;
    }
    
+   
+   @Override
+   public boolean isKeyTraversalTile()
+   {
+      return true;
+   }
+   
    public Exit copy()
    {
       return new Exit(this);

@@ -11,6 +11,7 @@ public class ZoneTile extends ImageTile implements ZoneConstants, GUIConstants
    protected int decorationType;
    protected Durability durability;
    protected boolean liquid;
+   protected boolean keyTraversalTile;
 
 
 	public boolean isLowPassable(){return lowPassable;}
@@ -19,6 +20,7 @@ public class ZoneTile extends ImageTile implements ZoneConstants, GUIConstants
    public int getDecorationType(){return decorationType;}
    public Durability getDurability(){return durability;}
    public boolean isLiquid(){return liquid;}
+   public boolean isKeyTraversalTile(){return keyTraversalTile;}
 
 
 	public void setLowPassable(boolean l){lowPassable = l;}
@@ -27,6 +29,7 @@ public class ZoneTile extends ImageTile implements ZoneConstants, GUIConstants
    public void setDecorationType(int d){decorationType = d;}
    public void setDurability(Durability d){durability = d;}
    public void setLiquid(boolean l){liquid = l;}
+   public void setKeyTraversalTile(boolean ktt){keyTraversalTile = ktt;}
 
    public ZoneTile(TileBase base)
    {
@@ -45,6 +48,7 @@ public class ZoneTile extends ImageTile implements ZoneConstants, GUIConstants
       this.name = that.name;
       this.durability = that.durability;
       this.liquid = that.liquid;
+      this.keyTraversalTile = that.keyTraversalTile;
    }
    
    public ZoneTile copy()
@@ -58,6 +62,7 @@ public class ZoneTile extends ImageTile implements ZoneConstants, GUIConstants
       z.setName("Rubble");
       z.setFGColor(this.getFGColor());
       z.setBGColor(this.getBGColor());
+      z.setKeyTraversalTile(this.isKeyTraversalTile());
       return z;
    }
    
