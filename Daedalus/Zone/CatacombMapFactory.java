@@ -97,17 +97,18 @@ public class CatacombMapFactory extends BSPMapFactory
       Room subroomB = roomB;
       if(!roomB.isParent)
          subroomB = getSubroom(roomB, subroomList);
-      Vector<Coord> straightConnectionList = new Vector<Coord>();
+      Vector<Coord> leftList = new Vector<Coord>();
+      Vector<Coord> rightList = new Vector<Coord>();
       int xStart = roomB.origin.x;
       for(int y = roomA.origin.y; y < roomA.origin.y + roomA.size.y; y++)
       {
-         boolean foundLeft = false;
-         boolean foundRight = false;
+         Coord left = null;
+         Coord right = null;
          for(int x = xStart; x > roomA.origin.x; x--)
          {
             if(map.getTile(x, y).isLowPassable() && subroomA.contains(x, y))
             {
-               foundLeft = true;
+               left = new Coord(x, y);
                break;
             }
          }
@@ -115,25 +116,21 @@ public class CatacombMapFactory extends BSPMapFactory
          {
             if(map.getTile(x, y).isLowPassable() && subroomB.contains(x, y))
             {
-               foundRight = true;
+               right = new Coord(x, y);
                break;
             }
          }
-         if(foundRight && foundLeft)
-            straightConnectionList.add(new Coord(xStart, y));
+         if(left != null && right != null)
+         {
+            leftList.add(left);
+            rightList.add(right);
+         }
       }
 
-      if(straightConnectionList.size() > 0)
+      if(leftList.size() > 0)
       {
-         Coord tunnelLoc = straightConnectionList.elementAt(RNG.nextInt(straightConnectionList.size()));
-         while(!map.getTile(tunnelLoc).isLowPassable())
-            tunnelLoc.x--;
-         tunnelLoc.x++;
-         while(!map.getTile(tunnelLoc).isLowPassable())
-         {
-            map.setTile(tunnelLoc, new ZoneTile(TileBase.CLEAR));
-            tunnelLoc.x++;
-         }
+         int pairIndex = RNG.nextInt(leftList.size());
+         digTunnel(map, leftList.elementAt(pairIndex), rightList.elementAt(pairIndex));
       }
       else //needs z-connection
       {
@@ -155,17 +152,19 @@ public class CatacombMapFactory extends BSPMapFactory
       Room subroomB = roomB;
       if(!roomB.isParent)
          subroomB = getSubroom(roomB, subroomList);
-      Vector<Coord> straightConnectionList = new Vector<Coord>();
+      Vector<Coord> upperList = new Vector<Coord>();
+      Vector<Coord> lowerList = new Vector<Coord>();
       int yStart = roomB.origin.y - 1;
       for(int x = roomA.origin.x; x < roomA.origin.x + roomA.size.x; x++)
       {
-         boolean foundUpper = false;
+         Coord upper = null;
+         Coord lower = null;
          boolean foundLower = false;
          for(int y = yStart; y > roomA.origin.y; y--)
          {
             if(map.getTile(x, y).isLowPassable() && subroomA.contains(x, y))
             {
-               foundUpper = true;
+               upper = new Coord(x, y);
                break;
             }
          }
@@ -173,28 +172,21 @@ public class CatacombMapFactory extends BSPMapFactory
          {
             if(map.getTile(x, y).isLowPassable() && subroomB.contains(x, y))
             {
-               foundLower = true;
+               lower = new Coord(x, y);
                break;
             }
          }
-         if(foundUpper && foundLower)
-            straightConnectionList.add(new Coord(x, yStart));
+         if(upper != null && lower != null)
+         {
+            upperList.add(upper);
+            lowerList.add(lower);
+         }
       }
       
-      if(straightConnectionList.size() > 0)
+      if(upperList.size() > 0)
       {
-         Coord tunnelLoc = straightConnectionList.elementAt(RNG.nextInt(straightConnectionList.size()));
-         while(!map.getTile(tunnelLoc).isLowPassable())
-            tunnelLoc.y--;
-         tunnelLoc.y++;
-         while(!map.getTile(tunnelLoc).isLowPassable())
-         {
-            map.setTile(tunnelLoc, new ZoneTile(TileBase.CLEAR));
-            if(map.getTile(tunnelLoc.x - 1, tunnelLoc.y).isPathable() ||
-               map.getTile(tunnelLoc.x + 1, tunnelLoc.y).isPathable())
-               break;
-            tunnelLoc.y++;
-         }
+         int pairIndex = RNG.nextInt(upperList.size());
+         digTunnel(map, upperList.elementAt(pairIndex), lowerList.elementAt(pairIndex));
       }
       else //needs z-connection
       {
@@ -217,15 +209,9 @@ public class CatacombMapFactory extends BSPMapFactory
          int tunnelXEnd = subroomB.origin.x;
          int yA = subroomA.origin.y + 1 + RNG.nextInt(subroomA.size.y - 2);
          int yB = subroomB.origin.y + 1 + RNG.nextInt(subroomB.size.y - 2);
-         int stepDir = 1;
-         if(yA > yB)
-            stepDir = -1;
-         for(int x = tunnelXStart; x <= connectingColumn; x++)
-            map.setTile(x, yA, new ZoneTile(TileBase.CLEAR));
-         for(int x = connectingColumn; x <= tunnelXEnd; x++)
-            map.setTile(x, yB, new ZoneTile(TileBase.CLEAR));
-         for(int y = yA; y != yB; y += stepDir)
-            map.setTile(connectingColumn, y, new ZoneTile(TileBase.CLEAR));
+         digTunnel(map, new Coord(tunnelXStart, yA), new Coord(connectingColumn, yA));
+         digTunnel(map, new Coord(connectingColumn, yA), new Coord(connectingColumn, yB));
+         digTunnel(map, new Coord(connectingColumn, yB), new Coord(tunnelXEnd, yB));
       }
       else // vertical
       {
@@ -235,15 +221,9 @@ public class CatacombMapFactory extends BSPMapFactory
          int tunnelYEnd = subroomB.origin.y;
          int xA = subroomA.origin.x + 1 + RNG.nextInt(subroomA.size.x - 2);
          int xB = subroomB.origin.x + 1 + RNG.nextInt(subroomB.size.x - 2);
-         int stepDir = 1;
-         if(xA > xB)
-            stepDir = -1;
-         for(int y = tunnelYStart; y <= connectingRow; y++)
-            map.setTile(xA, y, new ZoneTile(TileBase.CLEAR));
-         for(int y = connectingRow; y <= tunnelYEnd; y++)
-            map.setTile(xB, y, new ZoneTile(TileBase.CLEAR));
-         for(int x = xA; x != xB; x += stepDir)
-            map.setTile(x, connectingRow, new ZoneTile(TileBase.CLEAR));
+         digTunnel(map, new Coord(xA, tunnelYStart), new Coord(xA, connectingRow));
+         digTunnel(map, new Coord(xA, connectingRow), new Coord(xB, connectingRow));
+         digTunnel(map, new Coord(xB, connectingRow), new Coord(xB, tunnelYEnd));
       }
    }
 
@@ -342,27 +322,7 @@ public class CatacombMapFactory extends BSPMapFactory
          int roll = RNG.nextInt(startList.size());
          Coord start = startList.elementAt(roll);
          Coord end = endList.elementAt(roll);
-         
-         if(start.x == end.x) // vertical tunnel
-         {
-            for(int y = start.y; y <= end.y; y++)
-            {
-               map.setTile(start.x, y, new ZoneTile(TileBase.CLEAR));
-               map.getTile(start.x, y).setBGColor(BLUE);
-               if(map.getTile(start.x - 1, y).isPathable() || map.getTile(start.x + 1, y).isPathable())
-                  break;
-            }
-         }
-         else  // horizontal tunnel
-         {
-            for(int x = start.x; x <= end.x; x++)
-            {
-               map.setTile(x, start.y, new ZoneTile(TileBase.CLEAR));
-               map.getTile(x, start.y).setBGColor(BLUE);
-               if(map.getTile(x, start.y - 1).isPathable() || map.getTile(x, start.y + 1).isPathable())
-                  break;
-            }
-         }
+         digTunnel(map, start, end);
       }
    }
    
@@ -383,7 +343,9 @@ public class CatacombMapFactory extends BSPMapFactory
          }
          for(int x = start.x; x < end.x + 1; x++)
          {
-            map.setTile(x, start.y, new ZoneTile(TileBase.CLEAR));
+            Coord c = new Coord(x, start.y);
+            if(!verticallyAdjToPathable(map, new Coord(c)))
+               map.setTile(x, start.y, new ZoneTile(TileBase.CLEAR));
          }
       }
       // dig vertical
@@ -398,7 +360,9 @@ public class CatacombMapFactory extends BSPMapFactory
          }
          for(int y = start.y; y < end.y + 1; y++)
          {
-            map.setTile(start.x, y, new ZoneTile(TileBase.CLEAR));
+            Coord c = new Coord(start.x, y);
+            if(!horizontallyAdjToPathable(map, new Coord(c)))
+               map.setTile(c, new ZoneTile(TileBase.CLEAR));
          }
       }
    }
@@ -408,11 +372,11 @@ public class CatacombMapFactory extends BSPMapFactory
    {
       if(map.getTile(loc.x, loc.y + 1).isPathable() &&
          map.getTile(loc.x - 1, loc.y + 1).isPathable() &&
-         map.getTile(loc.x - 1, loc.y + 1).isPathable())
+         map.getTile(loc.x + 1, loc.y + 1).isPathable())
          return true;
       if(map.getTile(loc.x, loc.y - 1).isPathable() &&
          map.getTile(loc.x - 1, loc.y - 1).isPathable() &&
-         map.getTile(loc.x - 1, loc.y - 1).isPathable())
+         map.getTile(loc.x + 1, loc.y - 1).isPathable())
          return true;
       return false;
    }

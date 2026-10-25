@@ -65,7 +65,7 @@ public class ZoneViewer extends DaePanel implements MouseListener, GUIConstants,
    private void generateMap()
    {
       long seed = System.currentTimeMillis();
-      //seed = 1792714190376L;
+      seed = 1792899195176L;
       RNG.setSeed(seed);
       System.out.println("Seed: " + seed);
       zoneMap = CatacombMapFactory.getCatacombMap(60, 50, 15, 20, 5, 12);
