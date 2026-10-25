@@ -65,11 +65,23 @@ public class ZoneViewer extends DaePanel implements MouseListener, GUIConstants,
    private void generateMap()
    {
       long seed = System.currentTimeMillis();
-      seed = 1792899195176L;
+      //seed = 1792899195176L;
       RNG.setSeed(seed);
       System.out.println("Seed: " + seed);
-      zoneMap = CatacombMapFactory.getCatacombMap(60, 50, 15, 20, 5, 12);
-      //zoneMap = BSPMapFactory.getBSPMap(60, 50, 5, 20);
+      //zoneMap = CatacombMapFactory.getCatacombMap(60, 50, 15, 20, 5, 12);
+      zoneMap = BSPMapFactory.getBSPMap(60, 50, 5, 20);
+      
+      Exit up = new Exit('U');
+      Room r = BSPMapFactory.getRandomExitRoom(zoneMap);
+      Coord c = BSPMapFactory.getRandomFloorTile(zoneMap, r);
+      zoneMap.setTile(c, up);
+      
+      Exit down = new Exit('D');
+      r = BSPMapFactory.getRandomEntranceRoom(zoneMap);
+      c = BSPMapFactory.getRandomFloorTile(zoneMap, r);
+      zoneMap.setTile(c, down);
+      
+      zoneMap.setExitList();
       update();
       System.out.println("Full Connectivity: " + zoneMap.hasFullConnectivity());
       this.repaint();

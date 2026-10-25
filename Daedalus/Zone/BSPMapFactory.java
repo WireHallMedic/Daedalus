@@ -16,10 +16,11 @@ public class BSPMapFactory extends MapFactory
    {
       Vector<Room> roomList = BinarySpacePartitioning.partition(width - 1, height - 1, minRoomDiameter, maxRoomDiameter);
       ZoneMap map = new ZoneMap(width, height);
+      
       for(Room curRoom: roomList)
          if(!curRoom.isParent)
             map.getRoomList().add(curRoom);
-      
+            
       // set walls
       for(Room curRoom: roomList)
       {
@@ -93,7 +94,7 @@ public class BSPMapFactory extends MapFactory
             map.setTile(doorProspect.elementAt(RNG.nextInt(doorProspect.size())), new Door());
       }
       setKeyTraversalTiles(map, map.getRoomList());
-      
+
       return map;
    }
    public static ZoneMap getBSPMap(int width, int height, int minRoomDiameter, int maxRoomDiameter)
@@ -146,4 +147,50 @@ public class BSPMapFactory extends MapFactory
       return exits;
    }
    
+   
+   public static Room getRandomRoom(ZoneMap map)
+   {
+      return map.getRoomList().elementAt(RNG.nextInt(map.getRoomList().size()));
+   }
+   
+   
+   // returns a tile that is low-passable and not a keyTraversalTile
+   public static Coord getRandomFloorTile(ZoneMap map, Room r)
+   {
+      Vector<Coord> prospectList = new Vector<Coord>();
+      for(int x = r.origin.x; x < r.origin.x + r.size.x; x++)
+      for(int y = r.origin.y; y < r.origin.y + r.size.y; y++)
+      {
+         if(map.getTile(x, y).isLowPassable() && 
+            !map.getTile(x, y).isKeyTraversalTile())
+            prospectList.add(new Coord(x, y));
+      }
+      return prospectList.elementAt(RNG.nextInt(prospectList.size()));
+   }
+   
+   
+   // return a semi-random room, weighted for a higher number of exits
+   public static Room getRandomEntranceRoom(ZoneMap map)
+   {
+      Vector<Room> roomList = new Vector<Room>();
+      for(Room r: map.getRoomList())
+      {
+         roomList.add(new Room(r));
+      }
+      roomList.sort((a, b) -> countExits(a, map) - countExits(b, map));
+      return roomList.elementAt(RNG.nextInt(roomList.size() / 4));
+   }
+   
+   
+   // return a semi-random room, weighted for a lower number of exits
+   public static Room getRandomExitRoom(ZoneMap map)
+   {
+      Vector<Room> roomList = new Vector<Room>();
+      for(Room r: map.getRoomList())
+      {
+         roomList.add(new Room(r));
+      }
+      roomList.sort((a, b) -> countExits(b, map) - countExits(a, map));
+      return roomList.elementAt(RNG.nextInt(roomList.size() / 4));
+   }
 }
