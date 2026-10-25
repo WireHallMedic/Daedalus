@@ -193,4 +193,21 @@ public class BSPMapFactory extends MapFactory
       roomList.sort((a, b) -> countExits(b, map) - countExits(a, map));
       return roomList.elementAt(RNG.nextInt(roomList.size() / 4));
    }
+   
+   public static void setRandomEntranceAndExit(ZoneMap map, ZoneTile entrance, ZoneTile exit)
+   {
+      int maxTries = 100;
+      Coord inLoc = null;
+      Coord outLoc = null;
+      int minDist = Math.max(map.getWidth() / 2, map.getHeight() / 2);
+      for(int i = 0; i < maxTries; i++)
+      {
+         inLoc = getRandomFloorTile(map, getRandomEntranceRoom(map));
+         outLoc = getRandomFloorTile(map, getRandomExitRoom(map));
+         if(EngineTools.getAngbandDistance(inLoc, outLoc) >= minDist)
+            break;
+      }
+      map.setTile(inLoc, entrance);
+      map.setTile(outLoc, exit);
+   }
 }

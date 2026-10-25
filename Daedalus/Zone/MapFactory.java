@@ -355,7 +355,7 @@ public class MapFactory implements ZoneConstants, GUIConstants
          {
             int xLoc = x + RNG.nextInt(width);
             int yLoc = y + RNG.nextInt(height);
-            if(!map.wouldBlockPathing(xLoc, yLoc))
+            if(!map.wouldBlockPathing(xLoc, yLoc) && !map.getTile(xLoc, yLoc).isKeyTraversalTile())
             {
                map.setTile(xLoc, yLoc, Chest.getCrate(map.getLevel()));
                break;

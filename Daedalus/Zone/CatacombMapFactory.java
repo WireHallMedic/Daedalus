@@ -427,6 +427,9 @@ public class CatacombMapFactory extends BSPMapFactory
       return false;
    }
    
+   // functions that shadow BSPMapFactory functions
+   ////////////////////////////////////////////////////////////////
+   
    public static void setKeyTraversalTiles(ZoneMap map, Vector<Room> roomList)
    {
       for(Room r: roomList)
@@ -449,5 +452,47 @@ public class CatacombMapFactory extends BSPMapFactory
          if(map.getTile(room.origin.x + room.size.x, y).isPathable())
             map.getTile(room.origin.x + room.size.x - 1, y).setKeyTraversalTile(true);
       }
+   }
+   
+   // return a semi-random room, weighted for a higher number of exits
+   public static Room getRandomEntranceRoom(ZoneMap map)
+   {
+      Vector<Room> roomList = new Vector<Room>();
+      for(Room r: map.getRoomList())
+      {
+         roomList.add(new Room(r));
+      }
+      roomList.sort((a, b) -> countExits(a, map) - countExits(b, map));
+      return roomList.elementAt(RNG.nextInt(roomList.size() / 4));
+   }
+   
+   
+   // return a semi-random room, weighted for a lower number of exits
+   public static Room getRandomExitRoom(ZoneMap map)
+   {
+      Vector<Room> roomList = new Vector<Room>();
+      for(Room r: map.getRoomList())
+      {
+         roomList.add(new Room(r));
+      }
+      roomList.sort((a, b) -> countExits(b, map) - countExits(a, map));
+      return roomList.elementAt(RNG.nextInt(roomList.size() / 4));
+   }
+   
+   public static void setRandomEntranceAndExit(ZoneMap map, ZoneTile entrance, ZoneTile exit)
+   {
+      int maxTries = 100;
+      Coord inLoc = null;
+      Coord outLoc = null;
+      int minDist = Math.max(map.getWidth() / 2, map.getHeight() / 2);
+      for(int i = 0; i < maxTries; i++)
+      {
+         inLoc = getRandomFloorTile(map, getRandomEntranceRoom(map));
+         outLoc = getRandomFloorTile(map, getRandomExitRoom(map));
+         if(EngineTools.getAngbandDistance(inLoc, outLoc) >= minDist)
+            break;
+      }
+      map.setTile(inLoc, entrance);
+      map.setTile(outLoc, exit);
    }
 }
