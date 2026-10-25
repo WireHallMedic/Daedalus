@@ -366,6 +366,71 @@ public class CatacombMapFactory extends BSPMapFactory
       }
    }
    
+   public static void digTunnel(ZoneMap map, Coord start, Coord end)
+   {
+      if(start.equals(end))
+         return;
+      boolean horizontalTunnel = start.y == end.y;
+      // dig horizontal
+      if(horizontalTunnel)
+      {
+         // start with smaller x
+         if(start.x > end.x)
+         {
+            Coord temp = start;
+            start = end;
+            end = temp;
+         }
+         for(int x = start.x; x < end.x + 1; x++)
+         {
+            map.setTile(x, start.y, new ZoneTile(TileBase.CLEAR));
+         }
+      }
+      // dig vertical
+      else
+      {
+         // start with smaller y
+         if(start.y > end.y)
+         {
+            Coord temp = start;
+            start = end;
+            end = temp;
+         }
+         for(int y = start.y; y < end.y + 1; y++)
+         {
+            map.setTile(start.x, y, new ZoneTile(TileBase.CLEAR));
+         }
+      }
+   }
+   
+   // has space above or below
+   private static boolean verticallyAdjToPathable(ZoneMap map, Coord loc)
+   {
+      if(map.getTile(loc.x, loc.y + 1).isPathable() &&
+         map.getTile(loc.x - 1, loc.y + 1).isPathable() &&
+         map.getTile(loc.x - 1, loc.y + 1).isPathable())
+         return true;
+      if(map.getTile(loc.x, loc.y - 1).isPathable() &&
+         map.getTile(loc.x - 1, loc.y - 1).isPathable() &&
+         map.getTile(loc.x - 1, loc.y - 1).isPathable())
+         return true;
+      return false;
+   }
+   
+   // has space right or left
+   private static boolean horizontallyAdjToPathable(ZoneMap map, Coord loc)
+   {
+      if(map.getTile(loc.x + 1, loc.y).isPathable() &&
+         map.getTile(loc.x + 1, loc.y + 1).isPathable() &&
+         map.getTile(loc.x + 1, loc.y - 1).isPathable())
+         return true;
+      if(map.getTile(loc.x - 1, loc.y).isPathable() &&
+         map.getTile(loc.x - 1, loc.y + 1).isPathable() &&
+         map.getTile(loc.x - 1, loc.y - 1).isPathable())
+         return true;
+      return false;
+   }
+   
    private static boolean hasNorthTunnel(Room room, ZoneMap map)
    {
       for(int x = room.origin.x; x < room.origin.x + room.size.x; x++)
