@@ -404,6 +404,25 @@ public class MapFactory implements ZoneConstants, GUIConstants
       }
    }
    
+   public static void setKeyTraversalTiles(ZoneMap map)
+   {
+      for(int x = 0; x < map.getWidth(); x++)
+      for(int y = 0; y < map.getHeight(); y++)
+      {
+         if(!map.getTile(x, y).isLowPassable())
+            continue;
+         if(map.getTile(x - 1, y) instanceof Door ||
+            map.getTile(x + 1, y) instanceof Door ||
+            map.getTile(x, y - 1) instanceof Door ||
+            map.getTile(x, y + 1) instanceof Door ||
+            map.getTile(x - 1, y) instanceof Exit ||
+            map.getTile(x + 1, y) instanceof Exit ||
+            map.getTile(x, y - 1) instanceof Exit ||
+            map.getTile(x, y + 1) instanceof Exit)
+            map.getTile(x, y).setKeyTraversalTile(true);
+      }
+   }
+   
    
    public static void addPath(ZoneMap map, Coord point1, Coord point2, boolean addBend)
    {

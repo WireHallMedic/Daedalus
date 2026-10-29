@@ -14,7 +14,7 @@ s#k0
 s#j0
 s#l0
 !74;u
-a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!4005;g
+a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!4046;g
 %\011Daedalus%sAbility%sAbility.java
 %\011Daedalus%sAbility%sAbilityConstants.java
 %\011Daedalus%sAbility%sAttack.java
@@ -117,13 +117,14 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!4005;
 %\011Daedalus%sZone%sSpiralSearch.java
 %\011Daedalus%sZone%sSwitch.java
 %\011Daedalus%sZone%sToggleTile.java
+%\011Daedalus%sZone%sTownMapFactory.java
 %\011Daedalus%sZone%sWastelandMapFactory.java
 %\011Daedalus%sZone%sZone.java
 %\011Daedalus%sZone%sZoneConstants.java
 %\011Daedalus%sZone%sZoneMap.java
 %\011Daedalus%sZone%sZoneTile.java
 %\011Daedalus%sZone%sZoneViewer.java
-!4005;f
+!4046;f
 %\011Daedalus%sAbility%sAbility.java
 %\011Daedalus%sAbility%sAbilityConstants.java
 %\011Daedalus%sAbility%sAttack.java
@@ -226,6 +227,7 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!4005;
 %\011Daedalus%sZone%sSpiralSearch.java
 %\011Daedalus%sZone%sSwitch.java
 %\011Daedalus%sZone%sToggleTile.java
+%\011Daedalus%sZone%sTownMapFactory.java
 %\011Daedalus%sZone%sWastelandMapFactory.java
 %\011Daedalus%sZone%sZone.java
 %\011Daedalus%sZone%sZoneConstants.java
@@ -240,6 +242,6 @@ a1	b68	c255	f%\011Daedalus.jar	g%\011Daedalus.zip	hManifest-Version\0111.0!4005;
 %\011Daedalus%sZone%sMapFactoryTest.java
 %\011Daedalus%sZone%sZoneConstantsTest.java
 !923;t
-jgrJUnit0xr	%\011Daedalus%sItem%sChargeItemTest.java	1792715819371:P%\011ChargeItem.java	%\011Daedalus%sZone%sMapFactoryTest.java	1792715819371:P%\011MapFactory.java	%\011Daedalus%sItem%sChargeItem.java	1792715819371:P%\011ChargeItemTest.java	%\011Daedalus%sItem%sItemTest.java	1792715819371:P%\011Item.java	%\011Daedalus%sItem%sItem.java	1792715819371:P%\011ItemTest.java	%\011Daedalus%sZone%sMapFactory.java	1792715819371:P%\011MapFactoryTest.java	%\011Daedalus%sActor%sActor.java	1792715819371:P%\011ActorTest.java	%\011Daedalus%sCombat%sCombatManager.java	1792715819371:P%\011CombatManagerTest.java	%\011Daedalus%sZone%sZoneConstants.java	1792715819371:P%\011ZoneConstantsTest.java	%\011Daedalus%sZone%sZoneConstantsTest.java	1792715819371:P%\011ZoneConstants.java	%\011Daedalus%sCombat%sCombatManagerTest.java	1792715819371:P%\011CombatManager.java	%\011Daedalus%sActor%sActorTest.java	1792715819371:P%\011Actor.java	
+jgrJUnit0xr	%\011Daedalus%sItem%sChargeItemTest.java	1792940432267:P%\011ChargeItem.java	%\011Daedalus%sZone%sMapFactoryTest.java	1792940432267:P%\011MapFactory.java	%\011Daedalus%sItem%sChargeItem.java	1792940432267:P%\011ChargeItemTest.java	%\011Daedalus%sItem%sItemTest.java	1792940432267:P%\011Item.java	%\011Daedalus%sItem%sItem.java	1792940432267:P%\011ItemTest.java	%\011Daedalus%sZone%sMapFactory.java	1792940432267:P%\011MapFactoryTest.java	%\011Daedalus%sActor%sActor.java	1792940432267:P%\011ActorTest.java	%\011Daedalus%sCombat%sCombatManager.java	1792940432267:P%\011CombatManagerTest.java	%\011Daedalus%sZone%sZoneConstants.java	1792940432267:P%\011ZoneConstantsTest.java	%\011Daedalus%sZone%sZoneConstantsTest.java	1792940432267:P%\011ZoneConstants.java	%\011Daedalus%sCombat%sCombatManagerTest.java	1792940432267:P%\011CombatManager.java	%\011Daedalus%sActor%sActorTest.java	1792940432267:P%\011Actor.java	
 !24;m
 RunSelect	Daedalus.Main

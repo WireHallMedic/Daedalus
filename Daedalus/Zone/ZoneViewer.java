@@ -67,10 +67,11 @@ public class ZoneViewer extends DaePanel implements MouseListener, GUIConstants,
       long seed = System.currentTimeMillis();
       //seed = 1792899195176L;
       RNG.setSeed(seed);
-      zoneMap = CatacombMapFactory.getCatacombMap(60, 50, 13, 15, 4, 10);
-      CatacombMapFactory.setRandomEntranceAndExit(zoneMap, new Exit('D'), new Exit('U'));
+//       zoneMap = CatacombMapFactory.getCatacombMap(60, 50, 13, 15, 4, 10);
+//       CatacombMapFactory.setRandomEntranceAndExit(zoneMap, new Exit('D'), new Exit('U'));
 //       zoneMap = BSPMapFactory.getBSPMap(60, 50, 5, 20);
 //       BSPMapFactory.setRandomEntranceAndExit(zoneMap, new Exit('D'), new Exit('U'));
+      zoneMap = TownMapFactory.getTownMap(60, 50, 13, 15, 6, 10);
       
       zoneMap.setExitList();
       
