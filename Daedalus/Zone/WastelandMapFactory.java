@@ -209,6 +209,37 @@ public class WastelandMapFactory extends MapFactory implements ZoneConstants, GU
       return map;
    }
    
+   public static ZoneMap getHogtown(int level)
+   {
+      ZoneMap hogtown = TownMapFactory.getTownMap(45, 45, 13, 15, 6, 10);
+      hogtown.setLevel(level);
+      Room r = null;
+      r = hogtown.getRoomList().elementAt(RNG.nextInt(hogtown.getRoomList().size()));
+      hogtown.setTile(BSPMapFactory.getRandomFloorTile(hogtown, r), new Exit('D'));
+      
+      // set into larger map
+      ZoneMap finalMap = new ZoneMap(hogtown.getWidth() + 6, hogtown.getHeight() + 6);
+      setJaggedBorder(finalMap, 3, new ZoneTile(ZoneConstants.TileBase.WALL));
+      for(int x = 0; x < hogtown.getWidth(); x++)
+      for(int y = 0; y < hogtown.getHeight(); y++)
+         finalMap.setTile(x + 3, y + 3, hogtown.getTile(x, y));
+      finalMap.setRoomList(hogtown.getRoomList());
+      for(Room curRoom: finalMap.getRoomList())
+      {
+         r.origin.x += 3;
+         r.origin.y += 3;
+      }
+      hogtown = finalMap;
+      MapFactory.fillUnreachable(hogtown, new ZoneTile(TileBase.WALL));
+      
+      // entrance
+      int y = (hogtown.getHeight() / 4) + RNG.nextInt(hogtown.getHeight() / 2);
+      for(int x = hogtown.getWidth() - 4; x < hogtown.getWidth(); x++)
+         hogtown.setTile(x, y, new ZoneTile(TileBase.CLEAR));
+      hogtown.setTile(hogtown.getWidth() - 1, y, new Exit('E'));
+      return hogtown;
+   }
+   
    public static ZoneMap getHideout(int[][] mazeMap)
    {
       String[] tileArr =  {"#######################",

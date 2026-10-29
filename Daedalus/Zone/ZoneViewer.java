@@ -16,7 +16,7 @@ public class ZoneViewer extends DaePanel implements MouseListener, GUIConstants,
    
    public ZoneViewer(boolean sktt)
    {
-      super(75, 50, SQUARE_PALETTE);
+      super(75, 55, SQUARE_PALETTE);
       showKeyTraversalTiles = sktt;
       generateMap();
       addMouseListener(this);
@@ -71,7 +71,7 @@ public class ZoneViewer extends DaePanel implements MouseListener, GUIConstants,
 //       CatacombMapFactory.setRandomEntranceAndExit(zoneMap, new Exit('D'), new Exit('U'));
 //       zoneMap = BSPMapFactory.getBSPMap(60, 50, 5, 20);
 //       BSPMapFactory.setRandomEntranceAndExit(zoneMap, new Exit('D'), new Exit('U'));
-      zoneMap = TownMapFactory.getTownMap(60, 50, 13, 15, 6, 10);
+      zoneMap = WastelandMapFactory.getHogtown(2);
       
       zoneMap.setExitList();
       

@@ -469,6 +469,15 @@ public class MapFactory implements ZoneConstants, GUIConstants
             map.getTile(point1).setDecorationType(DECORATION_PATH);
       }
    }
+   
+   public static boolean containsExit(ZoneMap map, Room r)
+   {
+      for(int x = r.origin.x; x < r.origin.x + r.size.x; x++)
+      for(int y = r.origin.y; y < r.origin.y + r.size.y; y++)
+         if(map.getTile(x, y) instanceof Exit)
+            return true;
+      return false;
+   }
 
    public static ZoneMap getTestMap1()
    {
