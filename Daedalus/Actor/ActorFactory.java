@@ -127,6 +127,32 @@ public class ActorFactory implements ActorConstants, GUIConstants, AIConstants
       return a;
    }
    
+   public static Actor getHogbeastCharger()
+   {
+      Actor a = new Actor("Hogbeast Charger");
+      a.setTileIndex('c');
+      a.setFGColor(BROWN);
+      a.getBaseStats().setMaxHealth(BASE_NPC_HEALTH);
+      a.setAI(new StandardAI(a));
+      a.setNaturalWeapon(WeaponFactory.getJackalJaws());
+      a.setThreat(1);
+      a.fullHeal();
+      return a;
+   }
+   
+   public static Actor getHogbeastSpitter()
+   {
+      Actor a = new Actor("Hogbeast Spitter");
+      a.setTileIndex('s');
+      a.setFGColor(BROWN);
+      a.getBaseStats().setMaxHealth(BASE_NPC_HEALTH);
+      a.setAI(new StandardAI(a));
+      a.setNaturalWeapon(WeaponFactory.getHogbeastSpit());
+      a.setThreat(1);
+      a.fullHeal();
+      return a;
+   }
+   
    public static Actor getBandit()
    {
       Actor a = new Actor("Bandit");
@@ -160,7 +186,9 @@ public class ActorFactory implements ActorConstants, GUIConstants, AIConstants
          case LOUSE :   return getLouse();
          case BANDIT :  return getBandit();
          case DRONE :   return getDrone();
-         case SECURITY_GUARD : return getSecurityGuard();
+         case SECURITY_GUARD :   return getSecurityGuard();
+         case HOGBEAST_CHARGER : return getHogbeastCharger();
+         case HOGBEAST_SPITTER : return getHogbeastSpitter();
          default :      throw new Error("EnemyBase " + base + " does not have a case in ActorFactory.getActor().");
       }
    }

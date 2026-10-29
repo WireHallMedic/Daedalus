@@ -50,7 +50,9 @@ public interface ActorConstants
       LOUSE,
       DRONE,
       SECURITY_GUARD,
-      BANDIT;
+      BANDIT,
+      HOGBEAST_CHARGER,
+      HOGBEAST_SPITTER;
    }
    
    public enum DeathEffect

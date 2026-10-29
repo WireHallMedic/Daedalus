@@ -176,6 +176,21 @@ public class WeaponFactory implements ItemConstants, GUIConstants, CombatConstan
       return w;
    }
    
+   
+   public static Weapon getHogbeastSpit()
+   {
+      Weapon w = new Weapon("Spit");
+      Attack a = new Attack("Spit");
+      a.setBaseDamage(new Damage(DamageType.CORROSION, DEFAULT_BASE_SHOT_DAMAGE / 2));
+      a.setRandomDamage(new Damage(DamageType.CORROSION, DEFAULT_RANDOM_SHOT_DAMAGE));
+      a.setTargetingType(AbilityConstants.TargetingType.POINT);
+      a.setRange(5);
+      a.setHitVerb("spits at");
+      w.setAlwaysCharged(true);
+      w.fullyCharge();
+      return w;
+   }
+   
    // upgrades
    ////////////////////////////////////////////////////
    
